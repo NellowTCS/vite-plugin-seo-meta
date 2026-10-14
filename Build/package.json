@@ -1,34 +1,56 @@
 {
-  "name": "web-template",
+  "name": "vite-plugin-seo-meta",
   "version": "0.1.0",
-  "description": "My typical web dev starter project.",
-  "main": "index.js",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:single": "cross-env SINGLE_FILE=true npm run build",
-    "preview": "vite preview",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "Vite plugin for per-page SEO metadata (title, description, canonical, Open Graph, Twitter Cards) with multi-page support.",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NellowTCS/Web-Template.git"
-  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "vite",
+    "vite-plugin",
+    "seo",
+    "meta",
+    "open-graph",
+    "twitter",
+    "canonical",
+    "per-page",
+    "multi-page"
+  ],
   "author": "NellowTCS",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/NellowTCS/Web-Template/issues"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NellowTCS/vite-plugin-seo-meta.git"
   },
-  "homepage": "https://github.com/NellowTCS/Web-Template#readme",
-  "dependencies": {
-    "@nellowtcs/updato": "^1.0.1",
-    "vite": "^8.0.16"
+  "bugs": {
+    "url": "https://github.com/NellowTCS/vite-plugin-seo-meta/issues"
+  },
+  "homepage": "https://github.com/NellowTCS/vite-plugin-seo-meta#readme",
+  "peerDependencies": {
+    "vite": ">=4.0.0"
   },
   "devDependencies": {
-    "@vite-pwa/assets-generator": "^1.0.1",
-    "cross-env": "^10.1.0",
-    "sharp": "^0.34.4",
-    "vite-plugin-pwa": "^1.3.0",
-    "vite-plugin-singlefile": "^2.3.3"
+    "@types/node": "^22.10.1",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "prepublishOnly": "npm run build"
   }
 }
