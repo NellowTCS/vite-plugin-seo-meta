@@ -16,16 +16,16 @@ jobs:
           node-version: 20
 
       - name: Build
-        working-directory: Build
-        run: npm ci && npm run build
+        working-directory: Demo
+        run: npm ci && npm run Demo
 
       - name: Read version
         id: version
-        run: echo "version=$(node -p "require('./Build/package.json').version")" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(node -p "require('./Demo/package.json').version")" >> "$GITHUB_OUTPUT"
 
       - uses: NellowTCS/updato@1.0.3
         with:
           mode: version
-          dist_dir: Build/dist
+          dist_dir: Demo/dist
           version: ${{ steps.version.outputs.version }}
           github_token: ${{ secrets.GITHUB_TOKEN }}

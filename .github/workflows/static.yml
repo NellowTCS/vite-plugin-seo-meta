@@ -29,15 +29,15 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies
-        working-directory: Build
+        working-directory: Demo
         run: npm i
 
       - name: Build
-        working-directory: Build
+        working-directory: Demo
         run: npm run build
 
       - name: Deploy browser build to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: Build/dist
+          publish_dir: Demo/dist
