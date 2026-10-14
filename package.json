@@ -1,0 +1,82 @@
+{
+  "name": "vite-plugin-seo-meta",
+  "version": "0.1.0",
+  "description": "All-in-one Vite SEO plugin: meta tags, canonical, Open Graph, Twitter Cards, JSON-LD, hreflang, robots.txt and sitemap.xml with zero-config defaults and per-page overrides.",
+  "type": "module",
+  "license": "MIT",
+  "author": "NellowTCS",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NellowTCS/vite-plugin-seo-meta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NellowTCS/vite-plugin-seo-meta/issues"
+  },
+  "homepage": "https://github.com/NellowTCS/vite-plugin-seo-meta#readme",
+  "keywords": [
+    "vite",
+    "vite-plugin",
+    "seo",
+    "meta",
+    "meta-tags",
+    "open-graph",
+    "opengraph",
+    "twitter-card",
+    "canonical",
+    "json-ld",
+    "structured-data",
+    "hreflang",
+    "sitemap",
+    "robots",
+    "multi-page",
+    "mpa",
+    "ssg",
+    "prerender"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./runtime": {
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js",
+      "require": "./dist/runtime.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "peerDependencies": {
+    "vite": ">=5.0.0"
+  },
+  "dependencies": {
+    "parse5": "^8.0.1",
+    "sitemap": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsup": "^9.0.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.4"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run typecheck && npm run test",
+    "prepublishOnly": "npm run build"
+  }
+}
