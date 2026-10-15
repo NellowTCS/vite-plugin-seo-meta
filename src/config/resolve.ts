@@ -10,8 +10,8 @@ import type {
   SitemapOptions,
   SiteConfig,
   TwitterInfo,
-} from "../types.js";
-import { normalizeRoute, normalizeSiteUrl, toAbsolute } from "../url.js";
+} from "../types";
+import { normalizeRoute, normalizeSiteUrl, toAbsolute } from "../url";
 
 const DEFAULT_LOCALE = "en_US";
 

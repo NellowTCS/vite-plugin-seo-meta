@@ -1,9 +1,9 @@
 /** Injects rendered head tags into an HTML document via parse5 */
 
 import { defaultTreeAdapter, parse, parseFragment, serialize } from "parse5";
-import type { HeadTag } from "../types.js";
-import { elementKey, isElement, stripManagedNodes } from "./dedupe.js";
-import type { P5Element, P5Parent } from "./dedupe.js";
+import type { HeadTag } from "../types";
+import { elementKey, isElement, stripManagedNodes } from "./dedupe";
+import type { P5Element, P5Parent } from "./dedupe";
 
 /** Builds a `<tag>` element with attributes, optionally holding text */
 function createElement(tagName: string, attrs: Record<string, string>, text?: string): P5Element {

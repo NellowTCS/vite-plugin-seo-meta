@@ -1,6 +1,7 @@
 /** Basic meta tags for a page */
 
-import type { HeadTag, ResolvedPage, ResolvedSite } from "../../types.js";
+import type { HeadTag, ResolvedPage, ResolvedSite } from "../../types";
+import { linkKey } from "../../html/dedupe";
 
 /** Builds a `<meta name content>` tag */
 function metaTag(name: string, content: string): HeadTag {
@@ -27,5 +28,9 @@ export function basicTags(page: ResolvedPage, site: ResolvedSite): HeadTag[] {
   if (page.robots) tags.push(metaTag("robots", page.robots));
   if (site.favicon.themeColor) tags.push(metaTag("theme-color", site.favicon.themeColor));
   for (const [name, content] of Object.entries(page.meta)) tags.push(metaTag(name, content));
+  // escape hatch cause we don't want to have to support every possible meta tag
+  for (const link of page.links) {
+    tags.push({ tag: "link", attrs: { ...link }, key: linkKey(link.rel, link.hreflang, link.sizes) });
+  }
   return tags;
 }

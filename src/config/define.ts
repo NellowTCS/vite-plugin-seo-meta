@@ -1,4 +1,4 @@
-import type { SeoOptions } from "../types.js";
+import type { SeoOptions } from "../types";
 
 /**
  * Here you go VSCode, enjoy the IntelliSense :D

@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { loadConfigFromFile } from "vite";
 import type { ConfigEnv } from "vite";
-import type { SeoOptions } from "../types.js";
+import type { SeoOptions } from "../types";
 
 /** Config filenames probed, in priority order, when no explicit path is given. */
 export const SEO_CONFIG_FILES = [

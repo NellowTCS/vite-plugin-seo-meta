@@ -1,12 +1,12 @@
-import { absolutize, toKeywords } from "../config/resolve.js";
+import { absolutize, toKeywords } from "../config/resolve";
 import type {
   HreflangAlternate,
   OpenGraphInfo,
   ResolvedOptions,
   ResolvedPage,
   TwitterInfo,
-} from "../types.js";
-import { normalizeRoute, toAbsolute } from "../url.js";
+} from "../types";
+import { normalizeRoute, toAbsolute } from "../url";
 
 const DEFAULT_TWITTER_CARD = "summary_large_image";
 

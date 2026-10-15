@@ -26,6 +26,13 @@ export function hasAttr(element: P5Element, name: string): boolean {
 }
 
 /**
+ * Dedupe key for a `<link>`
+ */
+export function linkKey(rel: string, hreflang?: string, sizes?: string): string {
+  return `link:${rel.toLowerCase()}${hreflang ? `:${hreflang}` : ""}${sizes ? `:${sizes}` : ""}`;
+}
+
+/**
  * Dedupe key for a managed head element, or undefined for elements left alone
  */
 export function elementKey(node: P5Node): string | undefined {
@@ -45,9 +52,7 @@ export function elementKey(node: P5Node): string | undefined {
   if (tag === "link") {
     const rel = getAttr(node, "rel");
     if (!rel) return undefined;
-    const hreflang = getAttr(node, "hreflang");
-    const sizes = getAttr(node, "sizes");
-    return `link:${rel.toLowerCase()}${hreflang ? `:${hreflang}` : ""}${sizes ? `:${sizes}` : ""}`;
+    return linkKey(rel, getAttr(node, "hreflang"), getAttr(node, "sizes"));
   }
   if (tag === "script" && getAttr(node, "type") === "application/ld+json") return "script:jsonld";
   return undefined;
