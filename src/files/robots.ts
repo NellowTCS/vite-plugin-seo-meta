@@ -54,10 +54,10 @@ function sitemapUrl(site: ResolvedSite, options: RobotsFileOptions): string | un
 
 /**
  * Paths to disallow for noindex pages
- * it keeps `sitemap.xml` and `robots.txt` consistent: what we omit from one we ask crawlers to
- * skip in the other
+ * When `disallowNoindex` is true, block crawling of pages that should not be indexed
  */
-export function noindexDisallow(pages: ResolvedPage[]): string[] {
+export function noindexDisallow(pages: ResolvedPage[], disallowNoindex = false): string[] {
+  if (!disallowNoindex) return [];
   return pages.filter((page) => page.noindex).map((page) => page.route);
 }
 

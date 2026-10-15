@@ -95,7 +95,45 @@ describe("mpa build", () => {
     const robots = await read("robots.txt");
 
     expect(robots).toContain("User-agent: *");
-    expect(robots).toContain("Disallow: /private");
+    expect(robots).not.toContain("Disallow: /private");
     expect(robots).toContain("Sitemap: https://example.com/sitemap.xml");
+  });
+
+  it("disallows noindex paths when explicitly requested", async () => {
+    const workspace = await mkdtemp(join(tmpdir(), "seo-mpa-robots-"));
+    const distDir = join(workspace, "dist");
+    try {
+      await cp(FIXTURE, workspace, { recursive: true });
+      await build({
+        root: workspace,
+        configFile: false,
+        logLevel: "silent",
+        plugins: [
+          seo({
+            configFile: false,
+            site: {
+              url: "https://example.com",
+              name: "Acme",
+              title: "Acme",
+              titleTemplate: "%s | Acme",
+            },
+            robots: { disallowNoindex: true },
+            pages: {
+              "/": { title: "Home" },
+              "/private": { noindex: true },
+            },
+          }),
+        ],
+        build: {
+          outDir: "dist",
+          emptyOutDir: true,
+          rollupOptions: { input: ENTRIES.map((entry) => join(workspace, entry)) },
+        },
+      });
+      const robots = await readFile(join(distDir, "robots.txt"), "utf8");
+      expect(robots).toContain("Disallow: /private");
+    } finally {
+      await rm(workspace, { recursive: true, force: true });
+    }
   });
 });

@@ -204,6 +204,8 @@ export interface RobotsFileOptions {
   sitemap?: string | false;
   /** Merge with an existing `robots.txt` in the output dir instead of overwriting. Default `true`. */
   merge?: boolean;
+  /** When true, automatically add `Disallow: <route>` for pages with `noindex: true` */
+  disallowNoindex?: boolean;
 }
 
 /** Options for the generated `sitemap.xml` */

@@ -53,13 +53,18 @@ export function seo(inline: SeoPluginOptions = {}): Plugin {
       await writeFile(join(outDir, filename), xml);
     }
 
-    if (options.robotsEnabled) {
-      const generated = buildRobots(options.site, options.robots, noindexDisallow(pages));
-      const target = join(outDir, "robots.txt");
-      const existing = options.robots.merge === false ? undefined : await readIfExists(target);
-      await mkdir(outDir, { recursive: true });
-      await writeFile(target, existing ? mergeRobots(existing, generated) : generated);
-    }
+      if (options.robotsEnabled) {
+        const generated = buildRobots(
+          options.site,
+          options.robots,
+          noindexDisallow(pages, options.robots.disallowNoindex),
+        );
+        const target = join(outDir, "robots.txt");
+        const existing = options.robots.merge === false ? undefined : await readIfExists(target);
+        await mkdir(outDir, { recursive: true });
+        await writeFile(target, existing ? mergeRobots(existing, generated) : generated);
+      }
+
   }
 
   return {
