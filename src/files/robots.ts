@@ -1,6 +1,6 @@
 /** robots.txt generation */
 
-import type { RobotsFileOptions, ResolvedSite } from "../types";
+import type { RobotsFileOptions, ResolvedPage, ResolvedSite } from "../types";
 
 const DEFAULT_USER_AGENT = "*";
 
@@ -50,6 +50,15 @@ function sitemapUrl(site: ResolvedSite, options: RobotsFileOptions): string | un
   if (options.sitemap === false) return undefined;
   if (typeof options.sitemap === "string") return options.sitemap;
   return site.url ? `${site.url}/sitemap.xml` : undefined;
+}
+
+/**
+ * Paths to disallow for noindex pages
+ * it keeps `sitemap.xml` and `robots.txt` consistent: what we omit from one we ask crawlers to
+ * skip in the other
+ */
+export function noindexDisallow(pages: ResolvedPage[]): string[] {
+  return pages.filter((page) => page.noindex).map((page) => page.route);
 }
 
 /**

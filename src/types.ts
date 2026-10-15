@@ -279,6 +279,8 @@ export interface ResolvedPage {
   author?: string;
   /** Final robots directive content, if any */
   robots?: string;
+  /** Whether the page asks crawlers not to index it */
+  noindex: boolean;
   openGraph: OpenGraphInfo;
   twitter: TwitterInfo;
   jsonLd: Record<string, unknown>[];

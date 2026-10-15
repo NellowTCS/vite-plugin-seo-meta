@@ -10,6 +10,7 @@ import type {
 import { normalizeRoute, toAbsolute } from "../url";
 
 const DEFAULT_TWITTER_CARD = "summary_large_image";
+const MENTIONS_NOINDEX = /\b(noindex|none)\b/i;
 
 /** Applies the `%s` title template when there is both a template and a title */
 function applyTitleTemplate(rawTitle: string, template: string | undefined): string {
@@ -80,6 +81,7 @@ export function resolvePage(route: string, options: ResolvedOptions): ResolvedPa
   const image = absolutize(page.image ?? site.image, site.url);
   const imageAlt = page.imageAlt ?? site.imageAlt;
   const author = page.author ?? site.author;
+  const noindex = page.noindex ?? MENTIONS_NOINDEX.test(page.robots ?? "");
 
   const openGraph = resolveOpenGraph(page, site, { title, description, canonical, image, imageAlt });
   const twitter = resolveTwitter(page, site, openGraph);
@@ -93,14 +95,15 @@ export function resolvePage(route: string, options: ResolvedOptions): ResolvedPa
     imageAlt,
     keywords: page.keywords !== undefined ? toKeywords(page.keywords) : site.keywords,
     author,
-    robots: page.robots ?? (page.noindex ? "noindex, nofollow" : undefined),
+    robots: page.robots ?? (noindex ? "noindex, nofollow" : undefined),
+    noindex,
     openGraph,
     twitter,
     jsonLd: buildJsonLd(site, page.jsonLd, { title, description, canonical, image, author }),
     alternates: resolveAlternates(page.alternates, site.url),
     meta: page.meta ?? {},
     links: (page.links ?? []).map((link) => ({ ...link, href: toAbsolute(link.href, site.url) })),
-    sitemap: page.sitemap ?? !page.noindex,
+    sitemap: page.sitemap ?? !noindex,
     priority: page.priority,
     changefreq: page.changefreq,
     lastmod: page.lastmod instanceof Date ? page.lastmod.toISOString() : page.lastmod,
