@@ -16,14 +16,14 @@ import { normalizeRoute, normalizeSiteUrl, toAbsolute } from "../url.js";
 const DEFAULT_LOCALE = "en_US";
 
 /** Splits a comma string or array into a trimmed, non-empty keyword list */
-function toKeywords(value: string | string[] | undefined): string[] {
+export function toKeywords(value: string | string[] | undefined): string[] {
   if (!value) return [];
   const list = Array.isArray(value) ? value : value.split(",");
   return list.map((keyword) => keyword.trim()).filter((keyword) => keyword.length > 0);
 }
 
 /** Resolves a possibly root-relative path to an absolute URL, passing through undefined */
-function absolutize(value: string | undefined, siteUrl: string): string | undefined {
+export function absolutize(value: string | undefined, siteUrl: string): string | undefined {
   return value ? toAbsolute(value, siteUrl) : undefined;
 }
 
