@@ -1,4 +1,5 @@
 import { absolutize, toKeywords } from "../config/resolve";
+import { buildJsonLd } from "./tags/json-ld";
 import type {
   HreflangAlternate,
   OpenGraphInfo,
@@ -78,6 +79,7 @@ export function resolvePage(route: string, options: ResolvedOptions): ResolvedPa
   const description = page.description ?? site.description;
   const image = absolutize(page.image ?? site.image, site.url);
   const imageAlt = page.imageAlt ?? site.imageAlt;
+  const author = page.author ?? site.author;
 
   const openGraph = resolveOpenGraph(page, site, { title, description, canonical, image, imageAlt });
   const twitter = resolveTwitter(page, site, openGraph);
@@ -90,12 +92,11 @@ export function resolvePage(route: string, options: ResolvedOptions): ResolvedPa
     image,
     imageAlt,
     keywords: page.keywords !== undefined ? toKeywords(page.keywords) : site.keywords,
-    author: page.author ?? site.author,
+    author,
     robots: page.robots ?? (page.noindex ? "noindex, nofollow" : undefined),
     openGraph,
     twitter,
-    // structured data is built in a later chunk
-    jsonLd: [],
+    jsonLd: buildJsonLd(site, page.jsonLd, { title, description, canonical, image, author }),
     alternates: resolveAlternates(page.alternates, site.url),
     meta: page.meta ?? {},
     links: (page.links ?? []).map((link) => ({ ...link, href: toAbsolute(link.href, site.url) })),
