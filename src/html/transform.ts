@@ -45,7 +45,7 @@ function findElement(root: P5Parent, tagName: string): P5Element | undefined {
 export function injectHeadTags(html: string, tags: HeadTag[]): string {
   const document = parse(html);
   const head = findElement(document, "head");
-  if (!head) return html;
+  if (!head || head.childNodes.length === 0) return html;
 
   const existing = new Set<string>();
   for (const child of head.childNodes) {

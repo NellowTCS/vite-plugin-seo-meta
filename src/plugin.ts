@@ -67,7 +67,7 @@ export function seo(inline: SeoPluginOptions = {}): Plugin {
 
     async configResolved(resolved) {
       config = resolved;
-      log = createLogger(resolved.logger);
+      log = createLogger(resolved.logger as any);
 
       const fileConfig = await loadSeoConfig(
         resolved.root,
