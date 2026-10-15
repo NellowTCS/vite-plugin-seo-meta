@@ -5,17 +5,13 @@
  * changes. Build-time injection still covers the initial document; this only keeps the
  * `<head>` in sync after client-side navigation.
  */
+import { site as injectedSite } from "virtual:vite-plugin-seo-meta/config";
 import { resolveSite } from "./config/resolve";
 import { resolvePage } from "./head/merge";
 import { renderHeadTags } from "./head/render";
 import { headElementKey } from "./html/key";
 import type { HeadTag, PageMeta, ResolvedOptions, ResolvedSite, SiteConfig } from "./types";
 import { normalizeRoute } from "./url";
-
-interface SeoRuntimeGlobals {
-  /** Resolved site config injected at build time by `seo()`, when it was enabled. */
-  __VITE_PLUGIN_SEO_META__?: ResolvedSite;
-}
 
 function domKey(element: Element): string | undefined {
   return headElementKey(element.tagName, (name) => element.getAttribute(name) ?? undefined);
@@ -56,18 +52,14 @@ function applyHeadTags(tags: HeadTag[]): void {
 
 /** Picks the site config */
 function resolveRuntimeSite(site?: SiteConfig): ResolvedSite {
-  if (site) return resolveSite(site);
-  const injected = (globalThis as SeoRuntimeGlobals).__VITE_PLUGIN_SEO_META__;
-  if (injected) return injected;
-  // No build-time config reached the client. Falls back to the current origin
-  return resolveSite({ url: window.location.origin });
+  return site ? resolveSite(site) : injectedSite;
 }
 
 /**
  * Updates the document `<head>` for the current route.
  *
  * @param page Per-page metadata for the route being entered.
- * @param site Site defaults to merge under `page`. Defaults to the build-injected config.
+ * @param site Site defaults to merge under `page`. Defaults to the injected config.
  */
 export function applySeo(page: PageMeta, site?: SiteConfig): void {
   if (typeof document === "undefined") return;
