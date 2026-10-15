@@ -21,7 +21,6 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "verbatimModuleSyntax": true,
-    "isolatedModules": true
   },
   "include": ["src/**/*", "tests/**/*", "vitest.config.ts", "tsup.config.ts"]
 }
