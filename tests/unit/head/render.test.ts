@@ -39,6 +39,14 @@ describe("basic tags", () => {
     expect(page.title).toBe("Home | Example");
   });
 
+  it("uses the site default title when the page has none", () => {
+    const { page } = renderSite(
+      {},
+      { ...BASE_SITE, title: "Example", titleTemplate: "%s | Example" },
+    );
+    expect(page.title).toBe("Example");
+  });
+
   it("honors a page canonical override", () => {
     const { tags } = renderSite({ title: "Home", canonical: "/custom" });
     expect(find(tags, "link:canonical")?.attrs.href).toBe("https://example.com/custom");

@@ -18,6 +18,14 @@ function applyTitleTemplate(rawTitle: string, template: string | undefined): str
   return template.replace("%s", rawTitle);
 }
 
+/**
+ * Resolves the document title
+ */
+function resolveTitle(pageTitle: string | undefined, site: ResolvedOptions["site"]): string {
+  if (pageTitle) return applyTitleTemplate(pageTitle, site.titleTemplate);
+  return site.title ?? site.name ?? "";
+}
+
 /** Absolutizes (fun word) every alternate href, passing through relative ones */
 function resolveAlternates(
   alternates: HreflangAlternate[] | undefined,
@@ -76,7 +84,7 @@ export function resolvePage(route: string, options: ResolvedOptions): ResolvedPa
   const site = options.site;
 
   const canonical = page.canonical ? toAbsolute(page.canonical, site.url) : toAbsolute(normalized, site.url);
-  const title = applyTitleTemplate(page.title ?? site.title ?? site.name ?? "", site.titleTemplate);
+  const title = resolveTitle(page.title, site);
   const description = page.description ?? site.description;
   const image = absolutize(page.image ?? site.image, site.url);
   const imageAlt = page.imageAlt ?? site.imageAlt;

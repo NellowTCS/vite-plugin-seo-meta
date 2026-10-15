@@ -36,6 +36,24 @@ describe("injectHeadTags", () => {
     expect(twice).toBe(once);
   });
 
+  it("indents injected tags to match a pretty-printed head", () => {
+    const pretty =
+      '<!doctype html>\n<html>\n<head>\n  <meta charset="UTF-8">\n  <title>old</title>\n</head>\n<body></body>\n</html>';
+    const output = injectHeadTags(pretty, TAGS);
+
+    expect(output).toContain('\n  <title>Home</title>');
+    expect(output).toContain('\n  <meta name="description" content="fresh">');
+    expect(output).toContain('\n</head>');
+    expect(output).not.toContain("\n\n");
+  });
+
+  it("is idempotent on a pretty-printed head", () => {
+    const pretty =
+      '<!doctype html>\n<html>\n<head>\n  <meta charset="UTF-8">\n  <title>old</title>\n</head>\n<body></body>\n</html>';
+
+    expect(injectHeadTags(injectHeadTags(pretty, TAGS), TAGS)).toBe(injectHeadTags(pretty, TAGS));
+  });
+
   it("skips onlyIfMissing tags that already exist", () => {
     const tags: HeadTag[] = [
       { tag: "meta", attrs: { name: "theme-color", content: "#fff" }, key: "meta:theme-color", onlyIfMissing: true },

@@ -2,8 +2,8 @@
 
 import { defaultTreeAdapter, parse, parseFragment, serialize } from "parse5";
 import type { HeadTag } from "../types";
-import { elementKey, isElement, stripManagedNodes } from "./dedupe";
-import type { P5Element, P5Parent } from "./dedupe";
+import { elementKey, isElement, isText, stripManagedNodes } from "./dedupe";
+import type { P5Element, P5Node, P5Parent } from "./dedupe";
 
 /** Builds a `<tag>` element with attributes, optionally holding text */
 function createElement(tagName: string, attrs: Record<string, string>, text?: string): P5Element {
@@ -35,6 +35,35 @@ function findElement(root: P5Parent, tagName: string): P5Element | undefined {
   return undefined;
 }
 
+/** The value of a whitespace-only text node, or undefined for anything else */
+function whitespace(node: P5Node): string | undefined {
+  if (!isText(node)) return undefined;
+  return /^\s*$/.test(node.value) ? node.value : undefined;
+}
+
+/**
+ * Indentation for injected tags
+ * Returns undefined for a compact head (no newlines), so tags stay on one line
+ */
+function detectIndent(head: P5Element): string | undefined {
+  let empty: string | undefined;
+  for (const child of head.childNodes) {
+    const value = whitespace(child);
+    if (value === undefined || !value.includes("\n")) continue;
+    const indent = value.slice(value.lastIndexOf("\n") + 1);
+    if (indent.length > 0) return indent;
+    empty = "";
+  }
+  return empty;
+}
+
+/** Drops whitespace-only text nodes at the end of the head, so the block can be re-indented */
+function trimTrailingWhitespace(head: P5Element): void {
+  while (head.childNodes.length > 0 && whitespace(head.childNodes[head.childNodes.length - 1]!) !== undefined) {
+    head.childNodes.pop();
+  }
+}
+
 /**
  * Injects rendered head tags into an HTML document
  * - managed tags (title / meta / link / ld+json) are replaced, not appended
@@ -62,8 +91,19 @@ export function injectHeadTags(html: string, tags: HeadTag[]): string {
   }
 
   stripManagedNodes(head, removeKeys);
-  for (const tag of toAdd) {
-    defaultTreeAdapter.appendChild(head, createElement(tag.tag, tag.attrs, tag.text));
+
+  const indent = detectIndent(head);
+  if (indent === undefined) {
+    for (const tag of toAdd) {
+      defaultTreeAdapter.appendChild(head, createElement(tag.tag, tag.attrs, tag.text));
+    }
+  } else {
+    trimTrailingWhitespace(head);
+    for (const tag of toAdd) {
+      defaultTreeAdapter.appendChild(head, defaultTreeAdapter.createTextNode(`\n${indent}`));
+      defaultTreeAdapter.appendChild(head, createElement(tag.tag, tag.attrs, tag.text));
+    }
+    defaultTreeAdapter.appendChild(head, defaultTreeAdapter.createTextNode("\n"));
   }
 
   return serialize(document);

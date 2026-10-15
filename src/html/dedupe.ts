@@ -7,10 +7,16 @@ import { headElementKey } from "./key";
 export type P5Node = DefaultTreeAdapterMap["node"];
 export type P5Element = DefaultTreeAdapterMap["element"];
 export type P5Parent = DefaultTreeAdapterMap["parentNode"];
+export type P5Text = DefaultTreeAdapterMap["textNode"];
 
 /** True when the node is an element (has a tag name) */
 export function isElement(node: P5Node): node is P5Element {
   return defaultTreeAdapter.isElementNode(node);
+}
+
+/** True when the node is a text node */
+export function isText(node: P5Node): node is P5Text {
+  return defaultTreeAdapter.isTextNode(node);
 }
 
 /** Reads an attribute value, or undefined when it is not there */
