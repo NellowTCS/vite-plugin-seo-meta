@@ -1,7 +1,7 @@
 /** Favicon and related icon links */
 
 import type { HeadTag, ResolvedSite } from "../../types";
-import { linkKey } from "../../html/dedupe";
+import { linkKey } from "../../html/key";
 
 /** Icon links for the site (paths are already absolute) */
 export function faviconTags(site: ResolvedSite): HeadTag[] {

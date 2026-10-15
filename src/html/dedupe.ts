@@ -2,6 +2,7 @@
 
 import { defaultTreeAdapter } from "parse5";
 import type { DefaultTreeAdapterMap } from "parse5";
+import { headElementKey } from "./key";
 
 export type P5Node = DefaultTreeAdapterMap["node"];
 export type P5Element = DefaultTreeAdapterMap["element"];
@@ -20,42 +21,12 @@ export function getAttr(element: P5Element, name: string): string | undefined {
   return undefined;
 }
 
-/** True when the element carries the given attribute at all */
-export function hasAttr(element: P5Element, name: string): boolean {
-  return element.attrs.some((attr) => attr.name === name);
-}
-
-/**
- * Dedupe key for a `<link>`
- */
-export function linkKey(rel: string, hreflang?: string, sizes?: string): string {
-  return `link:${rel.toLowerCase()}${hreflang ? `:${hreflang}` : ""}${sizes ? `:${sizes}` : ""}`;
-}
-
 /**
  * Dedupe key for a managed head element, or undefined for elements left alone
  */
 export function elementKey(node: P5Node): string | undefined {
   if (!isElement(node)) return undefined;
-  const tag = node.tagName;
-  if (tag === "title") return "title";
-  if (tag === "meta") {
-    const name =
-      getAttr(node, "name") ??
-      getAttr(node, "property") ??
-      getAttr(node, "http-equiv") ??
-      getAttr(node, "itemprop");
-    if (name) return `meta:${name.toLowerCase()}`;
-    if (hasAttr(node, "charset")) return "meta:charset";
-    return undefined;
-  }
-  if (tag === "link") {
-    const rel = getAttr(node, "rel");
-    if (!rel) return undefined;
-    return linkKey(rel, getAttr(node, "hreflang"), getAttr(node, "sizes"));
-  }
-  if (tag === "script" && getAttr(node, "type") === "application/ld+json") return "script:jsonld";
-  return undefined;
+  return headElementKey(node.tagName, (name) => getAttr(node, name));
 }
 
 /** Drops head children whose dedupe key is in `keys` */

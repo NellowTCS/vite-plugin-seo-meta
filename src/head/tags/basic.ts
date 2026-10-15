@@ -1,7 +1,7 @@
 /** Basic meta tags for a page */
 
 import type { HeadTag, ResolvedPage, ResolvedSite } from "../../types";
-import { linkKey } from "../../html/dedupe";
+import { linkKey } from "../../html/key";
 
 /** Builds a `<meta name content>` tag */
 function metaTag(name: string, content: string): HeadTag {

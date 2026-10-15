@@ -1,7 +1,7 @@
 /** hreflang alternate links */
 
 import type { HeadTag, ResolvedPage } from "../../types";
-import { linkKey } from "../../html/dedupe";
+import { linkKey } from "../../html/key";
 
 /** One `<link rel="alternate" hreflang>` per locale (already absolute) */
 export function hreflangTags(page: ResolvedPage): HeadTag[] {
