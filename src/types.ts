@@ -33,6 +33,38 @@ export interface FaviconConfig {
   /** `<meta name="theme-color">` */
   themeColor?: string;
 }
+/** A image reference used across head tags, JSON-LD and sitemaps. */
+export interface ImageRef {
+  /** Image URL (absolute preferred). */
+  src: string;
+  /** Alternative text. */
+  alt?: string;
+  /** Image width in pixels. */
+  width?: number;
+  /** Image height in pixels. */
+  height?: number;
+  /** MIME type (e.g. `image/jpeg`). */
+  type?: string;
+  /** HTTPS URL equivalent. */
+  secureUrl?: string;
+}
+
+/** Flexible image input accepted by the config layer. */
+export type ImageInput =
+  | string
+  | ImageRef
+  | {
+      src?: string;
+      url?: string;
+      href?: string;
+      alt?: string;
+      width?: number | string;
+      height?: number | string;
+      type?: string;
+      secureUrl?: string;
+      secure_url?: string;
+    };
+
 
 /** An `hreflang` alternate link. */
 export interface HreflangAlternate {

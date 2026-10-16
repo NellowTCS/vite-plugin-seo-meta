@@ -21,4 +21,6 @@ export type {
   TwitterCardType,
   TwitterInfo,
   WebSiteJsonLd,
+  ImageRef,
+  ImageInput,
 } from "./types";
