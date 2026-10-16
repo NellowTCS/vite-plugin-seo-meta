@@ -30,8 +30,9 @@ jobs:
 
       - name: Install dependencies
         working-directory: Demo
-        run: npm i
-
+        run: |
+          npm i
+          cd 
       - name: Build
         working-directory: Demo
         run: | 
