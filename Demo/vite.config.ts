@@ -7,7 +7,7 @@ export default defineConfig({
     seo({
       configFile: false,
       site: {
-        url: "https://example.com",
+        url: "https://nellowtcs.me/vite-plugin-seo-meta/",
         name: "vite-plugin-seo-meta demo",
         title: "vite-plugin-seo-meta",
         titleTemplate: "%s | vite-plugin-seo-meta",

@@ -2,6 +2,7 @@
 
 import { EnumChangefreq, SitemapStream, streamToPromise } from "sitemap";
 import type { SitemapItemLoose } from "sitemap";
+import xmlFormat from "xml-formatter";
 import type { ResolvedPage, SitemapChangefreq, SitemapOptions } from "../types";
 
 /** Maps our changefreq strings onto sitemap's enum (same values) */
@@ -16,7 +17,16 @@ const CHANGEFREQ: Record<SitemapChangefreq, EnumChangefreq> = {
 };
 
 const EMPTY_SITEMAP =
-  '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>\n';
+  '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>';
+
+function formatXml(xml: string): string {
+  const formatted = xmlFormat(xml, {
+    indentation: "  ",
+    lineSeparator: "\n",
+    collapseContent: true,
+  });
+  return formatted.endsWith("\n") ? formatted : `${formatted}\n`;
+}
 
 /** One entry for a page, or undefined when it is excluded or opted out */
 function toItem(
@@ -55,11 +65,15 @@ export async function buildSitemap(
     .map((page) => toItem(page, options, exclude))
     .filter((item): item is SitemapItemLoose => item !== undefined);
 
-  if (items.length === 0) return EMPTY_SITEMAP;
+  // Formatting XML, bite me
+  if (items.length === 0) return formatXml(EMPTY_SITEMAP);
 
-  const stream = new SitemapStream();
+  const hasAlternates = items.some((item) => item.links && item.links.length > 0);
+  const stream = new SitemapStream({
+    xmlns: { news: false, image: false, video: false, xhtml: hasAlternates },
+  });
   for (const item of items) stream.write(item);
   stream.end();
 
-  return (await streamToPromise(stream)).toString();
+  return formatXml((await streamToPromise(stream)).toString());
 }

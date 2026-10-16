@@ -61,7 +61,8 @@
   },
   "dependencies": {
     "parse5": "^8.0.1",
-    "sitemap": "^9.0.1"
+    "sitemap": "^9.0.1",
+    "xml-formatter": "^3.7.0"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",
