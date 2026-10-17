@@ -1,10 +1,12 @@
 import { absolutize, toKeywords } from "../config/resolve";
+import { renderRobotsMeta } from "./robots-meta";
 import { buildJsonLd } from "./tags/json-ld";
 import type {
   HreflangAlternate,
   OpenGraphInfo,
   ResolvedOptions,
   ResolvedPage,
+  RobotsDirectives,
   TwitterInfo,
 } from "../types";
 import { normalizeRoute, toAbsolute } from "../url";
@@ -74,6 +76,19 @@ function resolveTwitter(
   };
 }
 
+function resolveRobotsByUserAgent(
+  siteMap: Record<string, string | RobotsDirectives>,
+  pageMap: Record<string, string | RobotsDirectives> | undefined,
+): Record<string, string> {
+  const merged: Record<string, string | RobotsDirectives> = { ...siteMap, ...pageMap };
+  const rendered: Record<string, string> = {};
+  for (const [userAgent, value] of Object.entries(merged)) {
+    const content = renderRobotsMeta(value);
+    if (content !== undefined) rendered[userAgent] = content;
+  }
+  return rendered;
+}
+
 /**
  * Resolves a route into a populated page (heh, alliteration)
  * - `noindex` implies `sitemap: false` unless the page says otherwise.
@@ -89,7 +104,8 @@ export function resolvePage(route: string, options: ResolvedOptions): ResolvedPa
   const image = absolutize(page.image ?? site.image, site.url);
   const imageAlt = page.imageAlt ?? site.imageAlt;
   const author = page.author ?? site.author;
-  const noindex = page.noindex ?? MENTIONS_NOINDEX.test(page.robots ?? "");
+  const pageRobots = renderRobotsMeta(page.robots);
+  const noindex = page.noindex ?? MENTIONS_NOINDEX.test(pageRobots ?? "");
 
   const openGraph = resolveOpenGraph(page, site, { title, description, canonical, image, imageAlt });
   const twitter = resolveTwitter(page, site, openGraph);
@@ -103,7 +119,8 @@ export function resolvePage(route: string, options: ResolvedOptions): ResolvedPa
     imageAlt,
     keywords: page.keywords !== undefined ? toKeywords(page.keywords) : site.keywords,
     author,
-    robots: page.robots ?? (noindex ? "noindex, nofollow" : undefined),
+    robots: pageRobots ?? (noindex ? "noindex, nofollow" : undefined),
+    robotsByUserAgent: resolveRobotsByUserAgent(site.robotsByUserAgent, page.robotsByUserAgent),
     noindex,
     openGraph,
     twitter,

@@ -2,6 +2,8 @@
  * (lots of borrowing from alternate implementations and references lol) 
  */
 
+// TODO: Be more consistent with JSDoc comments
+
 /** Twitter (no i'm not calling it X) card layout
  * I referenced https://ha.mr/#WLFjM~@NCzcO[mQzbrV5r[2n2WdeJU.X741Ih9Z=wG24sfYy_:]LqEeBDkkldg:M5v0oD-W~-v4?Ym@d4Nc=./:1( 
  * for the available options.
@@ -30,9 +32,47 @@ export interface FaviconConfig {
   manifest?: string;
   /** `<link rel="mask-icon">`: SVG for Safari pinned tabs */
   maskIcon?: string;
-  /** `<meta name="theme-color">` */
-  themeColor?: string;
+  /** `<meta name="theme-color">`: basically a bare color, or one entry per media query */
+  themeColor?: string | ThemeColorEntry[];
 }
+
+/** One `<meta name="theme-color">` entry, optionally scoped to a media query */
+export interface ThemeColorEntry {
+  /** CSS color, like `#ffffff` or `rgb(255 255 255)` (obviously) */
+  color: string;
+  /** Media query the color applies to, for example `(prefers-color-scheme: dark)` */
+  media?: string;
+}
+
+/**
+ * Structured `<meta name="robots">` directives.
+ * Ref: https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag#directives
+ */
+export interface RobotsDirectives {
+  noindex?: boolean;
+  nofollow?: boolean;
+  /** `none` is shorthand for `noindex, nofollow` */
+  none?: boolean;
+  /** Allow indexing of everything (default; rarely needs emitting) */
+  all?: boolean;
+  nosnippet?: boolean;
+  /** Deprecated but still honored by Bing lollll; opt-in */
+  noarchive?: boolean;
+  noimageindex?: boolean;
+  notranslate?: boolean;
+  /** Only meaningful together with `noindex` (Gooooooogle) */
+  indexifembedded?: boolean;
+  nositelinkssearchbox?: boolean;
+  /** Snippet character cap. `-1` means no limit, `0` no snippet */
+  maxSnippet?: number;
+  /** Preview size cap for image search results */
+  maxImagePreview?: "none" | "standard" | "large";
+  /** Video preview cap in seconds. `-1` means no limit, `0` no video */
+  maxVideoPreview?: number;
+  /** After this date the page should not be shown *shakes finger*. ISO string or `Date` */
+  unavailableAfter?: string | Date;
+}
+
 /** A image reference used across head tags, JSON-LD and sitemaps. */
 export interface ImageRef {
   /** Image URL (absolute preferred). */
@@ -187,6 +227,8 @@ export interface SiteConfig {
   /** `<meta name="author">` default */
   author?: string;
   keywords?: string | string[];
+  /** Site-wide per-user-agent robots metas */
+  robotsByUserAgent?: Record<string, string | RobotsDirectives>;
   favicon?: FaviconConfig;
   openGraph?: OpenGraphInfo;
   jsonLd?: JsonLdConfig;
@@ -204,8 +246,10 @@ export interface PageMeta {
   author?: string;
   /** Exclude from `sitemap.xml` and emit a `noindex` robots directive. */
   noindex?: boolean;
-  /** Raw robots directive, overrides `noindex` */
-  robots?: string;
+  /** Robots directive: raw string, or structured {@link RobotsDirectives}. Overrides `noindex`. */
+  robots?: string | RobotsDirectives;
+  /** Extra per-user-agent robots metas, for example `{ "googlebot-news": { noindex: true } }`. */
+  robotsByUserAgent?: Record<string, string | RobotsDirectives>;
   openGraph?: OpenGraphInfo;
   twitter?: TwitterInfo;
   jsonLd?: JsonLdConfig;
@@ -296,6 +340,7 @@ export interface ResolvedSite {
   locale: string;
   author?: string;
   keywords: string[];
+  robotsByUserAgent: Record<string, string | RobotsDirectives>;
   favicon: FaviconConfig;
   openGraph: OpenGraphInfo;
   jsonLd: JsonLdConfig;
@@ -311,9 +356,8 @@ export interface ResolvedPage {
   imageAlt?: string;
   keywords: string[];
   author?: string;
-  /** Final robots directive content, if any */
   robots?: string;
-  /** Whether the page asks crawlers not to index it */
+  robotsByUserAgent: Record<string, string>;
   noindex: boolean;
   openGraph: OpenGraphInfo;
   twitter: TwitterInfo;

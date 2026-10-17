@@ -9,6 +9,7 @@ import type {
   SeoPluginOptions,
   SitemapOptions,
   SiteConfig,
+  ThemeColorEntry,
   TwitterInfo,
 } from "../types";
 import { normalizeRoute, normalizeSiteUrl, toAbsolute } from "../url";
@@ -27,6 +28,27 @@ export function absolutize(value: string | undefined, siteUrl: string): string |
   return value ? toAbsolute(value, siteUrl) : undefined;
 }
 
+/**
+ * Normalizes `theme-color` config into renderable entries
+ * - A bare color string becomes one entry without a media query
+ * - Blank colors and blank media queries are dropped cause... well isn't it obvious
+ */
+export function normalizeThemeColors(
+  value: string | ThemeColorEntry[] | undefined,
+): ThemeColorEntry[] {
+  if (!value) return [];
+  const entries = typeof value === "string" ? [{ color: value }] : value;
+  const colors: ThemeColorEntry[] = [];
+  for (const entry of entries) {
+    if (typeof entry?.color !== "string") continue;
+    const color = entry.color.trim();
+    if (color.length === 0) continue;
+    const media = typeof entry.media === "string" ? entry.media.trim() : "";
+    colors.push(media.length > 0 ? { color, media } : { color });
+  }
+  return colors;
+}
+
 function resolveFavicon(favicon: FaviconConfig | undefined, siteUrl: string): FaviconConfig {
   if (!favicon) return {};
   return {
@@ -34,7 +56,7 @@ function resolveFavicon(favicon: FaviconConfig | undefined, siteUrl: string): Fa
     appleTouchIcon: absolutize(favicon.appleTouchIcon, siteUrl),
     manifest: absolutize(favicon.manifest, siteUrl),
     maskIcon: absolutize(favicon.maskIcon, siteUrl),
-    themeColor: favicon.themeColor,
+    themeColor: normalizeThemeColors(favicon.themeColor),
   };
 }
 
@@ -67,6 +89,7 @@ export function resolveSite(site: SiteConfig): ResolvedSite {
     locale: site.locale ?? DEFAULT_LOCALE,
     author: site.author,
     keywords: toKeywords(site.keywords),
+    robotsByUserAgent: site.robotsByUserAgent ?? {},
     favicon: resolveFavicon(site.favicon, url),
     openGraph,
     jsonLd: site.jsonLd ?? {},

@@ -9,6 +9,7 @@ function page(route: string, canonical: string, extra: Partial<ResolvedPage> = {
     canonical,
     keywords: [],
     noindex: false,
+    robotsByUserAgent: {},
     openGraph: {},
     twitter: {},
     jsonLd: [],

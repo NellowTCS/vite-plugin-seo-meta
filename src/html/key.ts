@@ -1,6 +1,15 @@
 /** head-element dedupe keys */
 
 /**
+ * Dedupe key for a `<meta name>`
+ * (two `<meta name="theme-color">` tags with different media queries are different tags)
+ */
+export function metaKey(name: string, media?: string): string {
+  const base = `meta:${name.toLowerCase()}`;
+  return media ? `${base}:${media}` : base;
+}
+
+/**
  * Dedupe key for a `<link>`
  */
 export function linkKey(rel: string, hreflang?: string, sizes?: string): string {
@@ -21,7 +30,7 @@ export function headElementKey(
   if (tag === "title") return "title";
   if (tag === "meta") {
     const name = get("name") ?? get("property") ?? get("http-equiv") ?? get("itemprop");
-    if (name) return `meta:${name.toLowerCase()}`;
+    if (name) return metaKey(name, get("media"));
     if (get("charset") !== undefined) return "meta:charset";
     return undefined;
   }

@@ -1,11 +1,12 @@
 /** Basic meta tags for a page */
 
 import type { HeadTag, ResolvedPage, ResolvedSite } from "../../types";
-import { linkKey } from "../../html/key";
+import { normalizeThemeColors } from "../../config/resolve";
+import { linkKey, metaKey } from "../../html/key";
 
 /** Builds a `<meta name content>` tag */
 function metaTag(name: string, content: string): HeadTag {
-  return { tag: "meta", attrs: { name, content }, key: `meta:${name.toLowerCase()}` };
+  return { tag: "meta", attrs: { name, content }, key: metaKey(name) };
 }
 
 /** Builds the meta tags for a page */
@@ -26,7 +27,14 @@ export function basicTags(page: ResolvedPage, site: ResolvedSite): HeadTag[] {
   if (page.keywords.length > 0) tags.push(metaTag("keywords", page.keywords.join(", ")));
   if (page.author) tags.push(metaTag("author", page.author));
   if (page.robots) tags.push(metaTag("robots", page.robots));
-  if (site.favicon.themeColor) tags.push(metaTag("theme-color", site.favicon.themeColor));
+  for (const [userAgent, content] of Object.entries(page.robotsByUserAgent)) {
+    tags.push(metaTag(userAgent, content));
+  }
+  for (const { color, media } of normalizeThemeColors(site.favicon.themeColor)) {
+    const attrs: Record<string, string> = { name: "theme-color", content: color };
+    if (media) attrs.media = media;
+    tags.push({ tag: "meta", attrs, key: metaKey("theme-color", media) });
+  }
   for (const [name, content] of Object.entries(page.meta)) tags.push(metaTag(name, content));
   // escape hatch cause we don't want to have to support every possible meta tag
   for (const link of page.links) {
