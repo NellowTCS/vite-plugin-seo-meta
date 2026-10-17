@@ -37,7 +37,16 @@ describe("repeated builds", () => {
             title: "Acme",
             titleTemplate: "%s | Acme",
           },
-          pages: { "/": { title: "Home" } },
+          pages: {
+            "/": {
+              title: "Home",
+              lang: "en-US",
+              alternates: [
+                { hreflang: "fr-FR", href: "/fr" },
+                { hreflang: "de", href: "/de" },
+              ],
+            },
+          },
         }),
       ],
       build: {
@@ -57,6 +66,8 @@ describe("repeated builds", () => {
       expect(countOccurrences(html, "<title")).toBe(1);
       expect(countOccurrences(html, 'rel="canonical"')).toBe(1);
       expect(countOccurrences(html, 'property="og:title"')).toBe(1);
+      expect(countOccurrences(html, 'rel="alternate"')).toBe(3);
+      expect(countOccurrences(html, 'property="og:locale:alternate"')).toBe(2);
     }
 
     expect(second).toBe(first);

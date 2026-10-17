@@ -1,4 +1,5 @@
 import { absolutize, toKeywords } from "../config/resolve";
+import { languageTagToOgLocale, normalizeLanguageTag } from "../locale";
 import { renderRobotsMeta } from "./robots-meta";
 import { buildJsonLd } from "./tags/json-ld";
 import type {
@@ -28,15 +29,43 @@ function resolveTitle(pageTitle: string | undefined, site: ResolvedOptions["site
   return site.title ?? site.name ?? "";
 }
 
-/** Absolutizes (fun word) every alternate href, passing through relative ones */
+/**
+ * Normalizes alternate hreflang casing, absolutizes hrefs and appends a
+ * self-referencing alternate (Google asks pages to list themselves sighhhhh)
+ * - Blank hrefs and duplicate hreflangs get dropped
+ *
+ * Ref: https://developers.google.com/search/docs/specialty/international/localized-versions
+ */
 function resolveAlternates(
   alternates: HreflangAlternate[] | undefined,
   siteUrl: string,
+  selfLanguage: string | undefined,
+  canonical: string,
 ): HreflangAlternate[] {
-  return (alternates ?? []).map((alternate) => ({
-    hreflang: alternate.hreflang,
-    href: toAbsolute(alternate.href, siteUrl),
-  }));
+  const resolved: HreflangAlternate[] = [];
+  const seen = new Set<string>();
+  const push = (hreflang: string, href: string) => {
+    const tag = normalizeLanguageTag(hreflang);
+    const target = toAbsolute(href, siteUrl);
+    if (tag === "" || href === "" || seen.has(tag)) return;
+    seen.add(tag);
+    resolved.push({ hreflang: tag, href: target });
+  };
+
+  for (const alternate of alternates ?? []) push(alternate.hreflang, alternate.href);
+  if (resolved.length > 0 && selfLanguage) push(selfLanguage, canonical);
+  return resolved;
+}
+
+/** Maps alternates to `og:locale` values, dropping the self locale and `x-default` */
+function deriveLocaleAlternates(alternates: HreflangAlternate[], selfLocale: string): string[] {
+  const locales: string[] = [];
+  for (const alternate of alternates) {
+    const locale = languageTagToOgLocale(alternate.hreflang);
+    if (!locale || locale === selfLocale || locales.includes(locale)) continue;
+    locales.push(locale);
+  }
+  return locales;
 }
 
 /** Builds the Open Graph information for a page */
@@ -44,8 +73,18 @@ function resolveOpenGraph(
   page: ResolvedOptions["pageMeta"][string],
   site: ResolvedOptions["site"],
   fallback: { title: string; description?: string; canonical: string; image?: string; imageAlt?: string },
+  alternates: HreflangAlternate[],
+  lang: string | undefined,
 ): OpenGraphInfo {
   const openGraph = page.openGraph;
+  const locale = openGraph?.locale ?? languageTagToOgLocale(lang) ?? site.openGraph.locale;
+  const localeAlternate = [
+    ...new Set(
+      openGraph?.localeAlternate ??
+        site.openGraph.localeAlternate ??
+        deriveLocaleAlternates(alternates, locale ?? ""),
+    ),
+  ];
   return {
     ...site.openGraph,
     ...openGraph,
@@ -53,7 +92,8 @@ function resolveOpenGraph(
     description: openGraph?.description ?? fallback.description,
     url: openGraph?.url ?? fallback.canonical,
     siteName: openGraph?.siteName ?? site.openGraph.siteName,
-    locale: openGraph?.locale ?? site.openGraph.locale,
+    locale,
+    localeAlternate,
     image: absolutize(openGraph?.image ?? fallback.image ?? site.openGraph.image, site.url),
     imageAlt: openGraph?.imageAlt ?? fallback.imageAlt ?? site.openGraph.imageAlt,
   };
@@ -99,6 +139,7 @@ export function resolvePage(route: string, options: ResolvedOptions): ResolvedPa
   const site = options.site;
 
   const canonical = page.canonical ? toAbsolute(page.canonical, site.url) : toAbsolute(normalized, site.url);
+  const lang = normalizeLanguageTag(page.lang ?? site.lang ?? "") || undefined;
   const title = resolveTitle(page.title, site);
   const description = page.description ?? site.description;
   const image = absolutize(page.image ?? site.image, site.url);
@@ -106,8 +147,15 @@ export function resolvePage(route: string, options: ResolvedOptions): ResolvedPa
   const author = page.author ?? site.author;
   const pageRobots = renderRobotsMeta(page.robots);
   const noindex = page.noindex ?? MENTIONS_NOINDEX.test(pageRobots ?? "");
+  const alternates = resolveAlternates(page.alternates, site.url, lang, canonical);
 
-  const openGraph = resolveOpenGraph(page, site, { title, description, canonical, image, imageAlt });
+  const openGraph = resolveOpenGraph(
+    page,
+    site,
+    { title, description, canonical, image, imageAlt },
+    alternates,
+    lang,
+  );
   const twitter = resolveTwitter(page, site, openGraph);
 
   return {
@@ -115,6 +163,7 @@ export function resolvePage(route: string, options: ResolvedOptions): ResolvedPa
     title,
     description,
     canonical,
+    lang,
     image,
     imageAlt,
     keywords: page.keywords !== undefined ? toKeywords(page.keywords) : site.keywords,
@@ -125,7 +174,7 @@ export function resolvePage(route: string, options: ResolvedOptions): ResolvedPa
     openGraph,
     twitter,
     jsonLd: buildJsonLd(site, page.jsonLd, { title, description, canonical, image, author }),
-    alternates: resolveAlternates(page.alternates, site.url),
+    alternates,
     meta: page.meta ?? {},
     links: (page.links ?? []).map((link) => ({ ...link, href: toAbsolute(link.href, site.url) })),
     sitemap: page.sitemap ?? !noindex,

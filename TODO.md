@@ -4,7 +4,7 @@
 - [ ] Docs via DocMD as always
 - [x] `ImageRef` / `ImageInput` types + single `resolveImage()`
 - [x] Full meta spec (theme-color media, application-name, robots extras + per-UA)
-- [ ] Canonical + alternate link spec (incl. `x-default`, BCP47, share to OG locale-alternate + sitemap xhtml:link???)
+- [x] Canonical + alternate link spec (incl. `x-default`, BCP47, share to OG locale-alternate + sitemap xhtml:link???)
 - [ ] Full Open Graph spec (ogp.me): structured image/video/audio + type-specific incl. payment.link
 - [ ] Full Twitter Card spec (summary/summary_large_image/player/app, image dims/alt, label1/data1/label2/data2 opt-in)
 - [ ] Rich favicon + platform icons (mask-icon, msapplication, apple-*, apple-mobile-web-app-*)

@@ -12,6 +12,7 @@ import type {
   ThemeColorEntry,
   TwitterInfo,
 } from "../types";
+import { languageTagToOgLocale, normalizeLanguageTag } from "../locale";
 import { normalizeRoute, normalizeSiteUrl, toAbsolute } from "../url";
 
 const DEFAULT_LOCALE = "en_US";
@@ -69,11 +70,12 @@ function resolveTwitter(twitter: string | TwitterInfo | undefined): TwitterInfo 
 /** Validates and normalizes the site config into defaults */
 export function resolveSite(site: SiteConfig): ResolvedSite {
   const url = normalizeSiteUrl(site.url);
+  const lang = site.lang ? normalizeLanguageTag(site.lang) || undefined : undefined;
   const openGraph: OpenGraphInfo = {
     type: "website",
     ...site.openGraph,
     siteName: site.openGraph?.siteName ?? site.name,
-    locale: site.openGraph?.locale ?? site.locale ?? DEFAULT_LOCALE,
+    locale: site.openGraph?.locale ?? site.locale ?? languageTagToOgLocale(site.lang) ?? DEFAULT_LOCALE,
     image: absolutize(site.openGraph?.image ?? site.image, url),
     imageAlt: site.openGraph?.imageAlt ?? site.imageAlt,
   };
@@ -87,6 +89,7 @@ export function resolveSite(site: SiteConfig): ResolvedSite {
     imageAlt: site.imageAlt,
     twitter: resolveTwitter(site.twitter),
     locale: site.locale ?? DEFAULT_LOCALE,
+    lang,
     author: site.author,
     keywords: toKeywords(site.keywords),
     robotsByUserAgent: site.robotsByUserAgent ?? {},

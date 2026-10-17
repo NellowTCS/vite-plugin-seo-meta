@@ -49,6 +49,22 @@ describe("resolveSite", () => {
   it("throws when the url is missing or invalid", () => {
     expect(() => resolveSite({ url: "nope" })).toThrow();
   });
+
+  it("normalizes the site language and derives the open graph locale", () => {
+    const site = resolveSite({ url: "https://example.com", lang: "PT-br" });
+    expect(site.lang).toBe("pt-BR");
+    expect(site.openGraph.locale).toBe("pt_BR");
+    expect(site.locale).toBe("en_US");
+  });
+
+  it("prefers an explicit open graph locale over the language", () => {
+    const site = resolveSite({
+      url: "https://example.com",
+      lang: "pt-BR",
+      openGraph: { locale: "pt_PT" },
+    });
+    expect(site.openGraph.locale).toBe("pt_PT");
+  });
 });
 
 describe("mergeOptions", () => {

@@ -123,6 +123,7 @@ export interface OpenGraphInfo {
   url?: string;
   siteName?: string;
   locale?: string;
+  localeAlternate?: string[];
   image?: string;
   imageAlt?: string;
   imageWidth?: number;
@@ -224,6 +225,8 @@ export interface SiteConfig {
   twitter?: string | TwitterInfo;
   /** `og:locale`, defaults to `en_US` */
   locale?: string;
+  /** (BCP 47) language tag for the site, for example `en-US`. */
+  lang?: string;
   /** `<meta name="author">` default */
   author?: string;
   keywords?: string | string[];
@@ -240,6 +243,8 @@ export interface PageMeta {
   description?: string;
   /** Canonical path or absolute URL. Defaults to `site.url + route`. */
   canonical?: string;
+  /** (BCP 47) language tag for the site, for example `en-US`. */
+  lang?: string;
   image?: string;
   imageAlt?: string;
   keywords?: string | string[];
@@ -338,6 +343,8 @@ export interface ResolvedSite {
   imageAlt?: string;
   twitter?: TwitterInfo;
   locale: string;
+  /** (BCP 47) site language tag, when configured. */
+  lang?: string;
   author?: string;
   keywords: string[];
   robotsByUserAgent: Record<string, string | RobotsDirectives>;
@@ -352,6 +359,8 @@ export interface ResolvedPage {
   title: string;
   description?: string;
   canonical: string;
+  /** (BCP 47) page language tag, when configured. */
+  lang?: string;
   image?: string;
   imageAlt?: string;
   keywords: string[];

@@ -1,10 +1,11 @@
 /** Open Graph (`property="og:*"`) tags */
 
+import { metaKey } from "../../html/key";
 import type { HeadTag, ResolvedPage } from "../../types";
 
 /** Builds a `<meta property content>` tag */
 function ogTag(property: string, content: string): HeadTag {
-  return { tag: "meta", attrs: { property, content }, key: `meta:${property.toLowerCase()}` };
+  return { tag: "meta", attrs: { property, content }, key: metaKey(property) };
 }
 
 /** Builds the Open Graph meta tags for a page */
@@ -17,6 +18,7 @@ export function openGraphTags(page: ResolvedPage): HeadTag[] {
   if (og.url) tags.push(ogTag("og:url", og.url));
   if (og.siteName) tags.push(ogTag("og:site_name", og.siteName));
   if (og.locale) tags.push(ogTag("og:locale", og.locale));
+  for (const locale of og.localeAlternate ?? []) tags.push(ogTag("og:locale:alternate", locale));
   if (og.image) {
     tags.push(ogTag("og:image", og.image));
     if (og.imageAlt) tags.push(ogTag("og:image:alt", og.imageAlt));

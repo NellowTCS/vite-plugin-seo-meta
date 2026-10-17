@@ -161,6 +161,72 @@ describe("social tags", () => {
   });
 });
 
+describe("alternates and locale", () => {
+  it("adds a self-referencing alternate for the page language", () => {
+    const { tags } = renderSite({
+      title: "Home",
+      lang: "en-US",
+      alternates: [{ hreflang: "de", href: "/de" }],
+    });
+
+    expect(find(tags, "link:alternate:en-US")?.attrs.href).toBe("https://example.com/");
+    expect(find(tags, "link:alternate:de")?.attrs.href).toBe("https://example.com/de");
+  });
+
+  it("normalizes hreflang casing and dedupes by language", () => {
+    const { tags } = renderSite({
+      title: "Home",
+      alternates: [
+        { hreflang: "en-us", href: "/en" },
+        { hreflang: "EN-US", href: "/en-dup" },
+        { hreflang: "X-Default", href: "/" },
+      ],
+    });
+
+    expect(find(tags, "link:alternate:en-US")?.attrs.href).toBe("https://example.com/en");
+    expect(find(tags, "link:alternate:x-default")?.attrs.href).toBe("https://example.com/");
+    expect(tags.filter((tag) => tag.key.startsWith("link:alternate"))).toHaveLength(2);
+  });
+
+  it("derives og:locale from the page language", () => {
+    const { tags } = renderSite({ title: "Home", lang: "de-CH" });
+    expect(find(tags, "meta:og:locale")?.attrs.content).toBe("de_CH");
+  });
+
+  it("falls back to the site language for og:locale", () => {
+    const { tags } = renderSite({ title: "Home" }, { ...BASE_SITE, lang: "fr-FR" });
+    expect(find(tags, "meta:og:locale")?.attrs.content).toBe("fr_FR");
+  });
+
+  it("derives og:locale:alternate from the alternates, excluding self and x-default", () => {
+    const { tags } = renderSite({
+      title: "Home",
+      lang: "en-US",
+      alternates: [
+        { hreflang: "fr-FR", href: "/fr" },
+        { hreflang: "de", href: "/de" },
+        { hreflang: "x-default", href: "/" },
+      ],
+    });
+
+    const alternates = tags.filter((tag) => tag.key === "meta:og:locale:alternate");
+    expect(alternates.map((tag) => tag.attrs.content)).toEqual(["fr_FR", "de"]);
+  });
+
+  it("prefers an explicit openGraph.locale and localeAlternate", () => {
+    const { tags } = renderSite({
+      title: "Home",
+      lang: "en-US",
+      alternates: [{ hreflang: "fr", href: "/fr" }],
+      openGraph: { locale: "en_GB", localeAlternate: ["it_IT"] },
+    });
+
+    expect(find(tags, "meta:og:locale")?.attrs.content).toBe("en_GB");
+    const alternates = tags.filter((tag) => tag.key === "meta:og:locale:alternate");
+    expect(alternates.map((tag) => tag.attrs.content)).toEqual(["it_IT"]);
+  });
+});
+
 describe("json-ld", () => {
   it("emits nothing when there are no nodes", () => {
     const { tags } = renderSite({ title: "Home" });
