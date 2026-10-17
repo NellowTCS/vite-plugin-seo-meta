@@ -28,15 +28,16 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install dependencies
+      - name: Build plugin
+        run: npm ci && npm run build
+
+      - name: Install demo dependencies
         working-directory: Demo
-        run: |
-          npm i
-          cd 
-      - name: Build
+        run: npm i
+
+      - name: Build demo
         working-directory: Demo
-        run: | 
-          npx vite build --base /vite-plugin-seo-meta/
+        run: npx vite build --base /vite-plugin-seo-meta/
 
       - name: Deploy browser build to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

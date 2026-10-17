@@ -1,5 +1,6 @@
 import { absolutize, toKeywords } from "../config/resolve";
-import { languageTagToOgLocale, normalizeLanguageTag } from "../locale";
+import { normalizeLanguageTag } from "../locale";
+import { resolveOpenGraph } from "./open-graph";
 import { renderRobotsMeta } from "./robots-meta";
 import { buildJsonLd } from "./tags/json-ld";
 import type {
@@ -55,48 +56,6 @@ function resolveAlternates(
   for (const alternate of alternates ?? []) push(alternate.hreflang, alternate.href);
   if (resolved.length > 0 && selfLanguage) push(selfLanguage, canonical);
   return resolved;
-}
-
-/** Maps alternates to `og:locale` values, dropping the self locale and `x-default` */
-function deriveLocaleAlternates(alternates: HreflangAlternate[], selfLocale: string): string[] {
-  const locales: string[] = [];
-  for (const alternate of alternates) {
-    const locale = languageTagToOgLocale(alternate.hreflang);
-    if (!locale || locale === selfLocale || locales.includes(locale)) continue;
-    locales.push(locale);
-  }
-  return locales;
-}
-
-/** Builds the Open Graph information for a page */
-function resolveOpenGraph(
-  page: ResolvedOptions["pageMeta"][string],
-  site: ResolvedOptions["site"],
-  fallback: { title: string; description?: string; canonical: string; image?: string; imageAlt?: string },
-  alternates: HreflangAlternate[],
-  lang: string | undefined,
-): OpenGraphInfo {
-  const openGraph = page.openGraph;
-  const locale = openGraph?.locale ?? languageTagToOgLocale(lang) ?? site.openGraph.locale;
-  const localeAlternate = [
-    ...new Set(
-      openGraph?.localeAlternate ??
-        site.openGraph.localeAlternate ??
-        deriveLocaleAlternates(alternates, locale ?? ""),
-    ),
-  ];
-  return {
-    ...site.openGraph,
-    ...openGraph,
-    title: openGraph?.title ?? fallback.title,
-    description: openGraph?.description ?? fallback.description,
-    url: openGraph?.url ?? fallback.canonical,
-    siteName: openGraph?.siteName ?? site.openGraph.siteName,
-    locale,
-    localeAlternate,
-    image: absolutize(openGraph?.image ?? fallback.image ?? site.openGraph.image, site.url),
-    imageAlt: openGraph?.imageAlt ?? fallback.imageAlt ?? site.openGraph.imageAlt,
-  };
 }
 
 /** Same as Open Graph but for the Twitter card fields */

@@ -114,6 +114,94 @@ export interface HreflangAlternate {
   href: string;
 }
 
+/** `og:determiner` values (ogp.me text type). `""` and `auto` are both defaults */
+export type OgDeterminer = "a" | "an" | "the" | "" | "auto";
+
+/** `article:*` properties (ogp.me article type) */
+export interface OpenGraphArticle {
+  publishedTime?: string | Date;
+  modifiedTime?: string | Date;
+  expirationTime?: string | Date;
+  /** Profile URLs of the authors */
+  author?: string | string[];
+  section?: string;
+  tag?: string | string[];
+}
+
+/** `book:*` properties (ogp.me book type) */
+export interface OpenGraphBook {
+  /** Profile URLs of the authors */
+  author?: string | string[];
+  isbn?: string;
+  releaseDate?: string | Date;
+  tag?: string | string[];
+}
+
+/** `profile:*` properties (ogp.me profile type) */
+export interface OpenGraphProfile {
+  firstName?: string;
+  lastName?: string;
+  username?: string;
+  gender?: "male" | "female";
+}
+
+/** a `music:album` / `music:song` reference: basically a URL plus its position on a disc */
+export interface OpenGraphMusicRef {
+  url: string;
+  /** Disc number, defaults to 1 */
+  disc?: number;
+  /** Track number, defaults to 1 */
+  track?: number;
+}
+
+/** `music:*` properties (ogp.me music.* types) */
+export interface OpenGraphMusic {
+  /** `music:duration`, seconds */
+  duration?: number;
+  /** `music:album` refs (music.song) */
+  album?: OpenGraphMusicRef[];
+  /** `music:musician` profile URLs, the artist(s) */
+  musician?: string[];
+  /** `music:song` refs (music.album, music.playlist) */
+  song?: OpenGraphMusicRef[];
+  releaseDate?: string | Date;
+  /** `music:creator` profile URLs (music.playlist, music.radio_station) */
+  creator?: string[];
+}
+
+/** A `video:actor` reference: a profile URL plus the character played */
+export interface OpenGraphVideoActor {
+  url: string;
+  role?: string;
+}
+
+/** `video:*` properties (ogp.me video.* types) */
+export interface OpenGraphVideo {
+  actor?: OpenGraphVideoActor[];
+  /** Profile URLs of the directors */
+  director?: string[];
+  /** Profile URLs of the writers */
+  writer?: string[];
+  /** `video:duration`, seconds */
+  duration?: number;
+  releaseDate?: string | Date;
+  tag?: string[];
+  /** `video:series` URL (video.episode) */
+  series?: string;
+}
+
+/** `payment:*` properties (ogp.me payment.link) */
+export interface OpenGraphPayment {
+  description?: string;
+  /** ISO 4217 currency code */
+  currency?: string;
+  amount?: number;
+  expiresAt?: string | Date;
+  status?: "PENDING" | "PAID" | "FAILED" | "EXPIRED";
+  id?: string;
+  successUrl?: string;
+}
+
 /** Open Graph values */
 export interface OpenGraphInfo {
   title?: string;
@@ -128,6 +216,87 @@ export interface OpenGraphInfo {
   imageAlt?: string;
   imageWidth?: number;
   imageHeight?: number;
+  /** `og:determiner` */
+  determiner?: OgDeterminer;
+  /** Structured `og:image` entries; overrides `image` when present */
+  images?: ImageInput[];
+  /** Structured `og:video` entries */
+  videos?: ImageInput[];
+  /** Structured `og:audio` entries */
+  audios?: ImageInput[];
+  article?: OpenGraphArticle;
+  book?: OpenGraphBook;
+  profile?: OpenGraphProfile;
+  music?: OpenGraphMusic;
+  video?: OpenGraphVideo;
+  payment?: OpenGraphPayment;
+}
+
+/** A resolved `article:*` block (dates are ISO strings, lists are arrays) */
+export interface ResolvedOpenGraphArticle {
+  publishedTime?: string;
+  modifiedTime?: string;
+  expirationTime?: string;
+  author?: string[];
+  section?: string;
+  tag?: string[];
+}
+
+/** A resolved `book:*` block (dates are ISO strings, lists are arrays) */
+export interface ResolvedOpenGraphBook {
+  author?: string[];
+  isbn?: string;
+  releaseDate?: string;
+  tag?: string[];
+}
+
+/** A resolved `music:*` block (dates are ISO strings, lists are arrays) */
+export interface ResolvedOpenGraphMusic {
+  duration?: number;
+  album?: OpenGraphMusicRef[];
+  musician?: string[];
+  song?: OpenGraphMusicRef[];
+  releaseDate?: string;
+  creator?: string[];
+}
+
+/** A resolved `video:*` block (dates are ISO strings, lists are arrays) */
+export interface ResolvedOpenGraphVideo {
+  actor?: OpenGraphVideoActor[];
+  director?: string[];
+  writer?: string[];
+  duration?: number;
+  releaseDate?: string;
+  tag?: string[];
+  series?: string;
+}
+
+/** A resolved `payment:*` block (dates are ISO strings) */
+export interface ResolvedOpenGraphPayment {
+  description?: string;
+  currency?: string;
+  amount?: number;
+  expiresAt?: string;
+  status?: OpenGraphPayment["status"];
+  id?: string;
+  successUrl?: string;
+}
+
+/** Resolved Open Graph values (media URLs absolute, dates ISO, lists arrays) */
+export interface ResolvedOpenGraphInfo
+  extends Omit<
+    OpenGraphInfo,
+    "images" | "videos" | "audios" | "article" | "book" | "profile" | "music" | "video" | "payment"
+  > {
+  images?: ImageRef[];
+  videos?: ImageRef[];
+  audios?: ImageRef[];
+  article?: ResolvedOpenGraphArticle;
+  book?: ResolvedOpenGraphBook;
+  profile?: OpenGraphProfile;
+  music?: ResolvedOpenGraphMusic;
+  video?: ResolvedOpenGraphVideo;
+  payment?: ResolvedOpenGraphPayment;
 }
 
 /** Twitter Card values */
@@ -243,7 +412,7 @@ export interface PageMeta {
   description?: string;
   /** Canonical path or absolute URL. Defaults to `site.url + route`. */
   canonical?: string;
-  /** (BCP 47) language tag for the site, for example `en-US`. */
+  /** (BCP 47) language tag for the page, for example `en-US`. */
   lang?: string;
   image?: string;
   imageAlt?: string;
@@ -368,7 +537,7 @@ export interface ResolvedPage {
   robots?: string;
   robotsByUserAgent: Record<string, string>;
   noindex: boolean;
-  openGraph: OpenGraphInfo;
+  openGraph: ResolvedOpenGraphInfo;
   twitter: TwitterInfo;
   jsonLd: Record<string, unknown>[];
   alternates: HreflangAlternate[];
