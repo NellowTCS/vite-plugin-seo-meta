@@ -529,7 +529,11 @@ export interface PageMeta {
   links?: Array<{ rel: string; href: string } & Record<string, string>>;
 }
 
-/** Options for the generated `robots.txt` */
+/** Options for the generated `robots.txt`
+ * Ref: https://www.rfc-editor.org/rfc/rfc9309.txt
+ * Gasp I can't believe the time has come for me to be refering to
+ * RFCs in my own code. I feel like a real software engineer now. (I am not.)
+ */
 export interface RobotsFileOptions {
   /** User agents the rules apply to. Default `*`. */
   userAgent?: string | string[];
@@ -537,6 +541,9 @@ export interface RobotsFileOptions {
   disallow?: string[];
   /** Paths to explicitly allow. */
   allow?: string[];
+  /** Additional user-agent groups, each with their own rules. */
+  // I never knew that `robots.txt` could have more than User-agent: * and Disallow: / lolll
+  groups?: RobotsGroup[];
   /** Raw lines appended as is after the generated rules. */
   rules?: string[];
   /** Sitemap URL to advertise, or `false` to omit. Defaults to `site.url + /sitemap.xml`. */
@@ -545,6 +552,23 @@ export interface RobotsFileOptions {
   merge?: boolean;
   /** When true, automatically add `Disallow: <route>` for pages with `noindex: true` */
   disallowNoindex?: boolean;
+  /** `Host:` record (standalone, not part of any group) */
+  host?: string;
+  /** `Crawl-delay:` in seconds, applied to the default group */
+  crawlDelay?: number;
+  /** `Clean-param:` rules, applied to the default group */
+  cleanParam?: string | string[];
+}
+
+/** One robots.txt thing: user-agent lines + rules */
+export interface RobotsGroup {
+  userAgent: string | string[];
+  disallow?: string[];
+  allow?: string[];
+  /** `Crawl-delay:` in seconds */
+  crawlDelay?: number;
+  /** `Clean-param:` rules */
+  cleanParam?: string | string[];
 }
 
 /** Options for the generated `sitemap.xml` */

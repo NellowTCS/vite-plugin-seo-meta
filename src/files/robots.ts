@@ -1,4 +1,7 @@
-/** robots.txt generation */
+/** robots.txt generation
+ *
+ * Ref: https://www.rfc-editor.org/rfc/rfc9309.txt
+ */
 
 import type { RobotsFileOptions, ResolvedPage, ResolvedSite } from "../types";
 
@@ -37,11 +40,22 @@ function normalizeDirective(line: string): string | undefined {
   return `${key}: ${value}`;
 }
 
-/** One `User-agent` group with its rules */
-function renderGroup(agents: string[], disallow: string[], allow: string[]): string {
+/** Renders a single group */
+function renderGroup(
+  agents: string[],
+  disallow: string[],
+  allow: string[],
+  crawlDelay?: number,
+  cleanParam?: string[],
+): string {
   const lines = agents.map((agent) => `User-agent: ${agent}`);
+  
   for (const path of disallow) lines.push(`Disallow: ${path}`);
   for (const path of allow) lines.push(`Allow: ${path}`);
+
+  if (crawlDelay !== undefined) lines.push(`Crawl-delay: ${crawlDelay}`);
+  for (const param of cleanParam ?? []) lines.push(`Clean-param: ${param}`);
+
   return lines.join("\n");
 }
 
@@ -63,7 +77,9 @@ export function noindexDisallow(pages: ResolvedPage[], disallowNoindex = false):
 
 /**
  * Builds the contents of `robots.txt`
- * - `pageDisallow` holds paths from noindex pages, merged into the rules
+ * - `pageDisallow` holds paths from noindex pages, merged into the default group's rules.
+ * - Groups are positional; the default group comes first, then configured groups, then
+ *   `Host:`/`Sitemap:` records (which are not part of any group).
  *
  * @returns the file contents, ending in a newline
  */
@@ -72,13 +88,28 @@ export function buildRobots(
   options: RobotsFileOptions,
   pageDisallow: string[] = [],
 ): string {
-  const configured = options.userAgent ?? DEFAULT_USER_AGENT;
-  const agents = (Array.isArray(configured) ? configured : [configured]).filter(Boolean);
-  const disallow = unique([...(options.disallow ?? []), ...pageDisallow]);
-  const allow = unique(options.allow ?? []);
+  const defaultAgents = (Array.isArray(options.userAgent) ? options.userAgent : [options.userAgent ?? DEFAULT_USER_AGENT]).filter(Boolean);
+  const defaultDisallow = unique([...(options.disallow ?? []), ...pageDisallow]);
+  const defaultAllow = unique(options.allow ?? []);
+  const defaultCleanParam = unique(
+    typeof options.cleanParam === "string" ? [options.cleanParam] : options.cleanParam ?? [],
+  );
+  const blocks: string[] = [
+    renderGroup(defaultAgents, defaultDisallow, defaultAllow, options.crawlDelay, defaultCleanParam),
+  ];
 
-  const blocks: string[] = [renderGroup(agents, disallow, allow)];
+  for (const group of options.groups ?? []) {
+    const agents = (Array.isArray(group.userAgent) ? group.userAgent : [group.userAgent]).filter(Boolean);
+    const disallow = unique(group.disallow ?? []);
+    const allow = unique(group.allow ?? []);
+    const cleanParam = unique(
+      typeof group.cleanParam === "string" ? [group.cleanParam] : group.cleanParam ?? [],
+    );
+    blocks.push(renderGroup(agents, disallow, allow, group.crawlDelay, cleanParam));
+  }
+
   if (options.rules && options.rules.length > 0) blocks.push(options.rules.join("\n"));
+  if (options.host) blocks.push(`Host: ${options.host}`);
 
   const sitemap = sitemapUrl(site, options);
   if (sitemap) blocks.push(`Sitemap: ${sitemap}`);
@@ -89,6 +120,7 @@ export function buildRobots(
 /**
  * Merges generated rules into an existing `robots.txt`
  * - Existing lines are kept, generated lines are appended
+ * - Duplicate directives are dropped (well, obviously, what do you expect me to do?)
  *
  * TODO: robots.txt groups are positional, so appended rules land in whatever agent group the
  * file ends on.
