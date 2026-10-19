@@ -29,7 +29,7 @@ export function normalizeSiteUrl(value: string): string {
 }
 
 /**
- * Resolves `value` against the site URL. 
+ * Resolves `value` against the site URL.
  * - Root-relative paths are joined onto the site root, not host
  * - Absolute URLs and protocol-relative URLs are handled as-is
  */

@@ -1,24 +1,19 @@
-/* All types we use 
- * (lots of borrowing from alternate implementations and references lol) 
+/* All types we use
+ * (lots of borrowing from alternate implementations and references lol)
  */
 
 // TODO: Be more consistent with JSDoc comments
 
 /** Twitter (no i'm not calling it X) card layout
- * I referenced https://ha.mr/#WLFjM~@NCzcO[mQzbrV5r[2n2WdeJU.X741Ih9Z=wG24sfYy_:]LqEeBDkkldg:M5v0oD-W~-v4?Ym@d4Nc=./:1( 
+ * I referenced https://ha.mr/#WLFjM~@NCzcO[mQzbrV5r[2n2WdeJU.X741Ih9Z=wG24sfYy_:]LqEeBDkkldg:M5v0oD-W~-v4?Ym@d4Nc=./:1(
  * for the available options.
  */
-export type TwitterCardType = "summary" | "summary_large_image" | "app" | "player";
+export type TwitterCardType =
+  "summary" | "summary_large_image" | "app" | "player";
 
 /** sitemap change frequency values */
 export type SitemapChangefreq =
-  | "always"
-  | "hourly"
-  | "daily"
-  | "weekly"
-  | "monthly"
-  | "yearly"
-  | "never";
+  "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
 
 /** Favicon and related icon links.
  * Important: Paths are resolved to absolute URLs!
@@ -39,7 +34,7 @@ export interface FaviconConfig {
   /** Apple `<meta name="apple-mobile-web-app-*">` tags */
   mobileWebApp?: MobileWebAppConfig;
   /** Microsoft IE/Edge tile tags (`<meta name="msapplication-*">`) */
-  // WHY am i supporting this in 2024? because some people still use IE lmao 
+  // WHY am i supporting this in 2024? because some people still use IE lmao
   // (no really, people still use it. I'm completely serious.)
   // But also it's handy for other Microsoft stuff lolllll
   msapplication?: MsTileConfig;
@@ -62,7 +57,7 @@ export interface MsTileConfig {
   /** `<meta name="msapplication-TileImage">` */
   tileImage?: string;
   /** `<link rel="msapplication-config">` pointing at a `browserconfig.xml` */
-  // what's that you may ask? it's basically a Microsoft version of a web app manifest, 
+  // what's that you may ask? it's basically a Microsoft version of a web app manifest,
   // but in XML. shrug, Microsoft doing Microsoft things
   config?: string;
 }
@@ -138,7 +133,6 @@ export type ImageInput =
       secure_url?: string;
       thumbnail?: string;
     };
-
 
 /** An `hreflang` alternate link. */
 export interface HreflangAlternate {
@@ -317,11 +311,18 @@ export interface ResolvedOpenGraphPayment {
 }
 
 /** Resolved Open Graph values (media URLs absolute, dates ISO, lists arrays) */
-export interface ResolvedOpenGraphInfo
-  extends Omit<
-    OpenGraphInfo,
-    "images" | "videos" | "audios" | "article" | "book" | "profile" | "music" | "video" | "payment"
-  > {
+export interface ResolvedOpenGraphInfo extends Omit<
+  OpenGraphInfo,
+  | "images"
+  | "videos"
+  | "audios"
+  | "article"
+  | "book"
+  | "profile"
+  | "music"
+  | "video"
+  | "payment"
+> {
   images?: ImageRef[];
   videos?: ImageRef[];
   audios?: ImageRef[];
@@ -366,9 +367,9 @@ export interface TwitterApps {
   iphone?: TwitterAppEntry;
   ipad?: TwitterAppEntry;
   googleplay?: TwitterAppEntry;
-  /** Two-letter ISO country code for the App Store that holds the app 
+  /** Two-letter ISO country code for the App Store that holds the app
    * ("The shape goes into a shape press that presses the shape into a pressed shape")
-  */
+   */
   country?: string;
 }
 
@@ -586,10 +587,10 @@ export interface SitemapOptions {
   defaultPriority?: number;
   /** Le site origin used to enforce a single-host sitemap */
   siteUrl?: string;
-  /** Maximum number of URLs per sitemap file. Default 50000. 
-   * Yes. 50000. That's a lot of URLs. I don't know why they picked that number, 
+  /** Maximum number of URLs per sitemap file. Default 50000.
+   * Yes. 50000. That's a lot of URLs. I don't know why they picked that number,
    * but it's the number they picked.
-  */
+   */
   maxUrls?: number;
 }
 

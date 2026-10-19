@@ -6,16 +6,26 @@ import { elementKey, isElement, isText, stripManagedNodes } from "./dedupe";
 import type { P5Element, P5Node, P5Parent } from "./dedupe";
 
 /** Builds a `<tag>` element with attributes, optionally holding text */
-function createElement(tagName: string, attrs: Record<string, string>, text?: string): P5Element {
+function createElement(
+  tagName: string,
+  attrs: Record<string, string>,
+  text?: string,
+): P5Element {
   const fragment = parseFragment(`<${tagName}></${tagName}>`);
   const element = fragment.childNodes.find(
     (node): node is P5Element => isElement(node) && node.tagName === tagName,
   );
   if (!element) throw new Error(`failed to build <${tagName}> element`);
-  element.attrs = Object.entries(attrs).map(([name, value]) => ({ name, value }));
+  element.attrs = Object.entries(attrs).map(([name, value]) => ({
+    name,
+    value,
+  }));
   if (text !== undefined) {
     // appendChild (not a raw childNodes push) so parentNode is set and <script> stays raw text
-    defaultTreeAdapter.appendChild(element, defaultTreeAdapter.createTextNode(text));
+    defaultTreeAdapter.appendChild(
+      element,
+      defaultTreeAdapter.createTextNode(text),
+    );
   }
   return element;
 }
@@ -59,7 +69,10 @@ function detectIndent(head: P5Element): string | undefined {
 
 /** Drops whitespace-only text nodes at the end of the head, so the block can be re-indented */
 function trimTrailingWhitespace(head: P5Element): void {
-  while (head.childNodes.length > 0 && whitespace(head.childNodes[head.childNodes.length - 1]!) !== undefined) {
+  while (
+    head.childNodes.length > 0 &&
+    whitespace(head.childNodes[head.childNodes.length - 1]!) !== undefined
+  ) {
     head.childNodes.pop();
   }
 }
@@ -95,15 +108,27 @@ export function injectHeadTags(html: string, tags: HeadTag[]): string {
   const indent = detectIndent(head);
   if (indent === undefined) {
     for (const tag of toAdd) {
-      defaultTreeAdapter.appendChild(head, createElement(tag.tag, tag.attrs, tag.text));
+      defaultTreeAdapter.appendChild(
+        head,
+        createElement(tag.tag, tag.attrs, tag.text),
+      );
     }
   } else {
     trimTrailingWhitespace(head);
     for (const tag of toAdd) {
-      defaultTreeAdapter.appendChild(head, defaultTreeAdapter.createTextNode(`\n${indent}`));
-      defaultTreeAdapter.appendChild(head, createElement(tag.tag, tag.attrs, tag.text));
+      defaultTreeAdapter.appendChild(
+        head,
+        defaultTreeAdapter.createTextNode(`\n${indent}`),
+      );
+      defaultTreeAdapter.appendChild(
+        head,
+        createElement(tag.tag, tag.attrs, tag.text),
+      );
     }
-    defaultTreeAdapter.appendChild(head, defaultTreeAdapter.createTextNode("\n"));
+    defaultTreeAdapter.appendChild(
+      head,
+      defaultTreeAdapter.createTextNode("\n"),
+    );
   }
 
   return serialize(document);

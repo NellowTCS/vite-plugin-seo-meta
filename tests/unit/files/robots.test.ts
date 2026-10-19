@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { buildRobots, mergeRobots, noindexDisallow } from "../../../src/files/robots";
+import {
+  buildRobots,
+  mergeRobots,
+  noindexDisallow,
+} from "../../../src/files/robots";
 import type { ResolvedPage, ResolvedSite } from "../../../src/types";
 
 const SITE: ResolvedSite = {
@@ -33,7 +37,9 @@ function page(route: string, extra: Partial<ResolvedPage> = {}): ResolvedPage {
 
 describe("buildRobots", () => {
   it("renders a default group with no rules", () => {
-    expect(buildRobots(SITE, {})).toBe("User-agent: *\n\nSitemap: https://example.com/sitemap.xml\n");
+    expect(buildRobots(SITE, {})).toBe(
+      "User-agent: *\n\nSitemap: https://example.com/sitemap.xml\n",
+    );
   });
 
   it("renders the RFC 9309 simple example", () => {
@@ -54,18 +60,31 @@ describe("buildRobots", () => {
   });
 
   it("emits multiple user-agent lines for a group", () => {
-    const txt = buildRobots(SITE, { userAgent: ["barbot", "bazbot"], disallow: ["/example/page.html"] });
-    expect(txt).toContain("User-agent: barbot\nUser-agent: bazbot\nDisallow: /example/page.html");
+    const txt = buildRobots(SITE, {
+      userAgent: ["barbot", "bazbot"],
+      disallow: ["/example/page.html"],
+    });
+    expect(txt).toContain(
+      "User-agent: barbot\nUser-agent: bazbot\nDisallow: /example/page.html",
+    );
   });
 
   it("emits additional groups after the default", () => {
     const txt = buildRobots(SITE, {
       userAgent: "*",
       disallow: ["/a"],
-      groups: [{ userAgent: "foobot", disallow: ["/foo"], allow: ["/example/page.html"] }],
+      groups: [
+        {
+          userAgent: "foobot",
+          disallow: ["/foo"],
+          allow: ["/example/page.html"],
+        },
+      ],
     });
     expect(txt).toContain("User-agent: *\nDisallow: /a");
-    expect(txt).toContain("User-agent: foobot\nDisallow: /foo\nAllow: /example/page.html");
+    expect(txt).toContain(
+      "User-agent: foobot\nDisallow: /foo\nAllow: /example/page.html",
+    );
   });
 
   it("emits Crawl-delay and Clean-param", () => {
@@ -91,7 +110,9 @@ describe("buildRobots", () => {
   });
 
   it("uses a custom Sitemap URL", () => {
-    const txt = buildRobots(SITE, { sitemap: "https://cdn.example.com/sitemap.xml" });
+    const txt = buildRobots(SITE, {
+      sitemap: "https://cdn.example.com/sitemap.xml",
+    });
     expect(txt).toContain("Sitemap: https://cdn.example.com/sitemap.xml");
   });
 
@@ -102,14 +123,20 @@ describe("buildRobots", () => {
 
   it("does not emit Disallow for noindex pages unless disallowNoindex is set", () => {
     const pages = [page("/"), page("/private", { noindex: true })];
-    expect(buildRobots(SITE, {}, noindexDisallow(pages, false))).not.toContain("Disallow: /private");
-    expect(buildRobots(SITE, {}, noindexDisallow(pages, true))).toContain("Disallow: /private");
+    expect(buildRobots(SITE, {}, noindexDisallow(pages, false))).not.toContain(
+      "Disallow: /private",
+    );
+    expect(buildRobots(SITE, {}, noindexDisallow(pages, true))).toContain(
+      "Disallow: /private",
+    );
   });
 });
 
 describe("noindexDisallow", () => {
   it("returns routes of noindex pages", () => {
-    expect(noindexDisallow([page("/a"), page("/b", { noindex: true })], true)).toEqual(["/b"]);
+    expect(
+      noindexDisallow([page("/a"), page("/b", { noindex: true })], true),
+    ).toEqual(["/b"]);
   });
 
   it("returns an empty list when disabled", () => {

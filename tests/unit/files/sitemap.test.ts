@@ -2,7 +2,11 @@ import { describe, expect, it } from "vitest";
 import { buildSitemap } from "../../../src/files/sitemap";
 import type { ResolvedPage } from "../../../src/types";
 
-function page(route: string, canonical: string, extra: Partial<ResolvedPage> = {}): ResolvedPage {
+function page(
+  route: string,
+  canonical: string,
+  extra: Partial<ResolvedPage> = {},
+): ResolvedPage {
   return {
     route,
     title: "Page",
@@ -38,7 +42,9 @@ describe("buildSitemap", () => {
   });
 
   it("emits a formatted empty urlset when nothing qualifies", async () => {
-    const xml = await buildSitemap([page("/", "https://example.com/", { sitemap: false })]);
+    const xml = await buildSitemap([
+      page("/", "https://example.com/", { sitemap: false }),
+    ]);
 
     expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>\n');
     expect(xml).toContain("<urlset");
@@ -52,7 +58,9 @@ describe("buildSitemap", () => {
       }),
     ]);
 
-    expect(xml).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"');
+    expect(xml).toContain(
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
+    );
     expect(xml).toContain('xmlns:xhtml="http://www.w3.org/1999/xhtml"');
     expect(xml).toContain("<xhtml:link");
     expect(xml).toContain('hreflang="fr"');
@@ -61,11 +69,15 @@ describe("buildSitemap", () => {
   it("emits the image namespace and image:image elements when a page has og:image", async () => {
     const xml = await buildSitemap([
       page("/", "https://example.com/", {
-        openGraph: { images: [{ src: "https://example.com/og.png", alt: "og" }] } as any,
+        openGraph: {
+          images: [{ src: "https://example.com/og.png", alt: "og" }],
+        } as any,
       }),
     ]);
 
-    expect(xml).toContain('xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"');
+    expect(xml).toContain(
+      'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"',
+    );
     expect(xml).toContain("<image:image>");
     expect(xml).toContain("<image:loc>https://example.com/og.png</image:loc>");
     expect(xml).toContain("<image:caption>og</image:caption>");
@@ -76,15 +88,27 @@ describe("buildSitemap", () => {
       page("/", "https://example.com/", {
         title: "A clip",
         openGraph: {
-          videos: [{ src: "https://example.com/clip.mp4", thumbnail: "https://example.com/clip.jpg", alt: "clip" }],
+          videos: [
+            {
+              src: "https://example.com/clip.mp4",
+              thumbnail: "https://example.com/clip.jpg",
+              alt: "clip",
+            },
+          ],
         } as any,
       }),
     ]);
 
-    expect(xml).toContain('xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"');
+    expect(xml).toContain(
+      'xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"',
+    );
     expect(xml).toContain("<video:video>");
-    expect(xml).toContain("<video:thumbnail_loc>https://example.com/clip.jpg</video:thumbnail_loc>");
-    expect(xml).toContain("<video:content_loc>https://example.com/clip.mp4</video:content_loc>");
+    expect(xml).toContain(
+      "<video:thumbnail_loc>https://example.com/clip.jpg</video:thumbnail_loc>",
+    );
+    expect(xml).toContain(
+      "<video:content_loc>https://example.com/clip.mp4</video:content_loc>",
+    );
     expect(xml).toContain("<video:title>clip</video:title>");
     expect(xml).toContain("<video:description>clip</video:description>");
   });
@@ -113,11 +137,15 @@ describe("buildSitemap", () => {
       }),
     ]);
 
-    expect(xml).toContain('xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"');
+    expect(xml).toContain(
+      'xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"',
+    );
     expect(xml).toContain("<news:news>");
     expect(xml).toContain("<news:publication>");
     expect(xml).toContain("<news:name>Example</news:name>");
-    expect(xml).toContain("<news:publication_date>2024-01-02</news:publication_date>");
+    expect(xml).toContain(
+      "<news:publication_date>2024-01-02</news:publication_date>",
+    );
     expect(xml).toContain("<news:title>Press Release</news:title>");
   });
 

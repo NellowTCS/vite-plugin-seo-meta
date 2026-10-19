@@ -1,9 +1,9 @@
 /**
  * Virtual module the plugin serves to the app
  *
- * `src/runtime.ts` seemingly imports the resolved site from here, so 
- * the client helper does not need a global or a hand-passed config. 
- * The plugin resolves the id and returns {@link renderConfigModule}'s output!!! 
+ * `src/runtime.ts` seemingly imports the resolved site from here, so
+ * the client helper does not need a global or a hand-passed config.
+ * The plugin resolves the id and returns {@link renderConfigModule}'s output!!!
  * Neat.
  */
 import type { ResolvedSite } from "./types";
@@ -18,7 +18,9 @@ export const RESOLVED_CONFIG_ID = `\0${VIRTUAL_CONFIG_ID}`;
  * Same trick the JSON-LD renderer uses hehe
  */
 function serialize(value: ResolvedSite): string {
-  return JSON.stringify(value).replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
+  return JSON.stringify(value)
+    .replace(/\u2028/g, "\\u2028")
+    .replace(/\u2029/g, "\\u2029");
 }
 
 /**

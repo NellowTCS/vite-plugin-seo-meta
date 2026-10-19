@@ -15,7 +15,11 @@ import { deriveRoutes } from "./routes/derive";
 import type { ResolvedOptions, SeoPluginOptions } from "./types";
 import { normalizeRoute, routeFromHtmlFile } from "./url";
 import { runValidation } from "./validate";
-import { RESOLVED_CONFIG_ID, VIRTUAL_CONFIG_ID, renderConfigModule } from "./virtual";
+import {
+  RESOLVED_CONFIG_ID,
+  VIRTUAL_CONFIG_ID,
+  renderConfigModule,
+} from "./virtual";
 
 const PLUGIN_NAME = "vite-plugin-seo-meta";
 
@@ -48,23 +52,29 @@ export function seo(inline: SeoPluginOptions = {}): Plugin {
 
     if (options.sitemapEnabled) {
       const filename = options.sitemap.filename ?? "sitemap.xml";
-      const xml = await buildSitemap(pages, { ...options.sitemap, siteUrl: options.site.url });
+      const xml = await buildSitemap(pages, {
+        ...options.sitemap,
+        siteUrl: options.site.url,
+      });
       await mkdir(outDir, { recursive: true });
       await writeFile(join(outDir, filename), xml);
     }
 
-      if (options.robotsEnabled) {
-        const generated = buildRobots(
-          options.site,
-          options.robots,
-          noindexDisallow(pages, options.robots.disallowNoindex),
-        );
-        const target = join(outDir, "robots.txt");
-        const existing = options.robots.merge === false ? undefined : await readIfExists(target);
-        await mkdir(outDir, { recursive: true });
-        await writeFile(target, existing ? mergeRobots(existing, generated) : generated);
-      }
-
+    if (options.robotsEnabled) {
+      const generated = buildRobots(
+        options.site,
+        options.robots,
+        noindexDisallow(pages, options.robots.disallowNoindex),
+      );
+      const target = join(outDir, "robots.txt");
+      const existing =
+        options.robots.merge === false ? undefined : await readIfExists(target);
+      await mkdir(outDir, { recursive: true });
+      await writeFile(
+        target,
+        existing ? mergeRobots(existing, generated) : generated,
+      );
+    }
   }
 
   return {
@@ -85,12 +95,16 @@ export function seo(inline: SeoPluginOptions = {}): Plugin {
 
       const sitemapProvider = findSitemapProvider(resolved.plugins);
       if (sitemapProvider && !isExplicitlyEnabled(merged.sitemap)) {
-        log.warn(`deferring sitemap.xml to ${sitemapProvider} (pass sitemap: true to override)`);
+        log.warn(
+          `deferring sitemap.xml to ${sitemapProvider} (pass sitemap: true to override)`,
+        );
         options.sitemapEnabled = false;
       }
       const robotsProvider = findRobotsProvider(resolved.plugins);
       if (robotsProvider && !isExplicitlyEnabled(merged.robots)) {
-        log.warn(`deferring robots.txt to ${robotsProvider} (pass robots: true to override)`);
+        log.warn(
+          `deferring robots.txt to ${robotsProvider} (pass robots: true to override)`,
+        );
         options.robotsEnabled = false;
       }
 

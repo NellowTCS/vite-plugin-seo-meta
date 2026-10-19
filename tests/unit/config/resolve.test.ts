@@ -20,7 +20,9 @@ describe("toKeywords", () => {
 // atp idk if absolutize is a real word
 describe("absolutize", () => {
   it("absolutizes paths and passes undefined through", () => {
-    expect(absolutize("/og.png", "https://example.com")).toBe("https://example.com/og.png");
+    expect(absolutize("/og.png", "https://example.com")).toBe(
+      "https://example.com/og.png",
+    );
     expect(absolutize(undefined, "https://example.com")).toBeUndefined();
   });
 });
@@ -56,13 +58,23 @@ describe("resolveSite", () => {
         manifest: "/manifest.json",
         maskIcon: "/mask-icon.svg",
         themeColor: "#ff0000",
-        mobileWebApp: { title: "App", capable: true, statusBarStyle: "black-translucent" },
-        msapplication: { tileColor: "#ffffff", tileImage: "/tile.png", config: "/browserconfig.xml" },
+        mobileWebApp: {
+          title: "App",
+          capable: true,
+          statusBarStyle: "black-translucent",
+        },
+        msapplication: {
+          tileColor: "#ffffff",
+          tileImage: "/tile.png",
+          config: "/browserconfig.xml",
+        },
       },
     });
 
     expect(site.favicon.icon).toBe("https://example.com/favicon.ico");
-    expect(site.favicon.appleTouchIcon).toBe("https://example.com/apple-touch-icon.png");
+    expect(site.favicon.appleTouchIcon).toBe(
+      "https://example.com/apple-touch-icon.png",
+    );
     expect(site.favicon.appleTouchIconPrecomposed).toBe(
       "https://example.com/apple-touch-icon-precomposed.png",
     );
@@ -148,7 +160,9 @@ describe("resolveOptions", () => {
   });
 
   it("throws without a site url", () => {
-    expect(() => resolveOptions(undefined, {})).toThrow(/site configuration is required/);
+    expect(() => resolveOptions(undefined, {})).toThrow(
+      /site configuration is required/,
+    );
   });
 });
 

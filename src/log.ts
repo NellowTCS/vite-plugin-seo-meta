@@ -20,8 +20,12 @@ export function createLogger(base?: Partial<Logger>): Logger {
   const warn = base?.warn?.bind(base);
   const error = base?.error?.bind(base);
   return {
-    info: info ? (message) => info(PREFIX + message) : (message) => console.info(PREFIX + message),
-    warn: warn ? (message) => warn(PREFIX + message) : (message) => console.warn(PREFIX + message),
+    info: info
+      ? (message) => info(PREFIX + message)
+      : (message) => console.info(PREFIX + message),
+    warn: warn
+      ? (message) => warn(PREFIX + message)
+      : (message) => console.warn(PREFIX + message),
     error: error
       ? (message) => error(PREFIX + message)
       : (message) => console.error(PREFIX + message),

@@ -8,7 +8,9 @@ function isObject(input: ImageInput): input is Record<string, unknown> {
   return typeof input === "object" && input !== null;
 }
 
-export function resolveImage(input: ImageInput | undefined): ImageRef | undefined {
+export function resolveImage(
+  input: ImageInput | undefined,
+): ImageRef | undefined {
   if (input === undefined || input === null) return undefined;
   if (isString(input)) {
     const src = input.trim();
@@ -42,7 +44,8 @@ export function resolveImage(input: ImageInput | undefined): ImageRef | undefine
       if (Number.isFinite(h) && h >= 1) ref.height = h;
     }
     const type = obj.type;
-    if (typeof type === "string" && type.trim().length > 0) ref.type = type.trim();
+    if (typeof type === "string" && type.trim().length > 0)
+      ref.type = type.trim();
     const secureUrl =
       (obj.secureUrl as string | undefined) ??
       (obj.secure_url as string | undefined);

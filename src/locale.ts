@@ -36,7 +36,8 @@ export function normalizeLanguageTag(value: string): string {
 
   const tag = [language.toLowerCase()];
   for (const part of rest) {
-    if (isScriptSubtag(part)) tag.push(part.charAt(0).toUpperCase() + part.slice(1).toLowerCase());
+    if (isScriptSubtag(part))
+      tag.push(part.charAt(0).toUpperCase() + part.slice(1).toLowerCase());
     else if (isNumericRegion(part)) tag.push(part);
     else if (isAlphaRegion(part)) tag.push(part.toUpperCase());
     else tag.push(part.toLowerCase());
@@ -52,11 +53,15 @@ export function normalizeLanguageTag(value: string): string {
  *
  * @returns the locale, or `undefined` for blank input and `x-default`
  */
-export function languageTagToOgLocale(value: string | undefined): string | undefined {
+export function languageTagToOgLocale(
+  value: string | undefined,
+): string | undefined {
   const tag = value ? normalizeLanguageTag(value) : "";
   if (tag === "" || tag === "x-default") return undefined;
   const [language, ...rest] = tag.split("-");
   if (!language) return undefined;
-  const region = rest.find((part) => isAlphaRegion(part) || isNumericRegion(part));
+  const region = rest.find(
+    (part) => isAlphaRegion(part) || isNumericRegion(part),
+  );
   return region ? `${language}_${region}` : language;
 }

@@ -17,7 +17,10 @@ const DEFAULT_TWITTER_CARD = "summary_large_image";
 const MENTIONS_NOINDEX = /\b(noindex|none)\b/i;
 
 /** Applies the `%s` title template when there is both a template and a title */
-function applyTitleTemplate(rawTitle: string, template: string | undefined): string {
+function applyTitleTemplate(
+  rawTitle: string,
+  template: string | undefined,
+): string {
   if (!template || !rawTitle) return rawTitle;
   // snake noises
   return template.replace("%s", rawTitle);
@@ -26,7 +29,10 @@ function applyTitleTemplate(rawTitle: string, template: string | undefined): str
 /**
  * Resolves the document title
  */
-function resolveTitle(pageTitle: string | undefined, site: ResolvedOptions["site"]): string {
+function resolveTitle(
+  pageTitle: string | undefined,
+  site: ResolvedOptions["site"],
+): string {
   if (pageTitle) return applyTitleTemplate(pageTitle, site.titleTemplate);
   return site.title ?? site.name ?? "";
 }
@@ -54,7 +60,8 @@ function resolveAlternates(
     resolved.push({ hreflang: tag, href: target });
   };
 
-  for (const alternate of alternates ?? []) push(alternate.hreflang, alternate.href);
+  for (const alternate of alternates ?? [])
+    push(alternate.hreflang, alternate.href);
   if (resolved.length > 0 && selfLanguage) push(selfLanguage, canonical);
   return resolved;
 }
@@ -78,19 +85,23 @@ function resolveTwitter(
     creator: pageTwitter?.creator ?? siteTwitter?.creator,
     creatorId: pageTwitter?.creatorId ?? siteTwitter?.creatorId,
     image: absolutize(pageTwitter?.image ?? fallback.image, site.url),
-    imageAlt: pageTwitter?.imageAlt ?? fallback.imageAlt ?? siteTwitter?.imageAlt,
+    imageAlt:
+      pageTwitter?.imageAlt ?? fallback.imageAlt ?? siteTwitter?.imageAlt,
     imageWidth: pageTwitter?.imageWidth ?? siteTwitter?.imageWidth,
     imageHeight: pageTwitter?.imageHeight ?? siteTwitter?.imageHeight,
     label1: pageTwitter?.label1 ?? siteTwitter?.label1,
     data1: pageTwitter?.data1 ?? siteTwitter?.data1,
     label2: pageTwitter?.label2 ?? siteTwitter?.label2,
     data2: pageTwitter?.data2 ?? siteTwitter?.data2,
-    player: resolveTwitterPlayer(pageTwitter?.player ?? siteTwitter?.player, site.url),
+    player: resolveTwitterPlayer(
+      pageTwitter?.player ?? siteTwitter?.player,
+      site.url,
+    ),
     apps: pageTwitter?.apps ?? siteTwitter?.apps,
   };
 }
 
-/** Resolves a Player Card, absolutizing (have i mentioned how fun this word is? Yes? well too bad, 
+/** Resolves a Player Card, absolutizing (have i mentioned how fun this word is? Yes? well too bad,
  * it's super fun) the iframe and stream URLs (app deep-links stay raw (eww)) */
 function resolveTwitterPlayer(
   player: TwitterInfo["player"],
@@ -109,7 +120,10 @@ function resolveRobotsByUserAgent(
   siteMap: Record<string, string | RobotsDirectives>,
   pageMap: Record<string, string | RobotsDirectives> | undefined,
 ): Record<string, string> {
-  const merged: Record<string, string | RobotsDirectives> = { ...siteMap, ...pageMap };
+  const merged: Record<string, string | RobotsDirectives> = {
+    ...siteMap,
+    ...pageMap,
+  };
   const rendered: Record<string, string> = {};
   for (const [userAgent, value] of Object.entries(merged)) {
     const content = renderRobotsMeta(value);
@@ -122,12 +136,17 @@ function resolveRobotsByUserAgent(
  * Resolves a route into a populated page (heh, alliteration)
  * - `noindex` implies `sitemap: false` unless the page says otherwise.
  */
-export function resolvePage(route: string, options: ResolvedOptions): ResolvedPage {
+export function resolvePage(
+  route: string,
+  options: ResolvedOptions,
+): ResolvedPage {
   const normalized = normalizeRoute(route);
   const page = options.pageMeta[normalized] ?? {};
   const site = options.site;
 
-  const canonical = page.canonical ? toAbsolute(page.canonical, site.url) : toAbsolute(normalized, site.url);
+  const canonical = page.canonical
+    ? toAbsolute(page.canonical, site.url)
+    : toAbsolute(normalized, site.url);
   const lang = normalizeLanguageTag(page.lang ?? site.lang ?? "") || undefined;
   const title = resolveTitle(page.title, site);
   const description = page.description ?? site.description;
@@ -136,7 +155,12 @@ export function resolvePage(route: string, options: ResolvedOptions): ResolvedPa
   const author = page.author ?? site.author;
   const pageRobots = renderRobotsMeta(page.robots);
   const noindex = page.noindex ?? MENTIONS_NOINDEX.test(pageRobots ?? "");
-  const alternates = resolveAlternates(page.alternates, site.url, lang, canonical);
+  const alternates = resolveAlternates(
+    page.alternates,
+    site.url,
+    lang,
+    canonical,
+  );
 
   const openGraph = resolveOpenGraph(
     page,
@@ -155,20 +179,34 @@ export function resolvePage(route: string, options: ResolvedOptions): ResolvedPa
     lang,
     image,
     imageAlt,
-    keywords: page.keywords !== undefined ? toKeywords(page.keywords) : site.keywords,
+    keywords:
+      page.keywords !== undefined ? toKeywords(page.keywords) : site.keywords,
     author,
     robots: pageRobots ?? (noindex ? "noindex, nofollow" : undefined),
-    robotsByUserAgent: resolveRobotsByUserAgent(site.robotsByUserAgent, page.robotsByUserAgent),
+    robotsByUserAgent: resolveRobotsByUserAgent(
+      site.robotsByUserAgent,
+      page.robotsByUserAgent,
+    ),
     noindex,
     openGraph,
     twitter,
-    jsonLd: buildJsonLd(site, page.jsonLd, { title, description, canonical, image, author }),
+    jsonLd: buildJsonLd(site, page.jsonLd, {
+      title,
+      description,
+      canonical,
+      image,
+      author,
+    }),
     alternates,
     meta: page.meta ?? {},
-    links: (page.links ?? []).map((link) => ({ ...link, href: toAbsolute(link.href, site.url) })),
+    links: (page.links ?? []).map((link) => ({
+      ...link,
+      href: toAbsolute(link.href, site.url),
+    })),
     sitemap: page.sitemap ?? !noindex,
     priority: page.priority,
     changefreq: page.changefreq,
-    lastmod: page.lastmod instanceof Date ? page.lastmod.toISOString() : page.lastmod,
+    lastmod:
+      page.lastmod instanceof Date ? page.lastmod.toISOString() : page.lastmod,
   };
 }

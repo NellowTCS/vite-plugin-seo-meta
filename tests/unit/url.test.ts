@@ -22,8 +22,12 @@ describe("isAbsoluteUrl", () => {
 
 describe("normalizeSiteUrl", () => {
   it("strips trailing slashes but keeps the path", () => {
-    expect(normalizeSiteUrl("https://example.com/")).toBe("https://example.com");
-    expect(normalizeSiteUrl("https://example.com/base/")).toBe("https://example.com/base");
+    expect(normalizeSiteUrl("https://example.com/")).toBe(
+      "https://example.com",
+    );
+    expect(normalizeSiteUrl("https://example.com/base/")).toBe(
+      "https://example.com/base",
+    );
   });
 
   it("throws on invalid or non-http values", () => {
@@ -34,11 +38,15 @@ describe("normalizeSiteUrl", () => {
 
 describe("toAbsolute", () => {
   it("passes absolute urls through", () => {
-    expect(toAbsolute("https://other.com/x", "https://example.com")).toBe("https://other.com/x");
+    expect(toAbsolute("https://other.com/x", "https://example.com")).toBe(
+      "https://other.com/x",
+    );
   });
 
   it("joins root-relative paths onto the site", () => {
-    expect(toAbsolute("/og.png", "https://example.com")).toBe("https://example.com/og.png");
+    expect(toAbsolute("/og.png", "https://example.com")).toBe(
+      "https://example.com/og.png",
+    );
   });
 
   it("keeps the protocol on protocol-relative urls", () => {
@@ -67,7 +75,9 @@ describe("normalizeRoute", () => {
 describe("routeFromHtmlFile", () => {
   it("maps entry files to routes relative to the root", () => {
     expect(routeFromHtmlFile("/site/about.html", "/site")).toBe("/about");
-    expect(routeFromHtmlFile("/site/blog/post.html", "/site")).toBe("/blog/post");
+    expect(routeFromHtmlFile("/site/blog/post.html", "/site")).toBe(
+      "/blog/post",
+    );
     expect(routeFromHtmlFile("/site/index.html", "/site")).toBe("/");
   });
 });

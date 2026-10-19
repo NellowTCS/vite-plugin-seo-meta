@@ -12,7 +12,10 @@ import { twitterTags } from "./tags/twitter";
 /**
  * Collects all head tags
  */
-export function renderHeadTags(page: ResolvedPage, site: ResolvedSite): HeadTag[] {
+export function renderHeadTags(
+  page: ResolvedPage,
+  site: ResolvedSite,
+): HeadTag[] {
   return [
     ...basicTags(page, site),
     ...faviconTags(site),

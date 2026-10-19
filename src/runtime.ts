@@ -10,11 +10,20 @@ import { resolveSite } from "./config/resolve";
 import { resolvePage } from "./head/merge";
 import { renderHeadTags } from "./head/render";
 import { headElementKey } from "./html/key";
-import type { HeadTag, PageMeta, ResolvedOptions, ResolvedSite, SiteConfig } from "./types";
+import type {
+  HeadTag,
+  PageMeta,
+  ResolvedOptions,
+  ResolvedSite,
+  SiteConfig,
+} from "./types";
 import { normalizeRoute } from "./url";
 
 function domKey(element: Element): string | undefined {
-  return headElementKey(element.tagName, (name) => element.getAttribute(name) ?? undefined);
+  return headElementKey(
+    element.tagName,
+    (name) => element.getAttribute(name) ?? undefined,
+  );
 }
 
 function findByKey(head: HTMLElement, key: string): Element | undefined {
@@ -26,7 +35,8 @@ function findByKey(head: HTMLElement, key: string): Element | undefined {
 
 function toElement(tag: HeadTag): Element {
   const element = document.createElement(tag.tag);
-  for (const [name, value] of Object.entries(tag.attrs)) element.setAttribute(name, value);
+  for (const [name, value] of Object.entries(tag.attrs))
+    element.setAttribute(name, value);
   if (tag.text !== undefined) element.textContent = tag.text;
   return element;
 }

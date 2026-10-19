@@ -44,7 +44,10 @@ export function mergeRoutes(...sources: string[][]): string[] {
  * @param outDir Build output directory holding the emitted HTML.
  * @param declared Routes declared in `pages`, including ones with no HTML of their own.
  */
-export async function deriveRoutes(outDir: string, declared: string[] = []): Promise<string[]> {
+export async function deriveRoutes(
+  outDir: string,
+  declared: string[] = [],
+): Promise<string[]> {
   const files = await collectHtmlFiles(outDir);
   return mergeRoutes(routesFromHtmlFiles(files, outDir), declared);
 }

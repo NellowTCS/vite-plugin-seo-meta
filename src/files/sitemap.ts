@@ -42,7 +42,11 @@ function formatXml(xml: string): string {
 function originOf(url: string): string {
   try {
     const parsed = new URL(url);
-    if ((parsed.protocol !== "http:" && parsed.protocol !== "https:") || !parsed.host) return "";
+    if (
+      (parsed.protocol !== "http:" && parsed.protocol !== "https:") ||
+      !parsed.host
+    )
+      return "";
     return `${parsed.protocol}//${parsed.host}`;
   } catch {
     return "";
@@ -65,7 +69,7 @@ function imageItems(page: ResolvedPage): Img[] | undefined {
 
 /** Maps a page's structured video into sitemap video entries
  * - `content_loc` is the video media URL
- * - Important:`thumbnail_loc` is required by Google, so entries without an explicit thumbnail are skipped! 
+ * - Important:`thumbnail_loc` is required by Google, so entries without an explicit thumbnail are skipped!
  */
 function videoItems(page: ResolvedPage): VideoItemLoose[] | undefined {
   const videos = page.openGraph.videos;
@@ -87,8 +91,8 @@ function videoItems(page: ResolvedPage): VideoItemLoose[] | undefined {
 
 /** Maps a page's news article into a sitemap news entry */
 // You ever wonder why a sitemap has a news entry? Well it's because of a little thing called
-// Google News. Since GN aggregates all the news articles rather than making its own, 
-// it relies on websites to tell it what articles are news. 
+// Google News. Since GN aggregates all the news articles rather than making its own,
+// it relies on websites to tell it what articles are news.
 function newsItem(page: ResolvedPage): NewsItem | undefined {
   const article = page.openGraph.article;
   if (!article) return undefined;
@@ -122,9 +126,13 @@ function toItem(
     img: imageItems(page),
     video: videoItems(page),
     news: newsItem(page),
-    links: page.alternates.length > 0
-      ? page.alternates.map((alternate) => ({ lang: alternate.hreflang, url: alternate.href }))
-      : undefined,
+    links:
+      page.alternates.length > 0
+        ? page.alternates.map((alternate) => ({
+            lang: alternate.hreflang,
+            url: alternate.href,
+          }))
+        : undefined,
   };
   return item;
 }
@@ -157,12 +165,23 @@ export async function buildSitemap(
   if (items.length === 0) return formatXml(EMPTY_SITEMAP);
 
   const hasNews = items.some((item) => item.news !== undefined);
-  const hasImage = items.some((item) => Array.isArray(item.img) && item.img.length > 0);
-  const hasVideo = items.some((item) => Array.isArray(item.video) && item.video.length > 0);
-  const hasAlternates = items.some((item) => item.links && item.links.length > 0);
+  const hasImage = items.some(
+    (item) => Array.isArray(item.img) && item.img.length > 0,
+  );
+  const hasVideo = items.some(
+    (item) => Array.isArray(item.video) && item.video.length > 0,
+  );
+  const hasAlternates = items.some(
+    (item) => item.links && item.links.length > 0,
+  );
 
   const stream = new SitemapStream({
-    xmlns: { news: hasNews, image: hasImage, video: hasVideo, xhtml: hasAlternates },
+    xmlns: {
+      news: hasNews,
+      image: hasImage,
+      video: hasVideo,
+      xhtml: hasAlternates,
+    },
   });
   for (const item of items) stream.write(item);
   stream.end();

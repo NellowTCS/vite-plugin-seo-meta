@@ -34,7 +34,8 @@ export function renderRobotsMeta(
   if (value.indexifembedded) parts.push("indexifembedded");
   if (value.noarchive) parts.push("noarchive");
   if (value.nositelinkssearchbox) parts.push("nositelinkssearchbox");
-  if (value.maxSnippet !== undefined) parts.push(`max-snippet:${value.maxSnippet}`);
+  if (value.maxSnippet !== undefined)
+    parts.push(`max-snippet:${value.maxSnippet}`);
   if (value.maxImagePreview !== undefined) {
     parts.push(`max-image-preview:${value.maxImagePreview}`);
   }

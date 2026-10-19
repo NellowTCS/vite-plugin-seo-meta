@@ -33,7 +33,9 @@ function schemaUrl(value: string): string {
 }
 
 /** Normalizes an Author into a `Person` node */
-function personFrom(author: string | JsonLdPerson | undefined): JsonLdNode | undefined {
+function personFrom(
+  author: string | JsonLdPerson | undefined,
+): JsonLdNode | undefined {
   if (!author) return undefined;
   if (typeof author === "string") return { "@type": "Person", name: author };
   const person: JsonLdNode = { "@type": "Person", name: author.name };
@@ -50,7 +52,11 @@ function buildOrganization(
   const source: OrganizationJsonLd | undefined =
     config === true ? (site.name ? { name: site.name } : undefined) : config;
   if (!source) return undefined;
-  const node: JsonLdNode = { "@context": CONTEXT, "@type": "Organization", name: source.name };
+  const node: JsonLdNode = {
+    "@context": CONTEXT,
+    "@type": "Organization",
+    name: source.name,
+  };
   node.url = source.url ? toAbsolute(source.url, site.url) : site.url;
   if (source.logo) node.logo = toAbsolute(source.logo, site.url);
   if (source.sameAs) node.sameAs = source.sameAs;
@@ -58,7 +64,10 @@ function buildOrganization(
 }
 
 /** `WebSite` node, with a `SearchAction` when `searchUrl` is set */
-function buildWebSite(site: ResolvedSite, config: boolean | WebSiteJsonLd): JsonLdNode | undefined {
+function buildWebSite(
+  site: ResolvedSite,
+  config: boolean | WebSiteJsonLd,
+): JsonLdNode | undefined {
   if (config === false) return undefined;
   const source: WebSiteJsonLd =
     config === true
@@ -83,10 +92,15 @@ function buildWebSite(site: ResolvedSite, config: boolean | WebSiteJsonLd): Json
 
 /** `WebPage` node describing the current page, derived from the resolved values */
 function buildWebPage(ctx: PageContext): JsonLdNode {
-  const node: JsonLdNode = { "@context": CONTEXT, "@type": "WebPage", url: ctx.canonical };
+  const node: JsonLdNode = {
+    "@context": CONTEXT,
+    "@type": "WebPage",
+    url: ctx.canonical,
+  };
   if (ctx.title) node.name = ctx.title;
   if (ctx.description) node.description = ctx.description;
-  if (ctx.image) node.primaryImageOfPage = { "@type": "ImageObject", url: ctx.image };
+  if (ctx.image)
+    node.primaryImageOfPage = { "@type": "ImageObject", url: ctx.image };
   return node;
 }
 
@@ -99,7 +113,12 @@ function buildArticle(
   if (config === false) return undefined;
   const source: ArticleJsonLd =
     config === true
-      ? { headline: ctx.title, description: ctx.description, image: ctx.image, author: ctx.author }
+      ? {
+          headline: ctx.title,
+          description: ctx.description,
+          image: ctx.image,
+          author: ctx.author,
+        }
       : config;
   if (!source.headline) return undefined;
   const node: JsonLdNode = {
@@ -128,7 +147,11 @@ function buildProduct(
       ? { name: ctx.title, description: ctx.description, image: ctx.image }
       : config;
   if (!source.name) return undefined;
-  const node: JsonLdNode = { "@context": CONTEXT, "@type": "Product", name: source.name };
+  const node: JsonLdNode = {
+    "@context": CONTEXT,
+    "@type": "Product",
+    name: source.name,
+  };
   if (source.description) node.description = source.description;
   if (source.image) node.image = toAbsolute(source.image, site.url);
   if (source.sku) node.sku = source.sku;
@@ -136,12 +159,17 @@ function buildProduct(
   if (source.price !== undefined) {
     const offer: JsonLdNode = { "@type": "Offer", price: source.price };
     if (source.priceCurrency) offer.priceCurrency = source.priceCurrency;
-    if (source.availability) offer.availability = schemaUrl(source.availability);
+    if (source.availability)
+      offer.availability = schemaUrl(source.availability);
     node.offers = offer;
   }
   if (source.ratingValue !== undefined) {
-    const rating: JsonLdNode = { "@type": "AggregateRating", ratingValue: source.ratingValue };
-    if (source.reviewCount !== undefined) rating.reviewCount = source.reviewCount;
+    const rating: JsonLdNode = {
+      "@type": "AggregateRating",
+      ratingValue: source.ratingValue,
+    };
+    if (source.reviewCount !== undefined)
+      rating.reviewCount = source.reviewCount;
     node.aggregateRating = rating;
   }
   return node;
@@ -182,7 +210,7 @@ export function buildJsonLd(
 }
 
 /** Serializes JSON-LD, escaping `<` and the JS line separators so it is safe inside a `<script>` */
-// I know, ew, raw Unicode, but it's the easiest way 
+// I know, ew, raw Unicode, but it's the easiest way
 function serializeJsonLd(nodes: JsonLdNode[]): string {
   return JSON.stringify(nodes)
     .replace(/</g, "\\u003c")

@@ -21,7 +21,7 @@ export const SEO_CONFIG_FILES = [
  * @param command Vite command, forwarded to the loader and to a config factory.
  * @param mode Vite mode, forwarded to the loader and to a config factory.
  * @param explicit Path relative to `root`, or `false` to skip loading.
- * 
+ *
  * @returns The parsed config, or `undefined` if the file is not found.
  */
 export async function loadSeoConfig(

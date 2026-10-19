@@ -20,7 +20,7 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": true
   },
   "include": ["src/**/*", "tests/**/*", "vitest.config.ts", "tsup.config.ts"]
 }

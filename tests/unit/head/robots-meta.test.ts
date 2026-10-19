@@ -9,7 +9,9 @@ describe("renderRobotsMeta", () => {
   });
 
   it("skips directives that are false or absent", () => {
-    expect(renderRobotsMeta({ noindex: false, nofollow: undefined })).toBeUndefined();
+    expect(
+      renderRobotsMeta({ noindex: false, nofollow: undefined }),
+    ).toBeUndefined();
     expect(renderRobotsMeta({})).toBeUndefined();
   });
 
@@ -43,9 +45,11 @@ describe("renderRobotsMeta", () => {
   });
 
   it("formats unavailable_after from a Date and skips blank strings", () => {
-    expect(renderRobotsMeta({ unavailableAfter: new Date("2026-01-02T03:04:05.000Z") })).toBe(
-      "unavailable_after:2026-01-02T03:04:05.000Z",
-    );
+    expect(
+      renderRobotsMeta({
+        unavailableAfter: new Date("2026-01-02T03:04:05.000Z"),
+      }),
+    ).toBe("unavailable_after:2026-01-02T03:04:05.000Z");
     expect(renderRobotsMeta({ unavailableAfter: "2026-01-02" })).toBe(
       "unavailable_after:2026-01-02",
     );

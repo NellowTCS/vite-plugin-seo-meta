@@ -2,7 +2,6 @@
 
 - [ ] Demo that is like a config generator that you can paste into your `vite.config.ts`/`.js`
 - [ ] Docs via DocMD as always
-- [X] Validation hardening (enums, required fields, absolute URLs, length budgets title/desc/twitter; warn by default, error mode)
 
 ## images
 

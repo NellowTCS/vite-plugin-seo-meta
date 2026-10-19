@@ -8,8 +8,16 @@ const HTML =
 
 const TAGS: HeadTag[] = [
   { tag: "title", attrs: {}, text: "Home", key: "title" },
-  { tag: "meta", attrs: { name: "description", content: "fresh" }, key: "meta:description" },
-  { tag: "link", attrs: { rel: "canonical", href: "https://example.com/" }, key: "link:canonical" },
+  {
+    tag: "meta",
+    attrs: { name: "description", content: "fresh" },
+    key: "meta:description",
+  },
+  {
+    tag: "link",
+    attrs: { rel: "canonical", href: "https://example.com/" },
+    key: "link:canonical",
+  },
 ];
 
 describe("injectHeadTags", () => {
@@ -41,9 +49,9 @@ describe("injectHeadTags", () => {
       '<!doctype html>\n<html>\n<head>\n  <meta charset="UTF-8">\n  <title>old</title>\n</head>\n<body></body>\n</html>';
     const output = injectHeadTags(pretty, TAGS);
 
-    expect(output).toContain('\n  <title>Home</title>');
+    expect(output).toContain("\n  <title>Home</title>");
     expect(output).toContain('\n  <meta name="description" content="fresh">');
-    expect(output).toContain('\n</head>');
+    expect(output).toContain("\n</head>");
     expect(output).not.toContain("\n\n");
   });
 
@@ -51,14 +59,22 @@ describe("injectHeadTags", () => {
     const pretty =
       '<!doctype html>\n<html>\n<head>\n  <meta charset="UTF-8">\n  <title>old</title>\n</head>\n<body></body>\n</html>';
 
-    expect(injectHeadTags(injectHeadTags(pretty, TAGS), TAGS)).toBe(injectHeadTags(pretty, TAGS));
+    expect(injectHeadTags(injectHeadTags(pretty, TAGS), TAGS)).toBe(
+      injectHeadTags(pretty, TAGS),
+    );
   });
 
   it("skips onlyIfMissing tags that already exist", () => {
     const tags: HeadTag[] = [
-      { tag: "meta", attrs: { name: "theme-color", content: "#fff" }, key: "meta:theme-color", onlyIfMissing: true },
+      {
+        tag: "meta",
+        attrs: { name: "theme-color", content: "#fff" },
+        key: "meta:theme-color",
+        onlyIfMissing: true,
+      },
     ];
-    const html = '<html><head><meta name="theme-color" content="#000"></head><body></body></html>';
+    const html =
+      '<html><head><meta name="theme-color" content="#000"></head><body></body></html>';
 
     const output = injectHeadTags(html, tags);
 
@@ -68,7 +84,12 @@ describe("injectHeadTags", () => {
 
   it("adds onlyIfMissing tags that are absent", () => {
     const tags: HeadTag[] = [
-      { tag: "meta", attrs: { name: "theme-color", content: "#fff" }, key: "meta:theme-color", onlyIfMissing: true },
+      {
+        tag: "meta",
+        attrs: { name: "theme-color", content: "#fff" },
+        key: "meta:theme-color",
+        onlyIfMissing: true,
+      },
     ];
 
     const output = injectHeadTags(HTML, tags);

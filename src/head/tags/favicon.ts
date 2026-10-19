@@ -10,7 +10,12 @@ import { normalizeThemeColors } from "../../config/resolve";
 import { linkKey, metaKey } from "../../html/key";
 
 /** Emits one `<link rel=...>` tag */
-function linkTag(rel: string, href: string, sizes?: string, extra: Record<string, string> = {}): HeadTag {
+function linkTag(
+  rel: string,
+  href: string,
+  sizes?: string,
+  extra: Record<string, string> = {},
+): HeadTag {
   return {
     tag: "link",
     attrs: { rel, href, ...extra },
@@ -25,7 +30,7 @@ function metaTag(name: string, content: string): HeadTag {
 
 /**
  * Builds the favicon and platform icon links for a site.
- * - All paths are already absolute (resolved at config time). 
+ * - All paths are already absolute (resolved at config time).
  *   (i hate paths... absolute shifts the pain to someone else and makes my life easier)
  * - `mask-icon` carries a `color` attribute
  *   (Safari pinned tabs cause EACH BROWSER HAS SO MANY ONLY ITSELF FEATURES AND AGHHHHHHH)
@@ -36,17 +41,27 @@ export function faviconTags(site: ResolvedSite): HeadTag[] {
   const tags: HeadTag[] = [];
 
   if (favicon.icon) tags.push(linkTag("icon", favicon.icon));
-  if (favicon.appleTouchIcon) tags.push(linkTag("apple-touch-icon", favicon.appleTouchIcon));
+  if (favicon.appleTouchIcon)
+    tags.push(linkTag("apple-touch-icon", favicon.appleTouchIcon));
   if (favicon.appleTouchIconPrecomposed) {
-    tags.push(linkTag("apple-touch-icon-precomposed", favicon.appleTouchIconPrecomposed));
+    tags.push(
+      linkTag(
+        "apple-touch-icon-precomposed",
+        favicon.appleTouchIconPrecomposed,
+      ),
+    );
   }
   if (favicon.manifest) tags.push(linkTag("manifest", favicon.manifest));
 
   if (favicon.maskIcon) {
-    // Safari needs a color for pinned-tab mask icons; themeColor is the closest thing we have 
+    // Safari needs a color for pinned-tab mask icons; themeColor is the closest thing we have
     // TODO: maybe we should allow a separate mask-icon color in the config? (i don't want to, but maybe we should)
     const [maskColor] = normalizeThemeColors(favicon.themeColor);
-    tags.push(linkTag("mask-icon", favicon.maskIcon, undefined, { color: maskColor?.color ?? "#000000" }));
+    tags.push(
+      linkTag("mask-icon", favicon.maskIcon, undefined, {
+        color: maskColor?.color ?? "#000000",
+      }),
+    );
   }
 
   // Apple mobile web app meta tags
@@ -54,7 +69,10 @@ export function faviconTags(site: ResolvedSite): HeadTag[] {
     const mwa = favicon.mobileWebApp;
     if (mwa.title) tags.push(metaTag("apple-mobile-web-app-title", mwa.title));
     if (mwa.capable) tags.push(metaTag("apple-mobile-web-app-capable", "yes"));
-    if (mwa.statusBarStyle) tags.push(metaTag("apple-mobile-web-app-status-bar-style", mwa.statusBarStyle));
+    if (mwa.statusBarStyle)
+      tags.push(
+        metaTag("apple-mobile-web-app-status-bar-style", mwa.statusBarStyle),
+      );
   }
 
   // Microsoft IE/Edge tile tags
@@ -64,8 +82,10 @@ export function faviconTags(site: ResolvedSite): HeadTag[] {
   // he says, about Microsoft IE... which is a dead browser. sigh never change, me, never change.
   if (favicon.msapplication) {
     const ms = favicon.msapplication;
-    if (ms.tileColor) tags.push(metaTag("msapplication-TileColor", ms.tileColor));
-    if (ms.tileImage) tags.push(metaTag("msapplication-TileImage", ms.tileImage));
+    if (ms.tileColor)
+      tags.push(metaTag("msapplication-TileColor", ms.tileColor));
+    if (ms.tileImage)
+      tags.push(metaTag("msapplication-TileImage", ms.tileImage));
     if (ms.config) tags.push(linkTag("msapplication-config", ms.config));
   }
 

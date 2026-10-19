@@ -12,7 +12,11 @@ export function metaKey(name: string, media?: string): string {
 /**
  * Dedupe key for a `<link>`
  */
-export function linkKey(rel: string, hreflang?: string, sizes?: string): string {
+export function linkKey(
+  rel: string,
+  hreflang?: string,
+  sizes?: string,
+): string {
   return `link:${rel.toLowerCase()}${hreflang ? `:${hreflang}` : ""}${sizes ? `:${sizes}` : ""}`;
 }
 
@@ -29,7 +33,8 @@ export function headElementKey(
   const tag = tagName.toLowerCase();
   if (tag === "title") return "title";
   if (tag === "meta") {
-    const name = get("name") ?? get("property") ?? get("http-equiv") ?? get("itemprop");
+    const name =
+      get("name") ?? get("property") ?? get("http-equiv") ?? get("itemprop");
     if (name) return metaKey(name, get("media"));
     if (get("charset") !== undefined) return "meta:charset";
     return undefined;
@@ -39,6 +44,7 @@ export function headElementKey(
     if (!rel) return undefined;
     return linkKey(rel, get("hreflang"), get("sizes"));
   }
-  if (tag === "script" && get("type") === "application/ld+json") return "script:jsonld";
+  if (tag === "script" && get("type") === "application/ld+json")
+    return "script:jsonld";
   return undefined;
 }

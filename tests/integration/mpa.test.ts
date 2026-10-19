@@ -14,7 +14,8 @@ describe("mpa build", () => {
   let workspace: string;
   let dist: string;
 
-  const read = (file: string): Promise<string> => readFile(join(dist, file), "utf8");
+  const read = (file: string): Promise<string> =>
+    readFile(join(dist, file), "utf8");
 
   beforeAll(async () => {
     workspace = await mkdtemp(join(tmpdir(), "seo-mpa-"));
@@ -46,7 +47,9 @@ describe("mpa build", () => {
       build: {
         outDir: "dist",
         emptyOutDir: true,
-        rollupOptions: { input: ENTRIES.map((entry) => join(workspace, entry)) },
+        rollupOptions: {
+          input: ENTRIES.map((entry) => join(workspace, entry)),
+        },
       },
     });
   }, 30000);
@@ -127,7 +130,9 @@ describe("mpa build", () => {
         build: {
           outDir: "dist",
           emptyOutDir: true,
-          rollupOptions: { input: ENTRIES.map((entry) => join(workspace, entry)) },
+          rollupOptions: {
+            input: ENTRIES.map((entry) => join(workspace, entry)),
+          },
         },
       });
       const robots = await readFile(join(distDir, "robots.txt"), "utf8");

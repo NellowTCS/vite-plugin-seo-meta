@@ -6,6 +6,10 @@ import type { HeadTag, ResolvedPage } from "../../types";
 export function canonicalTags(page: ResolvedPage): HeadTag[] {
   if (!page.canonical) return [];
   return [
-    { tag: "link", attrs: { rel: "canonical", href: page.canonical }, key: "link:canonical" },
+    {
+      tag: "link",
+      attrs: { rel: "canonical", href: page.canonical },
+      key: "link:canonical",
+    },
   ];
 }

@@ -27,7 +27,7 @@ import type {
 /* Normalizes a date into a ISO 8601 string, and drops blank or invalid values */
 function toIsoDate(value: string | Date | undefined): string | undefined {
   if (value === undefined) return undefined;
-  if (value instanceof Date) { 
+  if (value instanceof Date) {
     return Number.isNaN(value.getTime()) ? undefined : value.toISOString();
   }
 
@@ -36,20 +36,30 @@ function toIsoDate(value: string | Date | undefined): string | undefined {
 }
 
 /** Trims a `string | string[]` into a non-empty list */
-function stringList(value: string | string[] | undefined): string[] | undefined {
+function stringList(
+  value: string | string[] | undefined,
+): string[] | undefined {
   const raw = value === undefined ? [] : Array.isArray(value) ? value : [value];
-  const list = raw.map((entry) => entry.trim()).filter((entry) => entry.length > 0);
+  const list = raw
+    .map((entry) => entry.trim())
+    .filter((entry) => entry.length > 0);
   return list.length > 0 ? list : undefined;
 }
 
 /** Same as `stringList` but resolves every entry against the site URL */
-function urlList(value: string | string[] | undefined, siteUrl: string): string[] | undefined {
+function urlList(
+  value: string | string[] | undefined,
+  siteUrl: string,
+): string[] | undefined {
   const list = stringList(value)?.map((entry) => toAbsolute(entry, siteUrl));
   return list && list.length > 0 ? list : undefined;
 }
 
 /** Resolves structured media entries, absolutizing the URL fields */
-function resolveMedia(media: ImageInput[] | undefined, siteUrl: string): ImageRef[] | undefined {
+function resolveMedia(
+  media: ImageInput[] | undefined,
+  siteUrl: string,
+): ImageRef[] | undefined {
   const refs: ImageRef[] = [];
   for (const entry of media ?? []) {
     const ref = resolveImage(entry);
@@ -132,7 +142,9 @@ function resolveBook(
 }
 
 /** Resolves `profile:*`, dropping blank fields */
-function resolveProfile(profile: OpenGraphProfile | undefined): OpenGraphProfile | undefined {
+function resolveProfile(
+  profile: OpenGraphProfile | undefined,
+): OpenGraphProfile | undefined {
   if (!profile) return undefined;
   const out: OpenGraphProfile = {};
   if (profile.firstName) out.firstName = profile.firstName;
@@ -199,12 +211,16 @@ function resolvePayment(
   if (expiresAt) out.expiresAt = expiresAt;
   if (payment.status) out.status = payment.status;
   if (payment.id) out.id = payment.id;
-  if (payment.successUrl) out.successUrl = toAbsolute(payment.successUrl, siteUrl);
+  if (payment.successUrl)
+    out.successUrl = toAbsolute(payment.successUrl, siteUrl);
   return Object.keys(out).length > 0 ? out : undefined;
 }
 
 /** Maps alternates to `og:locale` values, dropping the self locale and `x-default` obvi */
-function deriveLocaleAlternates(alternates: HreflangAlternate[], selfLocale: string): string[] {
+function deriveLocaleAlternates(
+  alternates: HreflangAlternate[],
+  selfLocale: string,
+): string[] {
   const locales: string[] = [];
   for (const alternate of alternates) {
     const locale = languageTagToOgLocale(alternate.hreflang);
@@ -216,7 +232,7 @@ function deriveLocaleAlternates(alternates: HreflangAlternate[], selfLocale: str
 
 /**
  * Builds the Open Graph information for a page (gasp, i thought it deleted the page /joke)
- * 
+ *
  * Ref: https://ogp.me/
  */
 export function resolveOpenGraph(
@@ -234,7 +250,8 @@ export function resolveOpenGraph(
 ): ResolvedOpenGraphInfo {
   const openGraph = page.openGraph;
   const merged: OpenGraphInfo = { ...site.openGraph, ...openGraph };
-  const locale = openGraph?.locale ?? languageTagToOgLocale(lang) ?? site.openGraph.locale;
+  const locale =
+    openGraph?.locale ?? languageTagToOgLocale(lang) ?? site.openGraph.locale;
   const localeAlternate = [
     ...new Set(
       openGraph?.localeAlternate ??
@@ -250,8 +267,12 @@ export function resolveOpenGraph(
     siteName: openGraph?.siteName ?? site.openGraph.siteName,
     locale,
     localeAlternate,
-    image: absolutize(openGraph?.image ?? fallback.image ?? site.openGraph.image, site.url),
-    imageAlt: openGraph?.imageAlt ?? fallback.imageAlt ?? site.openGraph.imageAlt,
+    image: absolutize(
+      openGraph?.image ?? fallback.image ?? site.openGraph.image,
+      site.url,
+    ),
+    imageAlt:
+      openGraph?.imageAlt ?? fallback.imageAlt ?? site.openGraph.imageAlt,
     images: resolveMedia(openGraph?.images ?? site.openGraph.images, site.url),
     videos: resolveMedia(openGraph?.videos ?? site.openGraph.videos, site.url),
     audios: resolveMedia(openGraph?.audios ?? site.openGraph.audios, site.url),

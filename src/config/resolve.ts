@@ -21,11 +21,16 @@ const DEFAULT_LOCALE = "en_US";
 export function toKeywords(value: string | string[] | undefined): string[] {
   if (!value) return [];
   const list = Array.isArray(value) ? value : value.split(",");
-  return list.map((keyword) => keyword.trim()).filter((keyword) => keyword.length > 0);
+  return list
+    .map((keyword) => keyword.trim())
+    .filter((keyword) => keyword.length > 0);
 }
 
 /** Resolves a possibly root-relative path to an absolute URL, passing through undefined */
-export function absolutize(value: string | undefined, siteUrl: string): string | undefined {
+export function absolutize(
+  value: string | undefined,
+  siteUrl: string,
+): string | undefined {
   return value ? toAbsolute(value, siteUrl) : undefined;
 }
 
@@ -50,12 +55,18 @@ export function normalizeThemeColors(
   return colors;
 }
 
-function resolveFavicon(favicon: FaviconConfig | undefined, siteUrl: string): FaviconConfig {
+function resolveFavicon(
+  favicon: FaviconConfig | undefined,
+  siteUrl: string,
+): FaviconConfig {
   if (!favicon) return {};
   return {
     icon: absolutize(favicon.icon, siteUrl),
     appleTouchIcon: absolutize(favicon.appleTouchIcon, siteUrl),
-    appleTouchIconPrecomposed: absolutize(favicon.appleTouchIconPrecomposed, siteUrl),
+    appleTouchIconPrecomposed: absolutize(
+      favicon.appleTouchIconPrecomposed,
+      siteUrl,
+    ),
     manifest: absolutize(favicon.manifest, siteUrl),
     maskIcon: absolutize(favicon.maskIcon, siteUrl),
     themeColor: normalizeThemeColors(favicon.themeColor),
@@ -71,7 +82,9 @@ function resolveFavicon(favicon: FaviconConfig | undefined, siteUrl: string): Fa
 }
 
 /** Accepts the `@handle` shorthand or a full {@link TwitterInfo}. */
-function resolveTwitter(twitter: string | TwitterInfo | undefined): TwitterInfo | undefined {
+function resolveTwitter(
+  twitter: string | TwitterInfo | undefined,
+): TwitterInfo | undefined {
   if (!twitter) return undefined;
   return typeof twitter === "string" ? { site: twitter } : twitter;
 }
@@ -79,12 +92,18 @@ function resolveTwitter(twitter: string | TwitterInfo | undefined): TwitterInfo 
 /** Validates and normalizes the site config into defaults */
 export function resolveSite(site: SiteConfig): ResolvedSite {
   const url = normalizeSiteUrl(site.url);
-  const lang = site.lang ? normalizeLanguageTag(site.lang) || undefined : undefined;
+  const lang = site.lang
+    ? normalizeLanguageTag(site.lang) || undefined
+    : undefined;
   const openGraph: OpenGraphInfo = {
     type: "website",
     ...site.openGraph,
     siteName: site.openGraph?.siteName ?? site.name,
-    locale: site.openGraph?.locale ?? site.locale ?? languageTagToOgLocale(site.lang) ?? DEFAULT_LOCALE,
+    locale:
+      site.openGraph?.locale ??
+      site.locale ??
+      languageTagToOgLocale(site.lang) ??
+      DEFAULT_LOCALE,
     image: absolutize(site.openGraph?.image ?? site.image, url),
     imageAlt: site.openGraph?.imageAlt ?? site.imageAlt,
   };
@@ -113,7 +132,9 @@ interface ResolvedToggle<T> {
   options: T;
 }
 
-function resolveRobots(value: SeoOptions["robots"]): ResolvedToggle<RobotsFileOptions> {
+function resolveRobots(
+  value: SeoOptions["robots"],
+): ResolvedToggle<RobotsFileOptions> {
   if (value === false) return { enabled: false, options: {} };
   if (value === undefined || value === true || value === "auto") {
     return { enabled: true, options: {} };
@@ -121,7 +142,9 @@ function resolveRobots(value: SeoOptions["robots"]): ResolvedToggle<RobotsFileOp
   return { enabled: true, options: value };
 }
 
-function resolveSitemap(value: SeoOptions["sitemap"]): ResolvedToggle<SitemapOptions> {
+function resolveSitemap(
+  value: SeoOptions["sitemap"],
+): ResolvedToggle<SitemapOptions> {
   if (value === false) return { enabled: false, options: {} };
   if (value === undefined || value === true || value === "auto") {
     return { enabled: true, options: {} };
@@ -130,7 +153,9 @@ function resolveSitemap(value: SeoOptions["sitemap"]): ResolvedToggle<SitemapOpt
 }
 
 /** Normalizes page keys to canonical routes. */
-function resolvePages(pages: Record<string, PageMeta> | undefined): Record<string, PageMeta> {
+function resolvePages(
+  pages: Record<string, PageMeta> | undefined,
+): Record<string, PageMeta> {
   const resolved: Record<string, PageMeta> = {};
   for (const [route, meta] of Object.entries(pages ?? {})) {
     resolved[normalizeRoute(route)] = meta;

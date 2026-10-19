@@ -36,7 +36,10 @@ function normalizeDirective(line: string): string | undefined {
   const colon = trimmed.indexOf(":");
   if (colon === -1) return undefined;
   const key = trimmed.slice(0, colon).trim().toLowerCase();
-  const value = trimmed.slice(colon + 1).trim().replace(/\s+/g, " ");
+  const value = trimmed
+    .slice(colon + 1)
+    .trim()
+    .replace(/\s+/g, " ");
   return `${key}: ${value}`;
 }
 
@@ -49,7 +52,7 @@ function renderGroup(
   cleanParam?: string[],
 ): string {
   const lines = agents.map((agent) => `User-agent: ${agent}`);
-  
+
   for (const path of disallow) lines.push(`Disallow: ${path}`);
   for (const path of allow) lines.push(`Allow: ${path}`);
 
@@ -60,7 +63,10 @@ function renderGroup(
 }
 
 /** The sitemap URL, or undefined when it is turned off */
-function sitemapUrl(site: ResolvedSite, options: RobotsFileOptions): string | undefined {
+function sitemapUrl(
+  site: ResolvedSite,
+  options: RobotsFileOptions,
+): string | undefined {
   if (options.sitemap === false) return undefined;
   if (typeof options.sitemap === "string") return options.sitemap;
   return site.url ? `${site.url}/sitemap.xml` : undefined;
@@ -70,7 +76,10 @@ function sitemapUrl(site: ResolvedSite, options: RobotsFileOptions): string | un
  * Paths to disallow for noindex pages
  * When `disallowNoindex` is true, block crawling of pages that should not be indexed
  */
-export function noindexDisallow(pages: ResolvedPage[], disallowNoindex = false): string[] {
+export function noindexDisallow(
+  pages: ResolvedPage[],
+  disallowNoindex = false,
+): string[] {
   if (!disallowNoindex) return [];
   return pages.filter((page) => page.noindex).map((page) => page.route);
 }
@@ -88,27 +97,49 @@ export function buildRobots(
   options: RobotsFileOptions,
   pageDisallow: string[] = [],
 ): string {
-  const defaultAgents = (Array.isArray(options.userAgent) ? options.userAgent : [options.userAgent ?? DEFAULT_USER_AGENT]).filter(Boolean);
-  const defaultDisallow = unique([...(options.disallow ?? []), ...pageDisallow]);
+  const defaultAgents = (
+    Array.isArray(options.userAgent)
+      ? options.userAgent
+      : [options.userAgent ?? DEFAULT_USER_AGENT]
+  ).filter(Boolean);
+  const defaultDisallow = unique([
+    ...(options.disallow ?? []),
+    ...pageDisallow,
+  ]);
   const defaultAllow = unique(options.allow ?? []);
   const defaultCleanParam = unique(
-    typeof options.cleanParam === "string" ? [options.cleanParam] : options.cleanParam ?? [],
+    typeof options.cleanParam === "string"
+      ? [options.cleanParam]
+      : (options.cleanParam ?? []),
   );
   const blocks: string[] = [
-    renderGroup(defaultAgents, defaultDisallow, defaultAllow, options.crawlDelay, defaultCleanParam),
+    renderGroup(
+      defaultAgents,
+      defaultDisallow,
+      defaultAllow,
+      options.crawlDelay,
+      defaultCleanParam,
+    ),
   ];
 
   for (const group of options.groups ?? []) {
-    const agents = (Array.isArray(group.userAgent) ? group.userAgent : [group.userAgent]).filter(Boolean);
+    const agents = (
+      Array.isArray(group.userAgent) ? group.userAgent : [group.userAgent]
+    ).filter(Boolean);
     const disallow = unique(group.disallow ?? []);
     const allow = unique(group.allow ?? []);
     const cleanParam = unique(
-      typeof group.cleanParam === "string" ? [group.cleanParam] : group.cleanParam ?? [],
+      typeof group.cleanParam === "string"
+        ? [group.cleanParam]
+        : (group.cleanParam ?? []),
     );
-    blocks.push(renderGroup(agents, disallow, allow, group.crawlDelay, cleanParam));
+    blocks.push(
+      renderGroup(agents, disallow, allow, group.crawlDelay, cleanParam),
+    );
   }
 
-  if (options.rules && options.rules.length > 0) blocks.push(options.rules.join("\n"));
+  if (options.rules && options.rules.length > 0)
+    blocks.push(options.rules.join("\n"));
   if (options.host) blocks.push(`Host: ${options.host}`);
 
   const sitemap = sitemapUrl(site, options);

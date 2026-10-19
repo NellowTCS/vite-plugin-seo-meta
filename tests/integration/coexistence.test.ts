@@ -72,12 +72,19 @@ describe("coexistence with another generator", () => {
   });
 
   it("defers sitemap.xml and robots.txt to the other plugin", async () => {
-    const { warnings } = await buildWith(workspace, [otherGenerator, seo(options)]);
+    const { warnings } = await buildWith(workspace, [
+      otherGenerator,
+      seo(options),
+    ]);
 
     expect(existsSync(join(workspace, "dist", "sitemap.xml"))).toBe(false);
     expect(existsSync(join(workspace, "dist", "robots.txt"))).toBe(false);
-    expect(warnings.some((message) => message.includes("deferring sitemap.xml"))).toBe(true);
-    expect(warnings.some((message) => message.includes("deferring robots.txt"))).toBe(true);
+    expect(
+      warnings.some((message) => message.includes("deferring sitemap.xml")),
+    ).toBe(true);
+    expect(
+      warnings.some((message) => message.includes("deferring robots.txt")),
+    ).toBe(true);
   });
 
   it("writes the files when explicitly enabled", async () => {
