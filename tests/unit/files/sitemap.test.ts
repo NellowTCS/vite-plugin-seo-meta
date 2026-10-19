@@ -74,13 +74,31 @@ describe("buildSitemap", () => {
   it("emits the video namespace and video:video elements when a page has og:video", async () => {
     const xml = await buildSitemap([
       page("/", "https://example.com/", {
-        openGraph: { videos: [{ src: "https://example.com/clip.mp4", alt: "clip" }] } as any,
+        title: "A clip",
+        openGraph: {
+          videos: [{ src: "https://example.com/clip.mp4", thumbnail: "https://example.com/clip.jpg", alt: "clip" }],
+        } as any,
       }),
     ]);
 
     expect(xml).toContain('xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"');
     expect(xml).toContain("<video:video>");
-    expect(xml).toContain("<video:thumbnail_loc>https://example.com/clip.mp4</video:thumbnail_loc>");
+    expect(xml).toContain("<video:thumbnail_loc>https://example.com/clip.jpg</video:thumbnail_loc>");
+    expect(xml).toContain("<video:content_loc>https://example.com/clip.mp4</video:content_loc>");
+    expect(xml).toContain("<video:title>clip</video:title>");
+    expect(xml).toContain("<video:description>clip</video:description>");
+  });
+
+  it("skips video entries that lack a thumbnail (Google requires one)", async () => {
+    const xml = await buildSitemap([
+      page("/", "https://example.com/", {
+        title: "A clip",
+        openGraph: { videos: [{ src: "https://example.com/clip.mp4" }] } as any,
+      }),
+    ]);
+
+    expect(xml).not.toContain("xmlns:video");
+    expect(xml).not.toContain("<video:video>");
   });
 
   it("emits the news namespace and news:news elements for an article", async () => {

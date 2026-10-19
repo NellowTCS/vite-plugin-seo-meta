@@ -2,8 +2,7 @@
 
 - [ ] Demo that is like a config generator that you can paste into your `vite.config.ts`/`.js`
 - [ ] Docs via DocMD as always
-- [x] sitemap.xml image/video/news namespaces + xhtml:link, limits, single-host
-- [ ] Validation hardening (enums, required fields, absolute URLs, length budgets title/desc/twitter; warn by default, error mode)
+- [X] Validation hardening (enums, required fields, absolute URLs, length budgets title/desc/twitter; warn by default, error mode)
 
 ## images
 
@@ -16,3 +15,9 @@
 - [ ] Defer icons/manifest to `vite-plugin-pwa` when present
 - [ ] Image pipeline + spec-coverage tests (likeeee idk, array-safe grouping, resolveImage seam maybe)
 - [ ] Document image/icon configuration
+
+## possibly future
+
+- [ ] RSS/Atom
+- [ ] CLI config generator
+- [ ] locales for hreflang

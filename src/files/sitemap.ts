@@ -1,9 +1,10 @@
 /** sitemap.xml generation
  *
- * Ref: https://www.sitemaps.org/protocol.html
- * Image: https://support.google.com/webmasters/answer/74288?hl=en&ref_topic=4581190
- * Video: https://support.google.com/webmasters/answer/80471?hl=en&ref_topic=4581190
- * News: https://support.google.com/webmasters/answer/74288?hl=en&ref_topic=4581190
+ * Refs:
+ * - https://www.sitemaps.org/protocol.html
+ * - Image: https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps
+ * - Video: https://developers.google.com/search/docs/crawling-indexing/sitemaps/video-sitemaps
+ * - News: https://developers.google.com/search/docs/crawling-indexing/sitemaps/news-sitemap
  */
 
 import { EnumChangefreq, SitemapStream, streamToPromise } from "sitemap";
@@ -11,7 +12,7 @@ import type { Img, NewsItem, SitemapItemLoose, VideoItemLoose } from "sitemap";
 import xmlFormat from "xml-formatter";
 import type { ResolvedPage, SitemapChangefreq, SitemapOptions } from "../types";
 
-/** Maps our changefreq strings onto sitemap's enum (same values) */
+/** Maps our changefreq strings onto sitemap's enum (wow how surprising they're the same values) */
 const CHANGEFREQ: Record<SitemapChangefreq, EnumChangefreq> = {
   always: EnumChangefreq.ALWAYS,
   hourly: EnumChangefreq.HOURLY,
@@ -49,7 +50,6 @@ function originOf(url: string): string {
 }
 
 /** Maps a page's structured media into sitemap image entries */
-// I suspect this was made for Wikis (Wikipedia) and Google Images lolll
 function imageItems(page: ResolvedPage): Img[] | undefined {
   const images = page.openGraph.images;
   if (!images || images.length === 0) return undefined;
@@ -58,29 +58,28 @@ function imageItems(page: ResolvedPage): Img[] | undefined {
     if (!ref.src) continue;
     const item: Img = { url: ref.src };
     if (ref.alt) item.caption = ref.alt;
-    if (ref.width !== undefined) item.title = String(ref.width);
     out.push(item);
   }
   return out.length > 0 ? out : undefined;
 }
 
-/** Maps a page's structured video into sitemap video entries */
-// Gasp videos, almost like someone big might have a video platform *cough, cough* Youtube, 
-// and want to index videos in search results. I wonder who that could be. (hint: it rhymes with "Poogle")
+/** Maps a page's structured video into sitemap video entries
+ * - `content_loc` is the video media URL
+ * - Important:`thumbnail_loc` is required by Google, so entries without an explicit thumbnail are skipped! 
+ */
 function videoItems(page: ResolvedPage): VideoItemLoose[] | undefined {
   const videos = page.openGraph.videos;
   if (!videos || videos.length === 0) return undefined;
   const out: VideoItemLoose[] = [];
   for (const ref of videos) {
-    if (!ref.src) continue;
+    if (!ref.src || !ref.thumbnail) continue;
+    const description = ref.alt ?? page.title;
     const item: VideoItemLoose = {
-      thumbnail_loc: ref.src,
-      title: ref.alt ?? ref.src,
-      description: ref.alt ?? "",
+      thumbnail_loc: ref.thumbnail,
+      title: description,
+      description,
+      content_loc: ref.src,
     };
-    if (ref.width !== undefined && ref.height !== undefined) {
-      item.tag = [`${ref.width}x${ref.height}`];
-    }
     out.push(item);
   }
   return out.length > 0 ? out : undefined;
@@ -88,8 +87,8 @@ function videoItems(page: ResolvedPage): VideoItemLoose[] | undefined {
 
 /** Maps a page's news article into a sitemap news entry */
 // You ever wonder why a sitemap has a news entry? Well it's because of a little thing called
-// Google News. Since GN aggregates all the news articles rather than making its own, it relies on websites 
-// to tell it what articles are news. 
+// Google News. Since GN aggregates all the news articles rather than making its own, 
+// it relies on websites to tell it what articles are news. 
 function newsItem(page: ResolvedPage): NewsItem | undefined {
   const article = page.openGraph.article;
   if (!article) return undefined;

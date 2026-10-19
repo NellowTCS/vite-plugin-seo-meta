@@ -118,6 +118,8 @@ export interface ImageRef {
   type?: string;
   /** HTTPS URL equivalent. */
   secureUrl?: string;
+  /** Video thumbnail URL */
+  thumbnail?: string;
 }
 
 /** Flexible image input accepted by the config layer. */
@@ -134,6 +136,7 @@ export type ImageInput =
       type?: string;
       secureUrl?: string;
       secure_url?: string;
+      thumbnail?: string;
     };
 
 

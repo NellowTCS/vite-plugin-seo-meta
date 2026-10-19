@@ -49,6 +49,10 @@ export function resolveImage(input: ImageInput | undefined): ImageRef | undefine
     if (typeof secureUrl === "string" && secureUrl.trim().length > 0) {
       ref.secureUrl = secureUrl.trim();
     }
+    const thumbnail = obj.thumbnail;
+    if (typeof thumbnail === "string" && thumbnail.trim().length > 0) {
+      ref.thumbnail = thumbnail.trim();
+    }
     return ref;
   }
   return undefined;
