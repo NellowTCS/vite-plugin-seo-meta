@@ -1,94 +1,100 @@
 <!DOCTYPE html><html lang="en"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <script type="module" crossorigin="" src="/vite-plugin-seo-meta/assets/index-PWvYk1sc.js"></script>
-  <link rel="stylesheet" crossorigin="" href="/vite-plugin-seo-meta/assets/index-CGxIREVP.css">
-  <title>vite-plugin-seo-meta</title>
-  <meta name="application-name" content="vite-plugin-seo-meta demo">
-  <meta name="description" content="Config generator for vite-plugin-seo-meta">
-  <link rel="canonical" href="https://nellowtcs.me/vite-plugin-seo-meta/">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="vite-plugin-seo-meta">
-  <meta property="og:description" content="Config generator for vite-plugin-seo-meta">
-  <meta property="og:url" content="https://nellowtcs.me/vite-plugin-seo-meta/">
-  <meta property="og:site_name" content="vite-plugin-seo-meta demo">
-  <meta property="og:locale" content="en_US">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="vite-plugin-seo-meta">
-  <meta name="twitter:description" content="Config generator for vite-plugin-seo-meta">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script type="module" crossorigin="" src="/vite-plugin-seo-meta/assets/index-PWvYk1sc.js"></script>
+    <link rel="stylesheet" crossorigin="" href="/vite-plugin-seo-meta/assets/index-CGxIREVP.css">
+    <title>vite-plugin-seo-meta</title>
+    <meta name="application-name" content="vite-plugin-seo-meta demo">
+    <meta name="description" content="Config generator for vite-plugin-seo-meta">
+    <link rel="canonical" href="https://nellowtcs.me/vite-plugin-seo-meta/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="vite-plugin-seo-meta">
+    <meta property="og:description" content="Config generator for vite-plugin-seo-meta">
+    <meta property="og:url" content="https://nellowtcs.me/vite-plugin-seo-meta/">
+    <meta property="og:site_name" content="vite-plugin-seo-meta demo">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="vite-plugin-seo-meta">
+    <meta name="twitter:description" content="Config generator for vite-plugin-seo-meta">
 </head>
-<body>
-  <header>
-    <h1>vite-plugin-seo-meta config generator</h1>
-    <p class="sub">Create your configuration.</p>
-  </header>
-  <main>
-    <aside class="panel" id="form">
-      <h2>Site</h2>
-      <label>Base URL<input id="url" value="https://example.com" title="Canonical origin for the site"></label>
-      <label>Site name<input id="name" value="My Site" title="Used for og:site_name and JSON-LD"></label>
-      <label>Default title<input id="title" value="My Site" title="Fallback title"></label>
-      <label>Title template<input id="titleTemplate" value="%s | My Site" title="%s is replaced with page title"></label>
-      <label>Description<textarea id="description" rows="2" title="Default meta description">My awesome site</textarea></label>
-      <div class="grid">
-        <label>Locale<input id="locale" value="en_US" title="og:locale"></label>
-        <label>Author<input id="author" placeholder="e.g. Alex Chen" title="Default author"></label>
-      </div>
-      <label>Default image URL<input id="image" placeholder="https://example.com/og.png" title="Default Open Graph image"></label>
-      <label>Twitter handle<input id="twitter" placeholder="@example" title="twitter:site"></label>
-
-      <h2>JSON-LD</h2>
-      <div class="checks">
-        <label title="Add Organization structured data"><input type="checkbox" id="jsonLdOrg" checked=""> Organization</label>
-        <label title="Add WebSite structured data"><input type="checkbox" id="jsonLdWeb" checked=""> WebSite</label>
-      </div>
-
-      <h2>Pages</h2>
-      <div class="checks">
-        <label title="Add metadata for /"><input type="checkbox" id="addHome" checked=""> / (home)</label>
-        <label title="Add metadata for /about"><input type="checkbox" id="addAbout"> /about</label>
-        <label title="Add /private with noindex"><input type="checkbox" id="addPrivate"> /private (noindex)</label>
-      </div>
-
-      <h2>Options</h2>
-      <div class="grid">
-        <label>robots
-          <select id="robots" title="robots.txt behavior">
-            <option value="auto" selected="">Auto</option>
-            <option value="disallowNoindex">Disallow noindex pages</option>
-            <option value="false">Disabled</option>
-          </select>
+  <body>
+    <header>
+      <h1>vite-plugin-seo-meta config generator</h1>
+      <p class="sub">Create your configuration.</p>
+    </header>
+    <main>
+      <aside class="panel" id="form">
+        <h2>Site</h2>
+        <label>Base URL<input id="url" value="https://example.com" title="Canonical origin for the site"></label>
+        <label>Site name<input id="name" value="My Site" title="Used for og:site_name and JSON-LD"></label>
+        <label>Default title<input id="title" value="My Site" title="Fallback title"></label>
+        <label>Title template<input id="titleTemplate" value="%s | My Site" title="%s is replaced with page title"></label>
+        <label>Description<textarea id="description" rows="2" title="Default meta description">My awesome site</textarea>
         </label>
-        <label>sitemap
-          <select id="sitemap" title="sitemap.xml behavior">
-            <option value="auto" selected="">Auto</option>
-            <option value="false">Disabled</option>
-          </select>
-        </label>
-        <label>validate
-          <select id="validate" title="Validation mode">
-            <option value="warn" selected="">Warn</option>
-            <option value="error">Error</option>
-            <option value="false">Off</option>
-          </select>
-        </label>
-      </div>
+        <div class="grid">
+          <label>Locale<input id="locale" value="en_US" title="og:locale"></label>
+          <label>Author<input id="author" placeholder="e.g. Alex Chen" title="Default author"></label>
+        </div>
+        <label>Default image URL<input id="image" placeholder="https://example.com/og.png" title="Default Open Graph image"></label>
+        <label>Twitter handle<input id="twitter" placeholder="@example" title="twitter:site"></label>
 
-      <div class="actions">
-        <button id="generate">Regenerate</button>
-        <button class="ghost" id="copy-inline">Copy vite.config.ts</button>
-        <button class="ghost" id="copy-seo">Copy seo.config.ts</button>
-      </div>
-      <p class="note">This shows the generated config based on your inputs. Build-time injection adds title, canonical, Open Graph, Twitter, JSON-LD, and writes robots.txt/sitemap.xml as configured.</p>
-    </aside>
-    <section class="panel">
-      <div class="code-label">vite.config.ts</div>
-      <pre id="inline"></pre>
-      <div class="code-label">seo.config.ts</div>
-      <pre id="seo"></pre>
-    </section>
-  </main>
+        <h2>JSON-LD</h2>
+        <div class="checks">
+          <label title="Add Organization structured data"><input type="checkbox" id="jsonLdOrg" checked="">
+            Organization</label>
+          <label title="Add WebSite structured data"><input type="checkbox" id="jsonLdWeb" checked=""> WebSite</label>
+        </div>
 
+        <h2>Pages</h2>
+        <div class="checks">
+          <label title="Add metadata for /"><input type="checkbox" id="addHome" checked=""> / (home)</label>
+          <label title="Add metadata for /about"><input type="checkbox" id="addAbout"> /about</label>
+          <label title="Add /private with noindex"><input type="checkbox" id="addPrivate"> /private (noindex)</label>
+        </div>
+
+        <h2>Options</h2>
+        <div class="grid">
+          <label>robots
+            <select id="robots" title="robots.txt behavior">
+              <option value="auto" selected="">Auto</option>
+              <option value="disallowNoindex">Disallow noindex pages</option>
+              <option value="false">Disabled</option>
+            </select>
+          </label>
+          <label>sitemap
+            <select id="sitemap" title="sitemap.xml behavior">
+              <option value="auto" selected="">Auto</option>
+              <option value="false">Disabled</option>
+            </select>
+          </label>
+          <label>validate
+            <select id="validate" title="Validation mode">
+              <option value="warn" selected="">Warn</option>
+              <option value="error">Error</option>
+              <option value="false">Off</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button id="generate">Regenerate</button>
+          <button class="ghost" id="copy-inline">Copy vite.config.ts</button>
+          <button class="ghost" id="copy-seo">Copy seo.config.ts</button>
+        </div>
+        <p class="note">
+          This shows the generated config based on your inputs. Build-time
+          injection adds title, canonical, Open Graph, Twitter, JSON-LD, and
+          writes robots.txt/sitemap.xml as configured.
+        </p>
+      </aside>
+      <section class="panel">
+        <div class="code-label">vite.config.ts</div>
+        <pre id="inline"></pre>
+        <div class="code-label">seo.config.ts</div>
+        <pre id="seo"></pre>
+      </section>
+    </main>
+  
 
 </body></html>
