@@ -178,6 +178,56 @@ describe("social tags", () => {
     expect(find(tags, "meta:theme-color")?.attrs.content).toBe("#ffffff");
   });
 
+  it("renders the full favicon and platform icon spec", () => {
+    const { tags } = renderSite(
+      { title: "Home" },
+      {
+        ...BASE_SITE,
+        favicon: {
+          icon: "/favicon.ico",
+          appleTouchIcon: "/apple-touch-icon.png",
+          appleTouchIconPrecomposed: "/apple-touch-icon-precomposed.png",
+          manifest: "/manifest.json",
+          maskIcon: "/mask-icon.svg",
+          themeColor: "#ff0000",
+          mobileWebApp: { title: "App", capable: true, statusBarStyle: "black-translucent" },
+          msapplication: { tileColor: "#ffffff", tileImage: "/tile.png", config: "/browserconfig.xml" },
+        },
+      },
+    );
+
+    expect(find(tags, "link:icon")?.attrs.href).toBe("https://example.com/favicon.ico");
+    expect(find(tags, "link:apple-touch-icon")?.attrs.href).toBe(
+      "https://example.com/apple-touch-icon.png",
+    );
+    expect(find(tags, "link:apple-touch-icon-precomposed")?.attrs.href).toBe(
+      "https://example.com/apple-touch-icon-precomposed.png",
+    );
+    expect(find(tags, "link:manifest")?.attrs.href).toBe("https://example.com/manifest.json");
+    expect(find(tags, "link:mask-icon")?.attrs.href).toBe("https://example.com/mask-icon.svg");
+    expect(find(tags, "link:mask-icon")?.attrs.color).toBe("#ff0000");
+    expect(find(tags, "meta:apple-mobile-web-app-title")?.attrs.content).toBe("App");
+    expect(find(tags, "meta:apple-mobile-web-app-capable")?.attrs.content).toBe("yes");
+    expect(find(tags, "meta:apple-mobile-web-app-status-bar-style")?.attrs.content).toBe(
+      "black-translucent",
+    );
+    expect(find(tags, "meta:msapplication-tilecolor")?.attrs.content).toBe("#ffffff");
+    expect(find(tags, "meta:msapplication-tileimage")?.attrs.content).toBe(
+      "https://example.com/tile.png",
+    );
+    expect(find(tags, "link:msapplication-config")?.attrs.href).toBe(
+      "https://example.com/browserconfig.xml",
+    );
+  });
+
+  it("defaults the mask-icon color when no theme color is set", () => {
+    const { tags } = renderSite(
+      { title: "Home" },
+      { ...BASE_SITE, favicon: { maskIcon: "/mask.svg" } },
+    );
+    expect(find(tags, "link:mask-icon")?.attrs.color).toBe("#000000");
+  });
+
   it("renders one theme-color tag per media query", () => {
     const { tags } = renderSite(
       { title: "Home" },

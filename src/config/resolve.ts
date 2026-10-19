@@ -55,9 +55,18 @@ function resolveFavicon(favicon: FaviconConfig | undefined, siteUrl: string): Fa
   return {
     icon: absolutize(favicon.icon, siteUrl),
     appleTouchIcon: absolutize(favicon.appleTouchIcon, siteUrl),
+    appleTouchIconPrecomposed: absolutize(favicon.appleTouchIconPrecomposed, siteUrl),
     manifest: absolutize(favicon.manifest, siteUrl),
     maskIcon: absolutize(favicon.maskIcon, siteUrl),
     themeColor: normalizeThemeColors(favicon.themeColor),
+    mobileWebApp: favicon.mobileWebApp,
+    msapplication: favicon.msapplication
+      ? {
+          tileColor: favicon.msapplication.tileColor,
+          tileImage: absolutize(favicon.msapplication.tileImage, siteUrl),
+          config: absolutize(favicon.msapplication.config, siteUrl),
+        }
+      : undefined,
   };
 }
 

@@ -20,7 +20,7 @@ export type SitemapChangefreq =
   | "yearly"
   | "never";
 
-/** Favicon and related icon links. 
+/** Favicon and related icon links.
  * Important: Paths are resolved to absolute URLs!
  * */
 export interface FaviconConfig {
@@ -28,12 +28,43 @@ export interface FaviconConfig {
   icon?: string;
   /** `<link rel="apple-touch-icon">` */
   appleTouchIcon?: string;
+  /** `<link rel="apple-touch-icon-precomposed">` */
+  appleTouchIconPrecomposed?: string;
   /** `<link rel="manifest">`: web app manifest */
   manifest?: string;
   /** `<link rel="mask-icon">`: SVG for Safari pinned tabs */
   maskIcon?: string;
   /** `<meta name="theme-color">`: basically a bare color, or one entry per media query */
   themeColor?: string | ThemeColorEntry[];
+  /** Apple `<meta name="apple-mobile-web-app-*">` tags */
+  mobileWebApp?: MobileWebAppConfig;
+  /** Microsoft IE/Edge tile tags (`<meta name="msapplication-*">`) */
+  // WHY am i supporting this in 2024? because some people still use IE lmao 
+  // (no really, people still use it. I'm completely serious.)
+  // But also it's handy for other Microsoft stuff lolllll
+  msapplication?: MsTileConfig;
+}
+
+/** Apple mobile web app meta tags */
+export interface MobileWebAppConfig {
+  /** `<meta name="apple-mobile-web-app-title">`, shown under the icon on the home screen */
+  title?: string;
+  /** `<meta name="apple-mobile-web-app-capable">`: run the site full-screen */
+  capable?: boolean;
+  /** `<meta name="apple-mobile-web-app-status-bar-style">` */
+  statusBarStyle?: "default" | "black" | "black-translucent" | "transparent";
+}
+
+/** Microsoft IE/Edge start-screen tile tags */
+export interface MsTileConfig {
+  /** `<meta name="msapplication-TileColor">` */
+  tileColor?: string;
+  /** `<meta name="msapplication-TileImage">` */
+  tileImage?: string;
+  /** `<link rel="msapplication-config">` pointing at a `browserconfig.xml` */
+  // what's that you may ask? it's basically a Microsoft version of a web app manifest, 
+  // but in XML. shrug, Microsoft doing Microsoft things
+  config?: string;
 }
 
 /** One `<meta name="theme-color">` entry, optionally scoped to a media query */

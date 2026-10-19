@@ -2,10 +2,7 @@
 
 - [ ] Demo that is like a config generator that you can paste into your `vite.config.ts`/`.js`
 - [ ] Docs via DocMD as always
-- [X] Full Open Graph spec (ogp.me): structured image/video/audio + type-specific incl. payment.link
-- [x] Full Twitter Card spec (summary/summary_large_image/player/app, image dims/alt, label1/data1/label2/data2 opt-in)
-- [ ] Rich favicon + platform icons (mask-icon, msapplication, apple-*, apple-mobile-web-app-*)
-- [x] JSON-LD builders expanded (ImageObject, BreadcrumbList + Google-rich-result recommended sets and typed via schema-dts)
+- [x] Rich favicon + platform icons (mask-icon, msapplication, apple-*, apple-mobile-web-app-*)
 - [ ] robots.txt full directive set (RFC 9309 groups, wildcards `$`, Sitemap/Host/Crawl-delay/Clean-param; no Disallow on noindex)
 - [ ] sitemap.xml image/video/news namespaces + xhtml:link, limits, single-host
 - [ ] Validation hardening (enums, required fields, absolute URLs, length budgets title/desc/twitter; warn by default, error mode)

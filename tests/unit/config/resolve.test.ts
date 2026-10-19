@@ -46,6 +46,41 @@ describe("resolveSite", () => {
     expect(site.openGraph.siteName).toBe("Example");
   });
 
+  it("absolutizes the full favicon and platform icon set", () => {
+    const site = resolveSite({
+      url: "https://example.com",
+      favicon: {
+        icon: "/favicon.ico",
+        appleTouchIcon: "/apple-touch-icon.png",
+        appleTouchIconPrecomposed: "/apple-touch-icon-precomposed.png",
+        manifest: "/manifest.json",
+        maskIcon: "/mask-icon.svg",
+        themeColor: "#ff0000",
+        mobileWebApp: { title: "App", capable: true, statusBarStyle: "black-translucent" },
+        msapplication: { tileColor: "#ffffff", tileImage: "/tile.png", config: "/browserconfig.xml" },
+      },
+    });
+
+    expect(site.favicon.icon).toBe("https://example.com/favicon.ico");
+    expect(site.favicon.appleTouchIcon).toBe("https://example.com/apple-touch-icon.png");
+    expect(site.favicon.appleTouchIconPrecomposed).toBe(
+      "https://example.com/apple-touch-icon-precomposed.png",
+    );
+    expect(site.favicon.manifest).toBe("https://example.com/manifest.json");
+    expect(site.favicon.maskIcon).toBe("https://example.com/mask-icon.svg");
+    expect(site.favicon.themeColor).toEqual([{ color: "#ff0000" }]);
+    expect(site.favicon.mobileWebApp).toEqual({
+      title: "App",
+      capable: true,
+      statusBarStyle: "black-translucent",
+    });
+    expect(site.favicon.msapplication).toEqual({
+      tileColor: "#ffffff",
+      tileImage: "https://example.com/tile.png",
+      config: "https://example.com/browserconfig.xml",
+    });
+  });
+
   it("throws when the url is missing or invalid", () => {
     expect(() => resolveSite({ url: "nope" })).toThrow();
   });
