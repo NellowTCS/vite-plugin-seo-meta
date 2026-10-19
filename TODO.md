@@ -2,8 +2,7 @@
 
 - [ ] Demo that is like a config generator that you can paste into your `vite.config.ts`/`.js`
 - [ ] Docs via DocMD as always
-- [x] robots.txt full directive set (RFC 9309 groups, wildcards `$`, Sitemap/Host/Crawl-delay/Clean-param; no Disallow on noindex)
-- [ ] sitemap.xml image/video/news namespaces + xhtml:link, limits, single-host
+- [x] sitemap.xml image/video/news namespaces + xhtml:link, limits, single-host
 - [ ] Validation hardening (enums, required fields, absolute URLs, length budgets title/desc/twitter; warn by default, error mode)
 
 ## images

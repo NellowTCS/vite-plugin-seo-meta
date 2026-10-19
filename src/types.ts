@@ -581,6 +581,13 @@ export interface SitemapOptions {
   defaultChangefreq?: SitemapChangefreq;
   /** Fallback priority for pages without one */
   defaultPriority?: number;
+  /** Le site origin used to enforce a single-host sitemap */
+  siteUrl?: string;
+  /** Maximum number of URLs per sitemap file. Default 50000. 
+   * Yes. 50000. That's a lot of URLs. I don't know why they picked that number, 
+   * but it's the number they picked.
+  */
+  maxUrls?: number;
 }
 
 /**

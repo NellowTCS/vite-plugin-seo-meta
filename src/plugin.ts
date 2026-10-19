@@ -48,7 +48,7 @@ export function seo(inline: SeoPluginOptions = {}): Plugin {
 
     if (options.sitemapEnabled) {
       const filename = options.sitemap.filename ?? "sitemap.xml";
-      const xml = await buildSitemap(pages, options.sitemap);
+      const xml = await buildSitemap(pages, { ...options.sitemap, siteUrl: options.site.url });
       await mkdir(outDir, { recursive: true });
       await writeFile(join(outDir, filename), xml);
     }
