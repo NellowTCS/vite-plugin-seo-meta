@@ -109,6 +109,65 @@ describe("social tags", () => {
     expect(find(tags, "meta:twitter:card")?.attrs.content).toBe("summary_large_image");
   });
 
+  it("renders the full Twitter Card spec", () => {
+    const { tags } = renderSite({
+      title: "Home",
+      twitter: {
+        card: "summary_large_image",
+        site: "@acme",
+        siteId: "123",
+        creator: "@author",
+        creatorId: "456",
+        image: "/og.png",
+        imageAlt: "alt",
+        imageWidth: 1200,
+        imageHeight: 630,
+        label1: "Price",
+        data1: "$199",
+      },
+    });
+    expect(find(tags, "meta:twitter:site:id")?.attrs.content).toBe("123");
+    expect(find(tags, "meta:twitter:creator:id")?.attrs.content).toBe("456");
+    expect(find(tags, "meta:twitter:image")?.attrs.content).toBe("https://example.com/og.png");
+    expect(find(tags, "meta:twitter:image:alt")?.attrs.content).toBe("alt");
+    expect(find(tags, "meta:twitter:image:width")?.attrs.content).toBe("1200");
+    expect(find(tags, "meta:twitter:label1")?.attrs.content).toBe("Price");
+    expect(find(tags, "meta:twitter:data1")?.attrs.content).toBe("$199");
+  });
+
+  it("renders a Player Card through the full page pipeline", () => {
+    const { tags } = renderSite({
+      title: "Home",
+      twitter: {
+        card: "player",
+        player: { url: "/embed/1", width: 1280, height: 720, stream: "/s.mp4" },
+      },
+    });
+    expect(find(tags, "meta:twitter:player")?.attrs.content).toBe("https://example.com/embed/1");
+    expect(find(tags, "meta:twitter:player:width")?.attrs.content).toBe("1280");
+    expect(find(tags, "meta:twitter:player:stream")?.attrs.content).toBe("https://example.com/s.mp4");
+  });
+
+  it("renders an App Card through the full page pipeline", () => {
+    const { tags } = renderSite({
+      title: "Home",
+      twitter: {
+        card: "app",
+        apps: {
+          country: "US",
+          iphone: { name: "App", id: "123", url: "app://x" },
+          googleplay: { name: "App", id: "com.app", url: "http://app.com/x" },
+        },
+      },
+    });
+    expect(find(tags, "meta:twitter:app:country")?.attrs.content).toBe("US");
+    expect(find(tags, "meta:twitter:app:name:iphone")?.attrs.content).toBe("App");
+    expect(find(tags, "meta:twitter:app:id:iphone")?.attrs.content).toBe("123");
+    expect(find(tags, "meta:twitter:app:url:iphone")?.attrs.content).toBe("app://x");
+    expect(find(tags, "meta:twitter:app:id:googleplay")?.attrs.content).toBe("com.app");
+    expect(find(tags, "meta:twitter:app:url:googleplay")?.attrs.content).toBe("http://app.com/x");
+  });
+
   it("renders favicon links and theme color", () => {
     const { tags } = renderSite(
       { title: "Home" },

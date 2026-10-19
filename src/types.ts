@@ -299,17 +299,75 @@ export interface ResolvedOpenGraphInfo
   payment?: ResolvedOpenGraphPayment;
 }
 
-/** Twitter Card values */
+/** A Twitter/X handle, with or without the leading `@` */
+export type TwitterHandle = string;
+
+/** Platform names recognized by the App Card (wow no huawei? depressing /j) */
+export type TwitterAppPlatform = "iphone" | "ipad" | "googleplay";
+
+/** `twitter:player` card: an HTTPS iframe URL plus its pixel dimensions */
+export interface TwitterPlayer {
+  /** HTTPS URL of the player iframe */
+  url: string;
+  /** Width of the iframe in pixels */
+  width: number;
+  /** Height of the iframe in pixels */
+  height: number;
+  /** Optional URL to a raw video or audio stream */
+  stream?: string;
+}
+
+/** One app entry per platform, for the App Card */
+export interface TwitterAppEntry {
+  /** App name, e.g. `twitter:app:name:iphone` */
+  name?: string;
+  /** App ID in the respective app store (`twitter:app:id:iphone`) */
+  id?: string;
+  /** Custom URL scheme, must include `://` (`twitter:app:url:iphone`) */
+  url?: string;
+}
+
+/** App Card configuration: one entry per supported platform */
+export interface TwitterApps {
+  iphone?: TwitterAppEntry;
+  ipad?: TwitterAppEntry;
+  googleplay?: TwitterAppEntry;
+  /** Two-letter ISO country code for the App Store that holds the app 
+   * ("The shape goes into a shape press that presses the shape into a pressed shape")
+  */
+  country?: string;
+}
+
+/** Twitter Card values
+ * Ref: https://web.archive.org/web/20231217013914/https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/markup
+ */
 export interface TwitterInfo {
   card?: TwitterCardType;
   title?: string;
   description?: string;
   /** `twitter:site`, the site's `@handle` */
-  site?: string;
+  site?: TwitterHandle;
+  /** `twitter:site:id`, the site's numeric Twitter ID (alternative to `site`) */
+  siteId?: string;
   /** `twitter:creator`, the content author's `@handle` */
-  creator?: string;
+  creator?: TwitterHandle;
+  /** `twitter:creator:id`, the creator's numeric Twitter ID (alternative to `creator`) */
+  creatorId?: string;
   image?: string;
+  /** `twitter:image:alt`, alt text for visually impaired users (max 420 chars) */
   imageAlt?: string;
+  /** `twitter:image:width` / `twitter:image:height`, the card image dimensions */
+  imageWidth?: number;
+  imageHeight?: number;
+  /** `twitter:label1` / `twitter:label2`, paired with `data1` / `data2` (opt-in) */
+  label1?: string;
+  data1?: string;
+  label2?: string;
+  data2?: string;
+  /** Player Card: HTTPS iframe URL plus pixel dimensions */
+  player?: TwitterPlayer;
+  /** App Card: per-platform app store entries */
+  apps?: TwitterApps;
 }
 
 /** A named author for Article structured data */

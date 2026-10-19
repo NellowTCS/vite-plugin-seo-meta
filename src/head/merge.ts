@@ -19,6 +19,7 @@ const MENTIONS_NOINDEX = /\b(noindex|none)\b/i;
 /** Applies the `%s` title template when there is both a template and a title */
 function applyTitleTemplate(rawTitle: string, template: string | undefined): string {
   if (!template || !rawTitle) return rawTitle;
+  // snake noises
   return template.replace("%s", rawTitle);
 }
 
@@ -64,14 +65,43 @@ function resolveTwitter(
   site: ResolvedOptions["site"],
   fallback: OpenGraphInfo,
 ): TwitterInfo {
+  const pageTwitter = page.twitter;
+  const siteTwitter = site.twitter;
   return {
-    card: page.twitter?.card ?? site.twitter?.card ?? DEFAULT_TWITTER_CARD,
-    title: page.twitter?.title ?? fallback.title,
-    description: page.twitter?.description ?? fallback.description,
-    site: page.twitter?.site ?? site.twitter?.site,
-    creator: page.twitter?.creator ?? site.twitter?.creator,
-    image: absolutize(page.twitter?.image ?? fallback.image, site.url),
-    imageAlt: page.twitter?.imageAlt ?? fallback.imageAlt,
+    // this was super annoying to type, omg TS be less verbose smh my head
+    // (just kidding, I'm being extra careful throughout the plugin cause better safe than sorry)
+    card: pageTwitter?.card ?? siteTwitter?.card ?? DEFAULT_TWITTER_CARD,
+    title: pageTwitter?.title ?? fallback.title,
+    description: pageTwitter?.description ?? fallback.description,
+    site: pageTwitter?.site ?? siteTwitter?.site,
+    siteId: pageTwitter?.siteId ?? siteTwitter?.siteId,
+    creator: pageTwitter?.creator ?? siteTwitter?.creator,
+    creatorId: pageTwitter?.creatorId ?? siteTwitter?.creatorId,
+    image: absolutize(pageTwitter?.image ?? fallback.image, site.url),
+    imageAlt: pageTwitter?.imageAlt ?? fallback.imageAlt ?? siteTwitter?.imageAlt,
+    imageWidth: pageTwitter?.imageWidth ?? siteTwitter?.imageWidth,
+    imageHeight: pageTwitter?.imageHeight ?? siteTwitter?.imageHeight,
+    label1: pageTwitter?.label1 ?? siteTwitter?.label1,
+    data1: pageTwitter?.data1 ?? siteTwitter?.data1,
+    label2: pageTwitter?.label2 ?? siteTwitter?.label2,
+    data2: pageTwitter?.data2 ?? siteTwitter?.data2,
+    player: resolveTwitterPlayer(pageTwitter?.player ?? siteTwitter?.player, site.url),
+    apps: pageTwitter?.apps ?? siteTwitter?.apps,
+  };
+}
+
+/** Resolves a Player Card, absolutizing (have i mentioned how fun this word is? Yes? well too bad, 
+ * it's super fun) the iframe and stream URLs (app deep-links stay raw (eww)) */
+function resolveTwitterPlayer(
+  player: TwitterInfo["player"],
+  siteUrl: string,
+): TwitterInfo["player"] {
+  if (!player) return undefined;
+  return {
+    url: toAbsolute(player.url, siteUrl),
+    width: player.width,
+    height: player.height,
+    stream: player.stream ? toAbsolute(player.stream, siteUrl) : undefined,
   };
 }
 
