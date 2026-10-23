@@ -1,4 +1,5 @@
 import "./style.css";
+import { type SeoOptions } from "vite-plugin-seo-meta";
 
 const $ = <T extends HTMLElement>(id: string) =>
   document.getElementById(id) as T;
@@ -14,6 +15,18 @@ function isChecked(id: string): boolean {
   return el.checked;
 }
 
+function list(id: string): string[] {
+  return val(id)
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function num(id: string): number | undefined {
+  const v = val(id);
+  return v ? Number(v) : undefined;
+}
+
 function copyText(text: string, btn: HTMLElement) {
   navigator.clipboard.writeText(text).then(() => {
     const old = btn.textContent;
@@ -22,70 +35,126 @@ function copyText(text: string, btn: HTMLElement) {
   });
 }
 
-function generate() {
+function buildConfig(): SeoOptions {
   const url = val("url") || "https://example.com";
   const name = val("name") || "My Site";
-  const title = val("title") || "My Site";
-  const titleTemplate = val("titleTemplate") || "%s | My Site";
-  const description = val("description") || "My awesome site";
-  const locale = val("locale") || "en_US";
+
+  const config: SeoOptions = {
+    site: {
+      url,
+      name,
+      title: val("title") || name,
+      titleTemplate: val("titleTemplate") || "%s | My Site",
+      description: val("description") || "My awesome site",
+      locale: val("locale") || "en_US",
+    },
+  };
+
   const author = val("author");
   const image = val("image");
-  const twitter = val("twitter");
+  if (author) config.site!.author = author;
+  if (image) config.site!.image = image;
 
-  const jsonLdOrg = isChecked("jsonLdOrg");
-  const jsonLdWeb = isChecked("jsonLdWeb");
+  // Twitter Card
+  const twitter: NonNullable<SeoOptions["site"]>["twitter"] = {};
+  const twHandle = val("twitter");
+  if (twHandle) twitter.site = twHandle;
+  if (val("twCard"))
+    twitter.card = val("twCard") as
+      "summary" | "summary_large_image" | "app" | "player";
+  if (val("twTitle")) twitter.title = val("twTitle");
+  if (val("twDesc")) twitter.description = val("twDesc");
+  if (val("twImage")) twitter.image = val("twImage");
+  if (val("twImageAlt")) twitter.imageAlt = val("twImageAlt");
+  if (val("twCreator")) twitter.creator = val("twCreator");
+  if (val("twLabel1")) twitter.label1 = val("twLabel1");
+  if (val("twData1")) twitter.data1 = val("twData1");
+  if (val("twLabel2")) twitter.label2 = val("twLabel2");
+  if (val("twData2")) twitter.data2 = val("twData2");
+  if (Object.keys(twitter).length > 0) config.site!.twitter = twitter;
 
-  const addHome = isChecked("addHome");
-  const addAbout = isChecked("addAbout");
-  const addPrivate = isChecked("addPrivate");
-
-  const robots = val("robots");
-  const sitemap = val("sitemap");
-  const validate = val("validate");
-
-  const siteLines: string[] = [];
-  siteLines.push(`  site: {`);
-  siteLines.push(`    url: "${url}",`);
-  siteLines.push(`    name: "${name}",`);
-  siteLines.push(`    title: "${title}",`);
-  siteLines.push(`    titleTemplate: "${titleTemplate}",`);
-  siteLines.push(`    description: "${description}",`);
-  if (locale) siteLines.push(`    locale: "${locale}",`);
-  if (author) siteLines.push(`    author: "${author}",`);
-  if (image) siteLines.push(`    image: "${image}",`);
-  if (twitter) siteLines.push(`    twitter: "${twitter}",`);
-  if (jsonLdOrg || jsonLdWeb) {
-    siteLines.push(`    jsonLd: {`);
-    if (jsonLdOrg) siteLines.push(`      organization: true,`);
-    if (jsonLdWeb) siteLines.push(`      website: true,`);
-    siteLines.push(`    },`);
+  // Favicon icons
+  const favicon: NonNullable<SeoOptions["site"]>["favicon"] = {};
+  if (val("favicon")) favicon.icon = val("favicon");
+  if (val("appleTouch")) favicon.appleTouchIcon = val("appleTouch");
+  if (val("manifest")) favicon.manifest = val("manifest");
+  if (val("maskIcon")) favicon.maskIcon = val("maskIcon");
+  if (val("themeColor")) favicon.themeColor = val("themeColor");
+  if (val("mwaTitle")) {
+    favicon.mobileWebApp = { title: val("mwaTitle") };
+    if (val("mwaStatusBar"))
+      favicon.mobileWebApp!.statusBarStyle = val("mwaStatusBar") as
+        "default" | "black" | "black-translucent" | "transparent";
+    if (isChecked("mwaCapable")) favicon.mobileWebApp!.capable = true;
   }
-  siteLines.push(`  },`);
+  if (val("msTileColor") || val("msTileImage") || val("msConfig")) {
+    favicon.msapplication = {};
+    if (val("msTileColor"))
+      favicon.msapplication!.tileColor = val("msTileColor");
+    if (val("msTileImage"))
+      favicon.msapplication!.tileImage = val("msTileImage");
+    if (val("msConfig")) favicon.msapplication!.config = val("msConfig");
+  }
+  if (Object.keys(favicon).length > 0) config.site!.favicon = favicon;
 
-  const pageLines: string[] = [];
-  if (addHome) pageLines.push(`    "/": { title: "Home" },`);
-  if (addAbout) pageLines.push(`    "/about": { title: "About" },`);
-  if (addPrivate)
-    pageLines.push(`    "/private": { title: "Private", noindex: true },`);
+  // JSON-LD
+  if (isChecked("jsonLdOrg") || isChecked("jsonLdWeb")) {
+    config.site!.jsonLd = {};
+    if (isChecked("jsonLdOrg")) config.site!.jsonLd!.organization = true;
+    if (isChecked("jsonLdWeb")) config.site!.jsonLd!.website = true;
+  }
 
-  const optLines: string[] = [];
-  if (pageLines.length) {
-    optLines.push(`  pages: {\n${pageLines.join("\n")}\n  },`);
+  // Pages
+  const pages: NonNullable<SeoOptions["pages"]> = {};
+  if (isChecked("addHome")) pages["/"] = { title: "Home" };
+  if (isChecked("addAbout")) pages["/about"] = { title: "About" };
+  if (isChecked("addPrivate"))
+    pages["/private"] = { title: "Private", noindex: true };
+  if (Object.keys(pages).length > 0) config.pages = pages;
+
+  // robots.txt
+  if (val("robots") === "false") {
+    config.robots = false;
+  } else {
+    const robots: NonNullable<SeoOptions["robots"]> = {};
+    if (val("robotsUA")) robots.userAgent = val("robotsUA");
+    const disallow = list("robotsDisallow");
+    if (disallow.length) robots.disallow = disallow;
+    const allow = list("robotsAllow");
+    if (allow.length) robots.allow = allow;
+    if (num("crawlDelay")) robots.crawlDelay = num("crawlDelay")!;
+    const cleanParam = list("cleanParam");
+    if (cleanParam.length) robots.cleanParam = cleanParam;
+    if (val("robotsHost")) robots.host = val("robotsHost");
+    if (val("sitemapUrl")) robots.sitemap = val("sitemapUrl");
+    if (val("robots") === "disallowNoindex") robots.disallowNoindex = true;
+    if (Object.keys(robots).length > 0) config.robots = robots;
   }
-  if (robots === "disallowNoindex") {
-    optLines.push(`  robots: { disallowNoindex: true },`);
-  } else if (robots === "false") {
-    optLines.push(`  robots: false,`);
+
+  // sitemap.xml
+  if (val("sitemap") === "false") {
+    config.sitemap = false;
+  } else {
+    const sitemap: NonNullable<SeoOptions["sitemap"]> = {};
+    if (num("maxUrls")) sitemap.maxUrls = num("maxUrls")!;
+    const exclude = list("sitemapExclude");
+    if (exclude.length) sitemap.exclude = exclude;
+    if (Object.keys(sitemap).length > 0) config.sitemap = sitemap;
   }
-  if (sitemap === "false") {
-    optLines.push(`  sitemap: false,`);
-  }
-  if (validate === "error") {
-    optLines.push(`  validate: "error",`);
-  } else if (validate === "false") {
-    optLines.push(`  validate: false,`);
-  }
+
+  if (val("validate") === "error") config.validate = "error";
+  else if (val("validate") === "false") config.validate = false;
+
+  return config;
+}
+
+function generate() {
+  const config = buildConfig();
+  const json = JSON.stringify(config, null, 2);
+  const indented = json
+    .split("\n")
+    .map((line) => `    ${line}`)
+    .join("\n");
 
   const inline = `import { defineConfig } from "vite";
 import { seo } from "vite-plugin-seo-meta";
@@ -94,8 +163,7 @@ export default defineConfig({
   plugins: [
     seo({
       configFile: false,
-${siteLines.join("\n")}
-${optLines.join("\n")}
+${indented}
     }),
   ],
 });
@@ -103,9 +171,7 @@ ${optLines.join("\n")}
 
   const seoConfig = `import { defineSeoConfig } from "vite-plugin-seo-meta";
 
-export default defineSeoConfig({
-${siteLines.map((l) => l.replace(/^  /, "")).join("\n")}
-});
+export default defineSeoConfig(${json});
 `;
 
   ($("inline") as HTMLPreElement).textContent = inline;

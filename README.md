@@ -1,6 +1,6 @@
 # vite-plugin-seo-meta
 
-All-in-one Vite plugin that generates SEO metadata for your app: `<title>`, meta tags, canonical, Open Graph, Twitter Cards, JSON-LD (Organization/WebSite/Article/Product), hreflang alternates, `robots.txt` and `sitemap.xml`. Zero-config defaults, per-page overrides. Works for SPA/MPA/SSG/prerendered builds.
+All-in-one Vite plugin that generates SEO metadata for your app: `<title>`, meta tags, canonical, Open Graph, Twitter Cards, JSON-LD (Organization/WebSite/Article/Product/BreadcrumbList/ImageObject), hreflang alternates, `robots.txt` and `sitemap.xml`. Zero-config defaults, per-page overrides. Works for SPA/MPA/SSG/prerendered builds.
 
 [![npm version](https://img.shields.io/npm/v/vite-plugin-seo-meta.svg)](https://www.npmjs.com/package/vite-plugin-seo-meta)
 [![license](https://img.shields.io/npm/l/vite-plugin-seo-meta.svg)](LICENSE)
@@ -9,12 +9,15 @@ All-in-one Vite plugin that generates SEO metadata for your app: `<title>`, meta
 
 - Zero-config: sensible defaults from `site` config
 - Per-page overrides via `pages` map
-- Canonical, Open Graph, Twitter Cards
-- JSON-LD: Organization, WebSite, Article, Product (+ extras)
-- hreflang alternates per page
-- `robots.txt` generation with merge support
-- `sitemap.xml` generation from derived routes (excludes `noindex`)
+- Canonical, Open Graph (full ogp.me spec incl. structured image/video/audio, type-specific verticals and `payment.link`)
+- Twitter Cards (summary/summary_large_image/player/app, image dims/alt, label/data pairs, `:site:id`/`:creator:id`)
+- JSON-LD: Organization, WebSite, Article, Product, BreadcrumbList, ImageObject (+ `extra` escape hatch)
+- hreflang alternates per page (with self-referencing alternate)
+- `robots.txt` generation per RFC 9309 (groups, `Allow`/`Disallow` with `*`/`$` wildcards, `Crawl-delay`, `Clean-param`, `Host`, `Sitemap`), merged with existing `public/robots.txt`
+- `sitemap.xml` generation with image/video/news namespaces and `xhtml:link` alternates; single-host enforcement and a URL cap
+- Rich favicon and platform icons: `apple-touch-icon`, `apple-touch-icon-precomposed`, `mask-icon`, `apple-mobile-web-app-*`, `msapplication-*`
 - Coexistence detection: warns and defers to `vite-plugin-sitemap`/`vite-plugin-pwa` etc when present (override with `sitemap: true`/`robots: true`)
+- Pre-build validation: enums, required fields, absolute URLs, length budgets (title 60, description 50-160, Twitter 70/200); `warn` by default, `error` throws
 - SPA runtime helper: `applySeo()` for client-side navigation (`import from "vite-plugin-seo-meta/runtime"`)
 - Type-safe with `defineSeoConfig()` and full TypeScript types
 
@@ -145,17 +148,35 @@ pages: {
 
 ### robots.txt
 
-Options: `userAgent`, `disallow`, `allow`, `rules`, `sitemap` (string|false), `merge` (default `true`), `disallowNoindex` (default `false`).
+Options: `userAgent`, `disallow`, `allow`, `groups` (RFC 9309 groups, each with their own `userAgent`/`disallow`/`allow`/`crawlDelay`/`cleanParam`), `rules`, `host`, `crawlDelay`, `cleanParam`, `sitemap` (string|false), `merge` (default `true`), `disallowNoindex` (default `false`).
 
 ```ts
-robots: { disallowNoindex: true, disallow: ["/api"] }
+robots: {
+  userAgent: "*",
+  disallow: ["/api", "*.gif$"],
+  allow: ["/public"],
+  crawlDelay: 5,
+  cleanParam: ["sessionid"],
+  host: "example.com",
+  disallowNoindex: true,
+}
 ```
 
-With `merge: true`, existing `public/robots.txt` is preserved and generated rules are appended.
+With `merge: true`, existing `public/robots.txt` is preserved and generated rules are appended (duplicates dropped).
 
 ### sitemap.xml
 
-Options: `filename`, `exclude`, `defaultChangefreq`, `defaultPriority`.
+Options: `filename`, `exclude`, `defaultChangefreq`, `defaultPriority`, `siteUrl`, `maxUrls` (default 50000).
+
+```ts
+sitemap: { exclude: ["/admin"], maxUrls: 100_000 }
+```
+
+Image, video, and news namespaces are emitted automatically when a page has the matching `openGraph` data; `xhtml:link` alternates are emitted for pages with hreflang companions.
+
+### Validation
+
+`validate: "warn"` (default) logs issues; `"error"` throws and fails the build; `false` disables it. Checks include enums (`changefreq`, `twitter.card`), required fields, absolute URLs (canonical, `og:url`, `twitter:image`, `twitter:player`), length budgets (title 60, description 50-160, Twitter 70/200), duplicate titles/canonicals, and conflicting `noindex`/`sitemap` settings.
 
 ### Coexistence
 

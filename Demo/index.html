@@ -69,6 +69,172 @@ My awesome site</textarea>
             title="twitter:site"
         /></label>
 
+        <h2>Twitter Card</h2>
+        <div class="grid">
+          <label
+            >Card type
+            <select id="twCard" title="twitter:card">
+              <option value="summary_large_image" selected>
+                Summary (large image)
+              </option>
+              <option value="summary">Summary</option>
+              <option value="app">App</option>
+              <option value="player">Player</option>
+            </select>
+          </label>
+          <label
+            >Twitter title<input
+              id="twTitle"
+              placeholder="Page title"
+              title="twitter:title (max 70)"
+            />
+          </label>
+        </div>
+        <label
+          >Twitter description<textarea
+            id="twDesc"
+            rows="2"
+            placeholder="Share text (max 200)"
+            title="twitter:description"
+          ></textarea>
+        </label>
+        <div class="grid">
+          <label
+            >Twitter image<input
+              id="twImage"
+              placeholder="https://example.com/card.png"
+              title="twitter:image"
+            />
+          </label>
+          <label
+            >Image alt<input
+              id="twImageAlt"
+              placeholder="Alt text (max 420)"
+              title="twitter:image:alt"
+            />
+          </label>
+        </div>
+        <div class="grid">
+          <label
+            >Creator handle<input
+              id="twCreator"
+              placeholder="@author"
+              title="twitter:creator"
+            />
+          </label>
+          <label
+            >Label 1<input
+              id="twLabel1"
+              placeholder="e.g. Price"
+              title="twitter:label1"
+            />
+          </label>
+          <label
+            >Data 1<input
+              id="twData1"
+              placeholder="e.g. $199"
+              title="twitter:data1"
+            />
+          </label>
+          <label
+            >Label 2<input
+              id="twLabel2"
+              placeholder="e.g. Stock"
+              title="twitter:label2"
+            />
+          </label>
+          <label
+            >Data 2<input
+              id="twData2"
+              placeholder="e.g. In stock"
+              title="twitter:data2"
+            />
+          </label>
+        </div>
+
+        <h2>Favicon &amp; platform icons</h2>
+        <div class="grid">
+          <label
+            >Icon<input
+              id="favicon"
+              placeholder="/favicon.ico"
+              title="rel=icon"
+            />
+          </label>
+          <label
+            >Apple touch icon<input
+              id="appleTouch"
+              placeholder="/apple-touch-icon.png"
+              title="apple-touch-icon"
+            />
+          </label>
+          <label
+            >Manifest<input
+              id="manifest"
+              placeholder="/manifest.json"
+              title="rel=manifest"
+            />
+          </label>
+          <label
+            >Mask icon (SVG)<input
+              id="maskIcon"
+              placeholder="/mask-icon.svg"
+              title="rel=mask-icon"
+            />
+          </label>
+          <label
+            >Theme color<input
+              id="themeColor"
+              placeholder="#ffffff"
+              title="theme-color"
+            />
+          </label>
+        </div>
+        <div class="grid">
+          <label
+            >App title (iOS)<input
+              id="mwaTitle"
+              placeholder="My App"
+              title="apple-mobile-web-app-title"
+            />
+          </label>
+          <label
+            >iOS capable<input
+              id="mwaCapable"
+              type="checkbox"
+              title="apple-mobile-web-app-capable"
+            />
+          </label>
+          <label
+            >Status bar<input
+              id="mwaStatusBar"
+              placeholder="black-translucent"
+              title="status-bar-style"
+            />
+          </label>
+          <label
+            >MS tile color<input
+              id="msTileColor"
+              placeholder="#ffffff"
+              title="msapplication-TileColor"
+            />
+          </label>
+          <label
+            >MS tile image<input
+              id="msTileImage"
+              placeholder="/tile.png"
+              title="msapplication-TileImage"
+            />
+          </label>
+          <label
+            >MS config<input
+              id="msConfig"
+              placeholder="/browserconfig.xml"
+              title="msapplication-config"
+            />
+          </label>
+        </div>
+
         <h2>JSON-LD</h2>
         <div class="checks">
           <label title="Add Organization structured data"
@@ -119,6 +285,73 @@ My awesome site</textarea>
             </select>
           </label>
         </div>
+        <div class="grid">
+          <label
+            >robots UA<input
+              id="robotsUA"
+              placeholder="*"
+              title="Default user-agent"
+            />
+          </label>
+          <label
+            >Disallow paths<input
+              id="robotsDisallow"
+              placeholder="/api, /admin"
+              title="Disallow"
+            />
+          </label>
+          <label
+            >Allow paths<input
+              id="robotsAllow"
+              placeholder="/public"
+              title="Allow"
+            />
+          </label>
+          <label
+            >Crawl-delay (s)<input
+              id="crawlDelay"
+              placeholder="e.g. 5"
+              title="Crawl-delay"
+            />
+          </label>
+          <label
+            >Clean-param<input
+              id="cleanParam"
+              placeholder="sessionid"
+              title="Clean-param"
+            />
+          </label>
+          <label
+            >Host<input
+              id="robotsHost"
+              placeholder="example.com"
+              title="Host"
+            />
+          </label>
+        </div>
+        <div class="grid">
+          <label
+            >Sitemap URL (robots.txt)<input
+              id="sitemapUrl"
+              placeholder="https://example.com/sitemap.xml"
+              title="Advertised in robots.txt"
+            />
+          </label>
+          <label
+            >Sitemap max URLs<input
+              id="maxUrls"
+              placeholder="50000"
+              title="maxUrls"
+            />
+          </label>
+          <label
+            >Sitemap exclude<input
+              id="sitemapExclude"
+              placeholder="/admin"
+              title="exclude"
+            />
+          </label>
+        </div>
 
         <div class="actions">
           <button id="generate">Regenerate</button>
@@ -127,8 +360,9 @@ My awesome site</textarea>
         </div>
         <p class="note">
           This shows the generated config based on your inputs. Build-time
-          injection adds title, canonical, Open Graph, Twitter, JSON-LD, and
-          writes robots.txt/sitemap.xml as configured.
+          injection adds title, canonical, Open Graph, full Twitter Card spec,
+          rich favicon/platform icons, JSON-LD, and writes robots.txt (RFC 9309)
+          and sitemap.xml (image/video/news namespaces) as configured.
         </p>
       </aside>
       <section class="panel">
