@@ -1,0 +1,3 @@
+User-agent: *
+
+Sitemap: https://nellowtcs.me/vite-plugin-seo-meta/sitemap.xml

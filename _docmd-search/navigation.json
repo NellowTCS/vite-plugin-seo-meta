@@ -1,0 +1,88 @@
+{
+  "tree": [
+    {
+      "title": "Api",
+      "path": "api",
+      "children": [
+        {
+          "title": "Index",
+          "path": "api/index.md"
+        }
+      ]
+    },
+    {
+      "title": "Getting Started",
+      "path": "getting-started",
+      "children": [
+        {
+          "title": "Configuration",
+          "path": "getting-started/configuration.md"
+        },
+        {
+          "title": "Installation",
+          "path": "getting-started/installation.md"
+        },
+        {
+          "title": "Quickstart",
+          "path": "getting-started/quickstart.md"
+        }
+      ]
+    },
+    {
+      "title": "Guide",
+      "path": "guide",
+      "children": [
+        {
+          "title": "Hreflang",
+          "path": "guide/hreflang.md"
+        },
+        {
+          "title": "Json Ld",
+          "path": "guide/json-ld.md"
+        },
+        {
+          "title": "Meta Tags",
+          "path": "guide/meta-tags.md"
+        },
+        {
+          "title": "Open Graph",
+          "path": "guide/open-graph.md"
+        },
+        {
+          "title": "Robots",
+          "path": "guide/robots.md"
+        },
+        {
+          "title": "Sitemap",
+          "path": "guide/sitemap.md"
+        },
+        {
+          "title": "Spa Runtime",
+          "path": "guide/spa-runtime.md"
+        },
+        {
+          "title": "Twitter",
+          "path": "guide/twitter.md"
+        },
+        {
+          "title": "Validation",
+          "path": "guide/validation.md"
+        }
+      ]
+    },
+    {
+      "title": "Index",
+      "path": "index.md"
+    },
+    {
+      "title": "Reference",
+      "path": "reference",
+      "children": [
+        {
+          "title": "Config",
+          "path": "reference/config.md"
+        }
+      ]
+    }
+  ]
+}

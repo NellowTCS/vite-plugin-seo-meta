@@ -1,0 +1,111 @@
+{
+  "title": "vite-plugin-seo-meta",
+  "description": "",
+  "pages": [
+    {
+      "title": "API",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/api/",
+      "description": "Public exports: seo(), defineSeoConfig() and the runtime helper.",
+      "section": "API",
+      "priority": "medium"
+    },
+    {
+      "title": "Configuration",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/getting-started/configuration/",
+      "description": "Every option the plugin accepts, with defaults.",
+      "section": "Getting Started",
+      "priority": "medium"
+    },
+    {
+      "title": "Installation",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/getting-started/installation/",
+      "description": "Install vite-plugin-seo-meta and set up its peer dependency.",
+      "section": "Getting Started",
+      "priority": "medium"
+    },
+    {
+      "title": "Quick Start",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/getting-started/quickstart/",
+      "description": "Add SEO to a Vite app in two minutes.",
+      "section": "Getting Started",
+      "priority": "medium"
+    },
+    {
+      "title": "hreflang",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/guide/hreflang/",
+      "description": "Tell search engines which language and region variant of a page to show.",
+      "section": "Guide",
+      "priority": "medium"
+    },
+    {
+      "title": "JSON-LD",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/guide/json-ld/",
+      "description": "Structured data for search engines: Organization, WebSite, Article, Product, BreadcrumbList and ImageObject.",
+      "section": "Guide",
+      "priority": "medium"
+    },
+    {
+      "title": "Meta Tags",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/guide/meta-tags/",
+      "description": "How the plugin emits title, description, canonical and robots meta tags.",
+      "section": "Guide",
+      "priority": "medium"
+    },
+    {
+      "title": "Open Graph",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/guide/open-graph/",
+      "description": "og:* tags for Facebook, LinkedIn and every platform that reads them.",
+      "section": "Guide",
+      "priority": "medium"
+    },
+    {
+      "title": "robots.txt",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/guide/robots/",
+      "description": "Generate robots.txt following RFC 9309 with agent groups, wildcards and crawl delays.",
+      "section": "Guide",
+      "priority": "medium"
+    },
+    {
+      "title": "sitemap.xml",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/guide/sitemap/",
+      "description": "Generate sitemap.xml with image, video and news namespaces, plus URL caps.",
+      "section": "Guide",
+      "priority": "medium"
+    },
+    {
+      "title": "SPA Runtime",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/guide/spa-runtime/",
+      "description": "Update SEO tags when the URL changes in a single-page app.",
+      "section": "Guide",
+      "priority": "medium"
+    },
+    {
+      "title": "Twitter Cards",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/guide/twitter/",
+      "description": "How the plugin emits twitter:* tags for summary, player and app cards.",
+      "section": "Guide",
+      "priority": "medium"
+    },
+    {
+      "title": "Validation",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/guide/validation/",
+      "description": "Catch misconfigured SEO before it ships.",
+      "section": "Guide",
+      "priority": "medium"
+    },
+    {
+      "title": "vite-plugin-seo-meta",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/",
+      "description": "All-in-one Vite plugin that generates meta tags, canonical, Open Graph, Twitter Cards, JSON-LD, hreflang, robots.txt and sitemap.xml for your app.",
+      "section": null,
+      "priority": "high"
+    },
+    {
+      "title": "Config Reference",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/reference/config/",
+      "description": "Every field the plugin accepts.",
+      "section": "Reference",
+      "priority": "medium"
+    }
+  ]
+}

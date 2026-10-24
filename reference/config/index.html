@@ -1,0 +1,1653 @@
+<!--
+  ---------------------------------------------------------------
+  docmd : the zero-config documentation engine.
+  @website https://docmd.io
+  [docmd-source] - Please do not remove this header.
+  ---------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="generator" content="docmd v0.9.8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script>
+      var root = "../../";
+      if (root && !root.endsWith('/')) root += '/';
+      if (root === '') root = './';
+      window.DOCMD_ROOT = root;
+
+      window.DOCMD_SITE_ROOT = "/vite-plugin-seo-meta/";
+
+      window.DOCMD_APPEARANCE = "system";
+      window.DOCMD_VERSION_ROOT = "/";
+      window.DOCMD_BASE = "/vite-plugin-seo-meta/";
+      window.DOCMD_LOCALE = "";
+      window.DOCMD_DEFAULT_LOCALE = "";
+    </script>
+    <script>/**
+ * --------------------------------------------------------------------
+ * docmd : the zero-config documentation engine.
+ *
+ * @package     @docmd/core (and ecosystem)
+ * @website     https://docmd.io
+ * @repository  https://github.com/docmd-io/docmd
+ * @license     MIT
+ * @copyright   Copyright (c) 2025-present docmd.io
+ *
+ * [docmd-source] - Please do not remove this header.
+ * --------------------------------------------------------------------
+ */
+
+(function () {
+  try {
+    // 1. Determine Theme
+    //
+    // Resolve from three sources, in priority order:
+    //   1. localStorage explicit user choice (light / dark)
+    //   2. window.DOCMD_APPEARANCE  (current canonical name, set by EJS templates)
+    //   3. window.DOCMD_DEFAULT_MODE (legacy alias kept for pre-0.8.7 outputs)
+    //   4. 'light' as the final fallback
+    //
+    // Note: localStorage is only honoured when it holds an explicit
+    // 'light' or 'dark' value. A stored 'system' value (from a prior
+    // session where the user picked "follow system") must NOT win over
+    // a freshly resolved config value — the resolved value will itself
+    // be 'system' in that case and the OS preference check below takes
+    // over, so this is a no-op for the in-session behaviour but keeps
+    // any future storage migration simple.
+    var localValue = localStorage.getItem('docmd-theme');
+    var configValue = window.DOCMD_APPEARANCE
+      || window.DOCMD_DEFAULT_MODE
+      || 'light';
+    var theme = (localValue === 'light' || localValue === 'dark')
+      ? localValue
+      : configValue;
+
+    if (theme === 'system') {
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    // 2. Apply to Root
+    document.documentElement.setAttribute('data-theme', theme);
+
+    // 3. Highlight.js Toggle Strategy
+    var lightLink = document.getElementById('hljs-light');
+    var darkLink = document.getElementById('hljs-dark');
+
+    if (lightLink && darkLink) {
+      if (theme === 'dark') {
+        lightLink.disabled = true;
+        darkLink.disabled = false;
+      } else {
+        lightLink.disabled = false;
+        darkLink.disabled = true;
+      }
+    }
+
+    document.documentElement.style.visibility = "visible";
+  } catch (e) {
+    document.documentElement.style.visibility = "visible";
+    console.error('Theme init failed', e);
+  }
+})();</script>
+    <style>
+      html {
+        visibility: hidden;
+      }
+    </style>
+    <title>Config Reference - vite-plugin-seo-meta</title>
+    
+    
+
+    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mvn0pscw">
+    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mvn0pscw">
+    
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mvn0pscw" id="hljs-light" >
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mvn0pscw" id="hljs-dark" disabled>
+    
+    
+<meta name="description" content="Every field the plugin accepts.">
+<link rel="canonical" href="https://nellowtcs.me/vite-plugin-seo-meta/reference/config/">
+<meta property="og:title" content="Config Reference - vite-plugin-seo-meta">
+<meta property="og:description" content="Every field the plugin accepts.">
+<meta property="og:url" content="https://nellowtcs.me/vite-plugin-seo-meta/reference/config/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Config Reference - vite-plugin-seo-meta">
+<meta name="twitter:description" content="Every field the plugin accepts.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"vite-plugin-seo-meta","item":"https://nellowtcs.me/vite-plugin-seo-meta/"},{"@type":"ListItem","position":2,"name":"API Reference"},{"@type":"ListItem","position":3,"name":"Config Reference","item":"https://nellowtcs.me/vite-plugin-seo-meta/reference/config/"}]}
+</script>
+
+
+
+
+<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mvn0pscw" >
+<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mvn0pscw" >
+<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mvn0pscw" >
+<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mvn0pscw" >
+
+    
+    
+  </head>
+  <body
+    class="sidebar-collapsible"
+    data-default-collapsed="false"
+    data-copy-code-enabled="true" data-spa-enabled="true" data-source-file="docs/reference/config.md">
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    
+    
+
+    
+
+    
+    
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          
+            <h1><a href="../../">
+                vite-plugin-seo-meta
+              </a></h1>
+          
+          <span class="mobile-view sidebar-menu-button float-right">
+            
+<svg class="lucide-icon icon-menu " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-menu"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M4 5h16" />
+  <path d="M4 12h16" />
+  <path d="M4 19h16" />
+</svg>
+
+          </span>
+        </div>
+        <div class="sidebar-top-group">
+          
+          
+          
+          
+          
+        </div>
+        
+
+<nav class="sidebar-nav" aria-label="Main Navigation">
+  <ul>
+    
+      <li class="" >
+      
+        <a href="../../" class=" "
+          >
+           
+<svg class="lucide-icon icon-home " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-house"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+  <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Home
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="expanded nav-group" >
+      
+        <span class="nav-label nav-group">
+           
+<svg class="lucide-icon icon-rocket " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-rocket"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+  <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" />
+  <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" />
+  <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Getting Started
+          </span>
+          
+        </span>
+        
+
+        
+          <ul class="submenu">
+            
+      <li class="" >
+      
+        <a href="../../getting-started/installation/" class=" "
+          >
+           
+<svg class="lucide-icon icon-download " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-download"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 15V3" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+  <path d="m7 10 5 5 5-5" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Installation
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../getting-started/quickstart/" class=" "
+          >
+           
+<svg class="lucide-icon icon-play " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-play"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Quick Start
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../getting-started/configuration/" class=" "
+          >
+           
+<svg class="lucide-icon icon-sliders " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-sliders-vertical"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M10 8h4" />
+  <path d="M12 21v-9" />
+  <path d="M12 8V3" />
+  <path d="M17 16h4" />
+  <path d="M19 12V3" />
+  <path d="M19 21v-5" />
+  <path d="M3 14h4" />
+  <path d="M5 10V3" />
+  <path d="M5 21v-7" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Configuration
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+          </ul>
+        
+      </li>
+    
+      <li class="expanded nav-group" >
+      
+        <span class="nav-label nav-group">
+           
+<svg class="lucide-icon icon-book-open " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-book-open"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 5v16" />
+  <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Guide
+          </span>
+          
+        </span>
+        
+
+        
+          <ul class="submenu">
+            
+      <li class="" >
+      
+        <a href="../../guide/meta-tags/" class=" "
+          >
+           
+<svg class="lucide-icon icon-tag " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-tag"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+  <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Meta Tags
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/open-graph/" class=" "
+          >
+           
+<svg class="lucide-icon icon-globe " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-globe"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+  <path d="M2 12h20" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Open Graph
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/twitter/" class=" "
+          >
+           
+<svg class="lucide-icon icon-bird " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-bird"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 7h.01" />
+  <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" />
+  <path d="m20 7 2 .5-2 .5" />
+  <path d="M10 18v3" />
+  <path d="M14 17.75V21" />
+  <path d="M7 18a6 6 0 0 0 3.84-10.61" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Twitter Cards
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/json-ld/" class=" "
+          >
+           
+<svg class="lucide-icon icon-braces " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-braces"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1" />
+  <path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            JSON-LD
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/hreflang/" class=" "
+          >
+           
+<svg class="lucide-icon icon-languages " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-languages"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m5 8 6 6" />
+  <path d="m4 14 6-6 2-3" />
+  <path d="M2 5h12" />
+  <path d="M7 2h1" />
+  <path d="m22 22-5-10-5 10" />
+  <path d="M14 18h6" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            hreflang
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/robots/" class=" "
+          >
+           
+<svg class="lucide-icon icon-shield " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-shield"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            robots.txt
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/sitemap/" class=" "
+          >
+           
+<svg class="lucide-icon icon-map " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-map"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" />
+  <path d="M15 5.764v15" />
+  <path d="M9 3.236v15" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Sitemap
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/spa-runtime/" class=" "
+          >
+           
+<svg class="lucide-icon icon-refresh-cw " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-refresh-cw"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+  <path d="M21 3v5h-5" />
+  <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+  <path d="M8 16H3v5" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            SPA Runtime
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/validation/" class=" "
+          >
+           
+<svg class="lucide-icon icon-check-circle " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-circle-check-big"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M21.801 10A10 10 0 1 1 17 3.335" />
+  <path d="m9 11 3 3L22 4" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Validation
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+          </ul>
+        
+      </li>
+    
+      <li class="active-parent expanded nav-group" >
+      
+        <span class="nav-label nav-group">
+           
+<svg class="lucide-icon icon-code " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-code"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m16 18 6-6-6-6" />
+  <path d="m8 6-6 6 6 6" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            API Reference
+          </span>
+          
+        </span>
+        
+
+        
+          <ul class="submenu">
+            
+      <li class="" >
+      
+        <a href="../../api/" class=" "
+          >
+           
+<svg class="lucide-icon icon-book " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-book"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            API
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="active" >
+      
+        <a href="../../reference/config/" class="active "
+          >
+           
+<svg class="lucide-icon icon-file-text " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-file-text"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Config Reference
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+          </ul>
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="/demo/" class=" "
+          target="_blank" rel="noopener">
+           
+<svg class="lucide-icon icon-monitor " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-monitor"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="20" height="14" x="2" y="3" rx="2" />
+  <line x1="8" x2="16" y1="21" y2="21" />
+  <line x1="12" x2="12" y1="17" y2="21" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Live Demo
+            </span>
+          
+           
+<svg class="lucide-icon icon-external-link nav-external-icon" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-external-link"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M15 3h6v6" />
+  <path d="M10 14 21 3" />
+  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+</svg>
+
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="https://github.com/NellowTCS/vite-plugin-seo-meta" class=" "
+          target="_blank" rel="noopener">
+           
+          
+          <span class="nav-item-title">
+            GitHub
+            </span>
+          
+           
+<svg class="lucide-icon icon-external-link nav-external-icon" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-external-link"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M15 3h6v6" />
+  <path d="M10 14 21 3" />
+  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+</svg>
+
+          
+        </a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+        <div class="sidebar-bottom-group mt-auto">
+          
+          
+          
+          
+          
+        </div>
+      </aside>
+      
+      <div class="main-content-wrapper">
+        
+        
+        
+          <header class="page-header">
+            <div class="header-left">
+              
+                <button id="sidebar-toggle-button" class="sidebar-toggle-button"
+                  aria-label="Toggle Sidebar">
+                  
+<svg class="lucide-icon icon-chevron-left " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-chevron-left"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m15 18-6-6 6-6" />
+</svg>
+
+                </button>
+              
+              <div class="header-titles-wrapper">
+                <span class="header-title">
+                  Config Reference
+                </span>
+              </div>
+            </div>
+            <div class="header-right">
+              
+                
+
+
+<div class="docmd-options-menu">
+    
+    <button class="docmd-search-trigger" aria-label="Search">
+        
+<svg class="lucide-icon icon-search " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-search"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m21 21-4.34-4.34" />
+  <circle cx="11" cy="11" r="8" />
+</svg>
+
+        <span class="search-label">Search</span>
+        <span class="search-keys"><kbd class="docmd-kbd">⌘</kbd><kbd class="docmd-kbd">K</kbd></span>
+    </button>
+    
+
+    
+
+    
+
+    
+    <button class="theme-toggle-button" aria-label="Toggle theme" title="Toggle theme">
+        
+<svg class="lucide-icon icon-sun icon-sun" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-sun"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="4" />
+  <path d="M12 2v2" />
+  <path d="M12 20v2" />
+  <path d="m4.93 4.93 1.41 1.41" />
+  <path d="m17.66 17.66 1.41 1.41" />
+  <path d="M2 12h2" />
+  <path d="M20 12h2" />
+  <path d="m6.34 17.66-1.41 1.41" />
+  <path d="m19.07 4.93-1.41 1.41" />
+</svg>
+ 
+<svg class="lucide-icon icon-moon icon-moon" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-moon"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
+</svg>
+
+    </button>
+    
+
+    
+
+    
+</div>
+
+              
+            </div>
+          </header>
+        
+        <div class="content-theme-cover">
+          <main class="content-area" id="main-content">
+            <div class="content-layout">
+              <div class="main-content">
+                <div class="docmd-breadcrumbs-row">
+                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22Config%20Reference%22%0Adescription%3A%20%22Every%20field%20the%20plugin%20accepts.%22%0A---%0A%0A%23%23%20%60SeoPluginOptions%60%0A%0A%60%60%60ts%0A%7B%0A%20%20site%3F%3A%20SiteConfig%3B%0A%20%20pages%3F%3A%20Record%3Cstring%2C%20PageMeta%3E%3B%0A%20%20robots%3F%3A%20%22auto%22%20%7C%20boolean%20%7C%20RobotsFileOptions%3B%0A%20%20sitemap%3F%3A%20%22auto%22%20%7C%20boolean%20%7C%20SitemapOptions%3B%0A%20%20validate%3F%3A%20%22warn%22%20%7C%20%22error%22%20%7C%20false%3B%0A%20%20configFile%3F%3A%20string%20%7C%20false%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60SiteConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20url%3A%20string%3B%0A%20%20name%3F%3A%20string%3B%0A%20%20title%3F%3A%20string%3B%0A%20%20titleTemplate%3F%3A%20string%3B%0A%20%20description%3F%3A%20string%3B%0A%20%20image%3F%3A%20string%3B%0A%20%20imageAlt%3F%3A%20string%3B%0A%20%20twitter%3F%3A%20string%20%7C%20TwitterInfo%3B%0A%20%20locale%3F%3A%20string%3B%0A%20%20lang%3F%3A%20string%3B%0A%20%20author%3F%3A%20string%3B%0A%20%20keywords%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%20%20robotsByUserAgent%3F%3A%20Record%3Cstring%2C%20string%20%7C%20RobotsDirectives%3E%3B%0A%20%20favicon%3F%3A%20FaviconConfig%3B%0A%20%20openGraph%3F%3A%20OpenGraphInfo%3B%0A%20%20jsonLd%3F%3A%20JsonLdConfig%3B%0A%7D%0A%60%60%60%0A%0A%60twitter%60%20accepts%20a%20bare%20%60%40handle%60%20as%20shorthand%20for%20%60twitter%3Asite%60.%0A%0A%23%23%20%60PageMeta%60%0A%0A%60%60%60ts%0A%7B%0A%20%20title%3F%3A%20string%3B%0A%20%20description%3F%3A%20string%3B%0A%20%20canonical%3F%3A%20string%3B%0A%20%20lang%3F%3A%20string%3B%0A%20%20image%3F%3A%20string%3B%0A%20%20imageAlt%3F%3A%20string%3B%0A%20%20keywords%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%20%20author%3F%3A%20string%3B%0A%20%20noindex%3F%3A%20boolean%3B%0A%20%20robots%3F%3A%20string%20%7C%20RobotsDirectives%3B%0A%20%20robotsByUserAgent%3F%3A%20Record%3Cstring%2C%20string%20%7C%20RobotsDirectives%3E%3B%0A%20%20openGraph%3F%3A%20OpenGraphInfo%3B%0A%20%20twitter%3F%3A%20TwitterInfo%3B%0A%20%20jsonLd%3F%3A%20JsonLdConfig%3B%0A%20%20alternates%3F%3A%20HreflangAlternate%5B%5D%3B%0A%20%20sitemap%3F%3A%20boolean%3B%0A%20%20priority%3F%3A%20number%3B%0A%20%20changefreq%3F%3A%20SitemapChangefreq%3B%0A%20%20lastmod%3F%3A%20string%20%7C%20Date%3B%0A%20%20meta%3F%3A%20Record%3Cstring%2C%20string%3E%3B%0A%20%20links%3F%3A%20Array%3C%7B%20rel%3A%20string%3B%20href%3A%20string%20%7D%20%26%20Record%3Cstring%2C%20string%3E%3E%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60FaviconConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20icon%3F%3A%20string%3B%0A%20%20appleTouchIcon%3F%3A%20string%3B%0A%20%20appleTouchIconPrecomposed%3F%3A%20string%3B%0A%20%20manifest%3F%3A%20string%3B%0A%20%20maskIcon%3F%3A%20string%3B%0A%20%20maskIconColor%3F%3A%20string%3B%0A%20%20themeColor%3F%3A%20string%20%7C%20ThemeColorEntry%5B%5D%3B%0A%20%20mobileWebApp%3F%3A%20MobileWebAppConfig%3B%0A%20%20msapplication%3F%3A%20MsTileConfig%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60MobileWebAppConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20title%3F%3A%20string%3B%0A%20%20capable%3F%3A%20boolean%3B%0A%20%20statusBarStyle%3F%3A%20%22default%22%20%7C%20%22black%22%20%7C%20%22black-translucent%22%20%7C%20%22transparent%22%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60MsTileConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20tileColor%3F%3A%20string%3B%0A%20%20tileImage%3F%3A%20string%3B%0A%20%20config%3F%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60RobotsFileOptions%60%0A%0A%60%60%60ts%0A%7B%0A%20%20userAgent%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%20%20disallow%3F%3A%20string%5B%5D%3B%0A%20%20allow%3F%3A%20string%5B%5D%3B%0A%20%20groups%3F%3A%20RobotsGroup%5B%5D%3B%0A%20%20rules%3F%3A%20string%5B%5D%3B%0A%20%20sitemap%3F%3A%20string%20%7C%20false%3B%0A%20%20merge%3F%3A%20boolean%3B%0A%20%20disallowNoindex%3F%3A%20boolean%3B%0A%20%20host%3F%3A%20string%3B%0A%20%20crawlDelay%3F%3A%20number%3B%0A%20%20cleanParam%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60RobotsGroup%60%0A%0A%60%60%60ts%0A%7B%0A%20%20userAgent%3A%20string%20%7C%20string%5B%5D%3B%0A%20%20disallow%3F%3A%20string%5B%5D%3B%0A%20%20allow%3F%3A%20string%5B%5D%3B%0A%20%20crawlDelay%3F%3A%20number%3B%0A%20%20cleanParam%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60SitemapOptions%60%0A%0A%60%60%60ts%0A%7B%0A%20%20filename%3F%3A%20string%3B%0A%20%20exclude%3F%3A%20string%5B%5D%3B%0A%20%20defaultChangefreq%3F%3A%20SitemapChangefreq%3B%0A%20%20defaultPriority%3F%3A%20number%3B%0A%20%20siteUrl%3F%3A%20string%3B%0A%20%20maxUrls%3F%3A%20number%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60SitemapChangefreq%60%0A%0A%60%22always%22%60%20%7C%20%60%22hourly%22%60%20%7C%20%60%22daily%22%60%20%7C%20%60%22weekly%22%60%20%7C%20%60%22monthly%22%60%20%7C%20%60%22yearly%22%60%20%7C%20%60%22never%22%60%0A%0A%23%23%20%60ImageRef%60%20%2F%20%60ImageInput%60%0A%0A%60%60%60ts%0A%2F%2F%20ImageRef%0A%7B%0A%20%20src%3A%20string%3B%0A%20%20alt%3F%3A%20string%3B%0A%20%20width%3F%3A%20number%3B%0A%20%20height%3F%3A%20number%3B%0A%20%20type%3F%3A%20string%3B%0A%20%20secureUrl%3F%3A%20string%3B%0A%20%20thumbnail%3F%3A%20string%3B%0A%7D%0A%0A%2F%2F%20ImageInput%3A%20string%20%7C%20ImageRef%20%7C%20%7B%20src%3F%2C%20url%3F%2C%20href%3F%2C%20alt%3F%2C%20width%3F%2C%20height%3F%2C%20type%3F%2C%20secureUrl%3F%2C%20secure_url%3F%2C%20thumbnail%3F%20%7D%0A%60%60%60%0A%0A%60thumbnail%60%20is%20the%20video%20sitemap%20thumbnail%20URL.%20Required%20for%20video%20entries.%0A%0A%23%23%20%60TwitterInfo%60%0A%0A%60%60%60ts%0A%7B%0A%20%20card%3F%3A%20TwitterCardType%3B%0A%20%20title%3F%3A%20string%3B%0A%20%20description%3F%3A%20string%3B%0A%20%20site%3F%3A%20TwitterHandle%3B%0A%20%20siteId%3F%3A%20string%3B%0A%20%20creator%3F%3A%20TwitterHandle%3B%0A%20%20creatorId%3F%3A%20string%3B%0A%20%20image%3F%3A%20string%3B%0A%20%20imageAlt%3F%3A%20string%3B%0A%20%20imageWidth%3F%3A%20number%3B%0A%20%20imageHeight%3F%3A%20number%3B%0A%20%20label1%3F%3A%20string%3B%0A%20%20data1%3F%3A%20string%3B%0A%20%20label2%3F%3A%20string%3B%0A%20%20data2%3F%3A%20string%3B%0A%20%20player%3F%3A%20TwitterPlayer%3B%0A%20%20apps%3F%3A%20TwitterApps%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60TwitterPlayer%60%0A%0A%60%60%60ts%0A%7B%0A%20%20url%3A%20string%3B%0A%20%20width%3A%20number%3B%0A%20%20height%3A%20number%3B%0A%20%20stream%3F%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60TwitterApps%60%0A%0A%60%60%60ts%0A%7B%0A%20%20iphone%3F%3A%20TwitterAppEntry%3B%0A%20%20ipad%3F%3A%20TwitterAppEntry%3B%0A%20%20googleplay%3F%3A%20TwitterAppEntry%3B%0A%20%20country%3F%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60TwitterAppEntry%60%0A%0A%60%60%60ts%0A%7B%0A%20%20name%3F%3A%20string%3B%0A%20%20id%3F%3A%20string%3B%0A%20%20url%3F%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60TwitterCardType%60%0A%0A%60%22summary%22%60%20%7C%20%60%22summary_large_image%22%60%20%7C%20%60%22player%22%60%20%7C%20%60%22app%22%60%0A%0A%23%23%20%60JsonLdConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20organization%3F%3A%20boolean%20%7C%20OrganizationJsonLd%3B%0A%20%20website%3F%3A%20boolean%20%7C%20WebSiteJsonLd%3B%0A%20%20article%3F%3A%20boolean%20%7C%20ArticleJsonLd%3B%0A%20%20product%3F%3A%20boolean%20%7C%20ProductJsonLd%3B%0A%20%20extra%3F%3A%20Record%3Cstring%2C%20unknown%3E%5B%5D%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60HreflangAlternate%60%0A%0A%60%60%60ts%0A%7B%0A%20%20hreflang%3A%20string%3B%0A%20%20href%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60RobotsDirectives%60%0A%0A%60%60%60ts%0A%7B%0A%20%20noindex%3F%3A%20boolean%3B%0A%20%20nofollow%3F%3A%20boolean%3B%0A%20%20none%3F%3A%20boolean%3B%0A%20%20all%3F%3A%20boolean%3B%0A%20%20nosnippet%3F%3A%20boolean%3B%0A%20%20noarchive%3F%3A%20boolean%3B%0A%20%20noimageindex%3F%3A%20boolean%3B%0A%20%20notranslate%3F%3A%20boolean%3B%0A%20%20indexifembedded%3F%3A%20boolean%3B%0A%20%20nositelinkssearchbox%3F%3A%20boolean%3B%0A%20%20maxSnippet%3F%3A%20number%3B%0A%20%20maxImagePreview%3F%3A%20%22none%22%20%7C%20%22standard%22%20%7C%20%22large%22%3B%0A%20%20maxVideoPreview%3F%3A%20number%3B%0A%20%20unavailableAfter%3F%3A%20string%20%7C%20Date%3B%0A%7D%0A%60%60%60%0A" style="display: none;"></div>
+                  
+                    <nav aria-label="breadcrumb" class="docmd-breadcrumbs">
+                      <ol>
+                        
+                        
+                          <li class="breadcrumb-item " >
+                            
+                              <span>API Reference</span>
+                            
+                            
+                              <span class="breadcrumb-separator">
+<svg class="lucide-icon icon-chevron-right " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-chevron-right"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg>
+</span>
+                            
+                          </li>
+                        
+                          <li class="breadcrumb-item active" aria-current=&quot;page&quot;>
+                            
+                              <span>Config Reference</span>
+                            
+                            
+                          </li>
+                        
+                      </ol>
+                    </nav>
+                  
+
+                  
+                  
+                    <div class="docmd-copy-widgets">
+                      
+                        <button class="docmd-copy-btn docmd-copy-raw-btn" data-copied="Copied!" title="Copy Markdown" aria-label="Copy Markdown">
+                          <span class="docmd-btn-icon">
+<svg class="lucide-icon icon-copy " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-copy"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+</svg>
+</span>
+                        </button>
+                      
+                      
+                        <button class="docmd-copy-btn docmd-copy-context-btn" data-copied="Copied!" title="Copy Context">
+                          <span class="docmd-btn-icon">
+<svg class="lucide-icon icon-message-square " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-message-square"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
+</svg>
+</span>
+                          <span class="docmd-btn-text">Copy Context</span>
+                        </button>
+                      
+                      
+                    </div>
+                  
+                </div>
+                
+                  <h1 class="docmd-focus-title">
+                    Config Reference
+                  </h1>
+                
+                <h2 id="seopluginoptions" class="docmd-heading"><a href="#seopluginoptions" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>SeoPluginOptions</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  site<span class="hljs-operator">?:</span> SiteConfig;
+  pages<span class="hljs-operator">?:</span> Record<span class="hljs-operator">&lt;</span>string, PageMeta<span class="hljs-operator">&gt;</span>;
+  robots<span class="hljs-operator">?:</span> <span class="hljs-string">&quot;auto&quot;</span> <span class="hljs-operator">|</span> boolean <span class="hljs-operator">|</span> RobotsFileOptions;
+  sitemap<span class="hljs-operator">?:</span> <span class="hljs-string">&quot;auto&quot;</span> <span class="hljs-operator">|</span> boolean <span class="hljs-operator">|</span> SitemapOptions;
+  validate<span class="hljs-operator">?:</span> <span class="hljs-string">&quot;warn&quot;</span> <span class="hljs-operator">|</span> <span class="hljs-string">&quot;error&quot;</span> <span class="hljs-operator">|</span> <span class="hljs-literal">false</span>;
+  configFile<span class="hljs-operator">?:</span> string <span class="hljs-operator">|</span> <span class="hljs-literal">false</span>;
+}
+</code></pre>
+<h2 id="siteconfig" class="docmd-heading"><a href="#siteconfig" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>SiteConfig</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  url<span class="hljs-operator">:</span> string;
+  name<span class="hljs-operator">?:</span> string;
+  title<span class="hljs-operator">?:</span> string;
+  titleTemplate<span class="hljs-operator">?:</span> string;
+  description<span class="hljs-operator">?:</span> string;
+  image<span class="hljs-operator">?:</span> string;
+  imageAlt<span class="hljs-operator">?:</span> string;
+  twitter<span class="hljs-operator">?:</span> string <span class="hljs-operator">|</span> TwitterInfo;
+  locale<span class="hljs-operator">?:</span> string;
+  lang<span class="hljs-operator">?:</span> string;
+  author<span class="hljs-operator">?:</span> string;
+  keywords<span class="hljs-operator">?:</span> string <span class="hljs-operator">|</span> string[];
+  robotsByUserAgent<span class="hljs-operator">?:</span> Record<span class="hljs-operator">&lt;</span>string, string <span class="hljs-operator">|</span> RobotsDirectives<span class="hljs-operator">&gt;</span>;
+  favicon<span class="hljs-operator">?:</span> FaviconConfig;
+  openGraph<span class="hljs-operator">?:</span> OpenGraphInfo;
+  jsonLd<span class="hljs-operator">?:</span> JsonLdConfig;
+}
+</code></pre>
+<p><code>twitter</code> accepts a bare <code>@handle</code> as shorthand for <code>twitter:site</code>.</p>
+<h2 id="pagemeta" class="docmd-heading"><a href="#pagemeta" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>PageMeta</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  title<span class="hljs-operator">?:</span> string;
+  description<span class="hljs-operator">?:</span> string;
+  canonical<span class="hljs-operator">?:</span> string;
+  lang<span class="hljs-operator">?:</span> string;
+  image<span class="hljs-operator">?:</span> string;
+  imageAlt<span class="hljs-operator">?:</span> string;
+  keywords<span class="hljs-operator">?:</span> string <span class="hljs-operator">|</span> string[];
+  author<span class="hljs-operator">?:</span> string;
+  noindex<span class="hljs-operator">?:</span> boolean;
+  robots<span class="hljs-operator">?:</span> string <span class="hljs-operator">|</span> RobotsDirectives;
+  robotsByUserAgent<span class="hljs-operator">?:</span> Record<span class="hljs-operator">&lt;</span>string, string <span class="hljs-operator">|</span> RobotsDirectives<span class="hljs-operator">&gt;</span>;
+  openGraph<span class="hljs-operator">?:</span> OpenGraphInfo;
+  twitter<span class="hljs-operator">?:</span> TwitterInfo;
+  jsonLd<span class="hljs-operator">?:</span> JsonLdConfig;
+  alternates<span class="hljs-operator">?:</span> HreflangAlternate[];
+  sitemap<span class="hljs-operator">?:</span> boolean;
+  priority<span class="hljs-operator">?:</span> number;
+  changefreq<span class="hljs-operator">?:</span> SitemapChangefreq;
+  lastmod<span class="hljs-operator">?:</span> string <span class="hljs-operator">|</span> Date;
+  meta<span class="hljs-operator">?:</span> Record<span class="hljs-operator">&lt;</span>string, string<span class="hljs-operator">&gt;</span>;
+  links<span class="hljs-operator">?:</span> Array<span class="hljs-operator">&lt;</span>{ rel<span class="hljs-operator">:</span> string; href<span class="hljs-operator">:</span> string } <span class="hljs-operator">&amp;</span> Record<span class="hljs-operator">&lt;</span>string, string<span class="hljs-operator">&gt;&gt;</span>;
+}
+</code></pre>
+<h2 id="faviconconfig" class="docmd-heading"><a href="#faviconconfig" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>FaviconConfig</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  icon<span class="hljs-operator">?:</span> string;
+  appleTouchIcon<span class="hljs-operator">?:</span> string;
+  appleTouchIconPrecomposed<span class="hljs-operator">?:</span> string;
+  manifest<span class="hljs-operator">?:</span> string;
+  maskIcon<span class="hljs-operator">?:</span> string;
+  maskIconColor<span class="hljs-operator">?:</span> string;
+  themeColor<span class="hljs-operator">?:</span> string <span class="hljs-operator">|</span> ThemeColorEntry[];
+  mobileWebApp<span class="hljs-operator">?:</span> MobileWebAppConfig;
+  msapplication<span class="hljs-operator">?:</span> MsTileConfig;
+}
+</code></pre>
+<h2 id="mobilewebappconfig" class="docmd-heading"><a href="#mobilewebappconfig" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>MobileWebAppConfig</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  title<span class="hljs-operator">?:</span> string;
+  capable<span class="hljs-operator">?:</span> boolean;
+  statusBarStyle<span class="hljs-operator">?:</span> <span class="hljs-string">&quot;default&quot;</span> <span class="hljs-operator">|</span> <span class="hljs-string">&quot;black&quot;</span> <span class="hljs-operator">|</span> <span class="hljs-string">&quot;black-translucent&quot;</span> <span class="hljs-operator">|</span> <span class="hljs-string">&quot;transparent&quot;</span>;
+}
+</code></pre>
+<h2 id="mstileconfig" class="docmd-heading"><a href="#mstileconfig" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>MsTileConfig</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  tileColor<span class="hljs-operator">?:</span> string;
+  tileImage<span class="hljs-operator">?:</span> string;
+  config<span class="hljs-operator">?:</span> string;
+}
+</code></pre>
+<h2 id="robotsfileoptions" class="docmd-heading"><a href="#robotsfileoptions" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>RobotsFileOptions</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  userAgent<span class="hljs-operator">?:</span> string <span class="hljs-operator">|</span> string[];
+  disallow<span class="hljs-operator">?:</span> string[];
+  allow<span class="hljs-operator">?:</span> string[];
+  <span class="hljs-keyword">groups</span><span class="hljs-operator">?:</span> RobotsGroup[];
+  rules<span class="hljs-operator">?:</span> string[];
+  sitemap<span class="hljs-operator">?:</span> string <span class="hljs-operator">|</span> <span class="hljs-literal">false</span>;
+  merge<span class="hljs-operator">?:</span> boolean;
+  disallowNoindex<span class="hljs-operator">?:</span> boolean;
+  host<span class="hljs-operator">?:</span> string;
+  crawlDelay<span class="hljs-operator">?:</span> number;
+  cleanParam<span class="hljs-operator">?:</span> string <span class="hljs-operator">|</span> string[];
+}
+</code></pre>
+<h2 id="robotsgroup" class="docmd-heading"><a href="#robotsgroup" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>RobotsGroup</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  userAgent<span class="hljs-operator">:</span> string <span class="hljs-operator">|</span> string[];
+  disallow<span class="hljs-operator">?:</span> string[];
+  allow<span class="hljs-operator">?:</span> string[];
+  crawlDelay<span class="hljs-operator">?:</span> number;
+  cleanParam<span class="hljs-operator">?:</span> string <span class="hljs-operator">|</span> string[];
+}
+</code></pre>
+<h2 id="sitemapoptions" class="docmd-heading"><a href="#sitemapoptions" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>SitemapOptions</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  filename<span class="hljs-operator">?:</span> string;
+  exclude<span class="hljs-operator">?:</span> string[];
+  defaultChangefreq<span class="hljs-operator">?:</span> SitemapChangefreq;
+  defaultPriority<span class="hljs-operator">?:</span> number;
+  siteUrl<span class="hljs-operator">?:</span> string;
+  maxUrls<span class="hljs-operator">?:</span> number;
+}
+</code></pre>
+<h2 id="sitemapchangefreq" class="docmd-heading"><a href="#sitemapchangefreq" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>SitemapChangefreq</code></h2>
+<p><code>&quot;always&quot;</code> | <code>&quot;hourly&quot;</code> | <code>&quot;daily&quot;</code> | <code>&quot;weekly&quot;</code> | <code>&quot;monthly&quot;</code> | <code>&quot;yearly&quot;</code> | <code>&quot;never&quot;</code></p>
+<h2 id="imageref-imageinput" class="docmd-heading"><a href="#imageref-imageinput" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>ImageRef</code> / <code>ImageInput</code></h2>
+<pre class="hljs"><code class="language-ts"><span class="hljs-comment">// ImageRef</span>
+{
+  src<span class="hljs-operator">:</span> string;
+  alt<span class="hljs-operator">?:</span> string;
+  width<span class="hljs-operator">?:</span> number;
+  height<span class="hljs-operator">?:</span> number;
+  <span class="hljs-keyword">type</span><span class="hljs-operator">?:</span> string;
+  secureUrl<span class="hljs-operator">?:</span> string;
+  thumbnail<span class="hljs-operator">?:</span> string;
+}
+
+<span class="hljs-comment">// ImageInput: string | ImageRef | { src?, url?, href?, alt?, width?, height?, type?, secureUrl?, secure_url?, thumbnail? }</span>
+</code></pre>
+<p><code>thumbnail</code> is the video sitemap thumbnail URL. Required for video entries.</p>
+<h2 id="twitterinfo" class="docmd-heading"><a href="#twitterinfo" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>TwitterInfo</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  card<span class="hljs-operator">?:</span> TwitterCardType;
+  title<span class="hljs-operator">?:</span> string;
+  description<span class="hljs-operator">?:</span> string;
+  site<span class="hljs-operator">?:</span> TwitterHandle;
+  siteId<span class="hljs-operator">?:</span> string;
+  creator<span class="hljs-operator">?:</span> TwitterHandle;
+  creatorId<span class="hljs-operator">?:</span> string;
+  image<span class="hljs-operator">?:</span> string;
+  imageAlt<span class="hljs-operator">?:</span> string;
+  imageWidth<span class="hljs-operator">?:</span> number;
+  imageHeight<span class="hljs-operator">?:</span> number;
+  label1<span class="hljs-operator">?:</span> string;
+  data1<span class="hljs-operator">?:</span> string;
+  label2<span class="hljs-operator">?:</span> string;
+  data2<span class="hljs-operator">?:</span> string;
+  player<span class="hljs-operator">?:</span> TwitterPlayer;
+  apps<span class="hljs-operator">?:</span> TwitterApps;
+}
+</code></pre>
+<h2 id="twitterplayer" class="docmd-heading"><a href="#twitterplayer" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>TwitterPlayer</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  url<span class="hljs-operator">:</span> string;
+  width<span class="hljs-operator">:</span> number;
+  height<span class="hljs-operator">:</span> number;
+  stream<span class="hljs-operator">?:</span> string;
+}
+</code></pre>
+<h2 id="twitterapps" class="docmd-heading"><a href="#twitterapps" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>TwitterApps</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  iphone<span class="hljs-operator">?:</span> TwitterAppEntry;
+  ipad<span class="hljs-operator">?:</span> TwitterAppEntry;
+  googleplay<span class="hljs-operator">?:</span> TwitterAppEntry;
+  country<span class="hljs-operator">?:</span> string;
+}
+</code></pre>
+<h2 id="twitterappentry" class="docmd-heading"><a href="#twitterappentry" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>TwitterAppEntry</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  name<span class="hljs-operator">?:</span> string;
+  <span class="hljs-keyword">id</span><span class="hljs-operator">?:</span> string;
+  url<span class="hljs-operator">?:</span> string;
+}
+</code></pre>
+<h2 id="twittercardtype" class="docmd-heading"><a href="#twittercardtype" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>TwitterCardType</code></h2>
+<p><code>&quot;summary&quot;</code> | <code>&quot;summary_large_image&quot;</code> | <code>&quot;player&quot;</code> | <code>&quot;app&quot;</code></p>
+<h2 id="jsonldconfig" class="docmd-heading"><a href="#jsonldconfig" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>JsonLdConfig</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  organization<span class="hljs-operator">?:</span> boolean <span class="hljs-operator">|</span> OrganizationJsonLd;
+  website<span class="hljs-operator">?:</span> boolean <span class="hljs-operator">|</span> WebSiteJsonLd;
+  article<span class="hljs-operator">?:</span> boolean <span class="hljs-operator">|</span> ArticleJsonLd;
+  product<span class="hljs-operator">?:</span> boolean <span class="hljs-operator">|</span> ProductJsonLd;
+  extra<span class="hljs-operator">?:</span> Record<span class="hljs-operator">&lt;</span>string, unknown<span class="hljs-operator">&gt;</span>[];
+}
+</code></pre>
+<h2 id="hreflangalternate" class="docmd-heading"><a href="#hreflangalternate" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>HreflangAlternate</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  hreflang<span class="hljs-operator">:</span> string;
+  href<span class="hljs-operator">:</span> string;
+}
+</code></pre>
+<h2 id="robotsdirectives" class="docmd-heading"><a href="#robotsdirectives" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>RobotsDirectives</code></h2>
+<pre class="hljs"><code class="language-ts">{
+  noindex<span class="hljs-operator">?:</span> boolean;
+  nofollow<span class="hljs-operator">?:</span> boolean;
+  none<span class="hljs-operator">?:</span> boolean;
+  all<span class="hljs-operator">?:</span> boolean;
+  nosnippet<span class="hljs-operator">?:</span> boolean;
+  noarchive<span class="hljs-operator">?:</span> boolean;
+  noimageindex<span class="hljs-operator">?:</span> boolean;
+  notranslate<span class="hljs-operator">?:</span> boolean;
+  indexifembedded<span class="hljs-operator">?:</span> boolean;
+  nositelinkssearchbox<span class="hljs-operator">?:</span> boolean;
+  maxSnippet<span class="hljs-operator">?:</span> number;
+  maxImagePreview<span class="hljs-operator">?:</span> <span class="hljs-string">&quot;none&quot;</span> <span class="hljs-operator">|</span> <span class="hljs-string">&quot;standard&quot;</span> <span class="hljs-operator">|</span> <span class="hljs-string">&quot;large&quot;</span>;
+  maxVideoPreview<span class="hljs-operator">?:</span> number;
+  unavailableAfter<span class="hljs-operator">?:</span> string <span class="hljs-operator">|</span> Date;
+}
+</code></pre>
+
+                
+                  <div class="page-navigation">
+                    
+                      <a href="../../api/" class="prev-page">
+                        
+<svg class="lucide-icon icon-arrow-left page-nav-icon" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-arrow-left"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m12 19-7-7 7-7" />
+  <path d="M19 12H5" />
+</svg>
+
+                        <span><small>Previous</small><strong>
+                            API
+                          </strong></span>
+                      </a>
+                    
+                    
+                      <div class="next-page-placeholder">
+                      </div>
+                    
+                  </div>
+                
+              </div>
+              
+              
+              <div class="toc-sidebar">
+                
+                
+                  
+
+
+  <div class="toc-container">
+    <h2 class="toc-title">On This Page<span class="mobile-view toc-menu-button float-right">
+<svg class="lucide-icon icon-chevron-down " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-chevron-down"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m6 9 6 6 6-6" />
+</svg>
+</span></h2>
+    <ul class="toc-list">
+      
+        <li class="toc-item toc-level-2">
+          <a href="#seopluginoptions" class="toc-link">SeoPluginOptions</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#siteconfig" class="toc-link">SiteConfig</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#pagemeta" class="toc-link">PageMeta</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#faviconconfig" class="toc-link">FaviconConfig</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#mobilewebappconfig" class="toc-link">MobileWebAppConfig</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#mstileconfig" class="toc-link">MsTileConfig</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#robotsfileoptions" class="toc-link">RobotsFileOptions</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#robotsgroup" class="toc-link">RobotsGroup</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#sitemapoptions" class="toc-link">SitemapOptions</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#sitemapchangefreq" class="toc-link">SitemapChangefreq</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#imageref-imageinput" class="toc-link">ImageRef / ImageInput</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#twitterinfo" class="toc-link">TwitterInfo</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#twitterplayer" class="toc-link">TwitterPlayer</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#twitterapps" class="toc-link">TwitterApps</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#twitterappentry" class="toc-link">TwitterAppEntry</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#twittercardtype" class="toc-link">TwitterCardType</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#jsonldconfig" class="toc-link">JsonLdConfig</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#hreflangalternate" class="toc-link">HreflangAlternate</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#robotsdirectives" class="toc-link">RobotsDirectives</a>
+        </li>
+      
+    </ul>
+  </div>
+
+                
+                
+              </div>
+              
+            </div>
+            <div class="page-footer-actions">
+              
+              
+                <span class="git-last-updated" data-timestamp="1792883755000">
+                  <svg class="git-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  <span class="git-label">Last updated:</span>
+                  <span class="git-time" data-timestamp="1792883755000"></span>
+                  
+                  <div class="git-commit-tooltip" role="tooltip">
+                    <div class="git-tooltip-title">Recent commits</div>
+                    <ul class="git-commit-list">
+                      
+                        <li class="git-commit-item">
+                          <div class="git-commit-avatar" title="NellowTCS">
+                            
+                              <img src="https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&amp;s=64" alt="NellowTCS">
+                            
+                          </div>
+                          <div class="git-commit-details">
+                            <div class="git-commit-message" title="docs heheheeheh">docs heheheeheh</div>
+                            <div class="git-commit-meta">
+                              <span class="git-commit-author">NellowTCS</span>
+                              <span class="git-commit-date" data-timestamp="1792883755000"></span>
+                            </div>
+                          </div>
+                        </li>
+                      
+                    </ul>
+                  </div>
+                  
+                </span>
+              
+              <span class="git-spacer"></span>
+              
+                <a href="https://github.com/NellowTCS/vite-plugin-seo-meta/edit/main/Docs/docs/reference/config.md" target="_blank" rel="noopener noreferrer" class="edit-link">
+                  
+<svg class="lucide-icon icon-pencil " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-pencil"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+  <path d="m15 5 4 4" />
+</svg>
+
+                  Edit this page
+                </a>
+              
+            </div>
+          </main>
+          
+
+
+<footer class="page-footer">
+  <div class="footer-content">
+    <div class="user-footer">Built with <a href="https://docmd.io">docmd</a>. <a href="https://github.com/NellowTCS/vite-plugin-seo-meta">View on GitHub</a>.</div>
+    
+      <div class="branding-footer">
+        Built with <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"></path><path d="m18 15-2-2"></path><path d="m15 18-2-2"></path></svg> <a href="https://docmd.io" target="_blank" rel="noopener">docmd.</a>
+      </div>
+    
+  </div>
+</footer>
+
+        </div>
+      </div>
+      
+      <script src="../../assets/js/docmd-main.js?v=mvn0pscw"></script>
+      
+      <script src="../../assets/js/docmd-git.js?v=mvn0pscw"></script>
+      <script src="../../assets/js/docmd-image-lightbox.js?v=mvn0pscw" ></script>
+<script src="../../assets/js/vendor/minisearch.js?v=mvn0pscw" ></script>
+<script src="../../assets/js/docmd-search.js?v=mvn0pscw" ></script>
+<script src="../../assets/js/docmd-git.js?v=mvn0pscw" ></script>
+<script src="../../assets/js/docmd-ai.js?v=mvn0pscw" ></script>
+
+  <!-- Search Modal (Injected by @docmd/plugin-search) -->
+  <div id="docmd-search-modal" class="docmd-search-modal" style="display: none;" data-semantic="true" data-show-confidence="true" data-show-filters="true"
+       data-search-placeholder="Search documentation..."
+       data-search-no-results="No results found."
+       data-search-error="Failed to load search index."
+       data-search-offline="Search requires a web server. Open this site via http://localhost instead of file:// to enable search."
+       data-search-offline-build="Search is disabled because these docs were built with the --offline flag. Rebuild the site without the flag to enable search."
+       data-search-initial="Type to start searching..."
+       data-search-navigate="to navigate"
+       data-search-escape="to close">
+      <div class="docmd-search-box">
+          <div class="docmd-search-header">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-icon icon-search"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+              <input type="text" id="docmd-search-input" placeholder="Search documentation..." autocomplete="off" spellcheck="false">
+              <button onclick="window.closeDocmdSearch()" class="docmd-search-close" aria-label="Close search">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-icon icon-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+              </button>
+          </div>
+          <div id="docmd-search-results" class="docmd-search-results"></div>
+          <div class="docmd-search-footer">
+              <span><kbd class="docmd-kbd">↑</kbd> <kbd class="docmd-kbd">↓</kbd> to navigate</span>
+              <span><kbd class="docmd-kbd">ESC</kbd> to close</span>
+          </div>
+      </div>
+  </div>
+
+    <script>
+      (function() {
+        var searchDebounceTimer;
+
+        document.addEventListener('click', function(e) {
+          var link = e.target.closest('a');
+          if (!link || !window.gtag) return;
+          
+          var url = link.href;
+          var hostname = window.location.hostname;
+          var isExternal = link.hostname && link.hostname !== hostname;
+          var isDownload = link.hasAttribute('download') || url.match(/\.(pdf|zip|tar|gz|exe|pkg)$/i);
+          
+          if (isExternal) {
+            gtag('event', 'click_external', { 'url': url, 'link_text': link.innerText.trim() });
+          } else if (isDownload) {
+            gtag('event', 'download', { 'file_name': url.split('/').pop(), 'url': url });
+          }
+
+          // TOC tracking
+          if (link.classList.contains('toc-link')) {
+            gtag('event', 'toc_click', { 'target_id': link.getAttribute('href'), 'title': link.innerText.trim() });
+          }
+
+          // Permalink tracking
+          if (link.classList.contains('heading-anchor')) {
+            gtag('event', 'permalink_click', { 'url': url });
+          }
+        });
+
+        
+        // Search Keyword Tracking
+        document.addEventListener('input', function(e) {
+          if (e.target.id === 'docmd-search-input' && window.gtag) {
+            var query = e.target.value.trim();
+            if (query.length < 3) return;
+            
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(function() {
+              gtag('event', 'search', { 'search_term': query });
+            }, 1000);
+          }
+        });
+        
+      })();
+    </script>
+
+<script>window.__git_config={"repo":"https://github.com/NellowTCS/vite-plugin-seo-meta/edit/main/","branch":"main","editLink":true,"lastUpdated":true,"commitHistory":true,"maxCommits":5,"dateFormat":"relative"};window.__git_i18n={"lastUpdated":"Last updated","recentCommits":"Recent commits","viewCommitHistory":"View commit history","editOnGitHub":"Edit on GitHub","editOnGitLab":"Edit on GitLab","editOnBitbucket":"Edit on Bitbucket","editThisPage":"Edit this page","justNow":"just now","minutesAgo":"{n}m ago","hoursAgo":"{n}h ago","daysAgo":"{n}d ago"}</script>
+<div id="docmd-ai-root"></div><script>window.__docmd_ai_config={"endpoint":"","cloud":{},"captcha":true,"position":"bottom-center","siteTitle":"vite-plugin-seo-meta","siteBase":"/vite-plugin-seo-meta/","siteUrl":"https://nellowtcs.me/vite-plugin-seo-meta/","versions":null,"i18n":null,"navigation":[{"title":"Home","path":"/","icon":"home"},{"title":"Getting Started","icon":"rocket","collapsible":false,"children":[{"title":"Installation","path":"/getting-started/installation/","icon":"download"},{"title":"Quick Start","path":"/getting-started/quickstart/","icon":"play"},{"title":"Configuration","path":"/getting-started/configuration/","icon":"sliders"}]},{"title":"Guide","icon":"book-open","collapsible":false,"children":[{"title":"Meta Tags","path":"/guide/meta-tags/","icon":"tag"},{"title":"Open Graph","path":"/guide/open-graph/","icon":"globe"},{"title":"Twitter Cards","path":"/guide/twitter/","icon":"bird"},{"title":"JSON-LD","path":"/guide/json-ld/","icon":"braces"},{"title":"hreflang","path":"/guide/hreflang/","icon":"languages"},{"title":"robots.txt","path":"/guide/robots/","icon":"shield"},{"title":"Sitemap","path":"/guide/sitemap/","icon":"map"},{"title":"SPA Runtime","path":"/guide/spa-runtime/","icon":"refresh-cw"},{"title":"Validation","path":"/guide/validation/","icon":"check-circle"}]},{"title":"API Reference","icon":"code","collapsible":false,"children":[{"title":"API","path":"/api/","icon":"book"},{"title":"Config Reference","path":"/reference/config/","icon":"file-text"}]},{"title":"Live Demo","path":"/demo/","icon":"monitor","external":true},{"title":"GitHub","path":"https://github.com/NellowTCS/vite-plugin-seo-meta","icon":"github","external":true}],"searchCapabilities":{"keyword":true,"semantic":true},"isWorkspace":false,"workspaceProjects":[],"messageActions":false,"contextLimit":5};</script>
+      
+      
+      
+  </body>
+</html>

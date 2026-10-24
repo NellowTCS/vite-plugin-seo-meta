@@ -1,0 +1,153 @@
+okf_version: 0.9.8
+bundle:
+  name: vite-plugin-seo-meta
+  title: vite-plugin-seo-meta
+  description: ""
+  url: "https://nellowtcs.me/vite-plugin-seo-meta/"
+  generated_by: "@docmd/plugin-okf"
+  generated_at: "2026-10-24T23:16:35.748Z"
+  default_type: concept
+stats:
+  concepts: 15
+  by_type:
+    api: 1
+    concept: 13
+    reference: 1
+  locales: 
+  versions: 
+concepts:
+  - id: api
+    type: api
+    title: API
+    description: "Public exports: seo(), defineSeoConfig() and the runtime helper."
+    path: /api/
+    file: concepts/api.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: getting-started-configuration
+    type: concept
+    title: Configuration
+    description: "Every option the plugin accepts, with defaults."
+    path: /getting-started/configuration/
+    file: concepts/getting-started-configuration.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: getting-started-installation
+    type: concept
+    title: Installation
+    description: "Install vite-plugin-seo-meta and set up its peer dependency."
+    path: /getting-started/installation/
+    file: concepts/getting-started-installation.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: getting-started-quickstart
+    type: concept
+    title: "Quick Start"
+    description: "Add SEO to a Vite app in two minutes."
+    path: /getting-started/quickstart/
+    file: concepts/getting-started-quickstart.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: guide-hreflang
+    type: concept
+    title: hreflang
+    description: "Tell search engines which language and region variant of a page to show."
+    path: /guide/hreflang/
+    file: concepts/guide-hreflang.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: guide-json-ld
+    type: concept
+    title: JSON-LD
+    description: "Structured data for search engines: Organization, WebSite, Article, Product, BreadcrumbList and ImageObject."
+    path: /guide/json-ld/
+    file: concepts/guide-json-ld.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: guide-meta-tags
+    type: concept
+    title: "Meta Tags"
+    description: "How the plugin emits title, description, canonical and robots meta tags."
+    path: /guide/meta-tags/
+    file: concepts/guide-meta-tags.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: guide-open-graph
+    type: concept
+    title: "Open Graph"
+    description: "og:* tags for Facebook, LinkedIn and every platform that reads them."
+    path: /guide/open-graph/
+    file: concepts/guide-open-graph.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: guide-robots
+    type: concept
+    title: robots.txt
+    description: "Generate robots.txt following RFC 9309 with agent groups, wildcards and crawl delays."
+    path: /guide/robots/
+    file: concepts/guide-robots.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: guide-sitemap
+    type: concept
+    title: sitemap.xml
+    description: "Generate sitemap.xml with image, video and news namespaces, plus URL caps."
+    path: /guide/sitemap/
+    file: concepts/guide-sitemap.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: guide-spa-runtime
+    type: concept
+    title: "SPA Runtime"
+    description: "Update SEO tags when the URL changes in a single-page app."
+    path: /guide/spa-runtime/
+    file: concepts/guide-spa-runtime.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: guide-twitter
+    type: concept
+    title: "Twitter Cards"
+    description: "How the plugin emits twitter:* tags for summary, player and app cards."
+    path: /guide/twitter/
+    file: concepts/guide-twitter.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: guide-validation
+    type: concept
+    title: Validation
+    description: "Catch misconfigured SEO before it ships."
+    path: /guide/validation/
+    file: concepts/guide-validation.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: root
+    type: concept
+    title: vite-plugin-seo-meta
+    description: "All-in-one Vite plugin that generates meta tags, canonical, Open Graph, Twitter Cards, JSON-LD, hreflang, robots.txt and sitemap.xml for your app."
+    path: /
+    file: concepts/root.md
+    locale: ""
+    version: ""
+    tags: 
+  - id: reference-config
+    type: reference
+    title: "Config Reference"
+    description: "Every field the plugin accepts."
+    path: /reference/config/
+    file: concepts/reference-config.md
+    locale: ""
+    version: ""
+    tags: 

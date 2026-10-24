@@ -1,0 +1,1501 @@
+<!--
+  ---------------------------------------------------------------
+  docmd : the zero-config documentation engine.
+  @website https://docmd.io
+  [docmd-source] - Please do not remove this header.
+  ---------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="generator" content="docmd v0.9.8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script>
+      var root = "../../";
+      if (root && !root.endsWith('/')) root += '/';
+      if (root === '') root = './';
+      window.DOCMD_ROOT = root;
+
+      window.DOCMD_SITE_ROOT = "/vite-plugin-seo-meta/";
+
+      window.DOCMD_APPEARANCE = "system";
+      window.DOCMD_VERSION_ROOT = "/";
+      window.DOCMD_BASE = "/vite-plugin-seo-meta/";
+      window.DOCMD_LOCALE = "";
+      window.DOCMD_DEFAULT_LOCALE = "";
+    </script>
+    <script>/**
+ * --------------------------------------------------------------------
+ * docmd : the zero-config documentation engine.
+ *
+ * @package     @docmd/core (and ecosystem)
+ * @website     https://docmd.io
+ * @repository  https://github.com/docmd-io/docmd
+ * @license     MIT
+ * @copyright   Copyright (c) 2025-present docmd.io
+ *
+ * [docmd-source] - Please do not remove this header.
+ * --------------------------------------------------------------------
+ */
+
+(function () {
+  try {
+    // 1. Determine Theme
+    //
+    // Resolve from three sources, in priority order:
+    //   1. localStorage explicit user choice (light / dark)
+    //   2. window.DOCMD_APPEARANCE  (current canonical name, set by EJS templates)
+    //   3. window.DOCMD_DEFAULT_MODE (legacy alias kept for pre-0.8.7 outputs)
+    //   4. 'light' as the final fallback
+    //
+    // Note: localStorage is only honoured when it holds an explicit
+    // 'light' or 'dark' value. A stored 'system' value (from a prior
+    // session where the user picked "follow system") must NOT win over
+    // a freshly resolved config value — the resolved value will itself
+    // be 'system' in that case and the OS preference check below takes
+    // over, so this is a no-op for the in-session behaviour but keeps
+    // any future storage migration simple.
+    var localValue = localStorage.getItem('docmd-theme');
+    var configValue = window.DOCMD_APPEARANCE
+      || window.DOCMD_DEFAULT_MODE
+      || 'light';
+    var theme = (localValue === 'light' || localValue === 'dark')
+      ? localValue
+      : configValue;
+
+    if (theme === 'system') {
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    // 2. Apply to Root
+    document.documentElement.setAttribute('data-theme', theme);
+
+    // 3. Highlight.js Toggle Strategy
+    var lightLink = document.getElementById('hljs-light');
+    var darkLink = document.getElementById('hljs-dark');
+
+    if (lightLink && darkLink) {
+      if (theme === 'dark') {
+        lightLink.disabled = true;
+        darkLink.disabled = false;
+      } else {
+        lightLink.disabled = false;
+        darkLink.disabled = true;
+      }
+    }
+
+    document.documentElement.style.visibility = "visible";
+  } catch (e) {
+    document.documentElement.style.visibility = "visible";
+    console.error('Theme init failed', e);
+  }
+})();</script>
+    <style>
+      html {
+        visibility: hidden;
+      }
+    </style>
+    <title>sitemap.xml - vite-plugin-seo-meta</title>
+    
+    
+
+    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mvn0pscw">
+    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mvn0pscw">
+    
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mvn0pscw" id="hljs-light" >
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mvn0pscw" id="hljs-dark" disabled>
+    
+    
+<meta name="description" content="Generate sitemap.xml with image, video and news namespaces, plus URL caps.">
+<link rel="canonical" href="https://nellowtcs.me/vite-plugin-seo-meta/guide/sitemap/">
+<meta property="og:title" content="sitemap.xml - vite-plugin-seo-meta">
+<meta property="og:description" content="Generate sitemap.xml with image, video and news namespaces, plus URL caps.">
+<meta property="og:url" content="https://nellowtcs.me/vite-plugin-seo-meta/guide/sitemap/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="sitemap.xml - vite-plugin-seo-meta">
+<meta name="twitter:description" content="Generate sitemap.xml with image, video and news namespaces, plus URL caps.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"vite-plugin-seo-meta","item":"https://nellowtcs.me/vite-plugin-seo-meta/"},{"@type":"ListItem","position":2,"name":"Guide"},{"@type":"ListItem","position":3,"name":"Sitemap","item":"https://nellowtcs.me/vite-plugin-seo-meta/guide/sitemap/"}]}
+</script>
+
+
+
+
+<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mvn0pscw" >
+<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mvn0pscw" >
+<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mvn0pscw" >
+<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mvn0pscw" >
+
+    
+    
+  </head>
+  <body
+    class="sidebar-collapsible"
+    data-default-collapsed="false"
+    data-copy-code-enabled="true" data-spa-enabled="true" data-source-file="docs/guide/sitemap.md">
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    
+    
+
+    
+
+    
+    
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          
+            <h1><a href="../../">
+                vite-plugin-seo-meta
+              </a></h1>
+          
+          <span class="mobile-view sidebar-menu-button float-right">
+            
+<svg class="lucide-icon icon-menu " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-menu"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M4 5h16" />
+  <path d="M4 12h16" />
+  <path d="M4 19h16" />
+</svg>
+
+          </span>
+        </div>
+        <div class="sidebar-top-group">
+          
+          
+          
+          
+          
+        </div>
+        
+
+<nav class="sidebar-nav" aria-label="Main Navigation">
+  <ul>
+    
+      <li class="" >
+      
+        <a href="../../" class=" "
+          >
+           
+<svg class="lucide-icon icon-home " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-house"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+  <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Home
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="expanded nav-group" >
+      
+        <span class="nav-label nav-group">
+           
+<svg class="lucide-icon icon-rocket " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-rocket"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+  <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" />
+  <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" />
+  <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Getting Started
+          </span>
+          
+        </span>
+        
+
+        
+          <ul class="submenu">
+            
+      <li class="" >
+      
+        <a href="../../getting-started/installation/" class=" "
+          >
+           
+<svg class="lucide-icon icon-download " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-download"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 15V3" />
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+  <path d="m7 10 5 5 5-5" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Installation
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../getting-started/quickstart/" class=" "
+          >
+           
+<svg class="lucide-icon icon-play " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-play"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Quick Start
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../getting-started/configuration/" class=" "
+          >
+           
+<svg class="lucide-icon icon-sliders " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-sliders-vertical"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M10 8h4" />
+  <path d="M12 21v-9" />
+  <path d="M12 8V3" />
+  <path d="M17 16h4" />
+  <path d="M19 12V3" />
+  <path d="M19 21v-5" />
+  <path d="M3 14h4" />
+  <path d="M5 10V3" />
+  <path d="M5 21v-7" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Configuration
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+          </ul>
+        
+      </li>
+    
+      <li class="active-parent expanded nav-group" >
+      
+        <span class="nav-label nav-group">
+           
+<svg class="lucide-icon icon-book-open " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-book-open"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 5v16" />
+  <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Guide
+          </span>
+          
+        </span>
+        
+
+        
+          <ul class="submenu">
+            
+      <li class="" >
+      
+        <a href="../../guide/meta-tags/" class=" "
+          >
+           
+<svg class="lucide-icon icon-tag " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-tag"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" />
+  <circle cx="7.5" cy="7.5" r=".5" fill="currentColor" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Meta Tags
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/open-graph/" class=" "
+          >
+           
+<svg class="lucide-icon icon-globe " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-globe"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="10" />
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+  <path d="M2 12h20" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Open Graph
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/twitter/" class=" "
+          >
+           
+<svg class="lucide-icon icon-bird " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-bird"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 7h.01" />
+  <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" />
+  <path d="m20 7 2 .5-2 .5" />
+  <path d="M10 18v3" />
+  <path d="M14 17.75V21" />
+  <path d="M7 18a6 6 0 0 0 3.84-10.61" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Twitter Cards
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/json-ld/" class=" "
+          >
+           
+<svg class="lucide-icon icon-braces " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-braces"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1" />
+  <path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            JSON-LD
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/hreflang/" class=" "
+          >
+           
+<svg class="lucide-icon icon-languages " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-languages"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m5 8 6 6" />
+  <path d="m4 14 6-6 2-3" />
+  <path d="M2 5h12" />
+  <path d="M7 2h1" />
+  <path d="m22 22-5-10-5 10" />
+  <path d="M14 18h6" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            hreflang
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/robots/" class=" "
+          >
+           
+<svg class="lucide-icon icon-shield " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-shield"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            robots.txt
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="active" >
+      
+        <a href="../../guide/sitemap/" class="active "
+          >
+           
+<svg class="lucide-icon icon-map " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-map"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" />
+  <path d="M15 5.764v15" />
+  <path d="M9 3.236v15" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Sitemap
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/spa-runtime/" class=" "
+          >
+           
+<svg class="lucide-icon icon-refresh-cw " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-refresh-cw"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+  <path d="M21 3v5h-5" />
+  <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+  <path d="M8 16H3v5" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            SPA Runtime
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../guide/validation/" class=" "
+          >
+           
+<svg class="lucide-icon icon-check-circle " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-circle-check-big"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M21.801 10A10 10 0 1 1 17 3.335" />
+  <path d="m9 11 3 3L22 4" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Validation
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+          </ul>
+        
+      </li>
+    
+      <li class="expanded nav-group" >
+      
+        <span class="nav-label nav-group">
+           
+<svg class="lucide-icon icon-code " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-code"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m16 18 6-6-6-6" />
+  <path d="m8 6-6 6 6 6" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            API Reference
+          </span>
+          
+        </span>
+        
+
+        
+          <ul class="submenu">
+            
+      <li class="" >
+      
+        <a href="../../api/" class=" "
+          >
+           
+<svg class="lucide-icon icon-book " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-book"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            API
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="../../reference/config/" class=" "
+          >
+           
+<svg class="lucide-icon icon-file-text " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-file-text"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+  <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+  <path d="M10 9H8" />
+  <path d="M16 13H8" />
+  <path d="M16 17H8" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Config Reference
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+          </ul>
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="/demo/" class=" "
+          target="_blank" rel="noopener">
+           
+<svg class="lucide-icon icon-monitor " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-monitor"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="20" height="14" x="2" y="3" rx="2" />
+  <line x1="8" x2="16" y1="21" y2="21" />
+  <line x1="12" x2="12" y1="17" y2="21" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            Live Demo
+            </span>
+          
+           
+<svg class="lucide-icon icon-external-link nav-external-icon" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-external-link"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M15 3h6v6" />
+  <path d="M10 14 21 3" />
+  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+</svg>
+
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
+        <a href="https://github.com/NellowTCS/vite-plugin-seo-meta" class=" "
+          target="_blank" rel="noopener">
+           
+          
+          <span class="nav-item-title">
+            GitHub
+            </span>
+          
+           
+<svg class="lucide-icon icon-external-link nav-external-icon" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-external-link"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M15 3h6v6" />
+  <path d="M10 14 21 3" />
+  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+</svg>
+
+          
+        </a>
+        
+
+        
+      </li>
+    
+  </ul>
+</nav>
+        <div class="sidebar-bottom-group mt-auto">
+          
+          
+          
+          
+          
+        </div>
+      </aside>
+      
+      <div class="main-content-wrapper">
+        
+        
+        
+          <header class="page-header">
+            <div class="header-left">
+              
+                <button id="sidebar-toggle-button" class="sidebar-toggle-button"
+                  aria-label="Toggle Sidebar">
+                  
+<svg class="lucide-icon icon-chevron-left " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-chevron-left"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m15 18-6-6 6-6" />
+</svg>
+
+                </button>
+              
+              <div class="header-titles-wrapper">
+                <span class="header-title">
+                  sitemap.xml
+                </span>
+              </div>
+            </div>
+            <div class="header-right">
+              
+                
+
+
+<div class="docmd-options-menu">
+    
+    <button class="docmd-search-trigger" aria-label="Search">
+        
+<svg class="lucide-icon icon-search " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-search"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m21 21-4.34-4.34" />
+  <circle cx="11" cy="11" r="8" />
+</svg>
+
+        <span class="search-label">Search</span>
+        <span class="search-keys"><kbd class="docmd-kbd">⌘</kbd><kbd class="docmd-kbd">K</kbd></span>
+    </button>
+    
+
+    
+
+    
+
+    
+    <button class="theme-toggle-button" aria-label="Toggle theme" title="Toggle theme">
+        
+<svg class="lucide-icon icon-sun icon-sun" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-sun"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <circle cx="12" cy="12" r="4" />
+  <path d="M12 2v2" />
+  <path d="M12 20v2" />
+  <path d="m4.93 4.93 1.41 1.41" />
+  <path d="m17.66 17.66 1.41 1.41" />
+  <path d="M2 12h2" />
+  <path d="M20 12h2" />
+  <path d="m6.34 17.66-1.41 1.41" />
+  <path d="m19.07 4.93-1.41 1.41" />
+</svg>
+ 
+<svg class="lucide-icon icon-moon icon-moon" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-moon"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" />
+</svg>
+
+    </button>
+    
+
+    
+
+    
+</div>
+
+              
+            </div>
+          </header>
+        
+        <div class="content-theme-cover">
+          <main class="content-area" id="main-content">
+            <div class="content-layout">
+              <div class="main-content">
+                <div class="docmd-breadcrumbs-row">
+                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22sitemap.xml%22%0Adescription%3A%20%22Generate%20sitemap.xml%20with%20image%2C%20video%20and%20news%20namespaces%2C%20plus%20URL%20caps.%22%0A---%0A%0AA%20sitemap%20is%20an%20XML%20file%20that%20lists%20all%20the%20pages%20on%20your%20site.%20It&#039;s%20extremely%20useful%20for%20search%20engines%2C%20as%20it&#039;s%20a%20easily%20parsible%20list%20of%20all%20your%20pages.%20It%20can%20also%20include%20images%2C%20videos%20and%20news%20articles.%0A%0AThe%20protocol%20is%20documented%20at%20%5Bsitemaps.org%5D(https%3A%2F%2Fwww.sitemaps.org%2Fprotocol.html).%20I%20tried%20to%20follow%20this%20as%20closely%20as%20possible%2C%20but%20if%20you%20notice%20any%20discrepancies%2C%20please%20open%20an%20issue%20or%20PR!!!%0A%0A!%5Balt%20text%5D(.%2Fassets%2Fimages%2FTracer_mvmzfk8e.png)%0A%0A%60sitemap.xml%60%20is%20generated%20at%20build%20time%20from%20the%20%60pages%60%20map.%20It%20lists%20every%20route%20that%20is%20not%20%60noindex%60%20and%20not%20in%20%60exclude%60.%0A%0A%23%23%20Basic%20options%0A%0A%60%60%60ts%0Asitemap%3A%20%7B%0A%20%20exclude%3A%20%5B%22%2Fadmin%22%2C%20%22%2Flogin%22%5D%2C%0A%20%20maxUrls%3A%20100_000%2C%0A%20%20defaultChangefreq%3A%20%22weekly%22%2C%0A%20%20defaultPriority%3A%200.8%2C%0A%20%20siteUrl%3A%20%22https%3A%2F%2Fexample.com%22%2C%0A%7D%0A%60%60%60%0A%0A-%20%60exclude%60%3A%20routes%20to%20leave%20out%0A-%20%60maxUrls%60%3A%20URLs%20per%20sitemap%20file.%20Default%20%6050000%60%0A-%20%60defaultChangefreq%60%3A%20fallback%20for%20pages%20without%20one%0A-%20%60defaultPriority%60%3A%20fallback%20for%20pages%20without%20one%0A-%20%60siteUrl%60%3A%20origin%20used%20to%20enforce%20a%20single-host%20sitemap%0A%0A%23%23%20changefreq%0A%0APer-page%20or%20global%20and%20valid%20values%3A%20%60always%60%2C%20%60hourly%60%2C%20%60daily%60%2C%20%60weekly%60%2C%20%60monthly%60%2C%20%60yearly%60%2C%20%60never%60.%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2Fblog%2Fhello-world%22%3A%20%7B%20changefreq%3A%20%22weekly%22%2C%20priority%3A%200.9%20%7D%2C%0A%20%20%22%2F%22%3A%20%7B%20changefreq%3A%20%22daily%22%2C%20priority%3A%201.0%20%7D%2C%0A%7D%0A%60%60%60%0A%0A%23%23%20maxUrls%20and%20splitting%0A%0APast%20%60maxUrls%60%20URLs%2C%20the%20plugin%20splits%20into%20multiple%20files%3A%20%60sitemap.xml%60%2C%20%60sitemap-1.xml%60%2C%20%60sitemap-2.xml%60%2C%20and%20so%20on.%20The%20index%20file%20lists%20them%20all%20and%20is%20the%20only%20one%20that%20you%20provide%20to%20Google%20Search%20Console%20or%20other%20search%20engine%20tools.%0A%0AThe%20default%20of%2050000%20is%20the%20%5Bsitemaps.org%5D(https%3A%2F%2Fwww.sitemaps.org%2Fprotocol.html)%20recommendation.%20Most%20sites%20should%20never%20hit%20it.%20Raise%20it%20if%20you%20have%20a%20large%20site%20and%20want%20fewer%20files!%0A%0A%23%23%20Image%20namespace%0A%0AWhen%20a%20page%20has%20%60openGraph.image%60%20(or%20structured%20%60images%60)%2C%20the%20sitemap%20entry%20gets%20%60%3Cimage%3Aimage%3E%60%3A%0A%0A%60%60%60xml%0A%3Curl%3E%0A%20%20%3Cloc%3Ehttps%3A%2F%2Fexample.com%2Fblog%2Fhello-world%3C%2Floc%3E%0A%20%20%3Clastmod%3E2024-06-20%3C%2Flastmod%3E%0A%20%20%3Cchangefreq%3Eweekly%3C%2Fchangefreq%3E%0A%20%20%3Cpriority%3E0.9%3C%2Fpriority%3E%0A%20%20%3Cimage%3Aimage%3E%0A%20%20%20%20%3Cimage%3Aloc%3Ehttps%3A%2F%2Fexample.com%2Fpost.png%3C%2Fimage%3Aloc%3E%0A%20%20%20%20%3Cimage%3Atitle%3EHello%2C%20world%3C%2Fimage%3Atitle%3E%0A%20%20%20%20%3Cimage%3Acaption%3EMy%20first%20post%20on%20this%20site.%3C%2Fimage%3Acaption%3E%0A%20%20%3C%2Fimage%3Aimage%3E%0A%3C%2Furl%3E%0A%60%60%60%0A%0A%60image%3Atitle%60%20comes%20from%20the%20page%20title.%20%60image%3Acaption%60%20from%20the%20page%20description%0A%0A%23%23%20Video%20namespace%0A%0AWhen%20a%20page%20has%20%60openGraph.video%60%2C%20the%20sitemap%20entry%20gets%20%60%3Cvideo%3Avideo%3E%60%3A%0A%0A%60%60%60xml%0A%3Curl%3E%0A%20%20%3Cloc%3Ehttps%3A%2F%2Fexample.com%2Fwatch%2Ftrailer%3C%2Floc%3E%0A%20%20%3Cvideo%3Avideo%3E%0A%20%20%20%20%3Cvideo%3Athumbnail_loc%3Ehttps%3A%2F%2Fexample.com%2Fthumb.png%3C%2Fvideo%3Athumbnail_loc%3E%0A%20%20%20%20%3Cvideo%3Atitle%3ETrailer%3C%2Fvideo%3Atitle%3E%0A%20%20%20%20%3Cvideo%3Adescription%3EWatch%20the%20trailer.%3C%2Fvideo%3Adescription%3E%0A%20%20%20%20%3Cvideo%3Acontent_loc%3Ehttps%3A%2F%2Fexample.com%2Ftrailer.mp4%3C%2Fvideo%3Acontent_loc%3E%0A%20%20%20%20%3Cvideo%3Aduration%3E142%3C%2Fvideo%3Aduration%3E%0A%20%20%3C%2Fvideo%3Avideo%3E%0A%3C%2Furl%3E%0A%60%60%60%0A%0AA%20%60thumbnail%60%20is%20required%20for%20video%20entries!%20Pages%20without%20one%20are%20**automatically**%20skipped%20rather%20than%20emitting%20invalid%20XML.%0A%0A%23%23%20News%20namespace%0A%0AWhen%20a%20page%20sets%20%60openGraph.article.publishedTime%60%2C%20the%20sitemap%20entry%20gets%20a%20%60%3Cnews%3Anews%3E%60%20block%3A%0A%0A%60%60%60xml%0A%3Curl%3E%0A%20%20%3Cloc%3Ehttps%3A%2F%2Fexample.com%2Fblog%2Fbreaking%3C%2Floc%3E%0A%20%20%3Cnews%3Anews%3E%0A%20%20%20%20%3Cnews%3Apublication%3E%0A%20%20%20%20%20%20%3Cnews%3Aname%3EMy%20Site%3C%2Fnews%3Aname%3E%0A%20%20%20%20%20%20%3Cnews%3Alanguage%3Een%3C%2Fnews%3Alanguage%3E%0A%20%20%20%20%3C%2Fnews%3Apublication%3E%0A%20%20%20%20%3Cnews%3Apublication_date%3E2024-06-20%3C%2Fnews%3Apublication_date%3E%0A%20%20%20%20%3Cnews%3Atitle%3EBreaking%3C%2Fnews%3Atitle%3E%0A%20%20%3C%2Fnews%3Anews%3E%0A%3C%2Furl%3E%0A%60%60%60%0A%0A%23%23%20xhtml%3Alink%20alternates%0A%0APages%20with%20hreflang%20alternates%20get%20%60%3Cxhtml%3Alink%3E%60%20entries%20in%20their%20sitemap%20URL%3A%0A%0A%60%60%60xml%0A%3Curl%3E%0A%20%20%3Cloc%3Ehttps%3A%2F%2Fexample.com%2F%3C%2Floc%3E%0A%20%20%3Cxhtml%3Alink%20rel%3D%22alternate%22%20hreflang%3D%22en%22%20href%3D%22https%3A%2F%2Fexample.com%2F%22%2F%3E%0A%20%20%3Cxhtml%3Alink%20rel%3D%22alternate%22%20hreflang%3D%22es%22%20href%3D%22https%3A%2F%2Fexample.com%2Fes%2F%22%2F%3E%0A%20%20%3Cxhtml%3Alink%20rel%3D%22alternate%22%20hreflang%3D%22x-default%22%20href%3D%22https%3A%2F%2Fexample.com%2F%22%2F%3E%0A%3C%2Furl%3E%0A%60%60%60%0A%0A%23%23%20Single-host%20enforcement%0A%0AAll%20sitemap%20URLs%20must%20share%20the%20same%20host%20as%20%60site.url%60.%20If%20a%20page%20canonical%20points%20elsewhere%2C%20the%20entry%20is%20skipped.%20This%20keeps%20the%20sitemap%20valid.%20Open%20an%20issue%2FPR%20if%20you%20want%20to%20allow%20cross-host%20sitemaps.%0A" style="display: none;"></div>
+                  
+                    <nav aria-label="breadcrumb" class="docmd-breadcrumbs">
+                      <ol>
+                        
+                        
+                          <li class="breadcrumb-item " >
+                            
+                              <span>Guide</span>
+                            
+                            
+                              <span class="breadcrumb-separator">
+<svg class="lucide-icon icon-chevron-right " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-chevron-right"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg>
+</span>
+                            
+                          </li>
+                        
+                          <li class="breadcrumb-item active" aria-current=&quot;page&quot;>
+                            
+                              <span>Sitemap</span>
+                            
+                            
+                          </li>
+                        
+                      </ol>
+                    </nav>
+                  
+
+                  
+                  
+                    <div class="docmd-copy-widgets">
+                      
+                        <button class="docmd-copy-btn docmd-copy-raw-btn" data-copied="Copied!" title="Copy Markdown" aria-label="Copy Markdown">
+                          <span class="docmd-btn-icon">
+<svg class="lucide-icon icon-copy " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-copy"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+</svg>
+</span>
+                        </button>
+                      
+                      
+                        <button class="docmd-copy-btn docmd-copy-context-btn" data-copied="Copied!" title="Copy Context">
+                          <span class="docmd-btn-icon">
+<svg class="lucide-icon icon-message-square " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-message-square"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
+</svg>
+</span>
+                          <span class="docmd-btn-text">Copy Context</span>
+                        </button>
+                      
+                      
+                    </div>
+                  
+                </div>
+                
+                  <h1 class="docmd-focus-title">
+                    sitemap.xml
+                  </h1>
+                
+                <p>A sitemap is an XML file that lists all the pages on your site. It’s extremely useful for search engines, as it’s a easily parsible list of all your pages. It can also include images, videos and news articles.</p>
+<p>The protocol is documented at <a href="https://www.sitemaps.org/protocol.html">sitemaps.org</a>. I tried to follow this as closely as possible, but if you notice any discrepancies, please open an issue or PR!!!</p>
+<p><img src="../../assets/images/Tracer_mvmzfk8e.png" alt="alt text"></p>
+<p><code>sitemap.xml</code> is generated at build time from the <code>pages</code> map. It lists every route that is not <code>noindex</code> and not in <code>exclude</code>.</p>
+<h2 id="basic-options" class="docmd-heading"><a href="#basic-options" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Basic options</h2>
+<pre class="hljs"><code class="language-ts">sitemap<span class="hljs-operator">:</span> {
+  exclude<span class="hljs-operator">:</span> [<span class="hljs-string">&quot;/admin&quot;</span>, <span class="hljs-string">&quot;/login&quot;</span>],
+  maxUrls<span class="hljs-operator">:</span> 100_000,
+  defaultChangefreq<span class="hljs-operator">:</span> <span class="hljs-string">&quot;weekly&quot;</span>,
+  defaultPriority<span class="hljs-operator">:</span> <span class="hljs-number">0.8</span>,
+  siteUrl<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://example.com&quot;</span>,
+}
+</code></pre>
+<ul>
+<li><code>exclude</code>: routes to leave out</li>
+<li><code>maxUrls</code>: URLs per sitemap file. Default <code>50000</code></li>
+<li><code>defaultChangefreq</code>: fallback for pages without one</li>
+<li><code>defaultPriority</code>: fallback for pages without one</li>
+<li><code>siteUrl</code>: origin used to enforce a single-host sitemap</li>
+</ul>
+<h2 id="changefreq" class="docmd-heading"><a href="#changefreq" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>changefreq</h2>
+<p>Per-page or global and valid values: <code>always</code>, <code>hourly</code>, <code>daily</code>, <code>weekly</code>, <code>monthly</code>, <code>yearly</code>, <code>never</code>.</p>
+<pre class="hljs"><code class="language-ts">pages<span class="hljs-operator">:</span> {
+  <span class="hljs-string">&quot;/blog/hello-world&quot;</span><span class="hljs-operator">:</span> { changefreq<span class="hljs-operator">:</span> <span class="hljs-string">&quot;weekly&quot;</span>, priority<span class="hljs-operator">:</span> <span class="hljs-number">0.9</span> },
+  <span class="hljs-string">&quot;/&quot;</span><span class="hljs-operator">:</span> { changefreq<span class="hljs-operator">:</span> <span class="hljs-string">&quot;daily&quot;</span>, priority<span class="hljs-operator">:</span> <span class="hljs-number">1.0</span> },
+}
+</code></pre>
+<h2 id="maxurls-and-splitting" class="docmd-heading"><a href="#maxurls-and-splitting" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>maxUrls and splitting</h2>
+<p>Past <code>maxUrls</code> URLs, the plugin splits into multiple files: <code>sitemap.xml</code>, <code>sitemap-1.xml</code>, <code>sitemap-2.xml</code>, and so on. The index file lists them all and is the only one that you provide to Google Search Console or other search engine tools.</p>
+<p>The default of 50000 is the <a href="https://www.sitemaps.org/protocol.html">sitemaps.org</a> recommendation. Most sites should never hit it. Raise it if you have a large site and want fewer files!</p>
+<h2 id="image-namespace" class="docmd-heading"><a href="#image-namespace" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Image namespace</h2>
+<p>When a page has <code>openGraph.image</code> (or structured <code>images</code>), the sitemap entry gets <code>&lt;image:image&gt;</code>:</p>
+<pre class="hljs"><code class="language-xml"><span class="hljs-operator">&lt;</span>url<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;</span>loc<span class="hljs-operator">&gt;</span>https<span class="hljs-operator">://</span>example.<span class="hljs-attr">com</span><span class="hljs-operator">/</span>blog<span class="hljs-operator">/</span>hello<span class="hljs-operator">-</span>world<span class="hljs-operator">&lt;/</span>loc<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;</span>lastmod<span class="hljs-operator">&gt;</span><span class="hljs-number">2024</span><span class="hljs-operator">-</span><span class="hljs-number">06</span><span class="hljs-operator">-</span><span class="hljs-number">20</span><span class="hljs-operator">&lt;/</span>lastmod<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;</span>changefreq<span class="hljs-operator">&gt;</span>weekly<span class="hljs-operator">&lt;/</span>changefreq<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;</span>priority<span class="hljs-operator">&gt;</span><span class="hljs-number">0.9</span><span class="hljs-operator">&lt;/</span>priority<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;</span>image<span class="hljs-operator">:</span>image<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>image<span class="hljs-operator">:</span>loc<span class="hljs-operator">&gt;</span>https<span class="hljs-operator">://</span>example.<span class="hljs-attr">com</span><span class="hljs-operator">/</span>post.<span class="hljs-attr">png</span><span class="hljs-operator">&lt;/</span>image<span class="hljs-operator">:</span>loc<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>image<span class="hljs-operator">:</span>title<span class="hljs-operator">&gt;</span>Hello, world<span class="hljs-operator">&lt;/</span>image<span class="hljs-operator">:</span>title<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>image<span class="hljs-operator">:</span>caption<span class="hljs-operator">&gt;</span>My first post on <span class="hljs-keyword">this</span> site.<span class="hljs-operator">&lt;/</span>image<span class="hljs-operator">:</span>caption<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;/</span>image<span class="hljs-operator">:</span>image<span class="hljs-operator">&gt;</span>
+<span class="hljs-operator">&lt;/</span>url<span class="hljs-operator">&gt;</span>
+</code></pre>
+<p><code>image:title</code> comes from the page title. <code>image:caption</code> from the page description</p>
+<h2 id="video-namespace" class="docmd-heading"><a href="#video-namespace" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Video namespace</h2>
+<p>When a page has <code>openGraph.video</code>, the sitemap entry gets <code>&lt;video:video&gt;</code>:</p>
+<pre class="hljs"><code class="language-xml"><span class="hljs-operator">&lt;</span>url<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;</span>loc<span class="hljs-operator">&gt;</span>https<span class="hljs-operator">://</span>example.<span class="hljs-attr">com</span><span class="hljs-operator">/</span>watch<span class="hljs-operator">/</span>trailer<span class="hljs-operator">&lt;/</span>loc<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;</span>video<span class="hljs-operator">:</span>video<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>video<span class="hljs-operator">:</span>thumbnail_loc<span class="hljs-operator">&gt;</span>https<span class="hljs-operator">://</span>example.<span class="hljs-attr">com</span><span class="hljs-operator">/</span>thumb.<span class="hljs-attr">png</span><span class="hljs-operator">&lt;/</span>video<span class="hljs-operator">:</span>thumbnail_loc<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>video<span class="hljs-operator">:</span>title<span class="hljs-operator">&gt;</span>Trailer<span class="hljs-operator">&lt;/</span>video<span class="hljs-operator">:</span>title<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>video<span class="hljs-operator">:</span>description<span class="hljs-operator">&gt;</span>Watch the trailer.<span class="hljs-operator">&lt;/</span>video<span class="hljs-operator">:</span>description<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>video<span class="hljs-operator">:</span>content_loc<span class="hljs-operator">&gt;</span>https<span class="hljs-operator">://</span>example.<span class="hljs-attr">com</span><span class="hljs-operator">/</span>trailer.<span class="hljs-attr">mp4</span><span class="hljs-operator">&lt;/</span>video<span class="hljs-operator">:</span>content_loc<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>video<span class="hljs-operator">:</span>duration<span class="hljs-operator">&gt;</span><span class="hljs-number">142</span><span class="hljs-operator">&lt;/</span>video<span class="hljs-operator">:</span>duration<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;/</span>video<span class="hljs-operator">:</span>video<span class="hljs-operator">&gt;</span>
+<span class="hljs-operator">&lt;/</span>url<span class="hljs-operator">&gt;</span>
+</code></pre>
+<p>A <code>thumbnail</code> is required for video entries! Pages without one are <strong>automatically</strong> skipped rather than emitting invalid XML.</p>
+<h2 id="news-namespace" class="docmd-heading"><a href="#news-namespace" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>News namespace</h2>
+<p>When a page sets <code>openGraph.article.publishedTime</code>, the sitemap entry gets a <code>&lt;news:news&gt;</code> block:</p>
+<pre class="hljs"><code class="language-xml"><span class="hljs-operator">&lt;</span>url<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;</span>loc<span class="hljs-operator">&gt;</span>https<span class="hljs-operator">://</span>example.<span class="hljs-attr">com</span><span class="hljs-operator">/</span>blog<span class="hljs-operator">/</span>breaking<span class="hljs-operator">&lt;/</span>loc<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;</span>news<span class="hljs-operator">:</span>news<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>news<span class="hljs-operator">:</span>publication<span class="hljs-operator">&gt;</span>
+      <span class="hljs-operator">&lt;</span>news<span class="hljs-operator">:</span>name<span class="hljs-operator">&gt;</span>My Site<span class="hljs-operator">&lt;/</span>news<span class="hljs-operator">:</span>name<span class="hljs-operator">&gt;</span>
+      <span class="hljs-operator">&lt;</span>news<span class="hljs-operator">:</span>language<span class="hljs-operator">&gt;</span>en<span class="hljs-operator">&lt;/</span>news<span class="hljs-operator">:</span>language<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;/</span>news<span class="hljs-operator">:</span>publication<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>news<span class="hljs-operator">:</span>publication_date<span class="hljs-operator">&gt;</span><span class="hljs-number">2024</span><span class="hljs-operator">-</span><span class="hljs-number">06</span><span class="hljs-operator">-</span><span class="hljs-number">20</span><span class="hljs-operator">&lt;/</span>news<span class="hljs-operator">:</span>publication_date<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>news<span class="hljs-operator">:</span>title<span class="hljs-operator">&gt;</span>Breaking<span class="hljs-operator">&lt;/</span>news<span class="hljs-operator">:</span>title<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;/</span>news<span class="hljs-operator">:</span>news<span class="hljs-operator">&gt;</span>
+<span class="hljs-operator">&lt;/</span>url<span class="hljs-operator">&gt;</span>
+</code></pre>
+<h2 id="xhtmllink-alternates" class="docmd-heading"><a href="#xhtmllink-alternates" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>xhtml:link alternates</h2>
+<p>Pages with hreflang alternates get <code>&lt;xhtml:link&gt;</code> entries in their sitemap URL:</p>
+<pre class="hljs"><code class="language-xml"><span class="hljs-operator">&lt;</span>url<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;</span>loc<span class="hljs-operator">&gt;</span>https<span class="hljs-operator">://</span>example.<span class="hljs-attr">com</span><span class="hljs-operator">/&lt;/</span>loc<span class="hljs-operator">&gt;</span>
+  <span class="hljs-operator">&lt;</span>xhtml<span class="hljs-operator">:</span>link rel<span class="hljs-operator">=</span><span class="hljs-string">&quot;alternate&quot;</span> hreflang<span class="hljs-operator">=</span><span class="hljs-string">&quot;en&quot;</span> href<span class="hljs-operator">=</span><span class="hljs-string">&quot;https://example.com/&quot;</span><span class="hljs-operator">/&gt;</span>
+  <span class="hljs-operator">&lt;</span>xhtml<span class="hljs-operator">:</span>link rel<span class="hljs-operator">=</span><span class="hljs-string">&quot;alternate&quot;</span> hreflang<span class="hljs-operator">=</span><span class="hljs-string">&quot;es&quot;</span> href<span class="hljs-operator">=</span><span class="hljs-string">&quot;https://example.com/es/&quot;</span><span class="hljs-operator">/&gt;</span>
+  <span class="hljs-operator">&lt;</span>xhtml<span class="hljs-operator">:</span>link rel<span class="hljs-operator">=</span><span class="hljs-string">&quot;alternate&quot;</span> hreflang<span class="hljs-operator">=</span><span class="hljs-string">&quot;x-default&quot;</span> href<span class="hljs-operator">=</span><span class="hljs-string">&quot;https://example.com/&quot;</span><span class="hljs-operator">/&gt;</span>
+<span class="hljs-operator">&lt;/</span>url<span class="hljs-operator">&gt;</span>
+</code></pre>
+<h2 id="single-host-enforcement" class="docmd-heading"><a href="#single-host-enforcement" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Single-host enforcement</h2>
+<p>All sitemap URLs must share the same host as <code>site.url</code>. If a page canonical points elsewhere, the entry is skipped. This keeps the sitemap valid. Open an issue/PR if you want to allow cross-host sitemaps.</p>
+
+                
+                  <div class="page-navigation">
+                    
+                      <a href="../../guide/robots/" class="prev-page">
+                        
+<svg class="lucide-icon icon-arrow-left page-nav-icon" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-arrow-left"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m12 19-7-7 7-7" />
+  <path d="M19 12H5" />
+</svg>
+
+                        <span><small>Previous</small><strong>
+                            robots.txt
+                          </strong></span>
+                      </a>
+                    
+                    
+                      <a href="../../guide/spa-runtime/" class="next-page">
+                        <span><small>Next</small>
+                          <strong>
+                            SPA Runtime
+                          </strong></span>
+                        
+<svg class="lucide-icon icon-arrow-right page-nav-icon" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-arrow-right"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 12h14" />
+  <path d="m12 5 7 7-7 7" />
+</svg>
+
+                      </a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+              <div class="toc-sidebar">
+                
+                
+                  
+
+
+  <div class="toc-container">
+    <h2 class="toc-title">On This Page<span class="mobile-view toc-menu-button float-right">
+<svg class="lucide-icon icon-chevron-down " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-chevron-down"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m6 9 6 6 6-6" />
+</svg>
+</span></h2>
+    <ul class="toc-list">
+      
+        <li class="toc-item toc-level-2">
+          <a href="#basic-options" class="toc-link">Basic options</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#changefreq" class="toc-link">changefreq</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#maxurls-and-splitting" class="toc-link">maxUrls and splitting</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#image-namespace" class="toc-link">Image namespace</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#video-namespace" class="toc-link">Video namespace</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#news-namespace" class="toc-link">News namespace</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#xhtmllink-alternates" class="toc-link">xhtml:link alternates</a>
+        </li>
+      
+        <li class="toc-item toc-level-2">
+          <a href="#single-host-enforcement" class="toc-link">Single-host enforcement</a>
+        </li>
+      
+    </ul>
+  </div>
+
+                
+                
+              </div>
+              
+            </div>
+            <div class="page-footer-actions">
+              
+              
+                <span class="git-last-updated" data-timestamp="1792883755000">
+                  <svg class="git-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  <span class="git-label">Last updated:</span>
+                  <span class="git-time" data-timestamp="1792883755000"></span>
+                  
+                  <div class="git-commit-tooltip" role="tooltip">
+                    <div class="git-tooltip-title">Recent commits</div>
+                    <ul class="git-commit-list">
+                      
+                        <li class="git-commit-item">
+                          <div class="git-commit-avatar" title="NellowTCS">
+                            
+                              <img src="https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&amp;s=64" alt="NellowTCS">
+                            
+                          </div>
+                          <div class="git-commit-details">
+                            <div class="git-commit-message" title="docs heheheeheh">docs heheheeheh</div>
+                            <div class="git-commit-meta">
+                              <span class="git-commit-author">NellowTCS</span>
+                              <span class="git-commit-date" data-timestamp="1792883755000"></span>
+                            </div>
+                          </div>
+                        </li>
+                      
+                    </ul>
+                  </div>
+                  
+                </span>
+              
+              <span class="git-spacer"></span>
+              
+                <a href="https://github.com/NellowTCS/vite-plugin-seo-meta/edit/main/Docs/docs/guide/sitemap.md" target="_blank" rel="noopener noreferrer" class="edit-link">
+                  
+<svg class="lucide-icon icon-pencil " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-pencil"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+  <path d="m15 5 4 4" />
+</svg>
+
+                  Edit this page
+                </a>
+              
+            </div>
+          </main>
+          
+
+
+<footer class="page-footer">
+  <div class="footer-content">
+    <div class="user-footer">Built with <a href="https://docmd.io">docmd</a>. <a href="https://github.com/NellowTCS/vite-plugin-seo-meta">View on GitHub</a>.</div>
+    
+      <div class="branding-footer">
+        Built with <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path><path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"></path><path d="m18 15-2-2"></path><path d="m15 18-2-2"></path></svg> <a href="https://docmd.io" target="_blank" rel="noopener">docmd.</a>
+      </div>
+    
+  </div>
+</footer>
+
+        </div>
+      </div>
+      
+      <script src="../../assets/js/docmd-main.js?v=mvn0pscw"></script>
+      
+      <script src="../../assets/js/docmd-git.js?v=mvn0pscw"></script>
+      <script src="../../assets/js/docmd-image-lightbox.js?v=mvn0pscw" ></script>
+<script src="../../assets/js/vendor/minisearch.js?v=mvn0pscw" ></script>
+<script src="../../assets/js/docmd-search.js?v=mvn0pscw" ></script>
+<script src="../../assets/js/docmd-git.js?v=mvn0pscw" ></script>
+<script src="../../assets/js/docmd-ai.js?v=mvn0pscw" ></script>
+
+  <!-- Search Modal (Injected by @docmd/plugin-search) -->
+  <div id="docmd-search-modal" class="docmd-search-modal" style="display: none;" data-semantic="true" data-show-confidence="true" data-show-filters="true"
+       data-search-placeholder="Search documentation..."
+       data-search-no-results="No results found."
+       data-search-error="Failed to load search index."
+       data-search-offline="Search requires a web server. Open this site via http://localhost instead of file:// to enable search."
+       data-search-offline-build="Search is disabled because these docs were built with the --offline flag. Rebuild the site without the flag to enable search."
+       data-search-initial="Type to start searching..."
+       data-search-navigate="to navigate"
+       data-search-escape="to close">
+      <div class="docmd-search-box">
+          <div class="docmd-search-header">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-icon icon-search"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+              <input type="text" id="docmd-search-input" placeholder="Search documentation..." autocomplete="off" spellcheck="false">
+              <button onclick="window.closeDocmdSearch()" class="docmd-search-close" aria-label="Close search">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-icon icon-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+              </button>
+          </div>
+          <div id="docmd-search-results" class="docmd-search-results"></div>
+          <div class="docmd-search-footer">
+              <span><kbd class="docmd-kbd">↑</kbd> <kbd class="docmd-kbd">↓</kbd> to navigate</span>
+              <span><kbd class="docmd-kbd">ESC</kbd> to close</span>
+          </div>
+      </div>
+  </div>
+
+    <script>
+      (function() {
+        var searchDebounceTimer;
+
+        document.addEventListener('click', function(e) {
+          var link = e.target.closest('a');
+          if (!link || !window.gtag) return;
+          
+          var url = link.href;
+          var hostname = window.location.hostname;
+          var isExternal = link.hostname && link.hostname !== hostname;
+          var isDownload = link.hasAttribute('download') || url.match(/\.(pdf|zip|tar|gz|exe|pkg)$/i);
+          
+          if (isExternal) {
+            gtag('event', 'click_external', { 'url': url, 'link_text': link.innerText.trim() });
+          } else if (isDownload) {
+            gtag('event', 'download', { 'file_name': url.split('/').pop(), 'url': url });
+          }
+
+          // TOC tracking
+          if (link.classList.contains('toc-link')) {
+            gtag('event', 'toc_click', { 'target_id': link.getAttribute('href'), 'title': link.innerText.trim() });
+          }
+
+          // Permalink tracking
+          if (link.classList.contains('heading-anchor')) {
+            gtag('event', 'permalink_click', { 'url': url });
+          }
+        });
+
+        
+        // Search Keyword Tracking
+        document.addEventListener('input', function(e) {
+          if (e.target.id === 'docmd-search-input' && window.gtag) {
+            var query = e.target.value.trim();
+            if (query.length < 3) return;
+            
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(function() {
+              gtag('event', 'search', { 'search_term': query });
+            }, 1000);
+          }
+        });
+        
+      })();
+    </script>
+
+<script>window.__git_config={"repo":"https://github.com/NellowTCS/vite-plugin-seo-meta/edit/main/","branch":"main","editLink":true,"lastUpdated":true,"commitHistory":true,"maxCommits":5,"dateFormat":"relative"};window.__git_i18n={"lastUpdated":"Last updated","recentCommits":"Recent commits","viewCommitHistory":"View commit history","editOnGitHub":"Edit on GitHub","editOnGitLab":"Edit on GitLab","editOnBitbucket":"Edit on Bitbucket","editThisPage":"Edit this page","justNow":"just now","minutesAgo":"{n}m ago","hoursAgo":"{n}h ago","daysAgo":"{n}d ago"}</script>
+<div id="docmd-ai-root"></div><script>window.__docmd_ai_config={"endpoint":"","cloud":{},"captcha":true,"position":"bottom-center","siteTitle":"vite-plugin-seo-meta","siteBase":"/vite-plugin-seo-meta/","siteUrl":"https://nellowtcs.me/vite-plugin-seo-meta/","versions":null,"i18n":null,"navigation":[{"title":"Home","path":"/","icon":"home"},{"title":"Getting Started","icon":"rocket","collapsible":false,"children":[{"title":"Installation","path":"/getting-started/installation/","icon":"download"},{"title":"Quick Start","path":"/getting-started/quickstart/","icon":"play"},{"title":"Configuration","path":"/getting-started/configuration/","icon":"sliders"}]},{"title":"Guide","icon":"book-open","collapsible":false,"children":[{"title":"Meta Tags","path":"/guide/meta-tags/","icon":"tag"},{"title":"Open Graph","path":"/guide/open-graph/","icon":"globe"},{"title":"Twitter Cards","path":"/guide/twitter/","icon":"bird"},{"title":"JSON-LD","path":"/guide/json-ld/","icon":"braces"},{"title":"hreflang","path":"/guide/hreflang/","icon":"languages"},{"title":"robots.txt","path":"/guide/robots/","icon":"shield"},{"title":"Sitemap","path":"/guide/sitemap/","icon":"map"},{"title":"SPA Runtime","path":"/guide/spa-runtime/","icon":"refresh-cw"},{"title":"Validation","path":"/guide/validation/","icon":"check-circle"}]},{"title":"API Reference","icon":"code","collapsible":false,"children":[{"title":"API","path":"/api/","icon":"book"},{"title":"Config Reference","path":"/reference/config/","icon":"file-text"}]},{"title":"Live Demo","path":"/demo/","icon":"monitor","external":true},{"title":"GitHub","path":"https://github.com/NellowTCS/vite-plugin-seo-meta","icon":"github","external":true}],"searchCapabilities":{"keyword":true,"semantic":true},"isWorkspace":false,"workspaceProjects":[],"messageActions":false,"contextLimit":5};</script>
+      
+      
+      
+  </body>
+</html>
