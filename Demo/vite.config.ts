@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import { seo } from "vite-plugin-seo-meta";
 
 export default defineConfig({
-  base: "./",
+  base: "/vite-plugin-seo-meta/demo/",
   plugins: [
     seo({
       configFile: false,

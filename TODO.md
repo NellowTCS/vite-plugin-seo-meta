@@ -1,7 +1,6 @@
 # TODO
 
-- [ ] Demo that is like a config generator that you can paste into your `vite.config.ts`/`.js`
-- [ ] Docs via DocMD as always
+- [x] Docs via DocMD as always
 
 ## images
 

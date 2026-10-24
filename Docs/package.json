@@ -1,0 +1,22 @@
+{
+  "name": "vite-plugin-seo-meta-docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "docmd dev",
+    "build": "docmd build",
+    "preview": "npx serve site",
+    "make-pretty": "prettier --write . --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "@docmd/core": "^0.9.8",
+    "@huggingface/transformers": "^4.3.1",
+    "docmd-search": "^0.1.6",
+    "onnxruntime-node": "^1.30.0",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10"
+  }
+}

@@ -31,16 +31,28 @@ jobs:
       - name: Build plugin
         run: npm ci && npm run build
 
+      - name: Build docs
+        working-directory: Docs
+        run: npm ci && npm run build
+
       - name: Install demo dependencies
         working-directory: Demo
         run: npm i
 
       - name: Build demo
         working-directory: Demo
-        run: npx vite build --base /vite-plugin-seo-meta/
+        run: npx vite build --base /vite-plugin-seo-meta/demo/
 
-      - name: Deploy browser build to GitHub Pages
+      # Docs at root and demo at /demo
+      - name: Assemble site
+        run: |
+          rm -rf gh-pages-root
+          mkdir -p gh-pages-root/demo
+          cp -R Docs/site/. gh-pages-root/
+          cp -R Demo/dist/. gh-pages-root/demo/
+
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: Demo/dist
+          publish_dir: ./gh-pages-root

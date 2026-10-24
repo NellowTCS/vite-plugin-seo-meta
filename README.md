@@ -5,33 +5,19 @@ All-in-one Vite plugin that generates SEO metadata for your app: `<title>`, meta
 [![npm version](https://img.shields.io/npm/v/vite-plugin-seo-meta.svg)](https://www.npmjs.com/package/vite-plugin-seo-meta)
 [![license](https://img.shields.io/npm/l/vite-plugin-seo-meta.svg)](LICENSE)
 
-## Features
+[Documentation](https://nellowtcs.me/vite-plugin-seo-meta/) | [Live Demo](https://nellowtcs.me/vite-plugin-seo-meta/demo/)
 
-- Zero-config: sensible defaults from `site` config
-- Per-page overrides via `pages` map
-- Canonical, Open Graph (full ogp.me spec incl. structured image/video/audio, type-specific verticals and `payment.link`)
-- Twitter Cards (summary/summary_large_image/player/app, image dims/alt, label/data pairs, `:site:id`/`:creator:id`)
-- JSON-LD: Organization, WebSite, Article, Product, BreadcrumbList, ImageObject (+ `extra` escape hatch)
-- hreflang alternates per page (with self-referencing alternate)
-- `robots.txt` generation per RFC 9309 (groups, `Allow`/`Disallow` with `*`/`$` wildcards, `Crawl-delay`, `Clean-param`, `Host`, `Sitemap`), merged with existing `public/robots.txt`
-- `sitemap.xml` generation with image/video/news namespaces and `xhtml:link` alternates; single-host enforcement and a URL cap
-- Rich favicon and platform icons: `apple-touch-icon`, `apple-touch-icon-precomposed`, `mask-icon`, `apple-mobile-web-app-*`, `msapplication-*`
-- Coexistence detection: warns and defers to `vite-plugin-sitemap`/`vite-plugin-pwa` etc when present (override with `sitemap: true`/`robots: true`)
-- Pre-build validation: enums, required fields, absolute URLs, length budgets (title 60, description 50-160, Twitter 70/200); `warn` by default, `error` throws
-- SPA runtime helper: `applySeo()` for client-side navigation (`import from "vite-plugin-seo-meta/runtime"`)
-- Type-safe with `defineSeoConfig()` and full TypeScript types
+![Image showing vite-plugin-seo-meta's Demo passing an online SEO test with 100%](Docs/assets/images/Tracer_mvkmz395.png)
 
 ## Installation
 
 ```bash
-npm i -D vite-plugin-seo-meta
+npm i -D vite-plugin-seo-meta vite
 ```
 
-Peer dependency: `vite >= 5.0.0`.
+Vite 5 or newer. The plugin is ESM only.
 
 ## Quick start
-
-### Inline in vite.config.ts
 
 ```ts
 import { defineConfig } from "vite";
@@ -52,147 +38,49 @@ export default defineConfig({
 });
 ```
 
-### External seo.config.ts (auto-loaded)
-
-Create `seo.config.ts`:
+Per-page overrides go in `seo.config.ts`, which the plugin auto-loads:
 
 ```ts
 import { defineSeoConfig } from "vite-plugin-seo-meta";
 
 export default defineSeoConfig({
-  site: {
-    url: "https://example.com",
-    name: "My Site",
-    title: "My Site",
-    titleTemplate: "%s | My Site",
-    description: "My awesome site",
-  },
-});
-```
-
-Then in `vite.config.ts`:
-
-```ts
-import { defineConfig } from "vite";
-import { seo } from "vite-plugin-seo-meta";
-
-export default defineConfig({
-  plugins: [seo()],
-});
-```
-
-## Usage
-
-### Per-page metadata
-
-```ts
-seo({
   site: { url: "https://example.com", name: "My Site" },
   pages: {
-    "/": { title: "Home" },
-    "/about": { title: "About", description: "About us" },
+    "/about": { title: "About", description: "Who we are." }, // technically this would be flagged as too short, but oh well
     "/private": { title: "Secret", noindex: true },
   },
 });
 ```
 
-Pages with `noindex: true` are excluded from `sitemap.xml`. By default they do **not** add `Disallow` to `robots.txt` (so crawlers can still see the `noindex` directive). If you want to block crawling explicitly, set `robots: { disallowNoindex: true }`.
+`defineSeoConfig` is a typed identity function. It does nothing at runtime as its only job is to make the config type-check haha.
 
-### SPA runtime (client-side navigation)
+## Features
 
-For SPAs, build-time injection covers the initial HTML. After route changes, call `applySeo()`:
+- Zero-config: sensible defaults from `site` (sensible defaults that pass with flying colors (100%) on SEO audits)
+- Per-page overrides via `pages`
+- Canonical, Open Graph (full ogp.me spec incl. structured image/video/audio, type-specific verticals and `payment.link`)
+- Twitter Cards (summary/summary_large_image/player/app, image dims/alt, label/data pairs, `:site:id`/`:creator:id`)
+- JSON-LD: Organization, WebSite, Article, Product, BreadcrumbList, ImageObject (+ `extra` escape hatch)
+- hreflang alternates per page (with self-referencing alternate)
+- `robots.txt` following le spec at RFC 9309 (groups, `Allow`/`Disallow` with `*`/`$` wildcards, `Crawl-delay`, `Clean-param`, `Host`, `Sitemap`), merged with existing `public/robots.txt`
+- `sitemap.xml` with image/video/news namespaces and `xhtml:link` alternates; single-host enforcement and a URL cap
+- Rich favicon and platform icons: `apple-touch-icon`, `apple-touch-icon-precomposed`, `mask-icon`, `apple-mobile-web-app-*`, `msapplication-*`
+- Coexistence detection: warns and defers to `vite-plugin-sitemap`/`vite-plugin-pwa` etc when present (override with `sitemap: true`/`robots: true`), to prevent double-builds and general pain.
+- Pre-build validation: enums, required fields, absolute URLs, length budgets (title 60, description 50-160, Twitter 70/200); `warn` by default, `error` throws
+- SPA runtime helper: `applySeo()` for client-side navigation (`import from "vite-plugin-seo-meta/runtime"`)
+- Type-safe with `defineSeoConfig()` and full TypeScript types from the get go!
 
-```ts
-import { applySeo } from "vite-plugin-seo-meta/runtime";
+## Docs
 
-function onRouteChange() {
-  applySeo({ title: "New Page", description: "..." });
-}
-```
+![Image of home page of docs](Docs/assets/images/Tracer_mvkmtc1q.png)
 
-`applySeo(page, site?)` merges with the injected site config if `site` is omitted. It only updates managed head elements.
-
-### JSON-LD
-
-```ts
-seo({
-  site: {
-    url: "https://example.com",
-    jsonLd: { organization: true, website: true },
-  },
-  pages: {
-    "/blog/post": {
-      jsonLd: {
-        article: { headline: "Post", type: "BlogPosting" },
-        product: { name: "Widget", price: 10, priceCurrency: "USD" },
-        extra: [{ "@type": "BreadcrumbList", itemListElement: [] }],
-      },
-    },
-  },
-});
-```
-
-### hreflang alternates
-
-```ts
-pages: {
-  "/": {
-    alternates: [
-      { hreflang: "en", href: "https://example.com/" },
-      { hreflang: "es", href: "https://example.com/es/" },
-      { hreflang: "x-default", href: "https://example.com/" },
-    ],
-  },
-}
-```
-
-### robots.txt
-
-Options: `userAgent`, `disallow`, `allow`, `groups` (RFC 9309 groups, each with their own `userAgent`/`disallow`/`allow`/`crawlDelay`/`cleanParam`), `rules`, `host`, `crawlDelay`, `cleanParam`, `sitemap` (string|false), `merge` (default `true`), `disallowNoindex` (default `false`).
-
-```ts
-robots: {
-  userAgent: "*",
-  disallow: ["/api", "*.gif$"],
-  allow: ["/public"],
-  crawlDelay: 5,
-  cleanParam: ["sessionid"],
-  host: "example.com",
-  disallowNoindex: true,
-}
-```
-
-With `merge: true`, existing `public/robots.txt` is preserved and generated rules are appended (duplicates dropped).
-
-### sitemap.xml
-
-Options: `filename`, `exclude`, `defaultChangefreq`, `defaultPriority`, `siteUrl`, `maxUrls` (default 50000).
-
-```ts
-sitemap: { exclude: ["/admin"], maxUrls: 100_000 }
-```
-
-Image, video, and news namespaces are emitted automatically when a page has the matching `openGraph` data; `xhtml:link` alternates are emitted for pages with hreflang companions.
-
-### Validation
-
-`validate: "warn"` (default) logs issues; `"error"` throws and fails the build; `false` disables it. Checks include enums (`changefreq`, `twitter.card`), required fields, absolute URLs (canonical, `og:url`, `twitter:image`, `twitter:player`), length budgets (title 60, description 50-160, Twitter 70/200), duplicate titles/canonicals, and conflicting `noindex`/`sitemap` settings.
-
-### Coexistence
-
-If `vite-plugin-sitemap` or `vite-plugin-pwa` (or others in detection list) are present, this plugin warns and defers generating `sitemap.xml`/`robots.txt` unless explicitly enabled: `sitemap: true`, `robots: true`.
-
-## API
-
-See full TypeScript types in `src/types.ts`. Key exports:
-
-- `seo(options?: SeoPluginOptions): Plugin`
-- `defineSeoConfig(config: SeoOptions): SeoOptions`
-- Runtime: `applySeo(page: PageMeta, site?: SiteConfig)`
+Full configuration reference, guides for every feature, and API docs at [nellowtcs.me/vite-plugin-seo-meta](https://nellowtcs.me/vite-plugin-seo-meta/).
 
 ## Demo
 
-A config generator demo lives in [`Demo/`](Demo/). It demonstrates the plugin and emits paste-ready configs. Build with `cd Demo && npm i && npx vite build`.
+![image of demo lol](Docs/assets/images/Tracer_mvkmv7w1.png)
+
+A config generator demo lives in [`Demo/`](Demo/). It demonstrates the plugin and emits paste-ready configs. Build with `cd Demo && npm i && npx vite build`. Find it online at: [nellowtcs.me/vite-plugin-seo-meta/demo](https://nellowtcs.me/vite-plugin-seo-meta/demo)
 
 ## License
 
