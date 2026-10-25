@@ -1,7 +1,5 @@
 # TODO
 
-- [x] Docs via DocMD as always
-
 ## images
 
 - [ ] W3C Web App Manifest (all members: display_override, orientation, dir/lang, id/scope, launch_handler, protocol/file/share_target, shortcuts, related_applications, prefer_related_applications, categories, screenshots)

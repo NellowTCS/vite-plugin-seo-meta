@@ -146,7 +146,7 @@ export default {
     },
     {
       title: "Live Demo",
-      path: "/demo/",
+      path: "/vite-plugin-seo-meta/demo/",
       icon: "monitor",
       external: true,
     },
