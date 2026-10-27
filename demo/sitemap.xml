@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://nellowtcs.me/vite-plugin-seo-meta/</loc>
+    <loc>https://nellowtcs.me/vite-plugin-seo-meta/demo/</loc>
+    <lastmod>2024-06-01T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://nellowtcs.me/vite-plugin-seo-meta/demo/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://nellowtcs.me/vite-plugin-seo-meta/demo/es/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://nellowtcs.me/vite-plugin-seo-meta/demo/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://nellowtcs.me/vite-plugin-seo-meta/demo/de/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://nellowtcs.me/vite-plugin-seo-meta/demo/ja/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://nellowtcs.me/vite-plugin-seo-meta/demo/"/>
+    <news:news>
+      <news:publication>
+        <news:name>vite-plugin-seo-meta config generator</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2024-01-01T00:00:00.000Z</news:publication_date>
+      <news:title>Config generator | vite-plugin-seo-meta config generator</news:title>
+      <news:keywords>vite, seo, plugin, web-development</news:keywords>
+    </news:news>
+    <image:image>
+      <image:loc>https://nellowtcs.me/vite-plugin-seo-meta/demo/og-image.png</image:loc>
+      <image:caption>Primary Open Graph image</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nellowtcs.me/vite-plugin-seo-meta/demo/og-image-2.png</image:loc>
+      <image:caption>Secondary Open Graph image</image:caption>
+    </image:image>
   </url>
 </urlset>

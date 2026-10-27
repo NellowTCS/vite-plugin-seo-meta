@@ -4,10 +4,10 @@ title: Validation
 description: "Catch misconfigured SEO before it ships."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/guide/validation/"
 path: /guide/validation/
-updated: 2026-10-24
+updated: 2026-10-27
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-24T23:16:35.746Z"
+  generated_at: "2026-10-27T06:48:08.076Z"
 ---
 ---
 title: "Validation"
