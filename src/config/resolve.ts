@@ -181,6 +181,7 @@ export function mergeOptions(
     sitemap: inline.sitemap ?? fileConfig.sitemap,
     validate: inline.validate ?? fileConfig.validate,
     configFile: inline.configFile ?? fileConfig.configFile,
+    coexistence: inline.coexistence ?? fileConfig.coexistence,
   };
 }
 

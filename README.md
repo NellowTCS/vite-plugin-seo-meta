@@ -3,6 +3,7 @@
 All-in-one Vite plugin that generates SEO metadata for your app: `<title>`, meta tags, canonical, Open Graph, Twitter Cards, JSON-LD (Organization/WebSite/Article/Product/BreadcrumbList/ImageObject), hreflang alternates, `robots.txt` and `sitemap.xml`. Zero-config defaults, per-page overrides. Works for SPA/MPA/SSG/prerendered builds.
 
 [![npm version](https://img.shields.io/npm/v/vite-plugin-seo-meta.svg)](https://www.npmjs.com/package/vite-plugin-seo-meta)
+[![github release](https://img.shields.io/github/v/release/NellowTCS/vite-plugin-seo-meta.svg)](https://github.com/NellowTCS/vite-plugin-seo-meta/releases)
 [![license](https://img.shields.io/npm/l/vite-plugin-seo-meta.svg)](LICENSE)
 
 [Documentation](https://nellowtcs.me/vite-plugin-seo-meta/) | [Live Demo](https://nellowtcs.me/vite-plugin-seo-meta/demo/)
@@ -72,13 +73,13 @@ export default defineSeoConfig({
 
 ## Docs
 
-![Image of home page of docs](Docs/assets/images/Tracer_mvkmtc1q.png)
+![Image of the docs home page](Docs/assets/images/Tracer_mvkmtc1q.png)
 
 Full configuration reference, guides for every feature, and API docs at [nellowtcs.me/vite-plugin-seo-meta](https://nellowtcs.me/vite-plugin-seo-meta/).
 
 ## Demo
 
-![image of demo lol](Docs/assets/images/Tracer_mvkmv7w1.png)
+![The config generator demo: a form of every plugin option next to the live `vite.config.ts` and `seo.config.ts` output](Docs/assets/images/Tracer_mvkmv7w1.png)
 
 A config generator demo lives in [`Demo/`](Demo/). It demonstrates the plugin and emits paste-ready configs. Build with `cd Demo && npm i && npx vite build`. Find it online at: [nellowtcs.me/vite-plugin-seo-meta/demo](https://nellowtcs.me/vite-plugin-seo-meta/demo)
 

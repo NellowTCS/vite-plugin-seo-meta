@@ -29,6 +29,22 @@ const MAX_URLS = 50_000;
 const EMPTY_SITEMAP =
   '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>';
 
+/**
+ * Verification pages and error pages; automatically excluded.
+ */
+const DEFAULT_EXCLUDE_PATTERNS = [
+  /^\/404(?:\.html)?$/i,
+  /^\/500(?:\.html)?$/i,
+  // taken from online examples, but the regex is a bit more strict than the docs say it should be (for both)
+  /^\/google(?=[0-9a-z-]*[0-9])[0-9a-z-]{10,}$/i,
+  /^\/yandex_[0-9a-z]+$/i,
+  // todo: add more for Bing, etc...
+];
+
+function isDefaultExcluded(route: string): boolean {
+  return DEFAULT_EXCLUDE_PATTERNS.some((pattern) => pattern.test(route));
+}
+
 function formatXml(xml: string): string {
   const formatted = xmlFormat(xml, {
     indentation: "  ",
@@ -116,6 +132,7 @@ function toItem(
 ): SitemapItemLoose | undefined {
   if (!page.sitemap || !page.canonical) return undefined;
   if (exclude.has(page.route) || exclude.has(page.canonical)) return undefined;
+  if (isDefaultExcluded(page.route)) return undefined;
 
   const changefreq = page.changefreq ?? options.defaultChangefreq;
   const item: SitemapItemLoose = {
@@ -139,7 +156,7 @@ function toItem(
 
 /**
  * Builds the contents of `sitemap.xml`.
- * - Skips pages with `sitemap: false` (for example noindex) and any route in `exclude`
+ * - Skips pages with `sitemap: false` (for example noindex), any route in `exclude`, and error/verification files
  * - Emits `xhtml:link` alternates, image, video, and news namespaces when any page uses them
  * - TODO: enforces a single-host sitemap, maybe change
  * - Caps the number of URLs per file (however, cause i'm nice, this is extensible)

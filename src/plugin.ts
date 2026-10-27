@@ -82,7 +82,7 @@ export function seo(inline: SeoPluginOptions = {}): Plugin {
 
     async configResolved(resolved) {
       config = resolved;
-      log = createLogger(resolved.logger as any);
+      log = createLogger(resolved.logger);
 
       const fileConfig = await loadSeoConfig(
         resolved.root,
@@ -93,14 +93,20 @@ export function seo(inline: SeoPluginOptions = {}): Plugin {
       options = resolveOptions(fileConfig, inline);
       const merged = mergeOptions(fileConfig, inline);
 
-      const sitemapProvider = findSitemapProvider(resolved.plugins);
+      const sitemapProvider =
+        merged.coexistence === false
+          ? undefined
+          : findSitemapProvider(resolved.plugins);
       if (sitemapProvider && !isExplicitlyEnabled(merged.sitemap)) {
         log.warn(
           `deferring sitemap.xml to ${sitemapProvider} (pass sitemap: true to override)`,
         );
         options.sitemapEnabled = false;
       }
-      const robotsProvider = findRobotsProvider(resolved.plugins);
+      const robotsProvider =
+        merged.coexistence === false
+          ? undefined
+          : findRobotsProvider(resolved.plugins);
       if (robotsProvider && !isExplicitlyEnabled(merged.robots)) {
         log.warn(
           `deferring robots.txt to ${robotsProvider} (pass robots: true to override)`,

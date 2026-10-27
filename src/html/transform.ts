@@ -101,7 +101,7 @@ export function injectHeadTags(html: string, tags: HeadTag[]): string {
   for (const tag of tags) {
     if (tag.onlyIfMissing && existing.has(tag.key)) continue;
     removeKeys.add(tag.key);
-    
+
     if (seen.has(tag.key)) continue;
     seen.add(tag.key);
     toAdd.push(tag);

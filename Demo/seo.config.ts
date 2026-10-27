@@ -3,7 +3,7 @@ import { defineSeoConfig } from "vite-plugin-seo-meta";
 export default defineSeoConfig({
   /**
    * Site Configuration
-   * 
+   *
    * Site-wide defaults. Everything here can be overridden per-page.
    * url is required.
    */
@@ -99,7 +99,8 @@ export default defineSeoConfig({
         /**
          * Optional URL to raw video/audio stream
          */
-        stream: "https://nellowtcs.me/vite-plugin-seo-meta/demo/media/stream.mp4",
+        stream:
+          "https://nellowtcs.me/vite-plugin-seo-meta/demo/media/stream.mp4",
       },
       /**
        * App Card configuration, which is per platform app store entries
@@ -145,7 +146,17 @@ export default defineSeoConfig({
     /**
      * Keywords: string or string array
      */
-    keywords: ["vite", "seo", "plugin", "meta-tags", "open-graph", "twitter-cards", "json-ld", "sitemap", "robots"],
+    keywords: [
+      "vite",
+      "seo",
+      "plugin",
+      "meta-tags",
+      "open-graph",
+      "twitter-cards",
+      "json-ld",
+      "sitemap",
+      "robots",
+    ],
 
     /**
      * Site-wide per-user-agent robots metas
@@ -342,7 +353,10 @@ export default defineSeoConfig({
         publishedTime: "2024-01-01T00:00:00.000Z",
         modifiedTime: new Date("2024-06-01T00:00:00.000Z"),
         expirationTime: "2099-12-31T23:59:59.000Z",
-        author: ["https://example.com/author/alice", "https://example.com/author/bob"],
+        author: [
+          "https://example.com/author/alice",
+          "https://example.com/author/bob",
+        ],
         section: "Technology",
         tag: ["vite", "seo", "plugin", "web-development"],
       },
@@ -434,7 +448,8 @@ export default defineSeoConfig({
         /**
          * Search action URL template
          */
-        searchUrl: "https://nellowtcs.me/vite-plugin-seo-meta/demo/search?q={search_term_string}",
+        searchUrl:
+          "https://nellowtcs.me/vite-plugin-seo-meta/demo/search?q={search_term_string}",
       },
     },
   },
@@ -471,7 +486,11 @@ export default defineSeoConfig({
       /**
        * Keywords: string or array
        */
-      keywords: ["vite seo config generator", "meta tags generator", "open graph generator"],
+      keywords: [
+        "vite seo config generator",
+        "meta tags generator",
+        "open graph generator",
+      ],
       /**
        * Author override
        */
@@ -521,7 +540,8 @@ export default defineSeoConfig({
         title: "vite-plugin-seo-meta • Config generator",
         description:
           "Generate a typed vite-plugin-seo-meta config from a form. Covers all SEO features.",
-        image: "https://nellowtcs.me/vite-plugin-seo-meta/demo/twitter-image.png",
+        image:
+          "https://nellowtcs.me/vite-plugin-seo-meta/demo/twitter-image.png",
         imageAlt: "vite-plugin-seo-meta config generator",
       },
       /**
@@ -564,12 +584,30 @@ export default defineSeoConfig({
        * hreflang alternates for this page
        */
       alternates: [
-        { hreflang: "en", href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/" },
-        { hreflang: "es", href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/es/" },
-        { hreflang: "fr", href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/fr/" },
-        { hreflang: "de", href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/de/" },
-        { hreflang: "ja", href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/ja/" },
-        { hreflang: "x-default", href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/" },
+        {
+          hreflang: "en",
+          href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/",
+        },
+        {
+          hreflang: "es",
+          href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/es/",
+        },
+        {
+          hreflang: "fr",
+          href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/fr/",
+        },
+        {
+          hreflang: "de",
+          href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/de/",
+        },
+        {
+          hreflang: "ja",
+          href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/ja/",
+        },
+        {
+          hreflang: "x-default",
+          href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/",
+        },
       ],
       /**
        * Include in sitemap.xml. Defaults to !noindex
@@ -598,7 +636,7 @@ export default defineSeoConfig({
       /**
        * Extra <link> entries. rel and href are required.
        * If a link collides with an auto-generated tag (same dedupe key), the duplicate is silently dropped.
-       * 
+       *
        * So a `rel="canonical"` here would be a no-op since the plugin already emits one from page.canonical.
        */
       links: [
@@ -721,7 +759,7 @@ export default defineSeoConfig({
 
   /**
    * Validation mode
-   * 
+   *
    * warn (default) | error (throws, fails build) | false (disabled)
    * Using error mode here to validate our config
    */
@@ -729,7 +767,7 @@ export default defineSeoConfig({
 
   /**
    * Config file path
-   * 
+   *
    * Path to config file relative to root, or false to skip auto-detection
    * We are the config file being auto-loaded lolll, but showing the option
    */

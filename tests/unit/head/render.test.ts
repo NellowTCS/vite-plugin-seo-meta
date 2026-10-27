@@ -27,7 +27,13 @@ function renderSite(meta: PageMeta, site: SiteConfig = BASE_SITE) {
 }
 
 const find = (tags: HeadTag[], key: string) =>
-  tags.find((tag) => tag.key === key);
+  tags.find((tag) => {
+    if (tag.key === key) return true;
+    if (key.startsWith("meta:") && tag.attrs.property) {
+      return `meta:${tag.attrs.property.toLowerCase()}` === key;
+    }
+    return false;
+  });
 
 describe("basic tags", () => {
   it("renders the title, description, canonical and safe defaults", () => {
@@ -398,7 +404,7 @@ describe("alternates and locale", () => {
     });
 
     const alternates = tags.filter(
-      (tag) => tag.key === "meta:og:locale:alternate",
+      (tag) => tag.attrs.property === "og:locale:alternate",
     );
     expect(alternates.map((tag) => tag.attrs.content)).toEqual(["fr_FR", "de"]);
   });
@@ -413,7 +419,7 @@ describe("alternates and locale", () => {
 
     expect(find(tags, "meta:og:locale")?.attrs.content).toBe("en_GB");
     const alternates = tags.filter(
-      (tag) => tag.key === "meta:og:locale:alternate",
+      (tag) => tag.attrs.property === "og:locale:alternate",
     );
     expect(alternates.map((tag) => tag.attrs.content)).toEqual(["it_IT"]);
   });

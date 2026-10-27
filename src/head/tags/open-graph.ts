@@ -1,6 +1,5 @@
 /** Open Graph (`property="og:*"`) tags */
 
-import { metaKey } from "../../html/key";
 import { resolveImage } from "../../images/resolveImage";
 import type {
   HeadTag,
@@ -12,7 +11,11 @@ import type {
 
 /** Builds a `<meta property content>` tag */
 function ogTag(property: string, content: string): HeadTag {
-  return { tag: "meta", attrs: { property, content }, key: metaKey(property) };
+  return {
+    tag: "meta",
+    attrs: { property, content },
+    key: `meta:${property.toLowerCase()}:${content}`,
+  };
 }
 
 /** Resolves a media array, skipping entries without a URL */

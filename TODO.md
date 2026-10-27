@@ -1,5 +1,7 @@
 # TODO
 
+- [ ] no SPA runtime helper exists for `pages` overrides and the `applySeo()` helper in `vite-plugin-seo-meta/runtime` only handles site-level state so we reaaaaaaally gotta add per-route client-side overrides
+
 ## images
 
 - [ ] W3C Web App Manifest (all members: display_override, orientation, dir/lang, id/scope, launch_handler, protocol/file/share_target, shortcuts, related_applications, prefer_related_applications, categories, screenshots)

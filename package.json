@@ -77,9 +77,10 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
+    "generate": "node Demo/scripts/gen-fields.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "npm run typecheck && npm run test",
+    "check": "npm run make-pretty && npm run typecheck && npm run test",
     "make-pretty": "prettier --write . --ignore-path .gitignore",
     "prepublishOnly": "npm run build"
   },

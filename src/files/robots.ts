@@ -150,11 +150,10 @@ export function buildRobots(
 
 /**
  * Merges generated rules into an existing `robots.txt`
- * - Existing lines are kept, generated lines are appended
- * - Duplicate directives are dropped (well, obviously, what do you expect me to do?)
- *
- * TODO: robots.txt groups are positional, so appended rules land in whatever agent group the
- * file ends on.
+ * - Existing lines are kept; generated rules are inserted into the matching
+ *   user-agent group, or appended whole when the group is new sigh
+ * - `Host:`/`Sitemap:` records are global and deduped across the file
+ * - Duplicate directives within a group are dropped (well, obviously, what do you expect me to do?)
  *
  * @param existing - the file already on disk (for example a hand-written `public/robots.txt`)
  * @param generated - output of {@link buildRobots}
@@ -166,25 +165,102 @@ export function mergeRobots(existing: string, generated: string): string {
     return `${toLines(generated).join("\n")}\n`;
   }
 
+  // Generated rules grouped by their user-agent set
+  const byGroup = new Map<string, { agents: string[]; rules: string[] }>();
+  const records: string[] = [];
+  let group = "";
+  for (const line of toLines(generated)) {
+    const directive = normalizeDirective(line);
+    if (!directive) continue;
+    if (directive.startsWith("user-agent:")) {
+      group = directive.slice("user-agent:".length).trim().toLowerCase();
+      if (!byGroup.has(group)) byGroup.set(group, { agents: [], rules: [] });
+      byGroup.get(group)!.agents.push(line.trimEnd());
+    } else if (
+      directive.startsWith("sitemap:") ||
+      directive.startsWith("host:")
+    ) {
+      records.push(line.trimEnd());
+    } else {
+      byGroup.get(group)!.rules.push(line.trimEnd());
+    }
+  }
+
   const seen = new Set<string>();
   for (const line of existingLines) {
     const directive = normalizeDirective(line);
     if (directive) seen.add(directive);
   }
 
-  const appended: string[] = [];
-  for (const line of toLines(generated)) {
+  const out: string[] = [];
+  const tail: string[] = [];
+  const matched = new Set<string>();
+  let currentGroup = "";
+  let insertAt = -1;
+
+  const flush = () => {
+    if (!currentGroup) return;
+    const entry = byGroup.get(currentGroup);
+    if (!entry) return;
+    matched.add(currentGroup);
+    const newRules = entry.rules.filter((rule) => {
+      const directive = normalizeDirective(rule);
+      if (directive && seen.has(directive)) return false;
+      if (directive) seen.add(directive);
+      return true;
+    });
+    if (newRules.length > 0) {
+      out.splice(insertAt + 1, 0, ...newRules);
+      insertAt += newRules.length;
+    }
+  };
+
+  for (let i = 0; i < existingLines.length; i++) {
+    const line = existingLines[i] ?? "";
     const directive = normalizeDirective(line);
-    if (directive) {
-      if (seen.has(directive)) continue;
-      seen.add(directive);
-      appended.push(line.trimEnd());
-    } else if (line.trim() !== "") {
-      appended.push(line.trimEnd());
+
+    if (line.trim() === "") {
+      flush();
+      currentGroup = "";
+      insertAt = -1;
+      out.push(line);
+      continue;
+    }
+
+    if (directive?.startsWith("user-agent:")) {
+      flush();
+      currentGroup = directive.slice("user-agent:".length).trim().toLowerCase();
+      insertAt = out.length;
+      out.push(line);
+      continue;
+    }
+
+    if (directive && currentGroup) insertAt = out.length;
+    out.push(line);
+  }
+  flush();
+
+  // Groups with no match in the existing file, plus records, go to the tail
+  for (const [key, { agents, rules }] of byGroup) {
+    if (matched.has(key)) continue;
+    for (const line of [...agents, ...rules]) {
+      const directive = normalizeDirective(line);
+      if (directive && seen.has(directive)) continue;
+      if (directive) seen.add(directive);
+      tail.push(line);
     }
   }
+  for (const record of records) {
+    const directive = normalizeDirective(record);
+    if (directive && seen.has(directive)) continue;
+    if (directive) seen.add(directive);
+    tail.push(record);
+  }
 
-  const head = trimTrailingBlanks(existingLines).map((line) => line.trimEnd());
-  if (appended.length === 0) return `${head.join("\n")}\n`;
-  return `${head.join("\n")}\n\n${appended.join("\n")}\n`;
+  if (tail.length > 0) {
+    out.push("");
+    out.push(...tail);
+  }
+
+  return `${trimTrailingBlanks(out).join("\n")}\n`;
 }

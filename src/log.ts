@@ -1,13 +1,7 @@
-/** Le logger interface, compatible with Vite's `Logger` */
-export interface Logger {
-  info(message: string): void;
-  warn(message: string): void;
-  warnOnce?(message: string): void;
-  error(message: string): void;
-  clearScreen?(): void;
-  hasWarned?: boolean;
-  hasErrorLogged?: boolean;
-}
+import type { Logger as ViteLogger } from "vite";
+
+/** Le logger interface, powered by Vite's `Logger` */
+export type Logger = Pick<ViteLogger, "info" | "warn" | "error">;
 
 const PREFIX = "[vite-plugin-seo-meta] ";
 
@@ -29,5 +23,5 @@ export function createLogger(base?: Partial<Logger>): Logger {
     error: error
       ? (message) => error(PREFIX + message)
       : (message) => console.error(PREFIX + message),
-  } as Logger;
+  };
 }

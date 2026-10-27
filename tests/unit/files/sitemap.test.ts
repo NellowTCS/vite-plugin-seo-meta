@@ -189,4 +189,35 @@ describe("buildSitemap", () => {
 
     expect((xml.match(/<url>/g) ?? []).length).toBe(2);
   });
+
+  it("excludes error documents and verification files by default", async () => {
+    const xml = await buildSitemap([
+      page("/", "https://example.com/"),
+      page("/404", "https://example.com/404"),
+      page("/500", "https://example.com/500"),
+      page(
+        "/google1234567890abcdef",
+        "https://example.com/google1234567890abcdef",
+      ),
+      page("/yandex_abc123", "https://example.com/yandex_abc123"),
+    ]);
+
+    expect(xml).toContain("https://example.com/</loc>");
+    expect(xml).not.toContain("/404");
+    expect(xml).not.toContain("/500");
+    expect(xml).not.toContain("google");
+    expect(xml).not.toContain("yandex_");
+  });
+
+  it("keeps real pages whose names merely start with an excluded prefix", async () => {
+    const xml = await buildSitemap([
+      page("/google", "https://example.com/google"),
+      page("/404-page", "https://example.com/404-page"),
+      page("/yandex", "https://example.com/yandex"),
+    ]);
+
+    expect(xml).toContain("https://example.com/google");
+    expect(xml).toContain("https://example.com/404-page");
+    expect(xml).toContain("https://example.com/yandex");
+  });
 });

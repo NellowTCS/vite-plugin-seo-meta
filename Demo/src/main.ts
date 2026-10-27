@@ -1,201 +1,137 @@
 import "./style.css";
-import { type SeoOptions } from "vite-plugin-seo-meta";
+import { html, render } from "uhtml";
+import { inline, isWide, panel, seoOut } from "./dom";
+import { form } from "./fields.gen";
+import { renderOutputs, copyText } from "./output";
+import { readForm } from "./read";
+import { addPageRoute, entryNode } from "./templates";
+import { applyFilter, refreshBadges, setAllOpen, syncGates } from "./ui";
 
-const $ = <T extends HTMLElement>(id: string) =>
-  document.getElementById(id) as T;
-
-function val(id: string): string {
-  const el = $(id) as
-    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
-  return el.value.trim();
-}
-
-function isChecked(id: string): boolean {
-  const el = $(id) as HTMLInputElement;
-  return el.checked;
-}
-
-function list(id: string): string[] {
-  return val(id)
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
-function num(id: string): number | undefined {
-  const v = val(id);
-  return v ? Number(v) : undefined;
-}
-
-function copyText(text: string, btn: HTMLElement) {
-  navigator.clipboard.writeText(text).then(() => {
-    const old = btn.textContent;
-    btn.textContent = "Copied";
-    setTimeout(() => (btn.textContent = old), 1200);
-  });
-}
-
-function buildConfig(): SeoOptions {
-  const url = val("url") || "https://example.com";
-  const name = val("name") || "My Site";
-
-  const config: SeoOptions = {
-    site: {
-      url,
-      name,
-      title: val("title") || name,
-      titleTemplate: val("titleTemplate") || "%s | My Site",
-      description: val("description") || "My awesome site",
-      locale: val("locale") || "en_US",
-    },
-  };
-
-  const author = val("author");
-  const image = val("image");
-  if (author) config.site!.author = author;
-  if (image) config.site!.image = image;
-
-  // Twitter Card
-  const twitter: NonNullable<SeoOptions["site"]>["twitter"] = {};
-  const twHandle = val("twitter");
-  if (twHandle) twitter.site = twHandle;
-  if (val("twCard"))
-    twitter.card = val("twCard") as
-      "summary" | "summary_large_image" | "app" | "player";
-  if (val("twTitle")) twitter.title = val("twTitle");
-  if (val("twDesc")) twitter.description = val("twDesc");
-  if (val("twImage")) twitter.image = val("twImage");
-  if (val("twImageAlt")) twitter.imageAlt = val("twImageAlt");
-  if (val("twCreator")) twitter.creator = val("twCreator");
-  if (val("twLabel1")) twitter.label1 = val("twLabel1");
-  if (val("twData1")) twitter.data1 = val("twData1");
-  if (val("twLabel2")) twitter.label2 = val("twLabel2");
-  if (val("twData2")) twitter.data2 = val("twData2");
-  if (Object.keys(twitter).length > 0) config.site!.twitter = twitter;
-
-  // Favicon icons
-  const favicon: NonNullable<SeoOptions["site"]>["favicon"] = {};
-  if (val("favicon")) favicon.icon = val("favicon");
-  if (val("appleTouch")) favicon.appleTouchIcon = val("appleTouch");
-  if (val("manifest")) favicon.manifest = val("manifest");
-  if (val("maskIcon")) favicon.maskIcon = val("maskIcon");
-  if (val("themeColor")) favicon.themeColor = val("themeColor");
-  if (val("mwaTitle")) {
-    favicon.mobileWebApp = { title: val("mwaTitle") };
-    if (val("mwaStatusBar"))
-      favicon.mobileWebApp!.statusBarStyle = val("mwaStatusBar") as
-        "default" | "black" | "black-translucent" | "transparent";
-    if (isChecked("mwaCapable")) favicon.mobileWebApp!.capable = true;
+function topLevelNodes(): Node[] {
+  const nodes: Node[] = [];
+  const loose: HTMLElement[] = [];
+  for (const [key, entry] of Object.entries(form)) {
+    if ("kind" in entry) {
+      nodes.push(entryNode(entry, key));
+      continue;
+    }
+    const el = entryNode(entry, key);
+    if (isWide(entry)) el.classList.add("wide");
+    loose.push(el);
   }
-  if (val("msTileColor") || val("msTileImage") || val("msConfig")) {
-    favicon.msapplication = {};
-    if (val("msTileColor"))
-      favicon.msapplication!.tileColor = val("msTileColor");
-    if (val("msTileImage"))
-      favicon.msapplication!.tileImage = val("msTileImage");
-    if (val("msConfig")) favicon.msapplication!.config = val("msConfig");
+  if (loose.length) {
+    const group = entryNode(
+      { kind: "section", fields: {}, title: "Files & validation" },
+      "files",
+    ) as HTMLDetailsElement;
+    const body = document.createElement("div");
+    body.className = "group-body";
+    body.append(...loose);
+    group.replaceChildren(group.querySelector("summary")!, body);
+    nodes.push(group);
   }
-  if (Object.keys(favicon).length > 0) config.site!.favicon = favicon;
-
-  // JSON-LD
-  if (isChecked("jsonLdOrg") || isChecked("jsonLdWeb")) {
-    config.site!.jsonLd = {};
-    if (isChecked("jsonLdOrg")) config.site!.jsonLd!.organization = true;
-    if (isChecked("jsonLdWeb")) config.site!.jsonLd!.website = true;
-  }
-
-  // Pages
-  const pages: NonNullable<SeoOptions["pages"]> = {};
-  if (isChecked("addHome")) pages["/"] = { title: "Home" };
-  if (isChecked("addAbout")) pages["/about"] = { title: "About" };
-  if (isChecked("addPrivate"))
-    pages["/private"] = { title: "Private", noindex: true };
-  if (Object.keys(pages).length > 0) config.pages = pages;
-
-  // robots.txt
-  if (val("robots") === "false") {
-    config.robots = false;
-  } else {
-    const robots: NonNullable<SeoOptions["robots"]> = {};
-    if (val("robotsUA")) robots.userAgent = val("robotsUA");
-    const disallow = list("robotsDisallow");
-    if (disallow.length) robots.disallow = disallow;
-    const allow = list("robotsAllow");
-    if (allow.length) robots.allow = allow;
-    if (num("crawlDelay")) robots.crawlDelay = num("crawlDelay")!;
-    const cleanParam = list("cleanParam");
-    if (cleanParam.length) robots.cleanParam = cleanParam;
-    if (val("robotsHost")) robots.host = val("robotsHost");
-    if (val("sitemapUrl")) robots.sitemap = val("sitemapUrl");
-    if (val("robots") === "disallowNoindex") robots.disallowNoindex = true;
-    if (Object.keys(robots).length > 0) config.robots = robots;
-  }
-
-  // sitemap.xml
-  if (val("sitemap") === "false") {
-    config.sitemap = false;
-  } else {
-    const sitemap: NonNullable<SeoOptions["sitemap"]> = {};
-    if (num("maxUrls")) sitemap.maxUrls = num("maxUrls")!;
-    const exclude = list("sitemapExclude");
-    if (exclude.length) sitemap.exclude = exclude;
-    if (Object.keys(sitemap).length > 0) config.sitemap = sitemap;
-  }
-
-  if (val("validate") === "error") config.validate = "error";
-  else if (val("validate") === "false") config.validate = false;
-
-  return config;
+  return nodes;
 }
 
-function generate() {
-  const config = buildConfig();
-  const json = JSON.stringify(config, null, 2);
-  const indented = json
-    .split("\n")
-    .map((line) => `    ${line}`)
-    .join("\n");
+render(
+  panel,
+  html`<div>
+    <div class="filter-row">
+      <input
+        type="search"
+        placeholder="Filter options"
+        aria-label="Filter options"
+        data-filter
+      />
+      <button type="button" class="ghost" data-expand>Expand all</button>
+      <button type="button" class="ghost" data-collapse>Collapse all</button>
+    </div>
+    ${topLevelNodes()}
+    <div class="actions">
+      <button type="button" id="generate">Regenerate</button>
+      <button type="button" class="ghost" data-copy="inline">
+        Copy vite.config.ts
+      </button>
+      <button type="button" class="ghost" data-copy="seo">
+        Copy seo.config.ts
+      </button>
+    </div>
+  </div>` as unknown as Node,
+);
 
-  const inline = `import { defineConfig } from "vite";
-import { seo } from "vite-plugin-seo-meta";
+const pagesHost = panel.querySelector<HTMLElement>("[data-page-list]");
+if (pagesHost) addPageRoute(pagesHost, "/", false);
+const routeBox = panel.querySelector<HTMLInputElement>(".route-controls input");
+if (routeBox) routeBox.value = "";
 
-export default defineConfig({
-  plugins: [
-    seo({
-      configFile: false,
-${indented}
-    }),
-  ],
+panel.addEventListener("input", (e) => {
+  if (
+    e.target instanceof HTMLInputElement &&
+    e.target.hasAttribute("data-filter")
+  ) {
+    e.stopPropagation();
+    applyFilter(e.target.value);
+    return;
+  }
+  regenerate();
 });
-`;
+panel.addEventListener("change", (e) => {
+  if (
+    e.target instanceof HTMLInputElement &&
+    e.target.hasAttribute("data-filter")
+  )
+    return;
+  regenerate();
+});
+panel.addEventListener("keydown", (e) => {
+  if (
+    e.key === "Enter" &&
+    e.target instanceof HTMLInputElement &&
+    e.target.matches(".route-controls input")
+  ) {
+    e.preventDefault();
+    addPage();
+  }
+});
+panel.addEventListener("click", (e) => {
+  const btn = e.target instanceof Element ? e.target.closest("button") : null;
+  if (!btn) return;
+  if (btn.id === "generate") return regenerate();
+  if (btn.hasAttribute("data-expand")) return setAllOpen(true);
+  if (btn.hasAttribute("data-collapse")) return setAllOpen(false);
+  if (btn.classList.contains("remove")) {
+    e.preventDefault();
+    e.stopPropagation();
+    btn.closest(".page-entry")?.remove();
+    return regenerate();
+  }
+  if (btn.hasAttribute("data-copy")) {
+    return copyText(
+      (btn.getAttribute("data-copy") === "inline" ? inline : seoOut)
+        .textContent ?? "",
+      btn,
+    );
+  }
+  if (btn.textContent === "Add page") addPage();
+});
 
-  const seoConfig = `import { defineSeoConfig } from "vite-plugin-seo-meta";
-
-export default defineSeoConfig(${json});
-`;
-
-  ($("inline") as HTMLPreElement).textContent = inline;
-  ($("seo") as HTMLPreElement).textContent = seoConfig;
+function addPage() {
+  const box = panel.querySelector<HTMLInputElement>(".route-controls input");
+  const list = panel.querySelector<HTMLElement>("[data-page-list]");
+  if (!box || !list) return;
+  const route = box.value.trim();
+  if (!route || panel.querySelector(`[data-route="${CSS.escape(route)}"]`))
+    return;
+  addPageRoute(list, route);
+  box.value = "";
+  regenerate();
 }
 
-function init() {
-  const form = $("form") as HTMLFormElement | null;
-  form?.addEventListener("input", generate);
-  form?.addEventListener("change", generate);
-  $("generate")?.addEventListener("click", generate);
-  $("copy-inline")?.addEventListener("click", (e) =>
-    copyText(
-      ($("inline") as HTMLPreElement).textContent || "",
-      e.currentTarget as HTMLElement,
-    ),
-  );
-  $("copy-seo")?.addEventListener("click", (e) =>
-    copyText(
-      ($("seo") as HTMLPreElement).textContent || "",
-      e.currentTarget as HTMLElement,
-    ),
-  );
-  generate();
+/* regenerate */
+function regenerate() {
+  renderOutputs(readForm());
+  refreshBadges();
+  syncGates();
 }
 
-init();
+regenerate();

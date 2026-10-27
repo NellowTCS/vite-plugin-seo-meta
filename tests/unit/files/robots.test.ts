@@ -171,4 +171,58 @@ describe("mergeRobots", () => {
     const merged = mergeRobots(existing, buildRobots(SITE, {}));
     expect(merged.startsWith("# my robots\n")).toBe(true);
   });
+
+  it("appends generated rules to the matching user-agent group", () => {
+    const existing =
+      "User-agent: *\nDisallow: /a\n\n" +
+      "User-agent: foobot\nDisallow: /foo\n";
+    const generated = buildRobots(SITE, {
+      userAgent: "*",
+      disallow: ["/a", "/b"],
+      groups: [{ userAgent: "foobot", disallow: ["/foo", "/bar"] }],
+    });
+    const merged = mergeRobots(existing, generated);
+
+    // The * group's new rule lands between the two groups, not at the end
+    const starGroup = merged.match(
+      /User-agent: \*\n([\s\S]*?)(?=User-agent:|\z)/,
+    );
+    expect(starGroup).not.toBeNull();
+    const starRules = starGroup![1]!;
+    expect(starRules).toContain("Disallow: /a");
+    expect(starRules).toContain("Disallow: /b");
+    expect((starRules.match(/disallow: \/a/gi) ?? []).length).toBe(1);
+
+    const fooGroup = merged.match(/User-agent: foobot\n([\s\S]*?)(?=\n\n|\z)/);
+    expect(fooGroup).not.toBeNull();
+    const fooRules = fooGroup![1]!;
+    expect(fooRules).toContain("Disallow: /foo");
+    expect(fooRules).toContain("Disallow: /bar");
+    expect(fooRules).not.toContain("Sitemap:");
+    expect((fooRules.match(/disallow: \/foo/gi) ?? []).length).toBe(1);
+  });
+
+  it("appends a generated group whole when the file has no such group", () => {
+    const existing = "User-agent: *\nDisallow: /a\n";
+    const generated = buildRobots(SITE, {
+      userAgent: "*",
+      groups: [{ userAgent: "newbot", disallow: ["/newpath"] }],
+    });
+    const merged = mergeRobots(existing, generated);
+
+    expect(merged).toContain("User-agent: newbot\nDisallow: /newpath");
+    expect(merged.indexOf("User-agent: newbot")).toBeGreaterThan(
+      merged.indexOf("Disallow: /a"),
+    );
+  });
+
+  it("dedupes Host and Sitemap records across the file", () => {
+    const existing =
+      "Host: example.com\nSitemap: https://example.com/sitemap.xml\n";
+    const generated = buildRobots(SITE, { host: "example.com" });
+    const merged = mergeRobots(existing, generated);
+
+    expect((merged.match(/Host: example.com/gi) ?? []).length).toBe(1);
+    expect((merged.match(/Sitemap:/gi) ?? []).length).toBe(1);
+  });
 });

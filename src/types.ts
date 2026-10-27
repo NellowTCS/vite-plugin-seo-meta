@@ -579,7 +579,8 @@ export interface RobotsGroup {
 export interface SitemapOptions {
   /** Output filename within `build.outDir`. Default `sitemap.xml` */
   filename?: string;
-  /** Routes to exclude from the sitemap */
+  /** Routes to exclude from the sitemap.
+   * Note: Error pages (`/404`, `/500`) and verification files (`google<token>.html`) are auto excluded */
   exclude?: string[];
   /** Fallback changefreq for pages without one */
   defaultChangefreq?: SitemapChangefreq;
@@ -612,6 +613,10 @@ export interface SeoOptions {
   validate?: "warn" | "error" | false;
   /** Path to a config file, or `false` to skip auto-detection */
   configFile?: string | false;
+  /** Defer `robots.txt`/`sitemap.xml` generation to a different plugin or build step.
+   * Default `true` and set `false` to always generate both files
+   * (i'm not sure why you'd want this unless you're comparing but still, it's there) */
+  coexistence?: boolean;
 }
 
 /** A rendered head element */
