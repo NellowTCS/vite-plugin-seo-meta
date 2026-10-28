@@ -7,7 +7,7 @@ path: /reference/config/
 updated: 2026-10-28
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-28T06:25:45.061Z"
+  generated_at: "2026-10-28T19:03:25.813Z"
 ---
 ---
 title: "Config Reference"

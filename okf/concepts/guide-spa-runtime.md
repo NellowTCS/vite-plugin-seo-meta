@@ -7,7 +7,7 @@ path: /guide/spa-runtime/
 updated: 2026-10-28
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-28T06:25:45.060Z"
+  generated_at: "2026-10-28T19:03:25.811Z"
 ---
 ---
 title: "SPA Runtime"
