@@ -220,7 +220,7 @@ function serializeJsonLd(nodes: JsonLdNode[]): string {
 
 // So we don't support existing JSON-LD, those are removed and replaced with generated stuff
 // The reason why is a bit of a pain:
-//  - merging existing JSON-LD with generated JSON-LD is a nightmare, because the existing stuff 
+//  - merging existing JSON-LD with generated JSON-LD is a nightmare, because the existing stuff
 //    could be anything, and we don't know what it is (YES XSS TOO AAAAA).
 //  - Also, there's no point tbh as you can just add it to our config and let us do the hard work
 //

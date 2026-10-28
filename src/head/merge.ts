@@ -74,20 +74,25 @@ function resolveTwitter(
 ): TwitterInfo {
   const pageTwitter = page.twitter;
   const siteTwitter = site.twitter;
-  // fallback mixes page and site values. 
+  // fallback mixes page and site values.
   // which... is is a bit annoying but it's SSOT which i like better
   const pick = <T>(
     pageTw: T | undefined,
     pageVal: unknown,
     siteTw: T | undefined,
     fb: T,
-  ): T => pageTw ?? (pageVal !== undefined ? fb : siteTw ?? fb);
+  ): T => pageTw ?? (pageVal !== undefined ? fb : (siteTw ?? fb));
 
   return {
     // this was super annoying to type, omg TS be less verbose smh my head
     // (just kidding, I'm being extra careful throughout the plugin cause better safe than sorry)
     card: pageTwitter?.card ?? siteTwitter?.card ?? DEFAULT_TWITTER_CARD,
-    title: pick(pageTwitter?.title, page.title, siteTwitter?.title, fallback.title),
+    title: pick(
+      pageTwitter?.title,
+      page.title,
+      siteTwitter?.title,
+      fallback.title,
+    ),
     description: pick(
       pageTwitter?.description,
       page.description,

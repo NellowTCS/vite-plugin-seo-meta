@@ -251,9 +251,7 @@ export function resolveOpenGraph(
   const openGraph = page.openGraph;
   const merged: OpenGraphInfo = { ...site.openGraph, ...openGraph };
   const locale =
-    openGraph?.locale ??
-    languageTagToOgLocale(lang) ??
-    site.openGraph.locale;
+    openGraph?.locale ?? languageTagToOgLocale(lang) ?? site.openGraph.locale;
   const localeAlternate = [
     ...new Set(
       openGraph?.localeAlternate ??
@@ -267,11 +265,16 @@ export function resolveOpenGraph(
     pageVal: unknown,
     siteOg: T | undefined,
     fb: T,
-  ): T => pageOg ?? (pageVal !== undefined ? fb : siteOg ?? fb);
+  ): T => pageOg ?? (pageVal !== undefined ? fb : (siteOg ?? fb));
 
   return {
     ...merged,
-    title: pick(openGraph?.title, page.title, site.openGraph?.title, fallback.title),
+    title: pick(
+      openGraph?.title,
+      page.title,
+      site.openGraph?.title,
+      fallback.title,
+    ),
     description: pick(
       openGraph?.description,
       page.description,

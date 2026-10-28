@@ -188,11 +188,24 @@ export function mergeRobots(existing: string, generated: string): string {
     }
     if (directive.startsWith("user-agent:")) {
       const agent = directive.slice("user-agent:".length).trim().toLowerCase();
-      const agents = group === "" || groupHasRules ? [agent] : [...group.split("|"), agent];
-      group = agentKey(agents);
+      const extending = group !== "" && !groupHasRules;
+      const newKey = agentKey(
+        extending ? [...group.split("|"), agent] : [agent],
+      );
       groupHasRules = false;
-      if (!byGroup.has(group)) byGroup.set(group, { agents: [], rules: [] });
-      byGroup.get(group)!.agents.push(line.trimEnd());
+      if (extending && newKey !== group) {
+        // key grew (a -> a|b), isn't that obvious
+        const prev = byGroup.get(group);
+        byGroup.delete(group);
+        byGroup.set(newKey, {
+          agents: [...(prev?.agents ?? []), line.trimEnd()],
+          rules: prev?.rules ?? [],
+        });
+      } else {
+        if (!byGroup.has(newKey)) byGroup.set(newKey, { agents: [], rules: [] });
+        byGroup.get(newKey)!.agents.push(line.trimEnd());
+      }
+      group = newKey;
     } else if (
       directive.startsWith("sitemap:") ||
       directive.startsWith("host:")
@@ -258,16 +271,14 @@ export function mergeRobots(existing: string, generated: string): string {
       // extend the run ONLYYY if we're in it, otherwise we get some bad behavior
       const isConsecutive = currentAgents.length > 0 && !groupHasRules;
       if (!isConsecutive) flush();
-      if (!isConsecutive) {
-        currentAgents = [];
-        insertAt = out.length;
-      }
+      if (!isConsecutive) currentAgents = [];
       currentAgents.push(
         directive.slice("user-agent:".length).trim().toLowerCase(),
       );
       currentKey = agentKey(currentAgents);
       groupHasRules = false;
       out.push(line);
+      insertAt = out.length; // after this agent line; a rule below moves it further
       continue;
     }
 
