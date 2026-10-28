@@ -78,15 +78,22 @@ function resolveTwitter(
     // this was super annoying to type, omg TS be less verbose smh my head
     // (just kidding, I'm being extra careful throughout the plugin cause better safe than sorry)
     card: pageTwitter?.card ?? siteTwitter?.card ?? DEFAULT_TWITTER_CARD,
-    title: pageTwitter?.title ?? fallback.title,
-    description: pageTwitter?.description ?? fallback.description,
+    title: pageTwitter?.title ?? siteTwitter?.title ?? fallback.title,
+    description:
+      pageTwitter?.description ??
+      siteTwitter?.description ??
+      fallback.description,
     site: pageTwitter?.site ?? siteTwitter?.site,
     siteId: pageTwitter?.siteId ?? siteTwitter?.siteId,
     creator: pageTwitter?.creator ?? siteTwitter?.creator,
     creatorId: pageTwitter?.creatorId ?? siteTwitter?.creatorId,
-    image: absolutize(pageTwitter?.image ?? fallback.image, site.url),
+    image: absolutize(
+      pageTwitter?.image ?? siteTwitter?.image ?? fallback.image,
+      site.url,
+    ),
     imageAlt:
-      pageTwitter?.imageAlt ?? fallback.imageAlt ?? siteTwitter?.imageAlt,
+      pageTwitter?.imageAlt ?? siteTwitter?.imageAlt ?? fallback.imageAlt,
+
     imageWidth: pageTwitter?.imageWidth ?? siteTwitter?.imageWidth,
     imageHeight: pageTwitter?.imageHeight ?? siteTwitter?.imageHeight,
     label1: pageTwitter?.label1 ?? siteTwitter?.label1,

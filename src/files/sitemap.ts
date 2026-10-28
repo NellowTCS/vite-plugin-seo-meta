@@ -36,7 +36,7 @@ const DEFAULT_EXCLUDE_PATTERNS = [
   /^\/404(?:\.html)?$/i,
   /^\/500(?:\.html)?$/i,
   // taken from online examples, but the regex is a bit more strict than the docs say it should be (for both)
-  /^\/google(?=[0-9a-z-]*[0-9])[0-9a-z-]{10,}$/i,
+  /^\/google(?=[0-9a-z-]*[0-9])[0-9a-z-]{10,}(?:\.html)?$/i,
   /^\/yandex_[0-9a-z]+$/i,
   // todo: add more for Bing, etc...
 ];

@@ -220,4 +220,15 @@ describe("buildSitemap", () => {
     expect(xml).toContain("https://example.com/404-page");
     expect(xml).toContain("https://example.com/yandex");
   });
+
+  it("excludes verification files even when the canonical keeps .html", async () => {
+    const xml = await buildSitemap([
+      page(
+        "/google1234567890abcdef",
+        "https://example.com/google1234567890abcdef.html",
+      ),
+    ]);
+
+    expect(xml).not.toContain("google");
+  });
 });

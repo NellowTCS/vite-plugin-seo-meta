@@ -185,7 +185,7 @@ describe("mergeRobots", () => {
 
     // The * group's new rule lands between the two groups, not at the end
     const starGroup = merged.match(
-      /User-agent: \*\n([\s\S]*?)(?=User-agent:|\z)/,
+      /User-agent: \*\n([\s\S]*?)(?=User-agent:|$)/,
     );
     expect(starGroup).not.toBeNull();
     const starRules = starGroup![1]!;
@@ -193,7 +193,7 @@ describe("mergeRobots", () => {
     expect(starRules).toContain("Disallow: /b");
     expect((starRules.match(/disallow: \/a/gi) ?? []).length).toBe(1);
 
-    const fooGroup = merged.match(/User-agent: foobot\n([\s\S]*?)(?=\n\n|\z)/);
+    const fooGroup = merged.match(/User-agent: foobot\n([\s\S]*?)(?=\n\n|$)/);
     expect(fooGroup).not.toBeNull();
     const fooRules = fooGroup![1]!;
     expect(fooRules).toContain("Disallow: /foo");
@@ -224,5 +224,40 @@ describe("mergeRobots", () => {
 
     expect((merged.match(/Host: example.com/gi) ?? []).length).toBe(1);
     expect((merged.match(/Sitemap:/gi) ?? []).length).toBe(1);
+  });
+
+  it("keeps a generated rule that another group already has", () => {
+    const existing = "User-agent: GPTBot\nDisallow: /\n";
+    const generated = buildRobots(SITE, { userAgent: "*", disallow: ["/"] });
+    const merged = mergeRobots(existing, generated);
+
+    const starGroup = merged.match(/User-agent: \*\n([\s\S]*?)(?=\n\n|$)/);
+    expect(starGroup).not.toBeNull();
+    expect(starGroup![1]!).toContain("Disallow: /");
+  });
+
+  it("does not split a run of User-agent lines when merging", () => {
+    const existing = "User-agent: a\nUser-agent: b\nDisallow: /shared\n";
+    const generated = buildRobots(SITE, { userAgent: "a", disallow: ["/new"] });
+    const merged = mergeRobots(existing, generated);
+
+    expect(merged.indexOf("Disallow: /new")).toBeGreaterThan(
+      merged.indexOf("Disallow: /shared"),
+    );
+    expect(merged).toContain("User-agent: a\nUser-agent: b\nDisallow: /shared");
+  });
+
+  it("keys generated groups by their whole agent set", () => {
+    const existing = "User-agent: a\nUser-agent: b\nDisallow: /shared\n";
+    const generated = buildRobots(SITE, {
+      userAgent: ["a", "b"],
+      disallow: ["/new"],
+    });
+    const merged = mergeRobots(existing, generated);
+
+    // [a, b] is one group, so the generated rule merges into the shared run
+    expect(merged.indexOf("Disallow: /new")).toBeGreaterThan(
+      merged.indexOf("Disallow: /shared"),
+    );
   });
 });

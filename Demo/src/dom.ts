@@ -3,7 +3,8 @@ import { form } from "./fields.gen";
 import type { Entry, GateSpec, SectionSpec } from "./fields.gen";
 
 export type Template = ReturnType<typeof html>;
-export type InputLike = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+export type InputLike =
+  HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
 export const panel = document.getElementById("form") as HTMLElement;
 export const inline = document.getElementById("inline") as HTMLPreElement;
@@ -31,7 +32,9 @@ export function nodeOf(hole: Template): HTMLElement {
   render(host, hole as unknown as Node);
   const root = host.firstElementChild as HTMLElement;
 
-  for (const sel of root.querySelectorAll<HTMLSelectElement>("select[data-value]")) {
+  for (const sel of root.querySelectorAll<HTMLSelectElement>(
+    "select[data-value]",
+  )) {
     sel.value = sel.dataset.value ?? "";
   }
   return root;

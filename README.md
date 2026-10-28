@@ -1,6 +1,8 @@
 # vite-plugin-seo-meta
 
-All-in-one Vite plugin that generates SEO metadata for your app: `<title>`, meta tags, canonical, Open Graph, Twitter Cards, JSON-LD (Organization/WebSite/Article/Product/BreadcrumbList/ImageObject), hreflang alternates, `robots.txt` and `sitemap.xml`. Zero-config defaults, per-page overrides. Works for SPA/MPA/SSG/prerendered builds.
+All-in-one Vite plugin that generates SEO metadata for your app at build time: `<title>`, meta tags, canonical, Open Graph, Twitter Cards, JSON-LD (Organization/WebSite/Article/Product/BreadcrumbList/ImageObject), hreflang alternates, `robots.txt` and `sitemap.xml`. Zero-config defaults, per-page overrides.
+
+Made for any build that produces static HTML: some SPA, MPA, SSG, and prerendered builds.
 
 [![npm version](https://img.shields.io/npm/v/vite-plugin-seo-meta.svg)](https://www.npmjs.com/package/vite-plugin-seo-meta)
 [![github release](https://img.shields.io/github/v/release/NellowTCS/vite-plugin-seo-meta.svg)](https://github.com/NellowTCS/vite-plugin-seo-meta/releases)
@@ -68,7 +70,7 @@ export default defineSeoConfig({
 - Rich favicon and platform icons: `apple-touch-icon`, `apple-touch-icon-precomposed`, `mask-icon`, `apple-mobile-web-app-*`, `msapplication-*`
 - Coexistence detection: warns and defers to `vite-plugin-sitemap`/`vite-plugin-pwa` etc when present (override with `sitemap: true`/`robots: true`), to prevent double-builds and general pain.
 - Pre-build validation: enums, required fields, absolute URLs, length budgets (title 60, description 50-160, Twitter 70/200); `warn` by default, `error` throws
-- SPA runtime helper: `applySeo()` for client-side navigation (`import from "vite-plugin-seo-meta/runtime"`)
+- SPA runtime helper: `applySeo()` syncs site-level tags on client-side navigation (`import from "vite-plugin-seo-meta/runtime"`); per-route updates are still on the TODO, so SPAs needing those today should call it with the route's own `PageMeta` lollll
 - Type-safe with `defineSeoConfig()` and full TypeScript types from the get go!
 
 ## Docs

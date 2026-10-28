@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// I must say... this entire file is an exercise in overengineering. Fortunately, 
+// I must say... this entire file is an exercise in overengineering. Fortunately,
 // past me has done similar wild stuff before so it's not that difficult. Just weird.
 
 import { writeFileSync } from "node:fs";

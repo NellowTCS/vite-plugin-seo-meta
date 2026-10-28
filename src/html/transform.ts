@@ -3,6 +3,7 @@
 import { defaultTreeAdapter, parse, parseFragment, serialize } from "parse5";
 import type { HeadTag } from "../types";
 import { elementKey, isElement, isText, stripManagedNodes } from "./dedupe";
+import { headElementKey } from "./key";
 import type { P5Element, P5Node, P5Parent } from "./dedupe";
 
 /** Builds a `<tag>` element with attributes, optionally holding text */
@@ -81,13 +82,14 @@ function trimTrailingWhitespace(head: P5Element): void {
  * Injects rendered head tags into an HTML document
  * - managed tags (title / meta / link / ld+json) are replaced, not appended
  * - tags flagged `onlyIfMissing` are skipped when an equal element already exists
+ * - parse5 always synthesizes a `<head>`, so even a template without one gets tags
  *
- * @returns the serialized document, or the input untouched when there is no <head>
+ * @returns the serialized document
  */
 export function injectHeadTags(html: string, tags: HeadTag[]): string {
   const document = parse(html);
   const head = findElement(document, "head");
-  if (!head || head.childNodes.length === 0) return html;
+  if (!head) return html;
 
   const existing = new Set<string>();
   for (const child of head.childNodes) {
@@ -99,8 +101,12 @@ export function injectHeadTags(html: string, tags: HeadTag[]): string {
   const seen = new Set<string>();
   const toAdd: HeadTag[] = [];
   for (const tag of tags) {
-    if (tag.onlyIfMissing && existing.has(tag.key)) continue;
-    removeKeys.add(tag.key);
+    // og tags cram content into tag.key so multiple og:image etc can coexist.
+    // we gotta match by attributes via headElementKey to actually replace
+    // existing ones, or we'd just keep stacking duplicates lol
+    const stripKey = headElementKey(tag.tag, (n) => tag.attrs[n]) ?? tag.key;
+    if (tag.onlyIfMissing && existing.has(stripKey)) continue;
+    removeKeys.add(stripKey);
 
     if (seen.has(tag.key)) continue;
     seen.add(tag.key);

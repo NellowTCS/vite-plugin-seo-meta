@@ -251,7 +251,7 @@ export function resolveOpenGraph(
   const openGraph = page.openGraph;
   const merged: OpenGraphInfo = { ...site.openGraph, ...openGraph };
   const locale =
-    openGraph?.locale ?? languageTagToOgLocale(lang) ?? site.openGraph.locale;
+    openGraph?.locale ?? languageTagToOgLocale(lang) ?? site.openGraph?.locale;
   const localeAlternate = [
     ...new Set(
       openGraph?.localeAlternate ??
@@ -261,21 +261,39 @@ export function resolveOpenGraph(
   ];
   return {
     ...merged,
-    title: openGraph?.title ?? fallback.title,
-    description: openGraph?.description ?? fallback.description,
-    url: openGraph?.url ?? fallback.canonical,
+    title: openGraph?.title ?? site.openGraph?.title ?? fallback.title,
+    description:
+      openGraph?.description ??
+      site.openGraph?.description ??
+      fallback.description,
+    url: openGraph?.url ?? site.openGraph?.url ?? fallback.canonical,
     siteName: openGraph?.siteName ?? site.openGraph.siteName,
     locale,
     localeAlternate,
     image: absolutize(
-      openGraph?.image ?? fallback.image ?? site.openGraph.image,
+      openGraph?.image ??
+        site.openGraph?.image ??
+        fallback.image ??
+        site.openGraph.image,
       site.url,
     ),
     imageAlt:
-      openGraph?.imageAlt ?? fallback.imageAlt ?? site.openGraph.imageAlt,
-    images: resolveMedia(openGraph?.images ?? site.openGraph.images, site.url),
-    videos: resolveMedia(openGraph?.videos ?? site.openGraph.videos, site.url),
-    audios: resolveMedia(openGraph?.audios ?? site.openGraph.audios, site.url),
+      openGraph?.imageAlt ??
+      site.openGraph?.imageAlt ??
+      fallback.imageAlt ??
+      site.openGraph.imageAlt,
+    images: resolveMedia(
+      openGraph?.images ?? site.openGraph?.images ?? site.openGraph.images,
+      site.url,
+    ),
+    videos: resolveMedia(
+      openGraph?.videos ?? site.openGraph?.videos ?? site.openGraph.videos,
+      site.url,
+    ),
+    audios: resolveMedia(
+      openGraph?.audios ?? site.openGraph?.audios ?? site.openGraph.audios,
+      site.url,
+    ),
     article: resolveArticle(merged.article, site.url),
     book: resolveBook(merged.book, site.url),
     profile: resolveProfile(merged.profile),

@@ -151,9 +151,12 @@ export function buildRobots(
 /**
  * Merges generated rules into an existing `robots.txt`
  * - Existing lines are kept; generated rules are inserted into the matching
- *   user-agent group, or appended whole when the group is new sigh
+ *   user-agent group (keyed by the group's whole agent set), or appended whole
+ *   when the group is new sigh
+ * - a run of `User-agent:` lines is one group; rules go after the last agent line, never between em
  * - `Host:`/`Sitemap:` records are global and deduped across the file
- * - Duplicate directives within a group are dropped (well, obviously, what do you expect me to do?)
+ * - duplicate directives within a group are dropped (obviously);
+ *   same directive across different groups is fine and kept
  *
  * @param existing - the file already on disk (for example a hand-written `public/robots.txt`)
  * @param generated - output of {@link buildRobots}
@@ -165,15 +168,27 @@ export function mergeRobots(existing: string, generated: string): string {
     return `${toLines(generated).join("\n")}\n`;
   }
 
-  // Generated rules grouped by their user-agent set
+  // group by the whole agent set - `a` then `b` is one group,
+  // keying by single agent would split the run and mess things up
   const byGroup = new Map<string, { agents: string[]; rules: string[] }>();
   const records: string[] = [];
   let group = "";
+  // User-agent extends the run until a rule or blank line closes it;
+  // after that next User-agent starts a new group
+  let groupHasRules = false;
   for (const line of toLines(generated)) {
     const directive = normalizeDirective(line);
-    if (!directive) continue;
+    if (!directive) {
+      if (line.trim() === "") {
+        group = "";
+        groupHasRules = false;
+      }
+      continue;
+    }
     if (directive.startsWith("user-agent:")) {
-      group = directive.slice("user-agent:".length).trim().toLowerCase();
+      const agent = directive.slice("user-agent:".length).trim().toLowerCase();
+      group = group === "" || groupHasRules ? agent : `${group}|${agent}`;
+      groupHasRules = false;
       if (!byGroup.has(group)) byGroup.set(group, { agents: [], rules: [] });
       byGroup.get(group)!.agents.push(line.trimEnd());
     } else if (
@@ -183,26 +198,35 @@ export function mergeRobots(existing: string, generated: string): string {
       records.push(line.trimEnd());
     } else {
       byGroup.get(group)!.rules.push(line.trimEnd());
+      groupHasRules = true;
     }
-  }
-
-  const seen = new Set<string>();
-  for (const line of existingLines) {
-    const directive = normalizeDirective(line);
-    if (directive) seen.add(directive);
   }
 
   const out: string[] = [];
   const tail: string[] = [];
   const matched = new Set<string>();
-  let currentGroup = "";
+  const seenByGroup = new Map<string, Set<string>>();
+  const seenRecords = new Set<string>();
+  let currentAgents: string[] = [];
+  let currentKey = "";
   let insertAt = -1;
 
+  const agentKey = (agents: string[]) => agents.join("|");
+  const seenFor = (key: string) => {
+    let seen = seenByGroup.get(key);
+    if (!seen) {
+      seen = new Set<string>();
+      seenByGroup.set(key, seen);
+    }
+    return seen;
+  };
+
   const flush = () => {
-    if (!currentGroup) return;
-    const entry = byGroup.get(currentGroup);
+    if (!currentKey) return;
+    const entry = byGroup.get(currentKey);
     if (!entry) return;
-    matched.add(currentGroup);
+    matched.add(currentKey);
+    const seen = seenFor(currentKey);
     const newRules = entry.rules.filter((rule) => {
       const directive = normalizeDirective(rule);
       if (directive && seen.has(directive)) return false;
@@ -221,21 +245,35 @@ export function mergeRobots(existing: string, generated: string): string {
 
     if (line.trim() === "") {
       flush();
-      currentGroup = "";
+      currentAgents = [];
+      currentKey = "";
       insertAt = -1;
       out.push(line);
       continue;
     }
 
     if (directive?.startsWith("user-agent:")) {
-      flush();
-      currentGroup = directive.slice("user-agent:".length).trim().toLowerCase();
-      insertAt = out.length;
+      // so this is actually one group lol
+      const isConsecutive = currentAgents.length > 0;
+      if (!isConsecutive) flush();
+      currentAgents.push(
+        directive.slice("user-agent:".length).trim().toLowerCase(),
+      );
+      currentKey = agentKey(currentAgents);
+      if (!isConsecutive) insertAt = out.length;
       out.push(line);
       continue;
     }
 
-    if (directive && currentGroup) insertAt = out.length;
+    if (directive) {
+      if (currentAgents.length > 0) insertAt = out.length;
+      if (currentKey) {
+        const seen = seenFor(currentKey);
+        seen.add(directive);
+      } else {
+        seenRecords.add(directive);
+      }
+    }
     out.push(line);
   }
   flush();
@@ -243,6 +281,7 @@ export function mergeRobots(existing: string, generated: string): string {
   // Groups with no match in the existing file, plus records, go to the tail
   for (const [key, { agents, rules }] of byGroup) {
     if (matched.has(key)) continue;
+    const seen = seenFor(key);
     for (const line of [...agents, ...rules]) {
       const directive = normalizeDirective(line);
       if (directive && seen.has(directive)) continue;
@@ -252,8 +291,8 @@ export function mergeRobots(existing: string, generated: string): string {
   }
   for (const record of records) {
     const directive = normalizeDirective(record);
-    if (directive && seen.has(directive)) continue;
-    if (directive) seen.add(directive);
+    if (directive && seenRecords.has(directive)) continue;
+    if (directive) seenRecords.add(directive);
     tail.push(record);
   }
 

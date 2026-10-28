@@ -82,6 +82,69 @@ describe("injectHeadTags", () => {
     expect(output).not.toContain('content="#fff"');
   });
 
+  it("replaces a property= og tag whose key carries the content", () => {
+    const tags: HeadTag[] = [
+      {
+        tag: "meta",
+        attrs: { property: "og:image", content: "/page.png" },
+        key: "meta:og:image:/page.png",
+      },
+    ];
+    const html =
+      '<html><head><meta property="og:image" content="/default.png"></head><body></body></html>';
+
+    const output = injectHeadTags(html, tags);
+
+    expect(countOccurrences(output, "og:image")).toBe(1);
+    expect(output).toContain('content="/page.png"');
+  });
+
+  it("skips an onlyIfMissing og tag whose key carries the content", () => {
+    const tags: HeadTag[] = [
+      {
+        tag: "meta",
+        attrs: { property: "og:title", content: "New" },
+        key: "meta:og:title:New",
+        onlyIfMissing: true,
+      },
+    ];
+    const html =
+      '<html><head><meta property="og:title" content="Existing"></head><body></body></html>';
+
+    const output = injectHeadTags(html, tags);
+
+    expect(countOccurrences(output, "og:title")).toBe(1);
+    expect(output).toContain('content="Existing"');
+  });
+
+  it("keeps several og:image tags from one page render", () => {
+    const tags: HeadTag[] = [
+      {
+        tag: "meta",
+        attrs: { property: "og:image", content: "/one.png" },
+        key: "meta:og:image:/one.png",
+      },
+      {
+        tag: "meta",
+        attrs: { property: "og:image", content: "/two.png" },
+        key: "meta:og:image:/two.png",
+      },
+    ];
+    const html = "<html><head></head><body></body></html>";
+
+    const output = injectHeadTags(html, tags);
+
+    expect(countOccurrences(output, "og:image")).toBe(2);
+  });
+
+  it("injects into an empty head", () => {
+    const html = "<html><head></head><body></body></html>";
+
+    const output = injectHeadTags(html, TAGS);
+
+    expect(countOccurrences(output, "<title")).toBe(1);
+  });
+
   it("adds onlyIfMissing tags that are absent", () => {
     const tags: HeadTag[] = [
       {
@@ -98,9 +161,12 @@ describe("injectHeadTags", () => {
     expect(output).toContain('content="#fff"');
   });
 
-  it("returns the input unchanged when there is no head", () => {
+  it("injects into a synthesized head when the template has none", () => {
     const html = "<html><body><p>no head here</p></body></html>";
 
-    expect(injectHeadTags(html, TAGS)).toBe(html);
+    const output = injectHeadTags(html, TAGS);
+
+    expect(countOccurrences(output, "<title")).toBe(1);
+    expect(output).toContain("<p>no head here</p>");
   });
 });

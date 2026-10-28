@@ -1,12 +1,5 @@
 import { html } from "uhtml";
-import {
-  humanize,
-  isGate,
-  isSection,
-  isWide,
-  nodeOf,
-  pagesSpec,
-} from "./dom";
+import { humanize, isGate, isSection, isWide, nodeOf, pagesSpec } from "./dom";
 import type { Template } from "./dom";
 import type {
   Entry,
@@ -106,7 +99,11 @@ function groupTpl(
   </details>`;
 }
 
-export function sectionTpl(spec: SectionSpec, fid: string, cls = ""): HTMLElement {
+export function sectionTpl(
+  spec: SectionSpec,
+  fid: string,
+  cls = "",
+): HTMLElement {
   if (spec.control === "pages") return pagesTpl(spec);
   return nodeOf(
     groupTpl(

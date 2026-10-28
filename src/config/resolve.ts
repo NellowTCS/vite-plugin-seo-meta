@@ -175,6 +175,7 @@ export function mergeOptions(
   return {
     ...fileConfig,
     ...inline,
+    // only 1 level deep
     site: { ...fileConfig.site, ...inline.site } as SiteConfig,
     pages: { ...fileConfig.pages, ...inline.pages },
     robots: inline.robots ?? fileConfig.robots,
