@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-seo-meta",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "All-in-one Vite SEO plugin: meta tags, canonical, Open Graph, Twitter Cards, JSON-LD, hreflang, robots.txt and sitemap.xml with zero-config defaults and per-page overrides.",
   "type": "module",
   "license": "MIT",

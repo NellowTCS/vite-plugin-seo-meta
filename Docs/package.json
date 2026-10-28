@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-seo-meta-docs",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
