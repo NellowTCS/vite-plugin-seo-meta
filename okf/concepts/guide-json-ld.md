@@ -4,10 +4,10 @@ title: JSON-LD
 description: "Structured data for search engines: Organization, WebSite, Article, Product, BreadcrumbList and ImageObject."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/guide/json-ld/"
 path: /guide/json-ld/
-updated: 2026-10-27
+updated: 2026-10-28
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-27T06:48:08.071Z"
+  generated_at: "2026-10-28T06:25:45.058Z"
 ---
 ---
 title: "JSON-LD"
