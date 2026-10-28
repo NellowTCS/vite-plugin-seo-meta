@@ -7,7 +7,7 @@ path: /guide/json-ld/
 updated: 2026-10-28
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-28T19:03:25.809Z"
+  generated_at: "2026-10-28T19:05:44.458Z"
 ---
 ---
 title: "JSON-LD"
