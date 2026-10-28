@@ -7,7 +7,7 @@ path: /guide/sitemap/
 updated: 2026-10-28
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-28T19:05:44.460Z"
+  generated_at: "2026-10-28T19:10:10.136Z"
 ---
 ---
 title: "sitemap.xml"
