@@ -202,7 +202,8 @@ export function mergeRobots(existing: string, generated: string): string {
           rules: prev?.rules ?? [],
         });
       } else {
-        if (!byGroup.has(newKey)) byGroup.set(newKey, { agents: [], rules: [] });
+        if (!byGroup.has(newKey))
+          byGroup.set(newKey, { agents: [], rules: [] });
         byGroup.get(newKey)!.agents.push(line.trimEnd());
       }
       group = newKey;
