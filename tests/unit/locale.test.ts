@@ -37,13 +37,15 @@ describe("languageTagToOgLocale", () => {
     expect(languageTagToOgLocale("es-419")).toBe("es_419");
   });
 
-  it("drops script and variant subtags", () => {
+  it("drops variant subtags and maps common scripts to a territory", () => {
     expect(languageTagToOgLocale("zh-Hant-TW")).toBe("zh_TW");
-    expect(languageTagToOgLocale("sl-rozaj")).toBe("sl");
+    expect(languageTagToOgLocale("zh-Hans")).toBe("zh_CN");
+    expect(languageTagToOgLocale("zh-Hant")).toBe("zh_TW");
+    expect(languageTagToOgLocale("sl-rozaj")).toBeUndefined();
   });
 
-  it("returns the bare language when there is no region", () => {
-    expect(languageTagToOgLocale("fr")).toBe("fr");
+  it("returns undefined when there is no territory (bare languages aren't OG locales)", () => {
+    expect(languageTagToOgLocale("fr")).toBeUndefined();
   });
 
   it("returns undefined for x-default and blank input", () => {

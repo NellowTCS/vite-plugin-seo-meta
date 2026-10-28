@@ -172,6 +172,16 @@ describe("mergeRobots", () => {
     expect(merged.startsWith("# my robots\n")).toBe(true);
   });
 
+  it("dedupes a rule that only differs by a trailing comment", () => {
+    const existing = "User-agent: *\nDisallow: /a # old rule\n";
+    const generated = buildRobots(SITE, { disallow: ["/a", "/b"] });
+
+    const merged = mergeRobots(existing, generated);
+
+    expect((merged.match(/Disallow: \/a/g) ?? []).length).toBe(1);
+    expect(merged).toContain("Disallow: /b");
+  });
+
   it("appends generated rules to the matching user-agent group", () => {
     const existing =
       "User-agent: *\nDisallow: /a\n\n" +
@@ -224,6 +234,20 @@ describe("mergeRobots", () => {
 
     expect((merged.match(/Host: example.com/gi) ?? []).length).toBe(1);
     expect((merged.match(/Sitemap:/gi) ?? []).length).toBe(1);
+  });
+
+  it("treats a Sitemap record glued to a group as a record, not a rule", () => {
+    const existing =
+      "User-agent: *\nDisallow: /x\nSitemap: https://example.com/sitemap.xml\n";
+    const generated = buildRobots(SITE, { disallow: ["/y"] });
+    const merged = mergeRobots(existing, generated);
+
+    expect((merged.match(/Sitemap:/gi) ?? []).length).toBe(1);
+    // new rules go inside the group, before the record
+    expect(merged.indexOf("Disallow: /y")).toBeLessThan(
+      merged.indexOf("Sitemap:"),
+    );
+    expect(merged).toContain("User-agent: *\nDisallow: /x\nDisallow: /y");
   });
 
   it("keeps a generated rule that another group already has", () => {

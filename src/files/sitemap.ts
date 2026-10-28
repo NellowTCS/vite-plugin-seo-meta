@@ -26,6 +26,9 @@ const CHANGEFREQ: Record<SitemapChangefreq, EnumChangefreq> = {
 /** Hard cap on URLs per sitemap file */
 const MAX_URLS = 50_000;
 
+/** Google caps `<video:description>` at this many characters */
+const VIDEO_DESCRIPTION_MAX = 2048;
+
 const EMPTY_SITEMAP =
   '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>';
 
@@ -97,7 +100,7 @@ function videoItems(page: ResolvedPage): VideoItemLoose[] | undefined {
     const item: VideoItemLoose = {
       thumbnail_loc: ref.thumbnail,
       title: description,
-      description,
+      description: description.slice(0, VIDEO_DESCRIPTION_MAX),
       content_loc: ref.src,
     };
     out.push(item);
@@ -113,9 +116,10 @@ function newsItem(page: ResolvedPage): NewsItem | undefined {
   const article = page.openGraph.article;
   if (!article) return undefined;
   if (!article.publishedTime) return undefined;
+  if (!page.openGraph.siteName) return undefined;
   return {
     publication: {
-      name: page.openGraph.siteName ?? "",
+      name: page.openGraph.siteName,
       language: page.lang ?? "en",
     },
     publication_date: article.publishedTime,
@@ -135,10 +139,15 @@ function toItem(
   if (isDefaultExcluded(page.route)) return undefined;
 
   const changefreq = page.changefreq ?? options.defaultChangefreq;
+  const priorityRaw = page.priority ?? options.defaultPriority;
+  const priority =
+    priorityRaw === undefined
+      ? undefined
+      : Math.min(Math.max(priorityRaw, 0), 1);
   const item: SitemapItemLoose = {
     url: page.canonical,
     changefreq: changefreq ? CHANGEFREQ[changefreq] : undefined,
-    priority: page.priority ?? options.defaultPriority,
+    priority,
     lastmod: page.lastmod,
     img: imageItems(page),
     video: videoItems(page),

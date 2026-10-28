@@ -22,6 +22,9 @@ const TWITTER_DESCRIPTION_MAX = 200;
 
 /** Allowed `<meta name="robots">` directives */
 const VALID_ROBOTS_DIRECTIVES = new Set([
+  // index/follow are the defaults ofc
+  "index",
+  "follow",
   "noindex",
   "nofollow",
   "none",
@@ -33,6 +36,19 @@ const VALID_ROBOTS_DIRECTIVES = new Set([
   "indexifembedded",
   "nositelinkssearchbox",
 ]);
+
+/** Allowed `max-image-preview` values */
+const VALID_IMAGE_PREVIEWS = new Set(["none", "standard", "large"]);
+
+/** True when a directive value parses as a number (for max-snippet etc. idk) */
+function isNumericValue(value: string): boolean {
+  return value.trim().length > 0 && !Number.isNaN(Number(value));
+}
+
+/** True when a directive value parses as a date Google would accept (aka, is it valid) */
+function isDateValue(value: string): boolean {
+  return !Number.isNaN(Date.parse(value.trim()));
+}
 
 /** Allowed `twitter:card` values */
 const VALID_TWITTER_CARDS = new Set([
@@ -61,6 +77,41 @@ export interface ValidationIssue {
   field: string;
   /** Explanation */
   message: string;
+}
+
+/** Checks a `meta name=robots` content string (works for per-agent metas too!!!! :D) */
+function validateRobotsDirectives(
+  content: string | undefined,
+  add: (field: string, message: string) => void,
+): void {
+  if (!content) return;
+  for (const directive of content.split(",")) {
+    const trimmed = directive.trim();
+    const key = trimmed.split(":")[0]?.trim().toLowerCase() ?? "";
+    if (!key) continue;
+    if (VALID_ROBOTS_DIRECTIVES.has(key)) continue;
+    const value = trimmed.includes(":")
+      ? (trimmed.slice(trimmed.indexOf(":") + 1) ?? "")
+      : "";
+    // max-*: Google only parses max-snippet/max-image-preview/max-video-preview,
+    // and ignores the rule entirely when the value doesn't parse! very nice that they don't make me suffer
+    if (key === "max-snippet" || key === "max-video-preview") {
+      if (!isNumericValue(value))
+        add("robots", `robots directive "${trimmed}" has no parseable number`);
+    } else if (key === "max-image-preview") {
+      if (!VALID_IMAGE_PREVIEWS.has(value.trim().toLowerCase()))
+        add(
+          "robots",
+          `max-image-preview must be one of ${[...VALID_IMAGE_PREVIEWS].join(", ")}, got "${value.trim()}"`,
+        );
+    } else if (key === "unavailable_after") {
+      // Google ignores the rule (so the page never expires) on an unparseable date haha
+      if (!isDateValue(value))
+        add("robots", `robots directive "${trimmed}" has no parseable date`);
+    } else {
+      add("robots", `robots directive "${trimmed}" is not recognized`);
+    }
+  }
 }
 
 /** Checks a single resolved page. Returns an empty array when it passes. */
@@ -138,20 +189,11 @@ export function validatePage(page: ResolvedPage): ValidationIssue[] {
       `twitter:player is not an absolute URL: "${twitter.player.url}"`,
     );
 
-  if (page.robots) {
-    for (const directive of page.robots.split(",")) {
-      const key = directive.trim().split(":")[0]?.trim().toLowerCase() ?? "";
-      if (
-        key &&
-        !VALID_ROBOTS_DIRECTIVES.has(key) &&
-        !key.startsWith("max-") &&
-        key !== "unavailable_after"
-      )
-        add(
-          "robots",
-          `robots directive "${directive.trim()}" is not recognized`,
-        );
-    }
+  validateRobotsDirectives(page.robots, add);
+  for (const [agent, content] of Object.entries(page.robotsByUserAgent)) {
+    validateRobotsDirectives(content, (field, message) =>
+      add(`${field}:${agent}`, message),
+    );
   }
 
   for (const [name, content] of Object.entries(page.meta)) {

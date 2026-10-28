@@ -67,7 +67,7 @@ describe("repeated builds", () => {
       expect(countOccurrences(html, 'rel="canonical"')).toBe(1);
       expect(countOccurrences(html, 'property="og:title"')).toBe(1);
       expect(countOccurrences(html, 'rel="alternate"')).toBe(3);
-      expect(countOccurrences(html, 'property="og:locale:alternate"')).toBe(2);
+      expect(countOccurrences(html, 'property="og:locale:alternate"')).toBe(1);
     }
 
     expect(second).toBe(first);

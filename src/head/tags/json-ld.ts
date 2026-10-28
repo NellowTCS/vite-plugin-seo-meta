@@ -27,9 +27,17 @@ export interface PageContext {
 
 const CONTEXT = "https://schema.org";
 
-/** Turns `InStock` into `https://schema.org/InStock`, leaving full URLs alone */
+/** Normalizes a date to ISO 8601 (Google requires it for datePublished/dateModified) */
+function isoDate(value: string | Date): string {
+  return value instanceof Date ? value.toISOString() : value;
+}
+
+/** Turns `InStock` into `https://schema.org/InStock`, leaving full URLs alone
+ * (also strips a leading slash so `/InStock` doesn't become `//InStock` oop lol) */
 function schemaUrl(value: string): string {
-  return value.startsWith("http") ? value : `${CONTEXT}/${value}`;
+  if (value.startsWith("http")) return value;
+  const short = value.replace(/^\/+/, "");
+  return short ? `${CONTEXT}/${short}` : value;
 }
 
 /** Normalizes an Author into a `Person` node */
@@ -128,8 +136,8 @@ function buildArticle(
   };
   if (source.description) node.description = source.description;
   if (source.image) node.image = toAbsolute(source.image, site.url);
-  if (source.datePublished) node.datePublished = source.datePublished;
-  if (source.dateModified) node.dateModified = source.dateModified;
+  if (source.datePublished) node.datePublished = isoDate(source.datePublished);
+  if (source.dateModified) node.dateModified = isoDate(source.dateModified);
   const author = personFrom(source.author);
   if (author) node.author = author;
   return node;

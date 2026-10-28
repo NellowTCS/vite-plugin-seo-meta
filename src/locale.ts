@@ -48,10 +48,19 @@ export function normalizeLanguageTag(value: string): string {
 }
 
 /**
+ * Maps a script subtag to the conventional OG territory when one exists (aka   e x c e p t i o n s)
+ */
+const SCRIPT_TERRITORY: Record<string, string> = {
+  hans: "CN",
+  hant: "TW",
+};
+
+/**
  * Converts a language tag to an Open Graph locale (`language_TERRITORY`).
  * Refer to: https://ogp.me/#optional
  *
- * @returns the locale, or `undefined` for blank input and `x-default`
+ * @returns the locale, or `undefined` for blank input, `x-default`, and tags
+ *   with no territory
  */
 export function languageTagToOgLocale(
   value: string | undefined,
@@ -63,5 +72,8 @@ export function languageTagToOgLocale(
   const region = rest.find(
     (part) => isAlphaRegion(part) || isNumericRegion(part),
   );
-  return region ? `${language}_${region}` : language;
+  if (region) return `${language}_${region}`;
+  const script = rest.find((part) => isScriptSubtag(part));
+  const territory = script ? SCRIPT_TERRITORY[script.toLowerCase()] : undefined;
+  return territory ? `${language}_${territory}` : undefined;
 }

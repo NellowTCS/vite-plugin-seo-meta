@@ -433,8 +433,8 @@ export interface ArticleJsonLd {
   headline: string;
   description?: string;
   image?: string;
-  datePublished?: string;
-  dateModified?: string;
+  datePublished?: string | Date;
+  dateModified?: string | Date;
   author?: string | JsonLdPerson;
   /** Schema.org type, defaults to `Article` */
   type?: "Article" | "BlogPosting" | "NewsArticle";

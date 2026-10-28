@@ -406,7 +406,8 @@ describe("alternates and locale", () => {
     const alternates = tags.filter(
       (tag) => tag.attrs.property === "og:locale:alternate",
     );
-    expect(alternates.map((tag) => tag.attrs.content)).toEqual(["fr_FR", "de"]);
+
+    expect(alternates.map((tag) => tag.attrs.content)).toEqual(["fr_FR"]);
   });
 
   it("prefers an explicit openGraph.locale and localeAlternate", () => {

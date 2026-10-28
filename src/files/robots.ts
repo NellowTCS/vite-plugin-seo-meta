@@ -29,10 +29,15 @@ function trimTrailingBlanks(lines: string[]): string[] {
 /**
  * Normalizes a directive for comparison, or undefined for blanks and comments
  * - Squashes whitespace and lowercases the key so `Disallow:/a` and `disallow: /a` collide
+ * - Strips trailing comments (`# ...`) since the RFC's EOL is `*WS [comment] NL`,
+ *   so `Disallow: /a # old` must compare equal to `Disallow: /a`
  */
 function normalizeDirective(line: string): string | undefined {
-  const trimmed = line.trim();
+  let trimmed = line.trim();
   if (!trimmed || trimmed.startsWith("#")) return undefined;
+  const comment = trimmed.indexOf("#");
+  if (comment !== -1) trimmed = trimmed.slice(0, comment).trim();
+  if (!trimmed) return undefined;
   const colon = trimmed.indexOf(":");
   if (colon === -1) return undefined;
   const key = trimmed.slice(0, colon).trim().toLowerCase();
@@ -284,13 +289,18 @@ export function mergeRobots(existing: string, generated: string): string {
     }
 
     if (directive) {
-      if (currentAgents.length > 0) insertAt = out.length;
-      if (currentKey) {
-        const seen = seenFor(currentKey);
-        seen.add(directive);
-        groupHasRules = true;
-      } else {
+      // records are file-global, not group rules
+      if (directive.startsWith("sitemap:") || directive.startsWith("host:")) {
         seenRecords.add(directive);
+      } else {
+        if (currentAgents.length > 0) insertAt = out.length;
+        if (currentKey) {
+          const seen = seenFor(currentKey);
+          seen.add(directive);
+          groupHasRules = true;
+        } else {
+          seenRecords.add(directive);
+        }
       }
     }
     out.push(line);
