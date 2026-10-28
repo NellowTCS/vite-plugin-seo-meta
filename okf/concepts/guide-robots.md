@@ -7,7 +7,7 @@ path: /guide/robots/
 updated: 2026-10-28
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-28T19:10:10.136Z"
+  generated_at: "2026-10-28T23:23:16.384Z"
 ---
 ---
 title: "robots.txt"
