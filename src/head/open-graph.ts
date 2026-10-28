@@ -251,7 +251,9 @@ export function resolveOpenGraph(
   const openGraph = page.openGraph;
   const merged: OpenGraphInfo = { ...site.openGraph, ...openGraph };
   const locale =
-    openGraph?.locale ?? languageTagToOgLocale(lang) ?? site.openGraph?.locale;
+    openGraph?.locale ??
+    languageTagToOgLocale(lang) ??
+    site.openGraph.locale;
   const localeAlternate = [
     ...new Set(
       openGraph?.localeAlternate ??
@@ -259,41 +261,40 @@ export function resolveOpenGraph(
         deriveLocaleAlternates(alternates, locale ?? ""),
     ),
   ];
+  // fallback mixes page and site values
+  const pick = <T>(
+    pageOg: T | undefined,
+    pageVal: unknown,
+    siteOg: T | undefined,
+    fb: T,
+  ): T => pageOg ?? (pageVal !== undefined ? fb : siteOg ?? fb);
+
   return {
     ...merged,
-    title: openGraph?.title ?? site.openGraph?.title ?? fallback.title,
-    description:
-      openGraph?.description ??
-      site.openGraph?.description ??
+    title: pick(openGraph?.title, page.title, site.openGraph?.title, fallback.title),
+    description: pick(
+      openGraph?.description,
+      page.description,
+      site.openGraph?.description,
       fallback.description,
-    url: openGraph?.url ?? site.openGraph?.url ?? fallback.canonical,
+    ),
+    url: openGraph?.url ?? fallback.canonical,
     siteName: openGraph?.siteName ?? site.openGraph.siteName,
     locale,
     localeAlternate,
     image: absolutize(
-      openGraph?.image ??
-        site.openGraph?.image ??
-        fallback.image ??
-        site.openGraph.image,
+      pick(openGraph?.image, page.image, site.openGraph?.image, fallback.image),
       site.url,
     ),
-    imageAlt:
-      openGraph?.imageAlt ??
-      site.openGraph?.imageAlt ??
-      fallback.imageAlt ??
-      site.openGraph.imageAlt,
-    images: resolveMedia(
-      openGraph?.images ?? site.openGraph?.images ?? site.openGraph.images,
-      site.url,
+    imageAlt: pick(
+      openGraph?.imageAlt,
+      page.imageAlt,
+      site.openGraph?.imageAlt,
+      fallback.imageAlt,
     ),
-    videos: resolveMedia(
-      openGraph?.videos ?? site.openGraph?.videos ?? site.openGraph.videos,
-      site.url,
-    ),
-    audios: resolveMedia(
-      openGraph?.audios ?? site.openGraph?.audios ?? site.openGraph.audios,
-      site.url,
-    ),
+    images: resolveMedia(openGraph?.images ?? site.openGraph.images, site.url),
+    videos: resolveMedia(openGraph?.videos ?? site.openGraph.videos, site.url),
+    audios: resolveMedia(openGraph?.audios ?? site.openGraph.audios, site.url),
     article: resolveArticle(merged.article, site.url),
     book: resolveBook(merged.book, site.url),
     profile: resolveProfile(merged.profile),

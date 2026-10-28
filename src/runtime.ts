@@ -46,14 +46,17 @@ function applyHeadTags(tags: HeadTag[]): void {
   const head = document.head;
   if (!head) return;
 
-  const managed = new Set(tags.map((tag) => tag.key));
+  const stripKey = (tag: HeadTag) =>
+    headElementKey(tag.tag, (n) => tag.attrs[n]) ?? tag.key;
+  const managed = new Set(tags.map(stripKey));
   for (const child of Array.from(head.children)) {
     const key = domKey(child);
     if (key && !managed.has(key)) child.remove();
   }
 
   for (const tag of tags) {
-    const existing = findByKey(head, tag.key);
+    const key = stripKey(tag);
+    const existing = findByKey(head, key);
     if (tag.onlyIfMissing && existing) continue;
     existing?.remove();
     head.append(toElement(tag));

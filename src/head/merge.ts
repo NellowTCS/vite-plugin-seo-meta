@@ -74,25 +74,40 @@ function resolveTwitter(
 ): TwitterInfo {
   const pageTwitter = page.twitter;
   const siteTwitter = site.twitter;
+  // fallback mixes page and site values. 
+  // which... is is a bit annoying but it's SSOT which i like better
+  const pick = <T>(
+    pageTw: T | undefined,
+    pageVal: unknown,
+    siteTw: T | undefined,
+    fb: T,
+  ): T => pageTw ?? (pageVal !== undefined ? fb : siteTw ?? fb);
+
   return {
     // this was super annoying to type, omg TS be less verbose smh my head
     // (just kidding, I'm being extra careful throughout the plugin cause better safe than sorry)
     card: pageTwitter?.card ?? siteTwitter?.card ?? DEFAULT_TWITTER_CARD,
-    title: pageTwitter?.title ?? siteTwitter?.title ?? fallback.title,
-    description:
-      pageTwitter?.description ??
-      siteTwitter?.description ??
+    title: pick(pageTwitter?.title, page.title, siteTwitter?.title, fallback.title),
+    description: pick(
+      pageTwitter?.description,
+      page.description,
+      siteTwitter?.description,
       fallback.description,
+    ),
     site: pageTwitter?.site ?? siteTwitter?.site,
     siteId: pageTwitter?.siteId ?? siteTwitter?.siteId,
     creator: pageTwitter?.creator ?? siteTwitter?.creator,
     creatorId: pageTwitter?.creatorId ?? siteTwitter?.creatorId,
     image: absolutize(
-      pageTwitter?.image ?? siteTwitter?.image ?? fallback.image,
+      pick(pageTwitter?.image, page.image, siteTwitter?.image, fallback.image),
       site.url,
     ),
-    imageAlt:
-      pageTwitter?.imageAlt ?? siteTwitter?.imageAlt ?? fallback.imageAlt,
+    imageAlt: pick(
+      pageTwitter?.imageAlt,
+      page.imageAlt,
+      siteTwitter?.imageAlt,
+      fallback.imageAlt,
+    ),
 
     imageWidth: pageTwitter?.imageWidth ?? siteTwitter?.imageWidth,
     imageHeight: pageTwitter?.imageHeight ?? siteTwitter?.imageHeight,

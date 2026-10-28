@@ -218,6 +218,13 @@ function serializeJsonLd(nodes: JsonLdNode[]): string {
     .replace(/\u2029/g, "\\u2029");
 }
 
+// So we don't support existing JSON-LD, those are removed and replaced with generated stuff
+// The reason why is a bit of a pain:
+//  - merging existing JSON-LD with generated JSON-LD is a nightmare, because the existing stuff 
+//    could be anything, and we don't know what it is (YES XSS TOO AAAAA).
+//  - Also, there's no point tbh as you can just add it to our config and let us do the hard work
+//
+// "Trust *us* with your JSON-LD" ~ Vox-but-SEO-edition
 /** One `<script type="application/ld+json">`, or nothing when the page has no nodes */
 export function jsonLdTags(page: ResolvedPage): HeadTag[] {
   if (page.jsonLd.length === 0) return [];

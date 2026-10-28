@@ -1,8 +1,10 @@
 # TODO
 
-- [ ] no SPA runtime helper exists for `pages` overrides and the `applySeo()` helper in `vite-plugin-seo-meta/runtime` only handles site-level state so we reaaaaaaally gotta add per-route client-side overrides
+## Future
 
-## images
+- [ ] `applySeo(page)` applies a per-page `PageMeta` for the current route, but you have to call it yourself on every navigation (which is a pain)
+
+### images
 
 - [ ] W3C Web App Manifest (all members: display_override, orientation, dir/lang, id/scope, launch_handler, protocol/file/share_target, shortcuts, related_applications, prefer_related_applications, categories, screenshots)
 - [ ] `@vite-pwa/assets-generator` adapter

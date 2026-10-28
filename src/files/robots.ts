@@ -170,6 +170,7 @@ export function mergeRobots(existing: string, generated: string): string {
 
   // group by the whole agent set - `a` then `b` is one group,
   // keying by single agent would split the run and mess things up
+  const agentKey = (agents: string[]) => [...agents].sort().join("|");
   const byGroup = new Map<string, { agents: string[]; rules: string[] }>();
   const records: string[] = [];
   let group = "";
@@ -187,7 +188,8 @@ export function mergeRobots(existing: string, generated: string): string {
     }
     if (directive.startsWith("user-agent:")) {
       const agent = directive.slice("user-agent:".length).trim().toLowerCase();
-      group = group === "" || groupHasRules ? agent : `${group}|${agent}`;
+      const agents = group === "" || groupHasRules ? [agent] : [...group.split("|"), agent];
+      group = agentKey(agents);
       groupHasRules = false;
       if (!byGroup.has(group)) byGroup.set(group, { agents: [], rules: [] });
       byGroup.get(group)!.agents.push(line.trimEnd());
@@ -211,7 +213,6 @@ export function mergeRobots(existing: string, generated: string): string {
   let currentKey = "";
   let insertAt = -1;
 
-  const agentKey = (agents: string[]) => agents.join("|");
   const seenFor = (key: string) => {
     let seen = seenByGroup.get(key);
     if (!seen) {
@@ -248,19 +249,24 @@ export function mergeRobots(existing: string, generated: string): string {
       currentAgents = [];
       currentKey = "";
       insertAt = -1;
+      groupHasRules = false;
       out.push(line);
       continue;
     }
 
     if (directive?.startsWith("user-agent:")) {
-      // so this is actually one group lol
-      const isConsecutive = currentAgents.length > 0;
+      // extend the run ONLYYY if we're in it, otherwise we get some bad behavior
+      const isConsecutive = currentAgents.length > 0 && !groupHasRules;
       if (!isConsecutive) flush();
+      if (!isConsecutive) {
+        currentAgents = [];
+        insertAt = out.length;
+      }
       currentAgents.push(
         directive.slice("user-agent:".length).trim().toLowerCase(),
       );
       currentKey = agentKey(currentAgents);
-      if (!isConsecutive) insertAt = out.length;
+      groupHasRules = false;
       out.push(line);
       continue;
     }
@@ -270,6 +276,7 @@ export function mergeRobots(existing: string, generated: string): string {
       if (currentKey) {
         const seen = seenFor(currentKey);
         seen.add(directive);
+        groupHasRules = true;
       } else {
         seenRecords.add(directive);
       }
