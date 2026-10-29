@@ -7,7 +7,7 @@ path: /
 updated: 2026-10-29
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-29T01:50:22.416Z"
+  generated_at: "2026-10-29T05:32:34.159Z"
 ---
 ---
 title: "vite-plugin-seo-meta"
