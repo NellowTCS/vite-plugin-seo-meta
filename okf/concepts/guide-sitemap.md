@@ -4,10 +4,10 @@ title: sitemap.xml
 description: "Generate sitemap.xml with image, video and news namespaces, plus URL caps."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/guide/sitemap/"
 path: /guide/sitemap/
-updated: 2026-10-28
+updated: 2026-10-29
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-28T23:23:16.385Z"
+  generated_at: "2026-10-29T01:50:22.415Z"
 ---
 ---
 title: "sitemap.xml"

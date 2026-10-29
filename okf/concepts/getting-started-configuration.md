@@ -4,10 +4,10 @@ title: Configuration
 description: "Every option the plugin accepts, with defaults."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/getting-started/configuration/"
 path: /getting-started/configuration/
-updated: 2026-10-28
+updated: 2026-10-29
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-28T23:23:16.382Z"
+  generated_at: "2026-10-29T01:50:22.410Z"
 ---
 ---
 title: "Configuration"

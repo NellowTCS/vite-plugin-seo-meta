@@ -4,10 +4,10 @@ title: "Meta Tags"
 description: "How the plugin emits title, description, canonical and robots meta tags."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/guide/meta-tags/"
 path: /guide/meta-tags/
-updated: 2026-10-28
+updated: 2026-10-29
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-28T23:23:16.384Z"
+  generated_at: "2026-10-29T01:50:22.413Z"
 ---
 ---
 title: "Meta Tags"

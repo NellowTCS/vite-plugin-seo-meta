@@ -4,10 +4,10 @@ title: "SPA Runtime"
 description: "Update SEO tags when the URL changes in a single-page app."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/guide/spa-runtime/"
 path: /guide/spa-runtime/
-updated: 2026-10-28
+updated: 2026-10-29
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-28T23:23:16.385Z"
+  generated_at: "2026-10-29T01:50:22.415Z"
 ---
 ---
 title: "SPA Runtime"

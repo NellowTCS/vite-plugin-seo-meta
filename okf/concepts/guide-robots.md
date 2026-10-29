@@ -4,10 +4,10 @@ title: robots.txt
 description: "Generate robots.txt following RFC 9309 with agent groups, wildcards and crawl delays."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/guide/robots/"
 path: /guide/robots/
-updated: 2026-10-28
+updated: 2026-10-29
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-28T23:23:16.384Z"
+  generated_at: "2026-10-29T01:50:22.414Z"
 ---
 ---
 title: "robots.txt"

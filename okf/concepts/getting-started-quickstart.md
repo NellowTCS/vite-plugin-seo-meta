@@ -4,10 +4,10 @@ title: "Quick Start"
 description: "Add SEO to a Vite app in two minutes."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/getting-started/quickstart/"
 path: /getting-started/quickstart/
-updated: 2026-10-28
+updated: 2026-10-29
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-28T23:23:16.383Z"
+  generated_at: "2026-10-29T01:50:22.412Z"
 ---
 ---
 title: "Quick Start"

@@ -4,10 +4,10 @@ title: "Open Graph"
 description: "og:* tags for Facebook, LinkedIn and every platform that reads them."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/guide/open-graph/"
 path: /guide/open-graph/
-updated: 2026-10-28
+updated: 2026-10-29
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-28T23:23:16.384Z"
+  generated_at: "2026-10-29T01:50:22.414Z"
 ---
 ---
 title: "Open Graph"

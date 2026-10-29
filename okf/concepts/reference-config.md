@@ -4,10 +4,10 @@ title: "Config Reference"
 description: "Every field the plugin accepts."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/reference/config/"
 path: /reference/config/
-updated: 2026-10-28
+updated: 2026-10-29
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-28T23:23:16.386Z"
+  generated_at: "2026-10-29T01:50:22.418Z"
 ---
 ---
 title: "Config Reference"
