@@ -4,10 +4,10 @@ title: vite-plugin-seo-meta
 description: "All-in-one Vite plugin that generates meta tags, canonical, Open Graph, Twitter Cards, JSON-LD, hreflang, robots.txt and sitemap.xml for your app."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/"
 path: /
-updated: 2026-10-29
+updated: 2026-11-08
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-29T05:32:34.159Z"
+  generated_at: "2026-11-08T00:40:53.613Z"
 ---
 ---
 title: "vite-plugin-seo-meta"

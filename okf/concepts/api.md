@@ -4,10 +4,10 @@ title: API
 description: "Public exports: seo(), defineSeoConfig() and the runtime helper."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/api/"
 path: /api/
-updated: 2026-10-29
+updated: 2026-11-08
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-10-29T05:32:34.151Z"
+  generated_at: "2026-11-08T00:40:53.610Z"
 ---
 ---
 title: "API"
