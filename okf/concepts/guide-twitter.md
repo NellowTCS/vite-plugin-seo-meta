@@ -7,7 +7,7 @@ path: /guide/twitter/
 updated: 2026-11-18
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-18T17:34:03.712Z"
+  generated_at: "2026-11-18T17:34:50.382Z"
 ---
 ---
 title: "Twitter Cards"
