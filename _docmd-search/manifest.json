@@ -5,81 +5,81 @@
   "status": "complete",
   "totalFiles": 15,
   "indexedFiles": 15,
-  "totalChunks": 112,
+  "totalChunks": 115,
   "batchCount": 1,
   "files": {
     "api/index.md": {
-      "mtime": 1795023326900.6113,
+      "mtime": 1795033240823.1511,
       "size": 3665,
       "batches": []
     },
     "getting-started/configuration.md": {
-      "mtime": 1795023326900.6113,
+      "mtime": 1795033240823.1511,
       "size": 4935,
       "batches": []
     },
     "getting-started/installation.md": {
-      "mtime": 1795023326900.7515,
+      "mtime": 1795033240823.2656,
       "size": 802,
       "batches": []
     },
     "getting-started/quickstart.md": {
-      "mtime": 1795023326900.7515,
+      "mtime": 1795033240823.2656,
       "size": 1601,
       "batches": []
     },
     "guide/hreflang.md": {
-      "mtime": 1795023326900.7515,
-      "size": 1952,
+      "mtime": 1795033240823.2656,
+      "size": 2448,
       "batches": []
     },
     "guide/json-ld.md": {
-      "mtime": 1795023326900.8708,
+      "mtime": 1795033240823.3682,
       "size": 3801,
       "batches": []
     },
     "guide/meta-tags.md": {
-      "mtime": 1795023326900.8708,
+      "mtime": 1795033240823.3682,
       "size": 3915,
       "batches": []
     },
     "guide/open-graph.md": {
-      "mtime": 1795023326900.8708,
+      "mtime": 1795033240823.3682,
       "size": 3709,
       "batches": []
     },
     "guide/robots.md": {
-      "mtime": 1795023326900.8708,
-      "size": 3124,
+      "mtime": 1795033240823.3682,
+      "size": 3933,
       "batches": []
     },
     "guide/sitemap.md": {
-      "mtime": 1795023326900.8708,
-      "size": 4124,
+      "mtime": 1795033240823.3682,
+      "size": 6225,
       "batches": []
     },
     "guide/spa-runtime.md": {
-      "mtime": 1795023326900.8708,
+      "mtime": 1795033240823.3682,
       "size": 1800,
       "batches": []
     },
     "guide/twitter.md": {
-      "mtime": 1795023326900.8708,
+      "mtime": 1795033240823.3682,
       "size": 3084,
       "batches": []
     },
     "guide/validation.md": {
-      "mtime": 1795023326900.8708,
-      "size": 2076,
+      "mtime": 1795033240823.3682,
+      "size": 3091,
       "batches": []
     },
     "index.md": {
-      "mtime": 1795023326900.8708,
+      "mtime": 1795033240823.3682,
       "size": 2636,
       "batches": []
     },
     "reference/config.md": {
-      "mtime": 1795023326900.8708,
+      "mtime": 1795033240823.3682,
       "size": 4745,
       "batches": []
     }

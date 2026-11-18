@@ -36,11 +36,11 @@
     
     
 
-    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mwmek1k1">
-    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mwmek1k1">
+    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mwmkgho6">
+    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mwmkgho6">
     
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mwmek1k1" id="hljs-light" >
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mwmek1k1" id="hljs-dark" disabled>
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mwmkgho6" id="hljs-light" >
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mwmkgho6" id="hljs-dark" disabled>
     
     <script>/**
  * --------------------------------------------------------------------
@@ -126,10 +126,10 @@
 
 
 
-<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mwmek1k1" >
-<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mwmek1k1" >
-<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mwmek1k1" >
-<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mwmek1k1" >
+<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mwmkgho6" >
+<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mwmkgho6" >
+<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mwmkgho6" >
+<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mwmkgho6" >
 
     
     
@@ -1033,7 +1033,7 @@
             <div class="content-layout">
               <div class="main-content">
                 <div class="docmd-breadcrumbs-row">
-                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22hreflang%22%0Adescription%3A%20%22Tell%20search%20engines%20which%20language%20and%20region%20variant%20of%20a%20page%20to%20show.%22%0A---%0A%0Ahreflang%20alternates%20are%20emitted%20as%20%60%3Clink%20rel%3D%22alternate%22%3E%60%20tags.%20They%20live%20in%20%60pages%5B%5D.alternates%60.%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2F%22%3A%20%7B%0A%20%20%20%20alternates%3A%20%5B%0A%20%20%20%20%20%20%7B%20hreflang%3A%20%22en%22%2C%20href%3A%20%22https%3A%2F%2Fexample.com%2F%22%20%7D%2C%0A%20%20%20%20%20%20%7B%20hreflang%3A%20%22es%22%2C%20href%3A%20%22https%3A%2F%2Fexample.com%2Fes%2F%22%20%7D%2C%0A%20%20%20%20%20%20%7B%20hreflang%3A%20%22x-default%22%2C%20href%3A%20%22https%3A%2F%2Fexample.com%2F%22%20%7D%2C%0A%20%20%20%20%5D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0A!%5Balt%20text%5D(.%2Fassets%2Fimages%2Fhreflang.png)%0A%0A%23%23%20What%20each%20field%20means%0A%0A-%20%60hreflang%60%3A%20the%20language%20or%20region%20code.%20Use%20%5BISO%20639-1%5D(https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FList_of_ISO_639-1_codes)%20for%20languages%2C%20or%20%60en-US%60%2C%20%60es-MX%60%20for%20language-region%20pairs.%20Region%20codes%20come%20from%20%5BISO%203166-1%20alpha-2%5D(https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FISO_3166-1_alpha-2)%20which%20are%20the%20two-letter%20country%20codes%0A-%20%60href%60%3A%20the%20**absolute**%20URL%20of%20that%20variant%0A-%20%60x-default%60%3A%20a%20catch-all%20for%20searchers%20who%20do%20not%20match%20any%20listed%20language%20or%20region.%20Point%20it%20at%20your%20default%20page%0A%0A%23%23%20Rules%0A%0A-%20Every%20%60href%60%20must%20be%20an%20absolute%20URL%0A-%20The%20page%20should%20list%20itself%20in%20its%20own%20alternates.%20If%20the%20page%20is%20the%20English%20variant%2C%20include%20%60%7B%20hreflang%3A%20%22en%22%2C%20href%3A%20%22https%3A%2F%2Fexample.com%2F%22%20%7D%60%0A-%20The%20plugin%20emits%20%60xhtml%3Alink%60%20alternates%20in%20%60sitemap.xml%60%20for%20pages%20that%20have%20hreflang%20companions%0A-%20hreflang%20URLs%20must%20all%20resolve%20to%20the%20same%20host.%20The%20sitemap%20enforces%20this.%0A%0A%23%23%20Big%20%22Don&#039;t%20Do%20This%22%0A%0AListing%20a%20variant%20that%20does%20not%20exist.%20If%20you%20say%20%60es%60%20points%20to%20%60https%3A%2F%2Fexample.com%2Fes%2F%60%20and%20that%20page%20is%20a%20404%2C%20search%20engines%20will%20show%20the%20error%20to%20Spanish%20users.%20So%2C%20obviously%2C%20don&#039;t%20mess%20up%20your%20deployments.%0A%0A%23%23%20When%20to%20use%20it%0A%0A-%20You%20have%20the%20same%20content%20in%20multiple%20languages%0A-%20You%20have%20the%20same%20content%20for%20different%20regions%20(%60.com%60%2C%20%60.com.au%60%2C%20%60.ca%60)%0A-%20You%20want%20to%20tell%20search%20engines%20which%20variant%20to%20show%20which%20user%0A%0AIf%20you%20do%20not%20have%20multiple%20languages%2C%20leave%20%60alternates%60%20out.%20The%20plugin%20does%20not%20add%20anything%20on%20its%20own%20(yet%3F%20maybe.)%0A" style="display: none;"></div>
+                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22hreflang%22%0Adescription%3A%20%22Tell%20search%20engines%20which%20language%20and%20region%20variant%20of%20a%20page%20to%20show.%22%0A---%0A%0Ahreflang%20alternates%20are%20emitted%20as%20%60%3Clink%20rel%3D%22alternate%22%3E%60%20tags.%20They%20live%20in%20%60pages%5B%5D.alternates%60.%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2F%22%3A%20%7B%0A%20%20%20%20alternates%3A%20%5B%0A%20%20%20%20%20%20%7B%20hreflang%3A%20%22en%22%2C%20href%3A%20%22https%3A%2F%2Fexample.com%2F%22%20%7D%2C%0A%20%20%20%20%20%20%7B%20hreflang%3A%20%22es%22%2C%20href%3A%20%22https%3A%2F%2Fexample.com%2Fes%2F%22%20%7D%2C%0A%20%20%20%20%20%20%7B%20hreflang%3A%20%22x-default%22%2C%20href%3A%20%22https%3A%2F%2Fexample.com%2F%22%20%7D%2C%0A%20%20%20%20%5D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0A!%5Balt%20text%5D(.%2Fassets%2Fimages%2Fhreflang.png)%0A%0A%23%23%20What%20each%20field%20means%0A%0A-%20%60hreflang%60%3A%20the%20language%20or%20region%20code.%20Use%20%5BISO%20639-1%5D(https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FList_of_ISO_639-1_codes)%20for%20languages%2C%20or%20%60en-US%60%2C%20%60es-MX%60%20for%20language-region%20pairs.%20Region%20codes%20come%20from%20%5BISO%203166-1%20alpha-2%5D(https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FISO_3166-1_alpha-2)%20which%20are%20the%20two-letter%20country%20codes%0A-%20%60href%60%3A%20the%20**absolute**%20URL%20of%20that%20variant%0A-%20%60x-default%60%3A%20a%20catch-all%20for%20searchers%20who%20do%20not%20match%20any%20listed%20language%20or%20region.%20Point%20it%20at%20your%20default%20page%0A%0A%23%23%20Rules%0A%0A-%20Every%20%60href%60%20must%20be%20an%20absolute%20URL%0A-%20The%20page%20should%20list%20itself%20in%20its%20own%20alternates.%20If%20the%20page%20is%20the%20English%20variant%2C%20include%20%60%7B%20hreflang%3A%20%22en%22%2C%20href%3A%20%22https%3A%2F%2Fexample.com%2F%22%20%7D%60.%20When%20the%20page%20(or%20site)%20has%20a%20%60lang%60%2C%20the%20plugin%20adds%20this%20for%20you%0A-%20If%20page%20X%20lists%20page%20Y%2C%20page%20Y%20must%20list%20page%20X.%20The%20validator%20flags%20non-reciprocal%20pairs%2C%20because%20Google%20ignores%20annotations%20that%20do%20not%20point%20to%20each%20other%0A-%20Language%20codes%20must%20be%20assigned%20ISO%20639-1%20values%20(two%20letters)%20and%20region%20codes%20must%20be%20assigned%20ISO%203166-1%20alpha-2%20values%20(two%20letters).%20The%20validator%20flags%20three-letter%20languages%20like%20%60zho%60%2C%20unassigned%20codes%20like%20%60zz%60%20or%20%60en-XX%60%2C%20and%20numeric%20regions%20like%20%60es-419%60%0A-%20The%20plugin%20emits%20%60xhtml%3Alink%60%20alternates%20in%20%60sitemap.xml%60%20for%20pages%20that%20have%20hreflang%20companions%0A-%20hreflang%20URLs%20must%20all%20resolve%20to%20the%20same%20host.%20The%20sitemap%20enforces%20this.%0A%0A%23%23%20Big%20%22Don&#039;t%20Do%20This%22%0A%0AListing%20a%20variant%20that%20does%20not%20exist.%20If%20you%20say%20%60es%60%20points%20to%20%60https%3A%2F%2Fexample.com%2Fes%2F%60%20and%20that%20page%20is%20a%20404%2C%20search%20engines%20will%20show%20the%20error%20to%20Spanish%20users.%20So%2C%20obviously%2C%20don&#039;t%20mess%20up%20your%20deployments.%0A%0A%23%23%20When%20to%20use%20it%0A%0A-%20You%20have%20the%20same%20content%20in%20multiple%20languages%0A-%20You%20have%20the%20same%20content%20for%20different%20regions%20(%60.com%60%2C%20%60.com.au%60%2C%20%60.ca%60)%0A-%20You%20want%20to%20tell%20search%20engines%20which%20variant%20to%20show%20which%20user%0A%0AIf%20you%20do%20not%20have%20multiple%20languages%2C%20leave%20%60alternates%60%20out.%20The%20plugin%20does%20not%20add%20anything%20on%20its%20own%20(yet%3F%20maybe.)%0A" style="display: none;"></div>
                   
                     <nav aria-label="breadcrumb" class="docmd-breadcrumbs">
                       <ol>
@@ -1149,7 +1149,9 @@
 <h2 id="rules" class="docmd-heading"><a href="#rules" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Rules</h2>
 <ul>
 <li>Every <code>href</code> must be an absolute URL</li>
-<li>The page should list itself in its own alternates. If the page is the English variant, include <code>{ hreflang: &quot;en&quot;, href: &quot;https://example.com/&quot; }</code></li>
+<li>The page should list itself in its own alternates. If the page is the English variant, include <code>{ hreflang: &quot;en&quot;, href: &quot;https://example.com/&quot; }</code>. When the page (or site) has a <code>lang</code>, the plugin adds this for you</li>
+<li>If page X lists page Y, page Y must list page X. The validator flags non-reciprocal pairs, because Google ignores annotations that do not point to each other</li>
+<li>Language codes must be assigned ISO 639-1 values (two letters) and region codes must be assigned ISO 3166-1 alpha-2 values (two letters). The validator flags three-letter languages like <code>zho</code>, unassigned codes like <code>zz</code> or <code>en-XX</code>, and numeric regions like <code>es-419</code></li>
 <li>The plugin emits <code>xhtml:link</code> alternates in <code>sitemap.xml</code> for pages that have hreflang companions</li>
 <li>hreflang URLs must all resolve to the same host. The sitemap enforces this.</li>
 </ul>
@@ -1271,13 +1273,13 @@
             <div class="page-footer-actions">
               
               
-                <span class="git-last-updated" data-timestamp="1795023272000">
+                <span class="git-last-updated" data-timestamp="1795033229000">
                   <svg class="git-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                   </svg>
                   <span class="git-label">Last updated:</span>
-                  <span class="git-time" data-timestamp="1795023272000"></span>
+                  <span class="git-time" data-timestamp="1795033229000"></span>
                   
                   <div class="git-commit-tooltip" role="tooltip">
                     <div class="git-tooltip-title">Recent commits</div>
@@ -1290,10 +1292,10 @@
                             
                           </div>
                           <div class="git-commit-details">
-                            <div class="git-commit-message" title="Merge pull request #8 from NellowTCS/dependabot/npm_and_yarn/Docs/docmd-search-0.1.7">Merge pull request #8 from NellowTCS/...</div>
+                            <div class="git-commit-message" title="A lot of bugfixes (uncommited work from the past few weeks while waiting for review">A lot of bugfixes (uncommited work fr...</div>
                             <div class="git-commit-meta">
                               <span class="git-commit-author">NellowTCS</span>
-                              <span class="git-commit-date" data-timestamp="1795023272000"></span>
+                              <span class="git-commit-date" data-timestamp="1795033229000"></span>
                             </div>
                           </div>
                         </li>
@@ -1346,17 +1348,17 @@
       </div>
       
       
-      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-18T17:35:50.947Z","buildDate":"2026-11-18","buildYear":"2026","gitCommit":"f8e9bcf","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-18","GIT_COMMIT":"f8e9bcf","GIT_BRANCH":"main","git":{"commit":"f8e9bcf","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"hreflang","slug":"/vite-plugin-seo-meta/guide/hreflang/","path":"guide/hreflang/index.html"},"frontmatter":{"title":"hreflang","description":"Tell search engines which language and region variant of a page to show.","_git":{"lastUpdated":"2026-11-18T17:34:32.000Z","lastUpdatedTimestamp":1795023272000,"commits":[{"hash":"f8e9bcf83bdca954065a07227c41efd7119271d6","shortHash":"f8e9bcf","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-18T17:34:32.000Z","timestamp":1795023272000,"message":"Merge pull request #8 from NellowTCS/dependabot/npm_and_yarn/Docs/docmd-search-0.1.7","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
+      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-18T20:21:02.519Z","buildDate":"2026-11-18","buildYear":"2026","gitCommit":"b084b64","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-18","GIT_COMMIT":"b084b64","GIT_BRANCH":"main","git":{"commit":"b084b64","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"hreflang","slug":"/vite-plugin-seo-meta/guide/hreflang/","path":"guide/hreflang/index.html"},"frontmatter":{"title":"hreflang","description":"Tell search engines which language and region variant of a page to show.","_git":{"lastUpdated":"2026-11-18T20:20:29.000Z","lastUpdatedTimestamp":1795033229000,"commits":[{"hash":"b084b641160dabc91f2b75abcee4498ac7131ad1","shortHash":"b084b64","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-18T20:20:29.000Z","timestamp":1795033229000,"message":"A lot of bugfixes (uncommited work from the past few weeks while waiting for review","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
       
-      <script src="../../assets/js/docmd-runtime.js?v=mwmek1k1"></script>
-      <script src="../../assets/js/docmd-main.js?v=mwmek1k1"></script>
+      <script src="../../assets/js/docmd-runtime.js?v=mwmkgho6"></script>
+      <script src="../../assets/js/docmd-main.js?v=mwmkgho6"></script>
       
-      <script src="../../assets/js/docmd-git.js?v=mwmek1k1"></script>
-      <script src="../../assets/js/docmd-image-lightbox.js?v=mwmek1k1" ></script>
-<script src="../../assets/js/vendor/minisearch.js?v=mwmek1k1" ></script>
-<script src="../../assets/js/docmd-search.js?v=mwmek1k1" ></script>
-<script src="../../assets/js/docmd-git.js?v=mwmek1k1" ></script>
-<script src="../../assets/js/docmd-ai.js?v=mwmek1k1" ></script>
+      <script src="../../assets/js/docmd-git.js?v=mwmkgho6"></script>
+      <script src="../../assets/js/docmd-image-lightbox.js?v=mwmkgho6" ></script>
+<script src="../../assets/js/vendor/minisearch.js?v=mwmkgho6" ></script>
+<script src="../../assets/js/docmd-search.js?v=mwmkgho6" ></script>
+<script src="../../assets/js/docmd-git.js?v=mwmkgho6" ></script>
+<script src="../../assets/js/docmd-ai.js?v=mwmkgho6" ></script>
 
   <!-- Search Modal (Injected by @docmd/plugin-search) -->
   <div id="docmd-search-modal" class="docmd-search-modal" style="display: none;" data-semantic="true" data-show-confidence="true" data-show-filters="true"

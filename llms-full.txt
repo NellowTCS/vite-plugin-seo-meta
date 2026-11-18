@@ -332,7 +332,9 @@ pages: {
 ## Rules
 
 - Every `href` must be an absolute URL
-- The page should list itself in its own alternates. If the page is the English variant, include `{ hreflang: "en", href: "https://example.com/" }`
+- The page should list itself in its own alternates. If the page is the English variant, include `{ hreflang: "en", href: "https://example.com/" }`. When the page (or site) has a `lang`, the plugin adds this for you
+- If page X lists page Y, page Y must list page X. The validator flags non-reciprocal pairs, because Google ignores annotations that do not point to each other
+- Language codes must be assigned ISO 639-1 values (two letters) and region codes must be assigned ISO 3166-1 alpha-2 values (two letters). The validator flags three-letter languages like `zho`, unassigned codes like `zz` or `en-XX`, and numeric regions like `es-419`
 - The plugin emits `xhtml:link` alternates in `sitemap.xml` for pages that have hreflang companions
 - hreflang URLs must all resolve to the same host. The sitemap enforces this.
 
@@ -793,6 +795,8 @@ description: "Generate robots.txt following RFC 9309 with agent groups, wildcard
 
 [RFC 9309](https://www.rfc-editor.org/rfc/rfc9309.html) defines the robots.txt standard. Originally made by Martijn Koster in 1994 [(the original spec)](https://www.robotstxt.org/orig.html), because robots kept crawling sites and causing a ruckus. (Seems mighty familiar to today's AI bots, doesn't it?) The standard has been (barely) updated over the years, and this plugin implements the latest version.
 
+`Crawl-delay`, `Clean-param`, and `Host` are not defined by RFC 9309. They are legacy robotstxt.org and Yandex extensions emitted for crawlers that still honor them (you'd be surprised how many still do haha); RFC-only crawlers ignore them.
+
 ![image of RFC 9309](./assets/images/Tracer_mvn05nlb.png)
 
 It's generated at build time. It can be disabled, replaced, or merged with an existing file.
@@ -812,10 +816,10 @@ robots: {
 }
 ```
 
-- `userAgent`: who the rules apply to. Default `*`
+- `userAgent`: who the rules apply to. Default `*`. Values are emitted as entered; RFC 9309 product tokens allow only letters (`A-Z`, `a-z`), `_`, `-`, or `*` (digits are **not** allowed). The validator flags values outside this set
 - `disallow`: paths to block. Supports `*` (match anything) and `$` (end of string)
 - `allow`: paths to explicitly permit, overriding `disallow`
-- `crawlDelay`: delay in seconds
+- `crawlDelay`: delay in seconds. Must be non-negative; the validator flags anything else. When merging, the first `Crawl-delay` value in a group wins
 - `cleanParam`: URL parameters to ignore when crawling
 - `host`: the `Host:` record
 - `sitemap`: URL to advertise, or `false` to omit. Defaults to `site.url + /sitemap.xml`
@@ -834,6 +838,8 @@ disallow: ["/api", "*.gif$", "/private/*"];
 - `/private/*` blocks everything under `/private` (also `/private/foo`, `/private/foo/bar`, etc.) but not `/private` itself. Use `/private` to block that too.
 
 `allow` takes priority when a path matches both. So `allow: ["/public"]` lets crawlers through even if `disallow: ["/"]`.
+
+Patterns are emitted as entered, so `*` and `$` always act as wildcards. To match a literal `*` or `$`, percent-encode it as `%2A` or `%24` (this is actually per RFC 9309 §2.2.3!). An empty path renders as a bare `Disallow:` or `Allow:`, which is an empty pattern.
 
 ## Agent groups
 
@@ -923,14 +929,21 @@ sitemap: {
   defaultChangefreq: "weekly",
   defaultPriority: 0.8,
   siteUrl: "https://example.com",
+  maxBytes: 50 * 1024 * 1024,
+  maxNews: 1_000,
+  newsMaxAgeDays: 2,
 }
 ```
 
 - `exclude`: routes to leave out
-- `maxUrls`: URLs per sitemap file. Default `50000`
+- `maxUrls`: URLs per sitemap file. Default `50000`. Anything past that gets dropped
 - `defaultChangefreq`: fallback for pages without one
-- `defaultPriority`: fallback for pages without one
+- `defaultPriority`: fallback for pages without one. I clamp it to `0.0`-`1.0`, cause the protocol is picky
 - `siteUrl`: origin used to enforce a single-host sitemap
+- `maxBytes`: uncompressed size cap in bytes. Default 50 MiB. Go over and the build throws, cause a sitemap Google rejects is not much use
+- `maxNews`: maximum `<news:news>` entries per file. Default `1000`
+- `newsMaxAgeDays`: how old a news article can be. Default `2`; `0` turns the check off
+- `now`: reference time for the freshness check. Defaults to build time; handy only if you want deterministic builds
 
 ## changefreq
 
@@ -943,11 +956,13 @@ pages: {
 }
 ```
 
-## maxUrls and splitting
+## Priority
 
-Past `maxUrls` URLs, the plugin splits into multiple files: `sitemap.xml`, `sitemap-1.xml`, `sitemap-2.xml`, and so on. The index file lists them all and is the only one that you provide to Google Search Console or other search engine tools.
+The protocol says priorities live between `0.0` and `1.0`, so I clamp whatever you pass into that range and drop non-finite values. Pre-build validation also yells about out-of-range page priorities.
 
-The default of 50000 is the [sitemaps.org](https://www.sitemaps.org/protocol.html) recommendation. Most sites should never hit it. Raise it if you have a large site and want fewer files!
+## maxUrls and file size
+
+Past `maxUrls` URLs, extra pages are simply skipped. No automatic `sitemap-1.xml` splitting yet (sorry). The default of 50000 is the [sitemaps.org](https://www.sitemaps.org/protocol.html) recommendation. Most sites should never hit it. Raise it if you have a large site, but keep an eye on the file size: it has to stay under 50 MiB uncompressed. Go over and `buildSitemap()` throws!
 
 ## Image namespace
 
@@ -961,17 +976,15 @@ When a page has `openGraph.image` (or structured `images`), the sitemap entry ge
   <priority>0.9</priority>
   <image:image>
     <image:loc>https://example.com/post.png</image:loc>
-    <image:title>Hello, world</image:title>
-    <image:caption>My first post on this site.</image:caption>
   </image:image>
 </url>
 ```
 
-`image:title` comes from the page title. `image:caption` from the page description
+Only `<image:loc>` these days. Google dropped `image:caption`, `image:title`, `image:geo_location`, and `image:license` back in 2022. Up to 1,000 images per URL, which is more than enough for even the most trigger-happy image poster lollllll.
 
 ## Video namespace
 
-When a page has `openGraph.video`, the sitemap entry gets `<video:video>`:
+When a page has `openGraph.videos`, the sitemap entry gets `<video:video>`:
 
 ```xml
 <url>
@@ -981,16 +994,35 @@ When a page has `openGraph.video`, the sitemap entry gets `<video:video>`:
     <video:title>Trailer</video:title>
     <video:description>Watch the trailer.</video:description>
     <video:content_loc>https://example.com/trailer.mp4</video:content_loc>
-    <video:duration>142</video:duration>
   </video:video>
 </url>
 ```
 
 A `thumbnail` is required for video entries! Pages without one are **automatically** skipped rather than emitting invalid XML.
 
+`title` and `description` on the media entry win, then `alt`, then the page title. Both get chopped at Google's limits (100 and 2048 characters). Got a YouTube/Vimeo embed instead of an actual media file? Pass `playerLoc` and it'll emit `player_loc` instead of `content_loc`:
+
+```ts
+pages: {
+  "/watch/trailer": {
+    openGraph: {
+      videos: [
+        {
+          src: "https://www.youtube.com/watch?v=abc",
+          thumbnail: "https://img.youtube.com/vi/abc/hqdefault.jpg",
+          playerLoc: "https://www.youtube.com/embed/abc",
+          title: "Launch recap",
+          description: "Highlights from the launch stream.",
+        },
+      ],
+    },
+  },
+}
+```
+
 ## News namespace
 
-When a page sets `openGraph.article.publishedTime`, the sitemap entry gets a `<news:news>` block:
+When a page sets `openGraph.article.publishedTime` and `openGraph.siteName`, the sitemap entry gets a `<news:news>` block. Google News wants a publication name, language, title, and publication date, so entries missing those get dropped. Articles older than two days get dropped too (Google's rule, not mine); tune it with `newsMaxAgeDays` if you must.
 
 ```xml
 <url>
@@ -1006,9 +1038,12 @@ When a page sets `openGraph.article.publishedTime`, the sitemap entry gets a `<n
 </url>
 ```
 
+Only 1,000 news entries make it into a file.
+However, the rest of the URLs still show up, just without the news block.
+
 ## xhtml:link alternates
 
-Pages with hreflang alternates get `<xhtml:link>` entries in their sitemap URL:
+Pages with hreflang alternates get `<xhtml:link>` entries in their sitemap URL, including the page's own alternate when one is missing. Google wants every variant to list itself, which sounds obvious but people keep forgetting (guilty).
 
 ```xml
 <url>
@@ -1021,7 +1056,7 @@ Pages with hreflang alternates get `<xhtml:link>` entries in their sitemap URL:
 
 ## Single-host enforcement
 
-All sitemap URLs must share the same host as `site.url`. If a page canonical points elsewhere, the entry is skipped. This keeps the sitemap valid. Open an issue/PR if you want to allow cross-host sitemaps.
+All sitemap URLs must share the same host as `site.url`. If a page canonical points elsewhere, the entry is skipped. This keeps the sitemap valid. Calling `buildSitemap()` directly without `siteUrl`? I fall back to the first absolute URL's origin, so cross-origin stragglers still get dropped. Open an issue/PR if you want to allow cross-host sitemaps.
 
 
 ---
@@ -1262,6 +1297,18 @@ Canonicals, `og:url`, `twitter:image` and `twitter:player` URLs **must be absolu
 
 - A page with `noindex: true` that is also in `sitemap.xml` (noindex pages are excluded from the sitemap by default, but this catches explicit overrides, juuuust in case)
 - A page with `sitemap: false` that still has hreflang alternates
+
+### hreflang
+
+- Language subtags must be assigned ISO 639-1 codes. Three-letter codes like `zho` and unassigned codes like `zz` are flagged because Google ignores the unsupported part of the annotation.
+- Region subtags must be assigned ISO 3166-1 alpha-2 codes. Numeric regions like `es-419` and unassigned codes like `en-XX` are flagged; use a real region such as `es-MX`.
+- A page with alternates must include a self-referencing alternate. The plugin adds one from `lang`; when no `lang` is configured, or another alternate already uses that tag, add it manually.
+- When one configured page links to another, the target must link back. Non-reciprocal pairs are flagged because Google ignores hreflang annotations that do not point to each other.
+
+### robots.txt
+
+- `robots.userAgent` values must be RFC 9309 product tokens: `*`, or letters, `_`, and `-`. Values with spaces, punctuation, or digits are flagged because they cannot match a crawler.
+- `robots.crawlDelay` must be a non-negative number of seconds.
 
 ## How to fix
 
