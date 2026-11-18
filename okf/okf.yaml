@@ -1,11 +1,11 @@
-okf_version: 0.9.8
+okf_version: 0.10.0
 bundle:
   name: vite-plugin-seo-meta
   title: vite-plugin-seo-meta
   description: ""
   url: "https://nellowtcs.me/vite-plugin-seo-meta/"
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-18T17:31:47.215Z"
+  generated_at: "2026-11-18T17:34:03.717Z"
   default_type: concept
 stats:
   concepts: 15

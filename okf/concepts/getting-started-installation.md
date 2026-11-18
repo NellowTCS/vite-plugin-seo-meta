@@ -7,7 +7,7 @@ path: /getting-started/installation/
 updated: 2026-11-18
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-18T17:31:47.210Z"
+  generated_at: "2026-11-18T17:34:03.694Z"
 ---
 ---
 title: "Installation"
