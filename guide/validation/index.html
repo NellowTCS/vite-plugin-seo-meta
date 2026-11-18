@@ -36,11 +36,11 @@
     
     
 
-    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mwmkgho6">
-    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mwmkgho6">
+    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mwmkl7m6">
+    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mwmkl7m6">
     
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mwmkgho6" id="hljs-light" >
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mwmkgho6" id="hljs-dark" disabled>
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mwmkl7m6" id="hljs-light" >
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mwmkl7m6" id="hljs-dark" disabled>
     
     <script>/**
  * --------------------------------------------------------------------
@@ -126,10 +126,10 @@
 
 
 
-<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mwmkgho6" >
-<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mwmkgho6" >
-<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mwmkgho6" >
-<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mwmkgho6" >
+<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mwmkl7m6" >
+<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mwmkl7m6" >
+<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mwmkl7m6" >
+<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mwmkl7m6" >
 
     
     
@@ -1033,7 +1033,7 @@
             <div class="content-layout">
               <div class="main-content">
                 <div class="docmd-breadcrumbs-row">
-                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22Validation%22%0Adescription%3A%20%22Catch%20misconfigured%20SEO%20before%20it%20ships.%22%0A---%0A%0AThe%20plugin%20validates%20config%20at%20build%20time.%20By%20default%20it%20logs%20issues%20and%20continues.%20Set%20%60validate%3A%20%22error%22%60%20to%20fail%20the%20build.%20I&#039;d%20recommend%20doing%20this%20in%20CI%2C%20so%20you%20catch%20problems%20before%20they%20reach%20production!!!%0A%0A%60%60%60ts%0Aseo(%7B%20validate%3A%20%22error%22%20%7D)%3B%0A%60%60%60%0A%0A%23%23%20Modes%0A%0A%7C%20Value%20%20%20%20%20%7C%20Behavior%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20---------%20%7C%20----------------------%20%7C%0A%7C%20%60%22warn%22%60%20%20%7C%20Log%20issues%20(default)%20%20%20%7C%0A%7C%20%60%22error%22%60%20%7C%20Throw%2C%20fails%20the%20build%20%7C%0A%7C%20%60false%60%20%20%20%7C%20Disable%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%0A%23%23%20What%20it%20checks%0A%0A%23%23%23%20Enums%0A%0A-%20%60changefreq%60%20must%20be%20one%20of%20%60always%60%2C%20%60hourly%60%2C%20%60daily%60%2C%20%60weekly%60%2C%20%60monthly%60%2C%20%60yearly%60%2C%20%60never%60%0A-%20%60twitter.card%60%20must%20be%20one%20of%20%60summary%60%2C%20%60summary_large_image%60%2C%20%60player%60%2C%20%60app%60%0A%0A%23%23%23%20Required%20fields%0A%0A-%20%60site.url%60%20must%20be%20set%0A-%20%60site.name%60%20and%20%60site.description%60%20are%20required%20when%20their%20page-level%20values%20are%20missing%0A%0A%23%23%23%20Absolute%20URLs%0A%0ACanonicals%2C%20%60og%3Aurl%60%2C%20%60twitter%3Aimage%60%20and%20%60twitter%3Aplayer%60%20URLs%20**must%20be%20absolute**.%20Relative%20URLs%20are%20resolved%20against%20%60site.url%60%20before%20validation%2C%20so%20this%20check%20runs%20on%20the%20resolved%20value.%0A%0A%23%23%23%20Length%20budgets%0A%0A%7C%20Field%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20Limit%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20---------------------%20%7C%20-----------------%20%7C%0A%7C%20%60title%60%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%2060%20characters%20%20%20%20%20%7C%0A%7C%20%60description%60%20%20%20%20%20%20%20%20%20%7C%2050-160%20characters%20%7C%0A%7C%20%60twitter%3Atitle%60%20%20%20%20%20%20%20%7C%2070%20characters%20%20%20%20%20%7C%0A%7C%20%60twitter%3Adescription%60%20%7C%20200%20characters%20%20%20%20%7C%0A%7C%20%60twitter%3Aimage%3Aalt%60%20%20%20%7C%20420%20characters%20%20%20%20%7C%0A%0A%23%23%23%20Duplicates%0A%0A-%20Two%20pages%20with%20the%20same%20%60title%60%0A-%20Two%20pages%20with%20the%20same%20%60canonical%60%0A%0A%23%23%23%20Conflicts%0A%0A-%20A%20page%20with%20%60noindex%3A%20true%60%20that%20is%20also%20in%20%60sitemap.xml%60%20(noindex%20pages%20are%20excluded%20from%20the%20sitemap%20by%20default%2C%20but%20this%20catches%20explicit%20overrides%2C%20juuuust%20in%20case)%0A-%20A%20page%20with%20%60sitemap%3A%20false%60%20that%20still%20has%20hreflang%20alternates%0A%0A%23%23%23%20hreflang%0A%0A-%20Language%20subtags%20must%20be%20assigned%20ISO%20639-1%20codes.%20Three-letter%20codes%20like%20%60zho%60%20and%20unassigned%20codes%20like%20%60zz%60%20are%20flagged%20because%20Google%20ignores%20the%20unsupported%20part%20of%20the%20annotation.%0A-%20Region%20subtags%20must%20be%20assigned%20ISO%203166-1%20alpha-2%20codes.%20Numeric%20regions%20like%20%60es-419%60%20and%20unassigned%20codes%20like%20%60en-XX%60%20are%20flagged%3B%20use%20a%20real%20region%20such%20as%20%60es-MX%60.%0A-%20A%20page%20with%20alternates%20must%20include%20a%20self-referencing%20alternate.%20The%20plugin%20adds%20one%20from%20%60lang%60%3B%20when%20no%20%60lang%60%20is%20configured%2C%20or%20another%20alternate%20already%20uses%20that%20tag%2C%20add%20it%20manually.%0A-%20When%20one%20configured%20page%20links%20to%20another%2C%20the%20target%20must%20link%20back.%20Non-reciprocal%20pairs%20are%20flagged%20because%20Google%20ignores%20hreflang%20annotations%20that%20do%20not%20point%20to%20each%20other.%0A%0A%23%23%23%20robots.txt%0A%0A-%20%60robots.userAgent%60%20values%20must%20be%20RFC%209309%20product%20tokens%3A%20%60*%60%2C%20or%20letters%2C%20%60_%60%2C%20and%20%60-%60.%20Values%20with%20spaces%2C%20punctuation%2C%20or%20digits%20are%20flagged%20because%20they%20cannot%20match%20a%20crawler.%0A-%20%60robots.crawlDelay%60%20must%20be%20a%20non-negative%20number%20of%20seconds.%0A%0A%23%23%20How%20to%20fix%0A%0AThe%20validator%20reports%20the%20field%2C%20the%20route%2C%20and%20the%20problem.%20Fix%20the%20field%20and%20rebuild.%20It%20does%20not%20guess%20what%20you%20meant...%20because%20well...%20it%20shouldn&#039;t%3B%20the%20SEO%20checks%20here%20are%20strict.%20If%20you%20want%20to%20disable%20a%20check%2C%20set%20%60validate%3A%20false%60%20or%20remove%20the%20field%20entirely.%0A" style="display: none;"></div>
+                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22Validation%22%0Adescription%3A%20%22Catch%20misconfigured%20SEO%20before%20it%20ships.%22%0A---%0A%0AThe%20plugin%20validates%20config%20at%20build%20time.%20By%20default%20it%20logs%20issues%20and%20continues.%20Set%20%60validate%3A%20%22error%22%60%20to%20fail%20the%20build.%20I&#039;d%20recommend%20doing%20this%20in%20CI%2C%20so%20you%20catch%20problems%20before%20they%20reach%20production!!!%0A%0A%60%60%60ts%0Aseo(%7B%20validate%3A%20%22error%22%20%7D)%3B%0A%60%60%60%0A%0A%23%23%20Modes%0A%0A%7C%20Value%20%20%20%20%20%7C%20Behavior%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20---------%20%7C%20----------------------%20%7C%0A%7C%20%60%22warn%22%60%20%20%7C%20Log%20issues%20(default)%20%20%20%7C%0A%7C%20%60%22error%22%60%20%7C%20Throw%2C%20fails%20the%20build%20%7C%0A%7C%20%60false%60%20%20%20%7C%20Disable%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%0A%23%23%20What%20it%20checks%0A%0A%23%23%23%20Enums%0A%0A-%20%60changefreq%60%20must%20be%20one%20of%20%60always%60%2C%20%60hourly%60%2C%20%60daily%60%2C%20%60weekly%60%2C%20%60monthly%60%2C%20%60yearly%60%2C%20%60never%60%0A-%20%60twitter.card%60%20must%20be%20one%20of%20%60summary%60%2C%20%60summary_large_image%60%2C%20%60player%60%2C%20%60app%60%0A%0A%23%23%23%20Required%20fields%0A%0A-%20%60site.url%60%20must%20be%20set%0A-%20%60site.name%60%20and%20%60site.description%60%20are%20required%20when%20their%20page-level%20values%20are%20missing%0A%0A%23%23%23%20Absolute%20URLs%0A%0ACanonicals%2C%20%60og%3Aurl%60%2C%20%60twitter%3Aimage%60%20and%20%60twitter%3Aplayer%60%20URLs%20**must%20be%20absolute**.%20Relative%20URLs%20are%20resolved%20against%20%60site.url%60%20before%20validation%2C%20so%20this%20check%20runs%20on%20the%20resolved%20value.%0A%0A%23%23%23%20Length%20budgets%0A%0A%7C%20Field%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20Limit%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20---------------------%20%7C%20-----------------%20%7C%0A%7C%20%60title%60%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%2060%20characters%20%20%20%20%20%7C%0A%7C%20%60description%60%20%20%20%20%20%20%20%20%20%7C%2050-160%20characters%20%7C%0A%7C%20%60twitter%3Atitle%60%20%20%20%20%20%20%20%7C%2070%20characters%20%20%20%20%20%7C%0A%7C%20%60twitter%3Adescription%60%20%7C%20200%20characters%20%20%20%20%7C%0A%7C%20%60twitter%3Aimage%3Aalt%60%20%20%20%7C%20420%20characters%20%20%20%20%7C%0A%0A%23%23%23%20Duplicates%0A%0A-%20Two%20pages%20with%20the%20same%20%60title%60%0A-%20Two%20pages%20with%20the%20same%20%60canonical%60%0A%0A%23%23%23%20Conflicts%0A%0A-%20A%20page%20with%20%60noindex%3A%20true%60%20that%20is%20also%20in%20%60sitemap.xml%60%20(noindex%20pages%20are%20excluded%20from%20the%20sitemap%20by%20default%2C%20but%20this%20catches%20explicit%20overrides%2C%20juuuust%20in%20case)%0A-%20A%20page%20with%20%60sitemap%3A%20false%60%20that%20still%20has%20hreflang%20alternates%0A%0A%23%23%20How%20to%20fix%0A%0AThe%20validator%20reports%20the%20field%2C%20the%20route%2C%20and%20the%20problem.%20Fix%20the%20field%20and%20rebuild.%20It%20does%20not%20guess%20what%20you%20meant...%20because%20well...%20it%20shouldn&#039;t%3B%20the%20SEO%20checks%20here%20are%20strict.%20If%20you%20want%20to%20disable%20a%20check%2C%20set%20%60validate%3A%20false%60%20or%20remove%20the%20field%20entirely.%0A" style="display: none;"></div>
                   
                     <nav aria-label="breadcrumb" class="docmd-breadcrumbs">
                       <ol>
@@ -1208,18 +1208,6 @@
 <li>A page with <code>noindex: true</code> that is also in <code>sitemap.xml</code> (noindex pages are excluded from the sitemap by default, but this catches explicit overrides, juuuust in case)</li>
 <li>A page with <code>sitemap: false</code> that still has hreflang alternates</li>
 </ul>
-<h3 id="what-it-checks-hreflang" class="docmd-heading"><a href="#what-it-checks-hreflang" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>hreflang</h3>
-<ul>
-<li>Language subtags must be assigned ISO 639-1 codes. Three-letter codes like <code>zho</code> and unassigned codes like <code>zz</code> are flagged because Google ignores the unsupported part of the annotation.</li>
-<li>Region subtags must be assigned ISO 3166-1 alpha-2 codes. Numeric regions like <code>es-419</code> and unassigned codes like <code>en-XX</code> are flagged; use a real region such as <code>es-MX</code>.</li>
-<li>A page with alternates must include a self-referencing alternate. The plugin adds one from <code>lang</code>; when no <code>lang</code> is configured, or another alternate already uses that tag, add it manually.</li>
-<li>When one configured page links to another, the target must link back. Non-reciprocal pairs are flagged because Google ignores hreflang annotations that do not point to each other.</li>
-</ul>
-<h3 id="what-it-checks-robotstxt" class="docmd-heading"><a href="#what-it-checks-robotstxt" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>robots.txt</h3>
-<ul>
-<li><code>robots.userAgent</code> values must be RFC 9309 product tokens: <code>*</code>, or letters, <code>_</code>, and <code>-</code>. Values with spaces, punctuation, or digits are flagged because they cannot match a crawler.</li>
-<li><code>robots.crawlDelay</code> must be a non-negative number of seconds.</li>
-</ul>
 <h2 id="how-to-fix" class="docmd-heading"><a href="#how-to-fix" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>How to fix</h2>
 <p>The validator reports the field, the route, and the problem. Fix the field and rebuild. It does not guess what you meant… because well… it shouldn’t; the SEO checks here are strict. If you want to disable a check, set <code>validate: false</code> or remove the field entirely.</p>
 
@@ -1336,14 +1324,6 @@
           <a href="#what-it-checks-conflicts" class="toc-link">Conflicts</a>
         </li>
       
-        <li class="toc-item toc-level-3">
-          <a href="#what-it-checks-hreflang" class="toc-link">hreflang</a>
-        </li>
-      
-        <li class="toc-item toc-level-3">
-          <a href="#what-it-checks-robotstxt" class="toc-link">robots.txt</a>
-        </li>
-      
         <li class="toc-item toc-level-2">
           <a href="#how-to-fix" class="toc-link">How to fix</a>
         </li>
@@ -1359,13 +1339,13 @@
             <div class="page-footer-actions">
               
               
-                <span class="git-last-updated" data-timestamp="1795033229000">
+                <span class="git-last-updated" data-timestamp="1795023272000">
                   <svg class="git-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                   </svg>
                   <span class="git-label">Last updated:</span>
-                  <span class="git-time" data-timestamp="1795033229000"></span>
+                  <span class="git-time" data-timestamp="1795023272000"></span>
                   
                   <div class="git-commit-tooltip" role="tooltip">
                     <div class="git-tooltip-title">Recent commits</div>
@@ -1378,10 +1358,10 @@
                             
                           </div>
                           <div class="git-commit-details">
-                            <div class="git-commit-message" title="A lot of bugfixes (uncommited work from the past few weeks while waiting for review">A lot of bugfixes (uncommited work fr...</div>
+                            <div class="git-commit-message" title="Merge pull request #8 from NellowTCS/dependabot/npm_and_yarn/Docs/docmd-search-0.1.7">Merge pull request #8 from NellowTCS/...</div>
                             <div class="git-commit-meta">
                               <span class="git-commit-author">NellowTCS</span>
-                              <span class="git-commit-date" data-timestamp="1795033229000"></span>
+                              <span class="git-commit-date" data-timestamp="1795023272000"></span>
                             </div>
                           </div>
                         </li>
@@ -1434,17 +1414,17 @@
       </div>
       
       
-      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-18T20:21:02.519Z","buildDate":"2026-11-18","buildYear":"2026","gitCommit":"b084b64","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-18","GIT_COMMIT":"b084b64","GIT_BRANCH":"main","git":{"commit":"b084b64","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"Validation","slug":"/vite-plugin-seo-meta/guide/validation/","path":"guide/validation/index.html"},"frontmatter":{"title":"Validation","description":"Catch misconfigured SEO before it ships.","_git":{"lastUpdated":"2026-11-18T20:20:29.000Z","lastUpdatedTimestamp":1795033229000,"commits":[{"hash":"b084b641160dabc91f2b75abcee4498ac7131ad1","shortHash":"b084b64","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-18T20:20:29.000Z","timestamp":1795033229000,"message":"A lot of bugfixes (uncommited work from the past few weeks while waiting for review","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
+      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-18T20:24:42.756Z","buildDate":"2026-11-18","buildYear":"2026","gitCommit":"f8e9bcf","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-18","GIT_COMMIT":"f8e9bcf","GIT_BRANCH":"main","git":{"commit":"f8e9bcf","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"Validation","slug":"/vite-plugin-seo-meta/guide/validation/","path":"guide/validation/index.html"},"frontmatter":{"title":"Validation","description":"Catch misconfigured SEO before it ships.","_git":{"lastUpdated":"2026-11-18T17:34:32.000Z","lastUpdatedTimestamp":1795023272000,"commits":[{"hash":"f8e9bcf83bdca954065a07227c41efd7119271d6","shortHash":"f8e9bcf","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-18T17:34:32.000Z","timestamp":1795023272000,"message":"Merge pull request #8 from NellowTCS/dependabot/npm_and_yarn/Docs/docmd-search-0.1.7","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
       
-      <script src="../../assets/js/docmd-runtime.js?v=mwmkgho6"></script>
-      <script src="../../assets/js/docmd-main.js?v=mwmkgho6"></script>
+      <script src="../../assets/js/docmd-runtime.js?v=mwmkl7m6"></script>
+      <script src="../../assets/js/docmd-main.js?v=mwmkl7m6"></script>
       
-      <script src="../../assets/js/docmd-git.js?v=mwmkgho6"></script>
-      <script src="../../assets/js/docmd-image-lightbox.js?v=mwmkgho6" ></script>
-<script src="../../assets/js/vendor/minisearch.js?v=mwmkgho6" ></script>
-<script src="../../assets/js/docmd-search.js?v=mwmkgho6" ></script>
-<script src="../../assets/js/docmd-git.js?v=mwmkgho6" ></script>
-<script src="../../assets/js/docmd-ai.js?v=mwmkgho6" ></script>
+      <script src="../../assets/js/docmd-git.js?v=mwmkl7m6"></script>
+      <script src="../../assets/js/docmd-image-lightbox.js?v=mwmkl7m6" ></script>
+<script src="../../assets/js/vendor/minisearch.js?v=mwmkl7m6" ></script>
+<script src="../../assets/js/docmd-search.js?v=mwmkl7m6" ></script>
+<script src="../../assets/js/docmd-git.js?v=mwmkl7m6" ></script>
+<script src="../../assets/js/docmd-ai.js?v=mwmkl7m6" ></script>
 
   <!-- Search Modal (Injected by @docmd/plugin-search) -->
   <div id="docmd-search-modal" class="docmd-search-modal" style="display: none;" data-semantic="true" data-show-confidence="true" data-show-filters="true"

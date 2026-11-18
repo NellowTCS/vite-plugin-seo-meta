@@ -36,11 +36,11 @@
     
     
 
-    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mwmkgho6">
-    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mwmkgho6">
+    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mwmkl7m6">
+    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mwmkl7m6">
     
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mwmkgho6" id="hljs-light" >
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mwmkgho6" id="hljs-dark" disabled>
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mwmkl7m6" id="hljs-light" >
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mwmkl7m6" id="hljs-dark" disabled>
     
     <script>/**
  * --------------------------------------------------------------------
@@ -126,10 +126,10 @@
 
 
 
-<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mwmkgho6" >
-<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mwmkgho6" >
-<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mwmkgho6" >
-<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mwmkgho6" >
+<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mwmkl7m6" >
+<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mwmkl7m6" >
+<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mwmkl7m6" >
+<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mwmkl7m6" >
 
     
     
@@ -1033,7 +1033,7 @@
             <div class="content-layout">
               <div class="main-content">
                 <div class="docmd-breadcrumbs-row">
-                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22sitemap.xml%22%0Adescription%3A%20%22Generate%20sitemap.xml%20with%20image%2C%20video%20and%20news%20namespaces%2C%20plus%20URL%20caps.%22%0A---%0A%0AA%20sitemap%20is%20an%20XML%20file%20that%20lists%20all%20the%20pages%20on%20your%20site.%20It&#039;s%20extremely%20useful%20for%20search%20engines%2C%20as%20it&#039;s%20a%20easily%20parsible%20list%20of%20all%20your%20pages.%20It%20can%20also%20include%20images%2C%20videos%20and%20news%20articles.%0A%0AThe%20protocol%20is%20documented%20at%20%5Bsitemaps.org%5D(https%3A%2F%2Fwww.sitemaps.org%2Fprotocol.html).%20I%20tried%20to%20follow%20this%20as%20closely%20as%20possible%2C%20but%20if%20you%20notice%20any%20discrepancies%2C%20please%20open%20an%20issue%20or%20PR!!!%0A%0A!%5Balt%20text%5D(.%2Fassets%2Fimages%2FTracer_mvmzfk8e.png)%0A%0A%60sitemap.xml%60%20is%20generated%20at%20build%20time%20from%20the%20%60pages%60%20map.%20It%20lists%20every%20route%20that%20is%20not%20%60noindex%60%20and%20not%20in%20%60exclude%60.%0A%0A%23%23%20Basic%20options%0A%0A%60%60%60ts%0Asitemap%3A%20%7B%0A%20%20exclude%3A%20%5B%22%2Fadmin%22%2C%20%22%2Flogin%22%5D%2C%0A%20%20maxUrls%3A%20100_000%2C%0A%20%20defaultChangefreq%3A%20%22weekly%22%2C%0A%20%20defaultPriority%3A%200.8%2C%0A%20%20siteUrl%3A%20%22https%3A%2F%2Fexample.com%22%2C%0A%20%20maxBytes%3A%2050%20*%201024%20*%201024%2C%0A%20%20maxNews%3A%201_000%2C%0A%20%20newsMaxAgeDays%3A%202%2C%0A%7D%0A%60%60%60%0A%0A-%20%60exclude%60%3A%20routes%20to%20leave%20out%0A-%20%60maxUrls%60%3A%20URLs%20per%20sitemap%20file.%20Default%20%6050000%60.%20Anything%20past%20that%20gets%20dropped%0A-%20%60defaultChangefreq%60%3A%20fallback%20for%20pages%20without%20one%0A-%20%60defaultPriority%60%3A%20fallback%20for%20pages%20without%20one.%20I%20clamp%20it%20to%20%600.0%60-%601.0%60%2C%20cause%20the%20protocol%20is%20picky%0A-%20%60siteUrl%60%3A%20origin%20used%20to%20enforce%20a%20single-host%20sitemap%0A-%20%60maxBytes%60%3A%20uncompressed%20size%20cap%20in%20bytes.%20Default%2050%20MiB.%20Go%20over%20and%20the%20build%20throws%2C%20cause%20a%20sitemap%20Google%20rejects%20is%20not%20much%20use%0A-%20%60maxNews%60%3A%20maximum%20%60%3Cnews%3Anews%3E%60%20entries%20per%20file.%20Default%20%601000%60%0A-%20%60newsMaxAgeDays%60%3A%20how%20old%20a%20news%20article%20can%20be.%20Default%20%602%60%3B%20%600%60%20turns%20the%20check%20off%0A-%20%60now%60%3A%20reference%20time%20for%20the%20freshness%20check.%20Defaults%20to%20build%20time%3B%20handy%20only%20if%20you%20want%20deterministic%20builds%0A%0A%23%23%20changefreq%0A%0APer-page%20or%20global%20and%20valid%20values%3A%20%60always%60%2C%20%60hourly%60%2C%20%60daily%60%2C%20%60weekly%60%2C%20%60monthly%60%2C%20%60yearly%60%2C%20%60never%60.%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2Fblog%2Fhello-world%22%3A%20%7B%20changefreq%3A%20%22weekly%22%2C%20priority%3A%200.9%20%7D%2C%0A%20%20%22%2F%22%3A%20%7B%20changefreq%3A%20%22daily%22%2C%20priority%3A%201.0%20%7D%2C%0A%7D%0A%60%60%60%0A%0A%23%23%20Priority%0A%0AThe%20protocol%20says%20priorities%20live%20between%20%600.0%60%20and%20%601.0%60%2C%20so%20I%20clamp%20whatever%20you%20pass%20into%20that%20range%20and%20drop%20non-finite%20values.%20Pre-build%20validation%20also%20yells%20about%20out-of-range%20page%20priorities.%0A%0A%23%23%20maxUrls%20and%20file%20size%0A%0APast%20%60maxUrls%60%20URLs%2C%20extra%20pages%20are%20simply%20skipped.%20No%20automatic%20%60sitemap-1.xml%60%20splitting%20yet%20(sorry).%20The%20default%20of%2050000%20is%20the%20%5Bsitemaps.org%5D(https%3A%2F%2Fwww.sitemaps.org%2Fprotocol.html)%20recommendation.%20Most%20sites%20should%20never%20hit%20it.%20Raise%20it%20if%20you%20have%20a%20large%20site%2C%20but%20keep%20an%20eye%20on%20the%20file%20size%3A%20it%20has%20to%20stay%20under%2050%20MiB%20uncompressed.%20Go%20over%20and%20%60buildSitemap()%60%20throws!%0A%0A%23%23%20Image%20namespace%0A%0AWhen%20a%20page%20has%20%60openGraph.image%60%20(or%20structured%20%60images%60)%2C%20the%20sitemap%20entry%20gets%20%60%3Cimage%3Aimage%3E%60%3A%0A%0A%60%60%60xml%0A%3Curl%3E%0A%20%20%3Cloc%3Ehttps%3A%2F%2Fexample.com%2Fblog%2Fhello-world%3C%2Floc%3E%0A%20%20%3Clastmod%3E2024-06-20%3C%2Flastmod%3E%0A%20%20%3Cchangefreq%3Eweekly%3C%2Fchangefreq%3E%0A%20%20%3Cpriority%3E0.9%3C%2Fpriority%3E%0A%20%20%3Cimage%3Aimage%3E%0A%20%20%20%20%3Cimage%3Aloc%3Ehttps%3A%2F%2Fexample.com%2Fpost.png%3C%2Fimage%3Aloc%3E%0A%20%20%3C%2Fimage%3Aimage%3E%0A%3C%2Furl%3E%0A%60%60%60%0A%0AOnly%20%60%3Cimage%3Aloc%3E%60%20these%20days.%20Google%20dropped%20%60image%3Acaption%60%2C%20%60image%3Atitle%60%2C%20%60image%3Ageo_location%60%2C%20and%20%60image%3Alicense%60%20back%20in%202022.%20Up%20to%201%2C000%20images%20per%20URL%2C%20which%20is%20more%20than%20enough%20for%20even%20the%20most%20trigger-happy%20image%20poster%20lollllll.%0A%0A%23%23%20Video%20namespace%0A%0AWhen%20a%20page%20has%20%60openGraph.videos%60%2C%20the%20sitemap%20entry%20gets%20%60%3Cvideo%3Avideo%3E%60%3A%0A%0A%60%60%60xml%0A%3Curl%3E%0A%20%20%3Cloc%3Ehttps%3A%2F%2Fexample.com%2Fwatch%2Ftrailer%3C%2Floc%3E%0A%20%20%3Cvideo%3Avideo%3E%0A%20%20%20%20%3Cvideo%3Athumbnail_loc%3Ehttps%3A%2F%2Fexample.com%2Fthumb.png%3C%2Fvideo%3Athumbnail_loc%3E%0A%20%20%20%20%3Cvideo%3Atitle%3ETrailer%3C%2Fvideo%3Atitle%3E%0A%20%20%20%20%3Cvideo%3Adescription%3EWatch%20the%20trailer.%3C%2Fvideo%3Adescription%3E%0A%20%20%20%20%3Cvideo%3Acontent_loc%3Ehttps%3A%2F%2Fexample.com%2Ftrailer.mp4%3C%2Fvideo%3Acontent_loc%3E%0A%20%20%3C%2Fvideo%3Avideo%3E%0A%3C%2Furl%3E%0A%60%60%60%0A%0AA%20%60thumbnail%60%20is%20required%20for%20video%20entries!%20Pages%20without%20one%20are%20**automatically**%20skipped%20rather%20than%20emitting%20invalid%20XML.%0A%0A%60title%60%20and%20%60description%60%20on%20the%20media%20entry%20win%2C%20then%20%60alt%60%2C%20then%20the%20page%20title.%20Both%20get%20chopped%20at%20Google&#039;s%20limits%20(100%20and%202048%20characters).%20Got%20a%20YouTube%2FVimeo%20embed%20instead%20of%20an%20actual%20media%20file%3F%20Pass%20%60playerLoc%60%20and%20it&#039;ll%20emit%20%60player_loc%60%20instead%20of%20%60content_loc%60%3A%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2Fwatch%2Ftrailer%22%3A%20%7B%0A%20%20%20%20openGraph%3A%20%7B%0A%20%20%20%20%20%20videos%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%0A%20%20%20%20%20%20%20%20%20%20src%3A%20%22https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3Dabc%22%2C%0A%20%20%20%20%20%20%20%20%20%20thumbnail%3A%20%22https%3A%2F%2Fimg.youtube.com%2Fvi%2Fabc%2Fhqdefault.jpg%22%2C%0A%20%20%20%20%20%20%20%20%20%20playerLoc%3A%20%22https%3A%2F%2Fwww.youtube.com%2Fembed%2Fabc%22%2C%0A%20%20%20%20%20%20%20%20%20%20title%3A%20%22Launch%20recap%22%2C%0A%20%20%20%20%20%20%20%20%20%20description%3A%20%22Highlights%20from%20the%20launch%20stream.%22%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0A%23%23%20News%20namespace%0A%0AWhen%20a%20page%20sets%20%60openGraph.article.publishedTime%60%20and%20%60openGraph.siteName%60%2C%20the%20sitemap%20entry%20gets%20a%20%60%3Cnews%3Anews%3E%60%20block.%20Google%20News%20wants%20a%20publication%20name%2C%20language%2C%20title%2C%20and%20publication%20date%2C%20so%20entries%20missing%20those%20get%20dropped.%20Articles%20older%20than%20two%20days%20get%20dropped%20too%20(Google&#039;s%20rule%2C%20not%20mine)%3B%20tune%20it%20with%20%60newsMaxAgeDays%60%20if%20you%20must.%0A%0A%60%60%60xml%0A%3Curl%3E%0A%20%20%3Cloc%3Ehttps%3A%2F%2Fexample.com%2Fblog%2Fbreaking%3C%2Floc%3E%0A%20%20%3Cnews%3Anews%3E%0A%20%20%20%20%3Cnews%3Apublication%3E%0A%20%20%20%20%20%20%3Cnews%3Aname%3EMy%20Site%3C%2Fnews%3Aname%3E%0A%20%20%20%20%20%20%3Cnews%3Alanguage%3Een%3C%2Fnews%3Alanguage%3E%0A%20%20%20%20%3C%2Fnews%3Apublication%3E%0A%20%20%20%20%3Cnews%3Apublication_date%3E2024-06-20%3C%2Fnews%3Apublication_date%3E%0A%20%20%20%20%3Cnews%3Atitle%3EBreaking%3C%2Fnews%3Atitle%3E%0A%20%20%3C%2Fnews%3Anews%3E%0A%3C%2Furl%3E%0A%60%60%60%0A%0AOnly%201%2C000%20news%20entries%20make%20it%20into%20a%20file.%0AHowever%2C%20the%20rest%20of%20the%20URLs%20still%20show%20up%2C%20just%20without%20the%20news%20block.%0A%0A%23%23%20xhtml%3Alink%20alternates%0A%0APages%20with%20hreflang%20alternates%20get%20%60%3Cxhtml%3Alink%3E%60%20entries%20in%20their%20sitemap%20URL%2C%20including%20the%20page&#039;s%20own%20alternate%20when%20one%20is%20missing.%20Google%20wants%20every%20variant%20to%20list%20itself%2C%20which%20sounds%20obvious%20but%20people%20keep%20forgetting%20(guilty).%0A%0A%60%60%60xml%0A%3Curl%3E%0A%20%20%3Cloc%3Ehttps%3A%2F%2Fexample.com%2F%3C%2Floc%3E%0A%20%20%3Cxhtml%3Alink%20rel%3D%22alternate%22%20hreflang%3D%22en%22%20href%3D%22https%3A%2F%2Fexample.com%2F%22%2F%3E%0A%20%20%3Cxhtml%3Alink%20rel%3D%22alternate%22%20hreflang%3D%22es%22%20href%3D%22https%3A%2F%2Fexample.com%2Fes%2F%22%2F%3E%0A%20%20%3Cxhtml%3Alink%20rel%3D%22alternate%22%20hreflang%3D%22x-default%22%20href%3D%22https%3A%2F%2Fexample.com%2F%22%2F%3E%0A%3C%2Furl%3E%0A%60%60%60%0A%0A%23%23%20Single-host%20enforcement%0A%0AAll%20sitemap%20URLs%20must%20share%20the%20same%20host%20as%20%60site.url%60.%20If%20a%20page%20canonical%20points%20elsewhere%2C%20the%20entry%20is%20skipped.%20This%20keeps%20the%20sitemap%20valid.%20Calling%20%60buildSitemap()%60%20directly%20without%20%60siteUrl%60%3F%20I%20fall%20back%20to%20the%20first%20absolute%20URL&#039;s%20origin%2C%20so%20cross-origin%20stragglers%20still%20get%20dropped.%20Open%20an%20issue%2FPR%20if%20you%20want%20to%20allow%20cross-host%20sitemaps.%0A" style="display: none;"></div>
+                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22sitemap.xml%22%0Adescription%3A%20%22Generate%20sitemap.xml%20with%20image%2C%20video%20and%20news%20namespaces%2C%20plus%20URL%20caps.%22%0A---%0A%0AA%20sitemap%20is%20an%20XML%20file%20that%20lists%20all%20the%20pages%20on%20your%20site.%20It&#039;s%20extremely%20useful%20for%20search%20engines%2C%20as%20it&#039;s%20a%20easily%20parsible%20list%20of%20all%20your%20pages.%20It%20can%20also%20include%20images%2C%20videos%20and%20news%20articles.%0A%0AThe%20protocol%20is%20documented%20at%20%5Bsitemaps.org%5D(https%3A%2F%2Fwww.sitemaps.org%2Fprotocol.html).%20I%20tried%20to%20follow%20this%20as%20closely%20as%20possible%2C%20but%20if%20you%20notice%20any%20discrepancies%2C%20please%20open%20an%20issue%20or%20PR!!!%0A%0A!%5Balt%20text%5D(.%2Fassets%2Fimages%2FTracer_mvmzfk8e.png)%0A%0A%60sitemap.xml%60%20is%20generated%20at%20build%20time%20from%20the%20%60pages%60%20map.%20It%20lists%20every%20route%20that%20is%20not%20%60noindex%60%20and%20not%20in%20%60exclude%60.%0A%0A%23%23%20Basic%20options%0A%0A%60%60%60ts%0Asitemap%3A%20%7B%0A%20%20exclude%3A%20%5B%22%2Fadmin%22%2C%20%22%2Flogin%22%5D%2C%0A%20%20maxUrls%3A%20100_000%2C%0A%20%20defaultChangefreq%3A%20%22weekly%22%2C%0A%20%20defaultPriority%3A%200.8%2C%0A%20%20siteUrl%3A%20%22https%3A%2F%2Fexample.com%22%2C%0A%7D%0A%60%60%60%0A%0A-%20%60exclude%60%3A%20routes%20to%20leave%20out%0A-%20%60maxUrls%60%3A%20URLs%20per%20sitemap%20file.%20Default%20%6050000%60%0A-%20%60defaultChangefreq%60%3A%20fallback%20for%20pages%20without%20one%0A-%20%60defaultPriority%60%3A%20fallback%20for%20pages%20without%20one%0A-%20%60siteUrl%60%3A%20origin%20used%20to%20enforce%20a%20single-host%20sitemap%0A%0A%23%23%20changefreq%0A%0APer-page%20or%20global%20and%20valid%20values%3A%20%60always%60%2C%20%60hourly%60%2C%20%60daily%60%2C%20%60weekly%60%2C%20%60monthly%60%2C%20%60yearly%60%2C%20%60never%60.%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2Fblog%2Fhello-world%22%3A%20%7B%20changefreq%3A%20%22weekly%22%2C%20priority%3A%200.9%20%7D%2C%0A%20%20%22%2F%22%3A%20%7B%20changefreq%3A%20%22daily%22%2C%20priority%3A%201.0%20%7D%2C%0A%7D%0A%60%60%60%0A%0A%23%23%20maxUrls%20and%20splitting%0A%0APast%20%60maxUrls%60%20URLs%2C%20the%20plugin%20splits%20into%20multiple%20files%3A%20%60sitemap.xml%60%2C%20%60sitemap-1.xml%60%2C%20%60sitemap-2.xml%60%2C%20and%20so%20on.%20The%20index%20file%20lists%20them%20all%20and%20is%20the%20only%20one%20that%20you%20provide%20to%20Google%20Search%20Console%20or%20other%20search%20engine%20tools.%0A%0AThe%20default%20of%2050000%20is%20the%20%5Bsitemaps.org%5D(https%3A%2F%2Fwww.sitemaps.org%2Fprotocol.html)%20recommendation.%20Most%20sites%20should%20never%20hit%20it.%20Raise%20it%20if%20you%20have%20a%20large%20site%20and%20want%20fewer%20files!%0A%0A%23%23%20Image%20namespace%0A%0AWhen%20a%20page%20has%20%60openGraph.image%60%20(or%20structured%20%60images%60)%2C%20the%20sitemap%20entry%20gets%20%60%3Cimage%3Aimage%3E%60%3A%0A%0A%60%60%60xml%0A%3Curl%3E%0A%20%20%3Cloc%3Ehttps%3A%2F%2Fexample.com%2Fblog%2Fhello-world%3C%2Floc%3E%0A%20%20%3Clastmod%3E2024-06-20%3C%2Flastmod%3E%0A%20%20%3Cchangefreq%3Eweekly%3C%2Fchangefreq%3E%0A%20%20%3Cpriority%3E0.9%3C%2Fpriority%3E%0A%20%20%3Cimage%3Aimage%3E%0A%20%20%20%20%3Cimage%3Aloc%3Ehttps%3A%2F%2Fexample.com%2Fpost.png%3C%2Fimage%3Aloc%3E%0A%20%20%20%20%3Cimage%3Atitle%3EHello%2C%20world%3C%2Fimage%3Atitle%3E%0A%20%20%20%20%3Cimage%3Acaption%3EMy%20first%20post%20on%20this%20site.%3C%2Fimage%3Acaption%3E%0A%20%20%3C%2Fimage%3Aimage%3E%0A%3C%2Furl%3E%0A%60%60%60%0A%0A%60image%3Atitle%60%20comes%20from%20the%20page%20title.%20%60image%3Acaption%60%20from%20the%20page%20description%0A%0A%23%23%20Video%20namespace%0A%0AWhen%20a%20page%20has%20%60openGraph.video%60%2C%20the%20sitemap%20entry%20gets%20%60%3Cvideo%3Avideo%3E%60%3A%0A%0A%60%60%60xml%0A%3Curl%3E%0A%20%20%3Cloc%3Ehttps%3A%2F%2Fexample.com%2Fwatch%2Ftrailer%3C%2Floc%3E%0A%20%20%3Cvideo%3Avideo%3E%0A%20%20%20%20%3Cvideo%3Athumbnail_loc%3Ehttps%3A%2F%2Fexample.com%2Fthumb.png%3C%2Fvideo%3Athumbnail_loc%3E%0A%20%20%20%20%3Cvideo%3Atitle%3ETrailer%3C%2Fvideo%3Atitle%3E%0A%20%20%20%20%3Cvideo%3Adescription%3EWatch%20the%20trailer.%3C%2Fvideo%3Adescription%3E%0A%20%20%20%20%3Cvideo%3Acontent_loc%3Ehttps%3A%2F%2Fexample.com%2Ftrailer.mp4%3C%2Fvideo%3Acontent_loc%3E%0A%20%20%20%20%3Cvideo%3Aduration%3E142%3C%2Fvideo%3Aduration%3E%0A%20%20%3C%2Fvideo%3Avideo%3E%0A%3C%2Furl%3E%0A%60%60%60%0A%0AA%20%60thumbnail%60%20is%20required%20for%20video%20entries!%20Pages%20without%20one%20are%20**automatically**%20skipped%20rather%20than%20emitting%20invalid%20XML.%0A%0A%23%23%20News%20namespace%0A%0AWhen%20a%20page%20sets%20%60openGraph.article.publishedTime%60%2C%20the%20sitemap%20entry%20gets%20a%20%60%3Cnews%3Anews%3E%60%20block%3A%0A%0A%60%60%60xml%0A%3Curl%3E%0A%20%20%3Cloc%3Ehttps%3A%2F%2Fexample.com%2Fblog%2Fbreaking%3C%2Floc%3E%0A%20%20%3Cnews%3Anews%3E%0A%20%20%20%20%3Cnews%3Apublication%3E%0A%20%20%20%20%20%20%3Cnews%3Aname%3EMy%20Site%3C%2Fnews%3Aname%3E%0A%20%20%20%20%20%20%3Cnews%3Alanguage%3Een%3C%2Fnews%3Alanguage%3E%0A%20%20%20%20%3C%2Fnews%3Apublication%3E%0A%20%20%20%20%3Cnews%3Apublication_date%3E2024-06-20%3C%2Fnews%3Apublication_date%3E%0A%20%20%20%20%3Cnews%3Atitle%3EBreaking%3C%2Fnews%3Atitle%3E%0A%20%20%3C%2Fnews%3Anews%3E%0A%3C%2Furl%3E%0A%60%60%60%0A%0A%23%23%20xhtml%3Alink%20alternates%0A%0APages%20with%20hreflang%20alternates%20get%20%60%3Cxhtml%3Alink%3E%60%20entries%20in%20their%20sitemap%20URL%3A%0A%0A%60%60%60xml%0A%3Curl%3E%0A%20%20%3Cloc%3Ehttps%3A%2F%2Fexample.com%2F%3C%2Floc%3E%0A%20%20%3Cxhtml%3Alink%20rel%3D%22alternate%22%20hreflang%3D%22en%22%20href%3D%22https%3A%2F%2Fexample.com%2F%22%2F%3E%0A%20%20%3Cxhtml%3Alink%20rel%3D%22alternate%22%20hreflang%3D%22es%22%20href%3D%22https%3A%2F%2Fexample.com%2Fes%2F%22%2F%3E%0A%20%20%3Cxhtml%3Alink%20rel%3D%22alternate%22%20hreflang%3D%22x-default%22%20href%3D%22https%3A%2F%2Fexample.com%2F%22%2F%3E%0A%3C%2Furl%3E%0A%60%60%60%0A%0A%23%23%20Single-host%20enforcement%0A%0AAll%20sitemap%20URLs%20must%20share%20the%20same%20host%20as%20%60site.url%60.%20If%20a%20page%20canonical%20points%20elsewhere%2C%20the%20entry%20is%20skipped.%20This%20keeps%20the%20sitemap%20valid.%20Open%20an%20issue%2FPR%20if%20you%20want%20to%20allow%20cross-host%20sitemaps.%0A" style="display: none;"></div>
                   
                     <nav aria-label="breadcrumb" class="docmd-breadcrumbs">
                       <ol>
@@ -1139,21 +1139,14 @@
   defaultChangefreq<span class="hljs-operator">:</span> <span class="hljs-string">&quot;weekly&quot;</span>,
   defaultPriority<span class="hljs-operator">:</span> <span class="hljs-number">0.8</span>,
   siteUrl<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://example.com&quot;</span>,
-  maxBytes<span class="hljs-operator">:</span> <span class="hljs-number">50</span> <span class="hljs-operator">*</span> <span class="hljs-number">1024</span> <span class="hljs-operator">*</span> <span class="hljs-number">1024</span>,
-  maxNews<span class="hljs-operator">:</span> 1_000,
-  newsMaxAgeDays<span class="hljs-operator">:</span> <span class="hljs-number">2</span>,
 }
 </code></pre>
 <ul>
 <li><code>exclude</code>: routes to leave out</li>
-<li><code>maxUrls</code>: URLs per sitemap file. Default <code>50000</code>. Anything past that gets dropped</li>
+<li><code>maxUrls</code>: URLs per sitemap file. Default <code>50000</code></li>
 <li><code>defaultChangefreq</code>: fallback for pages without one</li>
-<li><code>defaultPriority</code>: fallback for pages without one. I clamp it to <code>0.0</code>-<code>1.0</code>, cause the protocol is picky</li>
+<li><code>defaultPriority</code>: fallback for pages without one</li>
 <li><code>siteUrl</code>: origin used to enforce a single-host sitemap</li>
-<li><code>maxBytes</code>: uncompressed size cap in bytes. Default 50 MiB. Go over and the build throws, cause a sitemap Google rejects is not much use</li>
-<li><code>maxNews</code>: maximum <code>&lt;news:news&gt;</code> entries per file. Default <code>1000</code></li>
-<li><code>newsMaxAgeDays</code>: how old a news article can be. Default <code>2</code>; <code>0</code> turns the check off</li>
-<li><code>now</code>: reference time for the freshness check. Defaults to build time; handy only if you want deterministic builds</li>
 </ul>
 <h2 id="changefreq" class="docmd-heading"><a href="#changefreq" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>changefreq</h2>
 <p>Per-page or global and valid values: <code>always</code>, <code>hourly</code>, <code>daily</code>, <code>weekly</code>, <code>monthly</code>, <code>yearly</code>, <code>never</code>.</p>
@@ -1162,10 +1155,9 @@
   <span class="hljs-string">&quot;/&quot;</span><span class="hljs-operator">:</span> { changefreq<span class="hljs-operator">:</span> <span class="hljs-string">&quot;daily&quot;</span>, priority<span class="hljs-operator">:</span> <span class="hljs-number">1.0</span> },
 }
 </code></pre>
-<h2 id="priority" class="docmd-heading"><a href="#priority" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Priority</h2>
-<p>The protocol says priorities live between <code>0.0</code> and <code>1.0</code>, so I clamp whatever you pass into that range and drop non-finite values. Pre-build validation also yells about out-of-range page priorities.</p>
-<h2 id="maxurls-and-file-size" class="docmd-heading"><a href="#maxurls-and-file-size" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>maxUrls and file size</h2>
-<p>Past <code>maxUrls</code> URLs, extra pages are simply skipped. No automatic <code>sitemap-1.xml</code> splitting yet (sorry). The default of 50000 is the <a href="https://www.sitemaps.org/protocol.html">sitemaps.org</a> recommendation. Most sites should never hit it. Raise it if you have a large site, but keep an eye on the file size: it has to stay under 50 MiB uncompressed. Go over and <code>buildSitemap()</code> throws!</p>
+<h2 id="maxurls-and-splitting" class="docmd-heading"><a href="#maxurls-and-splitting" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>maxUrls and splitting</h2>
+<p>Past <code>maxUrls</code> URLs, the plugin splits into multiple files: <code>sitemap.xml</code>, <code>sitemap-1.xml</code>, <code>sitemap-2.xml</code>, and so on. The index file lists them all and is the only one that you provide to Google Search Console or other search engine tools.</p>
+<p>The default of 50000 is the <a href="https://www.sitemaps.org/protocol.html">sitemaps.org</a> recommendation. Most sites should never hit it. Raise it if you have a large site and want fewer files!</p>
 <h2 id="image-namespace" class="docmd-heading"><a href="#image-namespace" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Image namespace</h2>
 <p>When a page has <code>openGraph.image</code> (or structured <code>images</code>), the sitemap entry gets <code>&lt;image:image&gt;</code>:</p>
 <pre class="hljs"><code class="language-xml"><span class="hljs-operator">&lt;</span>url<span class="hljs-operator">&gt;</span>
@@ -1175,12 +1167,14 @@
   <span class="hljs-operator">&lt;</span>priority<span class="hljs-operator">&gt;</span><span class="hljs-number">0.9</span><span class="hljs-operator">&lt;/</span>priority<span class="hljs-operator">&gt;</span>
   <span class="hljs-operator">&lt;</span>image<span class="hljs-operator">:</span>image<span class="hljs-operator">&gt;</span>
     <span class="hljs-operator">&lt;</span>image<span class="hljs-operator">:</span>loc<span class="hljs-operator">&gt;</span>https<span class="hljs-operator">://</span>example.<span class="hljs-attr">com</span><span class="hljs-operator">/</span>post.<span class="hljs-attr">png</span><span class="hljs-operator">&lt;/</span>image<span class="hljs-operator">:</span>loc<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>image<span class="hljs-operator">:</span>title<span class="hljs-operator">&gt;</span>Hello, world<span class="hljs-operator">&lt;/</span>image<span class="hljs-operator">:</span>title<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>image<span class="hljs-operator">:</span>caption<span class="hljs-operator">&gt;</span>My first post on <span class="hljs-keyword">this</span> site.<span class="hljs-operator">&lt;/</span>image<span class="hljs-operator">:</span>caption<span class="hljs-operator">&gt;</span>
   <span class="hljs-operator">&lt;/</span>image<span class="hljs-operator">:</span>image<span class="hljs-operator">&gt;</span>
 <span class="hljs-operator">&lt;/</span>url<span class="hljs-operator">&gt;</span>
 </code></pre>
-<p>Only <code>&lt;image:loc&gt;</code> these days. Google dropped <code>image:caption</code>, <code>image:title</code>, <code>image:geo_location</code>, and <code>image:license</code> back in 2022. Up to 1,000 images per URL, which is more than enough for even the most trigger-happy image poster lollllll.</p>
+<p><code>image:title</code> comes from the page title. <code>image:caption</code> from the page description</p>
 <h2 id="video-namespace" class="docmd-heading"><a href="#video-namespace" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Video namespace</h2>
-<p>When a page has <code>openGraph.videos</code>, the sitemap entry gets <code>&lt;video:video&gt;</code>:</p>
+<p>When a page has <code>openGraph.video</code>, the sitemap entry gets <code>&lt;video:video&gt;</code>:</p>
 <pre class="hljs"><code class="language-xml"><span class="hljs-operator">&lt;</span>url<span class="hljs-operator">&gt;</span>
   <span class="hljs-operator">&lt;</span>loc<span class="hljs-operator">&gt;</span>https<span class="hljs-operator">://</span>example.<span class="hljs-attr">com</span><span class="hljs-operator">/</span>watch<span class="hljs-operator">/</span>trailer<span class="hljs-operator">&lt;/</span>loc<span class="hljs-operator">&gt;</span>
   <span class="hljs-operator">&lt;</span>video<span class="hljs-operator">:</span>video<span class="hljs-operator">&gt;</span>
@@ -1188,29 +1182,13 @@
     <span class="hljs-operator">&lt;</span>video<span class="hljs-operator">:</span>title<span class="hljs-operator">&gt;</span>Trailer<span class="hljs-operator">&lt;/</span>video<span class="hljs-operator">:</span>title<span class="hljs-operator">&gt;</span>
     <span class="hljs-operator">&lt;</span>video<span class="hljs-operator">:</span>description<span class="hljs-operator">&gt;</span>Watch the trailer.<span class="hljs-operator">&lt;/</span>video<span class="hljs-operator">:</span>description<span class="hljs-operator">&gt;</span>
     <span class="hljs-operator">&lt;</span>video<span class="hljs-operator">:</span>content_loc<span class="hljs-operator">&gt;</span>https<span class="hljs-operator">://</span>example.<span class="hljs-attr">com</span><span class="hljs-operator">/</span>trailer.<span class="hljs-attr">mp4</span><span class="hljs-operator">&lt;/</span>video<span class="hljs-operator">:</span>content_loc<span class="hljs-operator">&gt;</span>
+    <span class="hljs-operator">&lt;</span>video<span class="hljs-operator">:</span>duration<span class="hljs-operator">&gt;</span><span class="hljs-number">142</span><span class="hljs-operator">&lt;/</span>video<span class="hljs-operator">:</span>duration<span class="hljs-operator">&gt;</span>
   <span class="hljs-operator">&lt;/</span>video<span class="hljs-operator">:</span>video<span class="hljs-operator">&gt;</span>
 <span class="hljs-operator">&lt;/</span>url<span class="hljs-operator">&gt;</span>
 </code></pre>
 <p>A <code>thumbnail</code> is required for video entries! Pages without one are <strong>automatically</strong> skipped rather than emitting invalid XML.</p>
-<p><code>title</code> and <code>description</code> on the media entry win, then <code>alt</code>, then the page title. Both get chopped at Google’s limits (100 and 2048 characters). Got a YouTube/Vimeo embed instead of an actual media file? Pass <code>playerLoc</code> and it’ll emit <code>player_loc</code> instead of <code>content_loc</code>:</p>
-<pre class="hljs"><code class="language-ts">pages<span class="hljs-operator">:</span> {
-  <span class="hljs-string">&quot;/watch/trailer&quot;</span><span class="hljs-operator">:</span> {
-    openGraph<span class="hljs-operator">:</span> {
-      videos<span class="hljs-operator">:</span> [
-        {
-          src<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://www.youtube.com/watch?v=abc&quot;</span>,
-          thumbnail<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://img.youtube.com/vi/abc/hqdefault.jpg&quot;</span>,
-          playerLoc<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://www.youtube.com/embed/abc&quot;</span>,
-          title<span class="hljs-operator">:</span> <span class="hljs-string">&quot;Launch recap&quot;</span>,
-          description<span class="hljs-operator">:</span> <span class="hljs-string">&quot;Highlights from the launch stream.&quot;</span>,
-        },
-      ],
-    },
-  },
-}
-</code></pre>
 <h2 id="news-namespace" class="docmd-heading"><a href="#news-namespace" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>News namespace</h2>
-<p>When a page sets <code>openGraph.article.publishedTime</code> and <code>openGraph.siteName</code>, the sitemap entry gets a <code>&lt;news:news&gt;</code> block. Google News wants a publication name, language, title, and publication date, so entries missing those get dropped. Articles older than two days get dropped too (Google’s rule, not mine); tune it with <code>newsMaxAgeDays</code> if you must.</p>
+<p>When a page sets <code>openGraph.article.publishedTime</code>, the sitemap entry gets a <code>&lt;news:news&gt;</code> block:</p>
 <pre class="hljs"><code class="language-xml"><span class="hljs-operator">&lt;</span>url<span class="hljs-operator">&gt;</span>
   <span class="hljs-operator">&lt;</span>loc<span class="hljs-operator">&gt;</span>https<span class="hljs-operator">://</span>example.<span class="hljs-attr">com</span><span class="hljs-operator">/</span>blog<span class="hljs-operator">/</span>breaking<span class="hljs-operator">&lt;/</span>loc<span class="hljs-operator">&gt;</span>
   <span class="hljs-operator">&lt;</span>news<span class="hljs-operator">:</span>news<span class="hljs-operator">&gt;</span>
@@ -1223,10 +1201,8 @@
   <span class="hljs-operator">&lt;/</span>news<span class="hljs-operator">:</span>news<span class="hljs-operator">&gt;</span>
 <span class="hljs-operator">&lt;/</span>url<span class="hljs-operator">&gt;</span>
 </code></pre>
-<p>Only 1,000 news entries make it into a file.<br>
-However, the rest of the URLs still show up, just without the news block.</p>
 <h2 id="xhtmllink-alternates" class="docmd-heading"><a href="#xhtmllink-alternates" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>xhtml:link alternates</h2>
-<p>Pages with hreflang alternates get <code>&lt;xhtml:link&gt;</code> entries in their sitemap URL, including the page’s own alternate when one is missing. Google wants every variant to list itself, which sounds obvious but people keep forgetting (guilty).</p>
+<p>Pages with hreflang alternates get <code>&lt;xhtml:link&gt;</code> entries in their sitemap URL:</p>
 <pre class="hljs"><code class="language-xml"><span class="hljs-operator">&lt;</span>url<span class="hljs-operator">&gt;</span>
   <span class="hljs-operator">&lt;</span>loc<span class="hljs-operator">&gt;</span>https<span class="hljs-operator">://</span>example.<span class="hljs-attr">com</span><span class="hljs-operator">/&lt;/</span>loc<span class="hljs-operator">&gt;</span>
   <span class="hljs-operator">&lt;</span>xhtml<span class="hljs-operator">:</span>link rel<span class="hljs-operator">=</span><span class="hljs-string">&quot;alternate&quot;</span> hreflang<span class="hljs-operator">=</span><span class="hljs-string">&quot;en&quot;</span> href<span class="hljs-operator">=</span><span class="hljs-string">&quot;https://example.com/&quot;</span><span class="hljs-operator">/&gt;</span>
@@ -1235,7 +1211,7 @@ However, the rest of the URLs still show up, just without the news block.</p>
 <span class="hljs-operator">&lt;/</span>url<span class="hljs-operator">&gt;</span>
 </code></pre>
 <h2 id="single-host-enforcement" class="docmd-heading"><a href="#single-host-enforcement" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Single-host enforcement</h2>
-<p>All sitemap URLs must share the same host as <code>site.url</code>. If a page canonical points elsewhere, the entry is skipped. This keeps the sitemap valid. Calling <code>buildSitemap()</code> directly without <code>siteUrl</code>? I fall back to the first absolute URL’s origin, so cross-origin stragglers still get dropped. Open an issue/PR if you want to allow cross-host sitemaps.</p>
+<p>All sitemap URLs must share the same host as <code>site.url</code>. If a page canonical points elsewhere, the entry is skipped. This keeps the sitemap valid. Open an issue/PR if you want to allow cross-host sitemaps.</p>
 
                 
                   <div class="page-navigation">
@@ -1327,11 +1303,7 @@ However, the rest of the URLs still show up, just without the news block.</p>
         </li>
       
         <li class="toc-item toc-level-2">
-          <a href="#priority" class="toc-link">Priority</a>
-        </li>
-      
-        <li class="toc-item toc-level-2">
-          <a href="#maxurls-and-file-size" class="toc-link">maxUrls and file size</a>
+          <a href="#maxurls-and-splitting" class="toc-link">maxUrls and splitting</a>
         </li>
       
         <li class="toc-item toc-level-2">
@@ -1365,13 +1337,13 @@ However, the rest of the URLs still show up, just without the news block.</p>
             <div class="page-footer-actions">
               
               
-                <span class="git-last-updated" data-timestamp="1795033229000">
+                <span class="git-last-updated" data-timestamp="1795023272000">
                   <svg class="git-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                   </svg>
                   <span class="git-label">Last updated:</span>
-                  <span class="git-time" data-timestamp="1795033229000"></span>
+                  <span class="git-time" data-timestamp="1795023272000"></span>
                   
                   <div class="git-commit-tooltip" role="tooltip">
                     <div class="git-tooltip-title">Recent commits</div>
@@ -1384,10 +1356,10 @@ However, the rest of the URLs still show up, just without the news block.</p>
                             
                           </div>
                           <div class="git-commit-details">
-                            <div class="git-commit-message" title="A lot of bugfixes (uncommited work from the past few weeks while waiting for review">A lot of bugfixes (uncommited work fr...</div>
+                            <div class="git-commit-message" title="Merge pull request #8 from NellowTCS/dependabot/npm_and_yarn/Docs/docmd-search-0.1.7">Merge pull request #8 from NellowTCS/...</div>
                             <div class="git-commit-meta">
                               <span class="git-commit-author">NellowTCS</span>
-                              <span class="git-commit-date" data-timestamp="1795033229000"></span>
+                              <span class="git-commit-date" data-timestamp="1795023272000"></span>
                             </div>
                           </div>
                         </li>
@@ -1440,17 +1412,17 @@ However, the rest of the URLs still show up, just without the news block.</p>
       </div>
       
       
-      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-18T20:21:02.519Z","buildDate":"2026-11-18","buildYear":"2026","gitCommit":"b084b64","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-18","GIT_COMMIT":"b084b64","GIT_BRANCH":"main","git":{"commit":"b084b64","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"sitemap.xml","slug":"/vite-plugin-seo-meta/guide/sitemap/","path":"guide/sitemap/index.html"},"frontmatter":{"title":"sitemap.xml","description":"Generate sitemap.xml with image, video and news namespaces, plus URL caps.","_git":{"lastUpdated":"2026-11-18T20:20:29.000Z","lastUpdatedTimestamp":1795033229000,"commits":[{"hash":"b084b641160dabc91f2b75abcee4498ac7131ad1","shortHash":"b084b64","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-18T20:20:29.000Z","timestamp":1795033229000,"message":"A lot of bugfixes (uncommited work from the past few weeks while waiting for review","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
+      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-18T20:24:42.756Z","buildDate":"2026-11-18","buildYear":"2026","gitCommit":"f8e9bcf","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-18","GIT_COMMIT":"f8e9bcf","GIT_BRANCH":"main","git":{"commit":"f8e9bcf","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"sitemap.xml","slug":"/vite-plugin-seo-meta/guide/sitemap/","path":"guide/sitemap/index.html"},"frontmatter":{"title":"sitemap.xml","description":"Generate sitemap.xml with image, video and news namespaces, plus URL caps.","_git":{"lastUpdated":"2026-11-18T17:34:32.000Z","lastUpdatedTimestamp":1795023272000,"commits":[{"hash":"f8e9bcf83bdca954065a07227c41efd7119271d6","shortHash":"f8e9bcf","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-18T17:34:32.000Z","timestamp":1795023272000,"message":"Merge pull request #8 from NellowTCS/dependabot/npm_and_yarn/Docs/docmd-search-0.1.7","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
       
-      <script src="../../assets/js/docmd-runtime.js?v=mwmkgho6"></script>
-      <script src="../../assets/js/docmd-main.js?v=mwmkgho6"></script>
+      <script src="../../assets/js/docmd-runtime.js?v=mwmkl7m6"></script>
+      <script src="../../assets/js/docmd-main.js?v=mwmkl7m6"></script>
       
-      <script src="../../assets/js/docmd-git.js?v=mwmkgho6"></script>
-      <script src="../../assets/js/docmd-image-lightbox.js?v=mwmkgho6" ></script>
-<script src="../../assets/js/vendor/minisearch.js?v=mwmkgho6" ></script>
-<script src="../../assets/js/docmd-search.js?v=mwmkgho6" ></script>
-<script src="../../assets/js/docmd-git.js?v=mwmkgho6" ></script>
-<script src="../../assets/js/docmd-ai.js?v=mwmkgho6" ></script>
+      <script src="../../assets/js/docmd-git.js?v=mwmkl7m6"></script>
+      <script src="../../assets/js/docmd-image-lightbox.js?v=mwmkl7m6" ></script>
+<script src="../../assets/js/vendor/minisearch.js?v=mwmkl7m6" ></script>
+<script src="../../assets/js/docmd-search.js?v=mwmkl7m6" ></script>
+<script src="../../assets/js/docmd-git.js?v=mwmkl7m6" ></script>
+<script src="../../assets/js/docmd-ai.js?v=mwmkl7m6" ></script>
 
   <!-- Search Modal (Injected by @docmd/plugin-search) -->
   <div id="docmd-search-modal" class="docmd-search-modal" style="display: none;" data-semantic="true" data-show-confidence="true" data-show-filters="true"

@@ -36,11 +36,11 @@
     
     
 
-    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mwmkgho6">
-    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mwmkgho6">
+    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mwmkl7m6">
+    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mwmkl7m6">
     
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mwmkgho6" id="hljs-light" >
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mwmkgho6" id="hljs-dark" disabled>
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mwmkl7m6" id="hljs-light" >
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mwmkl7m6" id="hljs-dark" disabled>
     
     <script>/**
  * --------------------------------------------------------------------
@@ -126,10 +126,10 @@
 
 
 
-<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mwmkgho6" >
-<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mwmkgho6" >
-<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mwmkgho6" >
-<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mwmkgho6" >
+<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mwmkl7m6" >
+<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mwmkl7m6" >
+<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mwmkl7m6" >
+<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mwmkl7m6" >
 
     
     
@@ -1033,7 +1033,7 @@
             <div class="content-layout">
               <div class="main-content">
                 <div class="docmd-breadcrumbs-row">
-                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22robots.txt%22%0Adescription%3A%20%22Generate%20robots.txt%20following%20RFC%209309%20with%20agent%20groups%2C%20wildcards%20and%20crawl%20delays.%22%0A---%0A%0A%5BRFC%209309%5D(https%3A%2F%2Fwww.rfc-editor.org%2Frfc%2Frfc9309.html)%20defines%20the%20robots.txt%20standard.%20Originally%20made%20by%20Martijn%20Koster%20in%201994%20%5B(the%20original%20spec)%5D(https%3A%2F%2Fwww.robotstxt.org%2Forig.html)%2C%20because%20robots%20kept%20crawling%20sites%20and%20causing%20a%20ruckus.%20(Seems%20mighty%20familiar%20to%20today&#039;s%20AI%20bots%2C%20doesn&#039;t%20it%3F)%20The%20standard%20has%20been%20(barely)%20updated%20over%20the%20years%2C%20and%20this%20plugin%20implements%20the%20latest%20version.%0A%0A%60Crawl-delay%60%2C%20%60Clean-param%60%2C%20and%20%60Host%60%20are%20not%20defined%20by%20RFC%209309.%20They%20are%20legacy%20robotstxt.org%20and%20Yandex%20extensions%20emitted%20for%20crawlers%20that%20still%20honor%20them%20(you&#039;d%20be%20surprised%20how%20many%20still%20do%20haha)%3B%20RFC-only%20crawlers%20ignore%20them.%0A%0A!%5Bimage%20of%20RFC%209309%5D(.%2Fassets%2Fimages%2FTracer_mvn05nlb.png)%0A%0AIt&#039;s%20generated%20at%20build%20time.%20It%20can%20be%20disabled%2C%20replaced%2C%20or%20merged%20with%20an%20existing%20file.%0A%0A%23%23%20Basic%20rules%0A%0A%60%60%60ts%0Arobots%3A%20%7B%0A%20%20userAgent%3A%20%22*%22%2C%0A%20%20disallow%3A%20%5B%22%2Fapi%22%2C%20%22*.gif%24%22%5D%2C%0A%20%20allow%3A%20%5B%22%2Fpublic%22%5D%2C%0A%20%20crawlDelay%3A%205%2C%0A%20%20cleanParam%3A%20%5B%22sessionid%22%5D%2C%0A%20%20host%3A%20%22example.com%22%2C%0A%20%20sitemap%3A%20%22https%3A%2F%2Fexample.com%2Fsitemap.xml%22%2C%0A%20%20disallowNoindex%3A%20true%2C%0A%7D%0A%60%60%60%0A%0A-%20%60userAgent%60%3A%20who%20the%20rules%20apply%20to.%20Default%20%60*%60.%20Values%20are%20emitted%20as%20entered%3B%20RFC%209309%20product%20tokens%20allow%20only%20letters%20(%60A-Z%60%2C%20%60a-z%60)%2C%20%60_%60%2C%20%60-%60%2C%20or%20%60*%60%20(digits%20are%20**not**%20allowed).%20The%20validator%20flags%20values%20outside%20this%20set%0A-%20%60disallow%60%3A%20paths%20to%20block.%20Supports%20%60*%60%20(match%20anything)%20and%20%60%24%60%20(end%20of%20string)%0A-%20%60allow%60%3A%20paths%20to%20explicitly%20permit%2C%20overriding%20%60disallow%60%0A-%20%60crawlDelay%60%3A%20delay%20in%20seconds.%20Must%20be%20non-negative%3B%20the%20validator%20flags%20anything%20else.%20When%20merging%2C%20the%20first%20%60Crawl-delay%60%20value%20in%20a%20group%20wins%0A-%20%60cleanParam%60%3A%20URL%20parameters%20to%20ignore%20when%20crawling%0A-%20%60host%60%3A%20the%20%60Host%3A%60%20record%0A-%20%60sitemap%60%3A%20URL%20to%20advertise%2C%20or%20%60false%60%20to%20omit.%20Defaults%20to%20%60site.url%20%2B%20%2Fsitemap.xml%60%0A-%20%60disallowNoindex%60%3A%20also%20block%20pages%20with%20%60noindex%3A%20true%60%0A%0A%23%23%20Wildcards%0A%0A%60*%60%20matches%20any%20sequence%20of%20characters.%20%60%24%60%20matches%20the%20end%20of%20the%20URL.%0A%0A%60%60%60ts%0Adisallow%3A%20%5B%22%2Fapi%22%2C%20%22*.gif%24%22%2C%20%22%2Fprivate%2F*%22%5D%3B%0A%60%60%60%0A%0A-%20%60%2Fapi%60%20blocks%20%60%2Fapi%60%2C%20%60%2Fapi%2Ffoo%60%2C%20%60%2Fapi%2Ffoo%2Fbar%60%20(basically%20anything%20under%20it)%0A-%20%60*.gif%24%60%20blocks%20%60%2Fimg%2Fcat.gif%60%20but%20not%20%60%2Fimg%2Fcat.png%60%20(which...%20is%20obviously%20not%20a%20GIF)%0A-%20%60%2Fprivate%2F*%60%20blocks%20everything%20under%20%60%2Fprivate%60%20(also%20%60%2Fprivate%2Ffoo%60%2C%20%60%2Fprivate%2Ffoo%2Fbar%60%2C%20etc.)%20but%20not%20%60%2Fprivate%60%20itself.%20Use%20%60%2Fprivate%60%20to%20block%20that%20too.%0A%0A%60allow%60%20takes%20priority%20when%20a%20path%20matches%20both.%20So%20%60allow%3A%20%5B%22%2Fpublic%22%5D%60%20lets%20crawlers%20through%20even%20if%20%60disallow%3A%20%5B%22%2F%22%5D%60.%0A%0APatterns%20are%20emitted%20as%20entered%2C%20so%20%60*%60%20and%20%60%24%60%20always%20act%20as%20wildcards.%20To%20match%20a%20literal%20%60*%60%20or%20%60%24%60%2C%20percent-encode%20it%20as%20%60%252A%60%20or%20%60%2524%60%20(this%20is%20actually%20per%20RFC%209309%20%C2%A72.2.3!).%20An%20empty%20path%20renders%20as%20a%20bare%20%60Disallow%3A%60%20or%20%60Allow%3A%60%2C%20which%20is%20an%20empty%20pattern.%0A%0A%23%23%20Agent%20groups%0A%0ADifferent%20crawlers%20get%20different%20rules%3A%0A%0A%60%60%60ts%0Arobots%3A%20%7B%0A%20%20groups%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20userAgent%3A%20%22GoogleBot%22%2C%0A%20%20%20%20%20%20disallow%3A%20%5B%22%2Fprivate%22%5D%2C%0A%20%20%20%20%20%20crawlDelay%3A%202%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20userAgent%3A%20%22BingBot%22%2C%0A%20%20%20%20%20%20allow%3A%20%5B%22%2F%22%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%5D%2C%0A%7D%0A%60%60%60%0A%0AEach%20group%20has%20its%20own%20%60userAgent%60%2C%20%60disallow%60%2C%20%60allow%60%2C%20%60crawlDelay%60%20and%20%60cleanParam%60.%20The%20default%20group%20(top-level%20fields)%20applies%20to%20%60*%60.%0A%0A%23%23%20Merge%20with%20an%20existing%20file%0A%0ABy%20default%20the%20plugin%20preserves%20%60robots.txt%60%20in%20the%20output%20directory%20and%20appends%20generated%20rules.%20Duplicates%20are%20dropped.%0A%0ATo%20overwrite%20instead%2C%20set%20%60merge%3A%20false%60%3A%0A%0A%60%60%60ts%0Arobots%3A%20%7B%0A%20%20merge%3A%20false%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20noindex%20and%20crawling%0A%0AA%20page%20with%20%60noindex%3A%20true%60%20tells%20crawlers%20not%20to%20index%20it.%20By%20default%20it%20does%20not%20add%20a%20%60Disallow%60%20rule%2C%20so%20crawlers%20can%20still%20reach%20the%20page%20to%20see%20the%20directive.%0A%0ATo%20block%20crawling%20outright%3A%0A%0A%60%60%60ts%0Arobots%3A%20%7B%0A%20%20disallowNoindex%3A%20true%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20Raw%20lines%0A%0AAppend%20literal%20lines%20after%20the%20generated%20rules%3A%0A%0A%60%60%60ts%0Arobots%3A%20%7B%0A%20%20rules%3A%20%5B%0A%20%20%20%20%22User-agent%3A%20*%22%2C%0A%20%20%20%20%22Disallow%3A%20%2F%22%2C%0A%20%20%5D%2C%0A%7D%0A%60%60%60%0A%0AUse%20this%20when%20the%20plugin%20does%20not%20cover%20something.%20The%20lines%20are%20emitted%20verbatim.%0A" style="display: none;"></div>
+                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22robots.txt%22%0Adescription%3A%20%22Generate%20robots.txt%20following%20RFC%209309%20with%20agent%20groups%2C%20wildcards%20and%20crawl%20delays.%22%0A---%0A%0A%5BRFC%209309%5D(https%3A%2F%2Fwww.rfc-editor.org%2Frfc%2Frfc9309.html)%20defines%20the%20robots.txt%20standard.%20Originally%20made%20by%20Martijn%20Koster%20in%201994%20%5B(the%20original%20spec)%5D(https%3A%2F%2Fwww.robotstxt.org%2Forig.html)%2C%20because%20robots%20kept%20crawling%20sites%20and%20causing%20a%20ruckus.%20(Seems%20mighty%20familiar%20to%20today&#039;s%20AI%20bots%2C%20doesn&#039;t%20it%3F)%20The%20standard%20has%20been%20(barely)%20updated%20over%20the%20years%2C%20and%20this%20plugin%20implements%20the%20latest%20version.%0A%0A!%5Bimage%20of%20RFC%209309%5D(.%2Fassets%2Fimages%2FTracer_mvn05nlb.png)%0A%0AIt&#039;s%20generated%20at%20build%20time.%20It%20can%20be%20disabled%2C%20replaced%2C%20or%20merged%20with%20an%20existing%20file.%0A%0A%23%23%20Basic%20rules%0A%0A%60%60%60ts%0Arobots%3A%20%7B%0A%20%20userAgent%3A%20%22*%22%2C%0A%20%20disallow%3A%20%5B%22%2Fapi%22%2C%20%22*.gif%24%22%5D%2C%0A%20%20allow%3A%20%5B%22%2Fpublic%22%5D%2C%0A%20%20crawlDelay%3A%205%2C%0A%20%20cleanParam%3A%20%5B%22sessionid%22%5D%2C%0A%20%20host%3A%20%22example.com%22%2C%0A%20%20sitemap%3A%20%22https%3A%2F%2Fexample.com%2Fsitemap.xml%22%2C%0A%20%20disallowNoindex%3A%20true%2C%0A%7D%0A%60%60%60%0A%0A-%20%60userAgent%60%3A%20who%20the%20rules%20apply%20to.%20Default%20%60*%60%0A-%20%60disallow%60%3A%20paths%20to%20block.%20Supports%20%60*%60%20(match%20anything)%20and%20%60%24%60%20(end%20of%20string)%0A-%20%60allow%60%3A%20paths%20to%20explicitly%20permit%2C%20overriding%20%60disallow%60%0A-%20%60crawlDelay%60%3A%20delay%20in%20seconds%0A-%20%60cleanParam%60%3A%20URL%20parameters%20to%20ignore%20when%20crawling%0A-%20%60host%60%3A%20the%20%60Host%3A%60%20record%0A-%20%60sitemap%60%3A%20URL%20to%20advertise%2C%20or%20%60false%60%20to%20omit.%20Defaults%20to%20%60site.url%20%2B%20%2Fsitemap.xml%60%0A-%20%60disallowNoindex%60%3A%20also%20block%20pages%20with%20%60noindex%3A%20true%60%0A%0A%23%23%20Wildcards%0A%0A%60*%60%20matches%20any%20sequence%20of%20characters.%20%60%24%60%20matches%20the%20end%20of%20the%20URL.%0A%0A%60%60%60ts%0Adisallow%3A%20%5B%22%2Fapi%22%2C%20%22*.gif%24%22%2C%20%22%2Fprivate%2F*%22%5D%3B%0A%60%60%60%0A%0A-%20%60%2Fapi%60%20blocks%20%60%2Fapi%60%2C%20%60%2Fapi%2Ffoo%60%2C%20%60%2Fapi%2Ffoo%2Fbar%60%20(basically%20anything%20under%20it)%0A-%20%60*.gif%24%60%20blocks%20%60%2Fimg%2Fcat.gif%60%20but%20not%20%60%2Fimg%2Fcat.png%60%20(which...%20is%20obviously%20not%20a%20GIF)%0A-%20%60%2Fprivate%2F*%60%20blocks%20everything%20under%20%60%2Fprivate%60%20(also%20%60%2Fprivate%2Ffoo%60%2C%20%60%2Fprivate%2Ffoo%2Fbar%60%2C%20etc.)%20but%20not%20%60%2Fprivate%60%20itself.%20Use%20%60%2Fprivate%60%20to%20block%20that%20too.%0A%0A%60allow%60%20takes%20priority%20when%20a%20path%20matches%20both.%20So%20%60allow%3A%20%5B%22%2Fpublic%22%5D%60%20lets%20crawlers%20through%20even%20if%20%60disallow%3A%20%5B%22%2F%22%5D%60.%0A%0A%23%23%20Agent%20groups%0A%0ADifferent%20crawlers%20get%20different%20rules%3A%0A%0A%60%60%60ts%0Arobots%3A%20%7B%0A%20%20groups%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20userAgent%3A%20%22GoogleBot%22%2C%0A%20%20%20%20%20%20disallow%3A%20%5B%22%2Fprivate%22%5D%2C%0A%20%20%20%20%20%20crawlDelay%3A%202%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20userAgent%3A%20%22BingBot%22%2C%0A%20%20%20%20%20%20allow%3A%20%5B%22%2F%22%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%5D%2C%0A%7D%0A%60%60%60%0A%0AEach%20group%20has%20its%20own%20%60userAgent%60%2C%20%60disallow%60%2C%20%60allow%60%2C%20%60crawlDelay%60%20and%20%60cleanParam%60.%20The%20default%20group%20(top-level%20fields)%20applies%20to%20%60*%60.%0A%0A%23%23%20Merge%20with%20an%20existing%20file%0A%0ABy%20default%20the%20plugin%20preserves%20%60robots.txt%60%20in%20the%20output%20directory%20and%20appends%20generated%20rules.%20Duplicates%20are%20dropped.%0A%0ATo%20overwrite%20instead%2C%20set%20%60merge%3A%20false%60%3A%0A%0A%60%60%60ts%0Arobots%3A%20%7B%0A%20%20merge%3A%20false%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20noindex%20and%20crawling%0A%0AA%20page%20with%20%60noindex%3A%20true%60%20tells%20crawlers%20not%20to%20index%20it.%20By%20default%20it%20does%20not%20add%20a%20%60Disallow%60%20rule%2C%20so%20crawlers%20can%20still%20reach%20the%20page%20to%20see%20the%20directive.%0A%0ATo%20block%20crawling%20outright%3A%0A%0A%60%60%60ts%0Arobots%3A%20%7B%0A%20%20disallowNoindex%3A%20true%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20Raw%20lines%0A%0AAppend%20literal%20lines%20after%20the%20generated%20rules%3A%0A%0A%60%60%60ts%0Arobots%3A%20%7B%0A%20%20rules%3A%20%5B%0A%20%20%20%20%22User-agent%3A%20*%22%2C%0A%20%20%20%20%22Disallow%3A%20%2F%22%2C%0A%20%20%5D%2C%0A%7D%0A%60%60%60%0A%0AUse%20this%20when%20the%20plugin%20does%20not%20cover%20something.%20The%20lines%20are%20emitted%20verbatim.%0A" style="display: none;"></div>
                   
                     <nav aria-label="breadcrumb" class="docmd-breadcrumbs">
                       <ol>
@@ -1129,7 +1129,6 @@
                   </h1>
                 
                 <p><a href="https://www.rfc-editor.org/rfc/rfc9309.html">RFC 9309</a> defines the robots.txt standard. Originally made by Martijn Koster in 1994 <a href="https://www.robotstxt.org/orig.html">(the original spec)</a>, because robots kept crawling sites and causing a ruckus. (Seems mighty familiar to today’s AI bots, doesn’t it?) The standard has been (barely) updated over the years, and this plugin implements the latest version.</p>
-<p><code>Crawl-delay</code>, <code>Clean-param</code>, and <code>Host</code> are not defined by RFC 9309. They are legacy <a href="https://robotstxt.org">robotstxt.org</a> and Yandex extensions emitted for crawlers that still honor them (you’d be surprised how many still do haha); RFC-only crawlers ignore them.</p>
 <p><img src="../../assets/images/Tracer_mvn05nlb.png" alt="image of RFC 9309"></p>
 <p>It’s generated at build time. It can be disabled, replaced, or merged with an existing file.</p>
 <h2 id="basic-rules" class="docmd-heading"><a href="#basic-rules" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Basic rules</h2>
@@ -1145,10 +1144,10 @@
 }
 </code></pre>
 <ul>
-<li><code>userAgent</code>: who the rules apply to. Default <code>*</code>. Values are emitted as entered; RFC 9309 product tokens allow only letters (<code>A-Z</code>, <code>a-z</code>), <code>_</code>, <code>-</code>, or <code>*</code> (digits are <strong>not</strong> allowed). The validator flags values outside this set</li>
+<li><code>userAgent</code>: who the rules apply to. Default <code>*</code></li>
 <li><code>disallow</code>: paths to block. Supports <code>*</code> (match anything) and <code>$</code> (end of string)</li>
 <li><code>allow</code>: paths to explicitly permit, overriding <code>disallow</code></li>
-<li><code>crawlDelay</code>: delay in seconds. Must be non-negative; the validator flags anything else. When merging, the first <code>Crawl-delay</code> value in a group wins</li>
+<li><code>crawlDelay</code>: delay in seconds</li>
 <li><code>cleanParam</code>: URL parameters to ignore when crawling</li>
 <li><code>host</code>: the <code>Host:</code> record</li>
 <li><code>sitemap</code>: URL to advertise, or <code>false</code> to omit. Defaults to <code>site.url + /sitemap.xml</code></li>
@@ -1164,7 +1163,6 @@
 <li><code>/private/*</code> blocks everything under <code>/private</code> (also <code>/private/foo</code>, <code>/private/foo/bar</code>, etc.) but not <code>/private</code> itself. Use <code>/private</code> to block that too.</li>
 </ul>
 <p><code>allow</code> takes priority when a path matches both. So <code>allow: [&quot;/public&quot;]</code> lets crawlers through even if <code>disallow: [&quot;/&quot;]</code>.</p>
-<p>Patterns are emitted as entered, so <code>*</code> and <code>$</code> always act as wildcards. To match a literal <code>*</code> or <code>$</code>, percent-encode it as <code>%2A</code> or <code>%24</code> (this is actually per RFC 9309 §2.2.3!). An empty path renders as a bare <code>Disallow:</code> or <code>Allow:</code>, which is an empty pattern.</p>
 <h2 id="agent-groups" class="docmd-heading"><a href="#agent-groups" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Agent groups</h2>
 <p>Different crawlers get different rules:</p>
 <pre class="hljs"><code class="language-ts">robots<span class="hljs-operator">:</span> {
@@ -1323,13 +1321,13 @@
             <div class="page-footer-actions">
               
               
-                <span class="git-last-updated" data-timestamp="1795033229000">
+                <span class="git-last-updated" data-timestamp="1795023272000">
                   <svg class="git-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                   </svg>
                   <span class="git-label">Last updated:</span>
-                  <span class="git-time" data-timestamp="1795033229000"></span>
+                  <span class="git-time" data-timestamp="1795023272000"></span>
                   
                   <div class="git-commit-tooltip" role="tooltip">
                     <div class="git-tooltip-title">Recent commits</div>
@@ -1342,10 +1340,10 @@
                             
                           </div>
                           <div class="git-commit-details">
-                            <div class="git-commit-message" title="A lot of bugfixes (uncommited work from the past few weeks while waiting for review">A lot of bugfixes (uncommited work fr...</div>
+                            <div class="git-commit-message" title="Merge pull request #8 from NellowTCS/dependabot/npm_and_yarn/Docs/docmd-search-0.1.7">Merge pull request #8 from NellowTCS/...</div>
                             <div class="git-commit-meta">
                               <span class="git-commit-author">NellowTCS</span>
-                              <span class="git-commit-date" data-timestamp="1795033229000"></span>
+                              <span class="git-commit-date" data-timestamp="1795023272000"></span>
                             </div>
                           </div>
                         </li>
@@ -1398,17 +1396,17 @@
       </div>
       
       
-      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-18T20:21:02.519Z","buildDate":"2026-11-18","buildYear":"2026","gitCommit":"b084b64","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-18","GIT_COMMIT":"b084b64","GIT_BRANCH":"main","git":{"commit":"b084b64","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"robots.txt","slug":"/vite-plugin-seo-meta/guide/robots/","path":"guide/robots/index.html"},"frontmatter":{"title":"robots.txt","description":"Generate robots.txt following RFC 9309 with agent groups, wildcards and crawl delays.","_git":{"lastUpdated":"2026-11-18T20:20:29.000Z","lastUpdatedTimestamp":1795033229000,"commits":[{"hash":"b084b641160dabc91f2b75abcee4498ac7131ad1","shortHash":"b084b64","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-18T20:20:29.000Z","timestamp":1795033229000,"message":"A lot of bugfixes (uncommited work from the past few weeks while waiting for review","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
+      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-18T20:24:42.756Z","buildDate":"2026-11-18","buildYear":"2026","gitCommit":"f8e9bcf","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-18","GIT_COMMIT":"f8e9bcf","GIT_BRANCH":"main","git":{"commit":"f8e9bcf","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"robots.txt","slug":"/vite-plugin-seo-meta/guide/robots/","path":"guide/robots/index.html"},"frontmatter":{"title":"robots.txt","description":"Generate robots.txt following RFC 9309 with agent groups, wildcards and crawl delays.","_git":{"lastUpdated":"2026-11-18T17:34:32.000Z","lastUpdatedTimestamp":1795023272000,"commits":[{"hash":"f8e9bcf83bdca954065a07227c41efd7119271d6","shortHash":"f8e9bcf","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-18T17:34:32.000Z","timestamp":1795023272000,"message":"Merge pull request #8 from NellowTCS/dependabot/npm_and_yarn/Docs/docmd-search-0.1.7","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
       
-      <script src="../../assets/js/docmd-runtime.js?v=mwmkgho6"></script>
-      <script src="../../assets/js/docmd-main.js?v=mwmkgho6"></script>
+      <script src="../../assets/js/docmd-runtime.js?v=mwmkl7m6"></script>
+      <script src="../../assets/js/docmd-main.js?v=mwmkl7m6"></script>
       
-      <script src="../../assets/js/docmd-git.js?v=mwmkgho6"></script>
-      <script src="../../assets/js/docmd-image-lightbox.js?v=mwmkgho6" ></script>
-<script src="../../assets/js/vendor/minisearch.js?v=mwmkgho6" ></script>
-<script src="../../assets/js/docmd-search.js?v=mwmkgho6" ></script>
-<script src="../../assets/js/docmd-git.js?v=mwmkgho6" ></script>
-<script src="../../assets/js/docmd-ai.js?v=mwmkgho6" ></script>
+      <script src="../../assets/js/docmd-git.js?v=mwmkl7m6"></script>
+      <script src="../../assets/js/docmd-image-lightbox.js?v=mwmkl7m6" ></script>
+<script src="../../assets/js/vendor/minisearch.js?v=mwmkl7m6" ></script>
+<script src="../../assets/js/docmd-search.js?v=mwmkl7m6" ></script>
+<script src="../../assets/js/docmd-git.js?v=mwmkl7m6" ></script>
+<script src="../../assets/js/docmd-ai.js?v=mwmkl7m6" ></script>
 
   <!-- Search Modal (Injected by @docmd/plugin-search) -->
   <div id="docmd-search-modal" class="docmd-search-modal" style="display: none;" data-semantic="true" data-show-confidence="true" data-show-filters="true"

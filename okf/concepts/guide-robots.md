@@ -7,7 +7,7 @@ path: /guide/robots/
 updated: 2026-11-18
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-18T20:21:09.486Z"
+  generated_at: "2026-11-18T20:24:49.373Z"
 ---
 ---
 title: "robots.txt"
@@ -15,8 +15,6 @@ description: "Generate robots.txt following RFC 9309 with agent groups, wildcard
 ---
 
 [RFC 9309](https://www.rfc-editor.org/rfc/rfc9309.html) defines the robots.txt standard. Originally made by Martijn Koster in 1994 [(the original spec)](https://www.robotstxt.org/orig.html), because robots kept crawling sites and causing a ruckus. (Seems mighty familiar to today's AI bots, doesn't it?) The standard has been (barely) updated over the years, and this plugin implements the latest version.
-
-`Crawl-delay`, `Clean-param`, and `Host` are not defined by RFC 9309. They are legacy robotstxt.org and Yandex extensions emitted for crawlers that still honor them (you'd be surprised how many still do haha); RFC-only crawlers ignore them.
 
 ![image of RFC 9309](./assets/images/Tracer_mvn05nlb.png)
 
@@ -37,10 +35,10 @@ robots: {
 }
 ```
 
-- `userAgent`: who the rules apply to. Default `*`. Values are emitted as entered; RFC 9309 product tokens allow only letters (`A-Z`, `a-z`), `_`, `-`, or `*` (digits are **not** allowed). The validator flags values outside this set
+- `userAgent`: who the rules apply to. Default `*`
 - `disallow`: paths to block. Supports `*` (match anything) and `$` (end of string)
 - `allow`: paths to explicitly permit, overriding `disallow`
-- `crawlDelay`: delay in seconds. Must be non-negative; the validator flags anything else. When merging, the first `Crawl-delay` value in a group wins
+- `crawlDelay`: delay in seconds
 - `cleanParam`: URL parameters to ignore when crawling
 - `host`: the `Host:` record
 - `sitemap`: URL to advertise, or `false` to omit. Defaults to `site.url + /sitemap.xml`
@@ -59,8 +57,6 @@ disallow: ["/api", "*.gif$", "/private/*"];
 - `/private/*` blocks everything under `/private` (also `/private/foo`, `/private/foo/bar`, etc.) but not `/private` itself. Use `/private` to block that too.
 
 `allow` takes priority when a path matches both. So `allow: ["/public"]` lets crawlers through even if `disallow: ["/"]`.
-
-Patterns are emitted as entered, so `*` and `$` always act as wildcards. To match a literal `*` or `$`, percent-encode it as `%2A` or `%24` (this is actually per RFC 9309 §2.2.3!). An empty path renders as a bare `Disallow:` or `Allow:`, which is an empty pattern.
 
 ## Agent groups
 
