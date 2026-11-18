@@ -7,7 +7,7 @@ path: /guide/validation/
 updated: 2026-11-18
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-18T20:24:49.374Z"
+  generated_at: "2026-11-18T20:25:38.805Z"
 ---
 ---
 title: "Validation"
@@ -63,6 +63,18 @@ Canonicals, `og:url`, `twitter:image` and `twitter:player` URLs **must be absolu
 
 - A page with `noindex: true` that is also in `sitemap.xml` (noindex pages are excluded from the sitemap by default, but this catches explicit overrides, juuuust in case)
 - A page with `sitemap: false` that still has hreflang alternates
+
+### hreflang
+
+- Language subtags must be assigned ISO 639-1 codes. Three-letter codes like `zho` and unassigned codes like `zz` are flagged because Google ignores the unsupported part of the annotation.
+- Region subtags must be assigned ISO 3166-1 alpha-2 codes. Numeric regions like `es-419` and unassigned codes like `en-XX` are flagged; use a real region such as `es-MX`.
+- A page with alternates must include a self-referencing alternate. The plugin adds one from `lang`; when no `lang` is configured, or another alternate already uses that tag, add it manually.
+- When one configured page links to another, the target must link back. Non-reciprocal pairs are flagged because Google ignores hreflang annotations that do not point to each other.
+
+### robots.txt
+
+- `robots.userAgent` values must be RFC 9309 product tokens: `*`, or letters, `_`, and `-`. Values with spaces, punctuation, or digits are flagged because they cannot match a crawler.
+- `robots.crawlDelay` must be a non-negative number of seconds.
 
 ## How to fix
 

@@ -7,7 +7,7 @@ path: /guide/hreflang/
 updated: 2026-11-18
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-18T20:24:49.372Z"
+  generated_at: "2026-11-18T20:25:38.803Z"
 ---
 ---
 title: "hreflang"
@@ -39,7 +39,9 @@ pages: {
 ## Rules
 
 - Every `href` must be an absolute URL
-- The page should list itself in its own alternates. If the page is the English variant, include `{ hreflang: "en", href: "https://example.com/" }`
+- The page should list itself in its own alternates. If the page is the English variant, include `{ hreflang: "en", href: "https://example.com/" }`. When the page (or site) has a `lang`, the plugin adds this for you
+- If page X lists page Y, page Y must list page X. The validator flags non-reciprocal pairs, because Google ignores annotations that do not point to each other
+- Language codes must be assigned ISO 639-1 values (two letters) and region codes must be assigned ISO 3166-1 alpha-2 values (two letters). The validator flags three-letter languages like `zho`, unassigned codes like `zz` or `en-XX`, and numeric regions like `es-419`
 - The plugin emits `xhtml:link` alternates in `sitemap.xml` for pages that have hreflang companions
 - hreflang URLs must all resolve to the same host. The sitemap enforces this.
 
