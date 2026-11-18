@@ -1,17 +1,17 @@
 /** BCP 47 language tag and Open Graph locale helpers */
 
 /** True for a 4-letter ISO 15924 script subtag, like `Hans` or `Hant` */
-function isScriptSubtag(part: string): boolean {
+export function isScriptSubtag(part: string): boolean {
   return /^[a-zA-Z]{4}$/.test(part);
 }
 
 /** True for a UN M.49 numeric region, like `419` */
-function isNumericRegion(part: string): boolean {
+export function isNumericRegion(part: string): boolean {
   return /^\d{3}$/.test(part);
 }
 
 /** True for a 2-letter ISO 3166-1 alpha-2 region, like `US` */
-function isAlphaRegion(part: string): boolean {
+export function isAlphaRegion(part: string): boolean {
   return /^[a-zA-Z]{2}$/.test(part);
 }
 
@@ -48,19 +48,21 @@ export function normalizeLanguageTag(value: string): string {
 }
 
 /**
- * Maps a script subtag to the conventional OG territory when one exists (aka   e x c e p t i o n s)
+ * Conventional OG territories for language/script pairs that carry no region.
+ * A bare script is ambiguous (Serbian Cyrillic is not Russian), so only pairs
+ * where the script identifies the territory are listed.
  */
 const SCRIPT_TERRITORY: Record<string, string> = {
-  hans: "CN",
-  hant: "TW",
+  "zh-Hans": "CN",
+  "zh-Hant": "TW",
 };
 
 /**
  * Converts a language tag to an Open Graph locale (`language_TERRITORY`).
  * Refer to: https://ogp.me/#optional
  *
- * @returns the locale, or `undefined` for blank input, `x-default`, and tags
- *   with no territory
+ * @returns the locale, or `undefined` for blank input, `x-default`, tags with
+ *   no ISO 3166-1 territory, and numeric UN M.49 regions like `es-419`
  */
 export function languageTagToOgLocale(
   value: string | undefined,
@@ -69,11 +71,13 @@ export function languageTagToOgLocale(
   if (tag === "" || tag === "x-default") return undefined;
   const [language, ...rest] = tag.split("-");
   if (!language) return undefined;
-  const region = rest.find(
-    (part) => isAlphaRegion(part) || isNumericRegion(part),
-  );
+  const region = rest.find((part) => isAlphaRegion(part));
   if (region) return `${language}_${region}`;
+  // UN M.49 regions have no ISO 3166-1 territory, so they cannot form an OG locale.
+  if (rest.some((part) => isNumericRegion(part))) return undefined;
   const script = rest.find((part) => isScriptSubtag(part));
-  const territory = script ? SCRIPT_TERRITORY[script.toLowerCase()] : undefined;
+  const territory = script
+    ? SCRIPT_TERRITORY[`${language}-${script}`]
+    : undefined;
   return territory ? `${language}_${territory}` : undefined;
 }

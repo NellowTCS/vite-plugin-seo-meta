@@ -56,6 +56,20 @@ export function resolveImage(
     if (typeof thumbnail === "string" && thumbnail.trim().length > 0) {
       ref.thumbnail = thumbnail.trim();
     }
+    const title = obj.title;
+    if (typeof title === "string" && title.trim().length > 0) {
+      ref.title = title.trim();
+    }
+    const description = obj.description;
+    if (typeof description === "string" && description.trim().length > 0) {
+      ref.description = description.trim();
+    }
+    const playerLoc =
+      (obj.playerLoc as string | undefined) ??
+      (obj.player_loc as string | undefined);
+    if (typeof playerLoc === "string" && playerLoc.trim().length > 0) {
+      ref.playerLoc = playerLoc.trim();
+    }
     return ref;
   }
   return undefined;

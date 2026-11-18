@@ -115,6 +115,12 @@ export interface ImageRef {
   secureUrl?: string;
   /** Video thumbnail URL */
   thumbnail?: string;
+  /** Video title */
+  title?: string;
+  /** Video description */
+  description?: string;
+  /** Player URL */
+  playerLoc?: string;
 }
 
 /** Flexible image input accepted by the config layer. */
@@ -132,6 +138,10 @@ export type ImageInput =
       secureUrl?: string;
       secure_url?: string;
       thumbnail?: string;
+      title?: string;
+      description?: string;
+      playerLoc?: string;
+      player_loc?: string;
     };
 
 /** An `hreflang` alternate link. */
@@ -535,15 +545,22 @@ export interface PageMeta {
 
 /** Options for the generated `robots.txt`
  * Ref: https://www.rfc-editor.org/rfc/rfc9309.txt
+ *
  * Gasp I can't believe the time has come for me to be refering to
  * RFCs in my own code. I feel like a real software engineer now. (I am not.)
  */
 export interface RobotsFileOptions {
-  /** User agents the rules apply to. Default `*`. */
+  /** User agents the rules apply to. Default `*`.
+   * Values are emitted as entered. RFC 9309 product tokens allow only `A-Z`,
+   * `a-z`, `_`, and `-` (digits are excluded), or `*`.
+   */
   userAgent?: string | string[];
-  /** Paths to disallow for the configured agents. */
+  /** Paths to disallow for the configured agents.
+   * Paths are emitted as entered: `*` and `$` are pattern wildcards. To match a
+   * literal `*` or `$`, percent-encode it as `%2A` or `%24` (RFC 9309 §2.2.3).
+   */
   disallow?: string[];
-  /** Paths to explicitly allow. */
+  /** Paths to explicitly allow. Same verbatim wildcard rules as {@link disallow}. */
   allow?: string[];
   /** Additional user-agent groups, each with their own rules. */
   // I never knew that `robots.txt` could have more than User-agent: * and Disallow: / lolll
@@ -556,22 +573,25 @@ export interface RobotsFileOptions {
   merge?: boolean;
   /** When true, automatically add `Disallow: <route>` for pages with `noindex: true` */
   disallowNoindex?: boolean;
-  /** `Host:` record (standalone, not part of any group) */
+  /** `Host:` record (standalone, not part of any group). Yandex extension, not defined by RFC 9309. */
   host?: string;
-  /** `Crawl-delay:` in seconds, applied to the default group */
+  /** `Crawl-delay:` in seconds, applied to the default group. Legacy extension, not defined by RFC 9309. */
   crawlDelay?: number;
-  /** `Clean-param:` rules, applied to the default group */
+  /** `Clean-param:` rules, applied to the default group. Yandex extension, not defined by RFC 9309. */
   cleanParam?: string | string[];
 }
 
 /** One robots.txt thing: user-agent lines + rules */
 export interface RobotsGroup {
+  /** User agents the rules apply to. Same token rules as {@link RobotsFileOptions.userAgent}. */
   userAgent: string | string[];
+  /** Paths to disallow. Same wildcard rules as {@link RobotsFileOptions.disallow}. */
   disallow?: string[];
+  /** Paths to explicitly allow. Same wildcard rules as {@link RobotsFileOptions.disallow}. */
   allow?: string[];
-  /** `Crawl-delay:` in seconds */
+  /** `Crawl-delay:` in seconds. Legacy extension, not defined by RFC 9309. */
   crawlDelay?: number;
-  /** `Clean-param:` rules */
+  /** `Clean-param:` rules. Yandex extension, not defined by RFC 9309. */
   cleanParam?: string | string[];
 }
 
@@ -593,6 +613,14 @@ export interface SitemapOptions {
    * but it's the number they picked.
    */
   maxUrls?: number;
+  /** Maximum uncompressed sitemap size in bytes. Default 50 MiB */
+  maxBytes?: number;
+  /** Maximum `<news:news>` entries per sitemap file. Default 1000 */
+  maxNews?: number;
+  /** How many days a news article stays eligible. Default 2; `0` disables the check */
+  newsMaxAgeDays?: number;
+  /** Reference time for the news freshness check. Defaults to the build time */
+  now?: Date;
 }
 
 /**

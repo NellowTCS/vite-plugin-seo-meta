@@ -48,6 +48,15 @@ function normalizeDirective(line: string): string | undefined {
   return `${key}: ${value}`;
 }
 
+/**
+ * Dedupe key for a normalized directive.
+ * `Crawl-delay` is single-valued per group: legacy crawlers use the first value,
+ * so a second value would be ambiguous.
+ */
+function dedupeKey(directive: string): string {
+  return directive.startsWith("crawl-delay:") ? "crawl-delay:" : directive;
+}
+
 /** Renders a single group */
 function renderGroup(
   agents: string[],
@@ -57,9 +66,11 @@ function renderGroup(
   cleanParam?: string[],
 ): string {
   const lines = agents.map((agent) => `User-agent: ${agent}`);
+  const rule = (name: string, path: string) =>
+    path === "" ? `${name}:` : `${name}: ${path}`;
 
-  for (const path of disallow) lines.push(`Disallow: ${path}`);
-  for (const path of allow) lines.push(`Allow: ${path}`);
+  for (const path of disallow) lines.push(rule("Disallow", path));
+  for (const path of allow) lines.push(rule("Allow", path));
 
   if (crawlDelay !== undefined) lines.push(`Crawl-delay: ${crawlDelay}`);
   for (const param of cleanParam ?? []) lines.push(`Clean-param: ${param}`);
@@ -249,8 +260,8 @@ export function mergeRobots(existing: string, generated: string): string {
     const seen = seenFor(currentKey);
     const newRules = entry.rules.filter((rule) => {
       const directive = normalizeDirective(rule);
-      if (directive && seen.has(directive)) return false;
-      if (directive) seen.add(directive);
+      if (directive && seen.has(dedupeKey(directive))) return false;
+      if (directive) seen.add(dedupeKey(directive));
       return true;
     });
     if (newRules.length > 0) {
@@ -296,7 +307,7 @@ export function mergeRobots(existing: string, generated: string): string {
         if (currentAgents.length > 0) insertAt = out.length;
         if (currentKey) {
           const seen = seenFor(currentKey);
-          seen.add(directive);
+          seen.add(dedupeKey(directive));
           groupHasRules = true;
         } else {
           seenRecords.add(directive);
@@ -313,8 +324,8 @@ export function mergeRobots(existing: string, generated: string): string {
     const seen = seenFor(key);
     for (const line of [...agents, ...rules]) {
       const directive = normalizeDirective(line);
-      if (directive && seen.has(directive)) continue;
-      if (directive) seen.add(directive);
+      if (directive && seen.has(dedupeKey(directive))) continue;
+      if (directive) seen.add(dedupeKey(directive));
       tail.push(line);
     }
   }

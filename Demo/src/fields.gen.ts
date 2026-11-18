@@ -899,19 +899,19 @@ const f_RobotsFileOptions = {
     control: "list",
     id: "userAgent",
     label: "User Agent",
-    hint: "User agents the rules apply to. Default `*`.",
+    hint: "User agents the rules apply to. Default `*`. Values are emitted as entered. RFC 9309 product tokens allow only `A-Z`, `a-z`, `_`, and `-` (digits are excluded), or `*`.",
   },
   disallow: {
     control: "list",
     id: "disallow",
     label: "Disallow",
-    hint: "Paths to disallow for the configured agents.",
+    hint: "Paths to disallow for the configured agents. Paths are emitted as entered: `*` and `$` are pattern wildcards. To match a literal `*` or `$`, percent-encode it as `%2A` or `%24` (RFC 9309 §2.2.3).",
   },
   allow: {
     control: "list",
     id: "allow",
     label: "Allow",
-    hint: "Paths to explicitly allow.",
+    hint: "Paths to explicitly allow. Same verbatim wildcard rules as .",
   },
   groups: {
     control: "json",
@@ -956,19 +956,19 @@ const f_RobotsFileOptions = {
     control: "text",
     id: "host",
     label: "Host",
-    hint: "`Host:` record (standalone, not part of any group)",
+    hint: "`Host:` record (standalone, not part of any group). Yandex extension, not defined by RFC 9309.",
   },
   crawlDelay: {
     control: "number",
     id: "crawlDelay",
     label: "Crawl Delay",
-    hint: "`Crawl-delay:` in seconds, applied to the default group",
+    hint: "`Crawl-delay:` in seconds, applied to the default group. Legacy extension, not defined by RFC 9309.",
   },
   cleanParam: {
     control: "list",
     id: "cleanParam",
     label: "Clean Param",
-    hint: "`Clean-param:` rules, applied to the default group",
+    hint: "`Clean-param:` rules, applied to the default group. Yandex extension, not defined by RFC 9309.",
   },
 } satisfies Cover<RobotsFileOptions>;
 
@@ -1017,6 +1017,30 @@ const f_SitemapOptions = {
     id: "maxUrls",
     label: "Max Urls",
     hint: "Maximum number of URLs per sitemap file. Default 50000. Yes. 50000. That's a lot of URLs. I don't know why they picked that number, but it's the number they picked.",
+  },
+  maxBytes: {
+    control: "number",
+    id: "maxBytes",
+    label: "Max Bytes",
+    hint: "Maximum uncompressed sitemap size in bytes. Default 50 MiB",
+  },
+  maxNews: {
+    control: "number",
+    id: "maxNews",
+    label: "Max News",
+    hint: "Maximum `<news:news>` entries per sitemap file. Default 1000",
+  },
+  newsMaxAgeDays: {
+    control: "number",
+    id: "newsMaxAgeDays",
+    label: "News Max Age Days",
+    hint: "How many days a news article stays eligible. Default 2; `0` disables the check",
+  },
+  now: {
+    control: "text",
+    id: "now",
+    label: "Now",
+    hint: "Reference time for the news freshness check. Defaults to the build time",
   },
 } satisfies Cover<SitemapOptions>;
 

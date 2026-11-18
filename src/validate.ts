@@ -1,8 +1,10 @@
 /** Pre-build validation */
 
 import { resolvePage } from "./head/merge";
+import { isAlphaRegion, isNumericRegion, isScriptSubtag } from "./locale";
+import { ISO_3166_1_ALPHA_2, ISO_639_1 } from "./locale-codes";
 import type { Logger } from "./log";
-import type { ResolvedOptions, ResolvedPage } from "./types";
+import type { RobotsFileOptions, ResolvedOptions, ResolvedPage } from "./types";
 import { isAbsoluteUrl } from "./url";
 
 /** Rendered titles past this get cut off in search results */
@@ -69,6 +71,9 @@ const VALID_CHANGEFREQ = new Set([
   "never",
 ]);
 
+/** RFC 9309 product token: `*` or letters, `_`, and `-` (digits are excluded) */
+const ROBOTS_PRODUCT_TOKEN = /^(?:\*|[A-Za-z_-]+)$/;
+
 /** A single validation finding */
 export interface ValidationIssue {
   /** Route the issue belongs to, or a comma list for cross-route issues */
@@ -77,6 +82,90 @@ export interface ValidationIssue {
   field: string;
   /** Explanation */
   message: string;
+}
+
+/**
+ * Validates the language and region subtags of an hreflang value.
+ * Google only supports ISO 639-1 languages and ISO 3166-1 alpha-2 regions;
+ * other well-formed BCP 47 subtags (like `zho` or `es-419`) are ignored.
+ *
+ * Ref: https://developers.google.com/search/docs/specialty/international/localized-versions
+ */
+function validateHreflangCode(
+  hreflang: string,
+  add: (field: string, message: string) => void,
+): void {
+  const tag = hreflang.trim();
+  if (!tag || tag.toLowerCase() === "x-default") return;
+
+  const [rawLanguage, ...rest] = tag.split("-");
+  const language = rawLanguage?.toLowerCase();
+  if (!language) return;
+  if (!ISO_639_1.has(language)) {
+    add(
+      "alternates",
+      `hreflang "${tag}" uses an unsupported language subtag "${rawLanguage}"; only ISO 639-1 (2-letter) codes are supported`,
+    );
+    return;
+  }
+
+  for (const part of rest) {
+    if (!part || isScriptSubtag(part)) continue;
+    if (isAlphaRegion(part)) {
+      if (!ISO_3166_1_ALPHA_2.has(part.toUpperCase()))
+        add(
+          "alternates",
+          `hreflang "${tag}" uses an unassigned ISO 3166-1 alpha-2 region "${part}"`,
+        );
+      continue;
+    }
+    if (isNumericRegion(part))
+      add(
+        "alternates",
+        `hreflang "${tag}" uses a numeric region "${part}" (not ISO 3166-1 alpha-2); only 2-letter region codes are supported`,
+      );
+  }
+}
+
+/**
+ * Validates robots.txt options that the builder emits verbatim.
+ * Product tokens with punctuation or digits never match a crawler, and
+ * `Crawl-delay` must be a non-negative number of seconds.
+ *
+ * Ref: https://www.rfc-editor.org/rfc/rfc9309.html#section-2.2.1
+ */
+function validateRobotsOptions(robots: RobotsFileOptions): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const add = (field: string, message: string) =>
+    issues.push({ route: "(robots)", field, message });
+
+  const agents: string[] = [];
+  const collect = (value: string | string[] | undefined) => {
+    if (typeof value === "string") agents.push(value);
+    else if (value) agents.push(...value);
+  };
+  collect(robots.userAgent);
+  for (const group of robots.groups ?? []) collect(group.userAgent);
+
+  for (const agent of agents)
+    if (agent && !ROBOTS_PRODUCT_TOKEN.test(agent))
+      add(
+        "robots.userAgent",
+        `user-agent "${agent}" is not a valid RFC 9309 product token; use letters, "_", "-", or "*" (digits are not allowed)`,
+      );
+
+  const delays = [
+    robots.crawlDelay,
+    ...(robots.groups ?? []).map((group) => group.crawlDelay),
+  ];
+  for (const delay of delays)
+    if (delay !== undefined && (!Number.isFinite(delay) || delay < 0))
+      add(
+        "robots.crawlDelay",
+        `crawl-delay ${delay} must be a non-negative number`,
+      );
+
+  return issues;
 }
 
 /** Checks a `meta name=robots` content string (works for per-agent metas too!!!! :D) */
@@ -189,6 +278,19 @@ export function validatePage(page: ResolvedPage): ValidationIssue[] {
       `twitter:player is not an absolute URL: "${twitter.player.url}"`,
     );
 
+  // Validate hreflang codes
+  for (const alternate of page.alternates) {
+    validateHreflangCode(alternate.hreflang, add);
+  }
+  if (
+    page.alternates.length > 0 &&
+    !page.alternates.some((alternate) => alternate.href === page.canonical)
+  )
+    add(
+      "alternates",
+      "page has hreflang alternates but no self-referencing alternate; add the page's own URL or configure its lang",
+    );
+
   validateRobotsDirectives(page.robots, add);
   for (const [agent, content] of Object.entries(page.robotsByUserAgent)) {
     validateRobotsDirectives(content, (field, message) =>
@@ -234,8 +336,13 @@ export function validateOptions(options: ResolvedOptions): ValidationIssue[] {
       message: "site.url is required",
     });
 
+  if (options.robotsEnabled)
+    issues.push(...validateRobotsOptions(options.robots));
+
+  const resolvedPages = new Map<string, ResolvedPage>();
   for (const [route, raw] of Object.entries(options.pageMeta)) {
     const page = resolvePage(route, options);
+    resolvedPages.set(page.route, page);
     issues.push(...validatePage(page));
 
     const title = page.title.trim();
@@ -257,6 +364,36 @@ export function validateOptions(options: ResolvedOptions): ValidationIssue[] {
         message:
           "page is excluded from the sitemap but has hreflang alternates",
       });
+  }
+
+  // hreflang reciprocity: if page X links to page Y, page Y must link back to page X
+  const pagesByCanonical = new Map<string, ResolvedPage>();
+  for (const page of resolvedPages.values())
+    pagesByCanonical.set(page.canonical, page);
+
+  const reciprocityChecked = new Set<string>();
+  for (const [route, page] of resolvedPages) {
+    if (page.alternates.length === 0) continue;
+    for (const alt of page.alternates) {
+      if (alt.hreflang === "x-default") continue;
+      const target = pagesByCanonical.get(alt.href);
+      if (!target || target.route === route) continue;
+
+      const key = [route, target.route].sort().join("|");
+      if (reciprocityChecked.has(key)) continue;
+      reciprocityChecked.add(key);
+
+      const linksBack = target.alternates.some(
+        (alternate) => alternate.href === page.canonical,
+      );
+      if (!linksBack)
+        issues.push({
+          route: `${route}, ${target.route}`,
+          field: "alternates",
+          message:
+            "hreflang reciprocity missing: pages do not link back to each other",
+        });
+    }
   }
 
   for (const [title, routes] of titles)

@@ -20,14 +20,21 @@ sitemap: {
   defaultChangefreq: "weekly",
   defaultPriority: 0.8,
   siteUrl: "https://example.com",
+  maxBytes: 50 * 1024 * 1024,
+  maxNews: 1_000,
+  newsMaxAgeDays: 2,
 }
 ```
 
 - `exclude`: routes to leave out
-- `maxUrls`: URLs per sitemap file. Default `50000`
+- `maxUrls`: URLs per sitemap file. Default `50000`. Anything past that gets dropped
 - `defaultChangefreq`: fallback for pages without one
-- `defaultPriority`: fallback for pages without one
+- `defaultPriority`: fallback for pages without one. I clamp it to `0.0`-`1.0`, cause the protocol is picky
 - `siteUrl`: origin used to enforce a single-host sitemap
+- `maxBytes`: uncompressed size cap in bytes. Default 50 MiB. Go over and the build throws, cause a sitemap Google rejects is not much use
+- `maxNews`: maximum `<news:news>` entries per file. Default `1000`
+- `newsMaxAgeDays`: how old a news article can be. Default `2`; `0` turns the check off
+- `now`: reference time for the freshness check. Defaults to build time; handy only if you want deterministic builds
 
 ## changefreq
 
@@ -40,11 +47,13 @@ pages: {
 }
 ```
 
-## maxUrls and splitting
+## Priority
 
-Past `maxUrls` URLs, the plugin splits into multiple files: `sitemap.xml`, `sitemap-1.xml`, `sitemap-2.xml`, and so on. The index file lists them all and is the only one that you provide to Google Search Console or other search engine tools.
+The protocol says priorities live between `0.0` and `1.0`, so I clamp whatever you pass into that range and drop non-finite values. Pre-build validation also yells about out-of-range page priorities.
 
-The default of 50000 is the [sitemaps.org](https://www.sitemaps.org/protocol.html) recommendation. Most sites should never hit it. Raise it if you have a large site and want fewer files!
+## maxUrls and file size
+
+Past `maxUrls` URLs, extra pages are simply skipped. No automatic `sitemap-1.xml` splitting yet (sorry). The default of 50000 is the [sitemaps.org](https://www.sitemaps.org/protocol.html) recommendation. Most sites should never hit it. Raise it if you have a large site, but keep an eye on the file size: it has to stay under 50 MiB uncompressed. Go over and `buildSitemap()` throws!
 
 ## Image namespace
 
@@ -58,17 +67,15 @@ When a page has `openGraph.image` (or structured `images`), the sitemap entry ge
   <priority>0.9</priority>
   <image:image>
     <image:loc>https://example.com/post.png</image:loc>
-    <image:title>Hello, world</image:title>
-    <image:caption>My first post on this site.</image:caption>
   </image:image>
 </url>
 ```
 
-`image:title` comes from the page title. `image:caption` from the page description
+Only `<image:loc>` these days. Google dropped `image:caption`, `image:title`, `image:geo_location`, and `image:license` back in 2022. Up to 1,000 images per URL, which is more than enough for even the most trigger-happy image poster lollllll.
 
 ## Video namespace
 
-When a page has `openGraph.video`, the sitemap entry gets `<video:video>`:
+When a page has `openGraph.videos`, the sitemap entry gets `<video:video>`:
 
 ```xml
 <url>
@@ -78,16 +85,35 @@ When a page has `openGraph.video`, the sitemap entry gets `<video:video>`:
     <video:title>Trailer</video:title>
     <video:description>Watch the trailer.</video:description>
     <video:content_loc>https://example.com/trailer.mp4</video:content_loc>
-    <video:duration>142</video:duration>
   </video:video>
 </url>
 ```
 
 A `thumbnail` is required for video entries! Pages without one are **automatically** skipped rather than emitting invalid XML.
 
+`title` and `description` on the media entry win, then `alt`, then the page title. Both get chopped at Google's limits (100 and 2048 characters). Got a YouTube/Vimeo embed instead of an actual media file? Pass `playerLoc` and it'll emit `player_loc` instead of `content_loc`:
+
+```ts
+pages: {
+  "/watch/trailer": {
+    openGraph: {
+      videos: [
+        {
+          src: "https://www.youtube.com/watch?v=abc",
+          thumbnail: "https://img.youtube.com/vi/abc/hqdefault.jpg",
+          playerLoc: "https://www.youtube.com/embed/abc",
+          title: "Launch recap",
+          description: "Highlights from the launch stream.",
+        },
+      ],
+    },
+  },
+}
+```
+
 ## News namespace
 
-When a page sets `openGraph.article.publishedTime`, the sitemap entry gets a `<news:news>` block:
+When a page sets `openGraph.article.publishedTime` and `openGraph.siteName`, the sitemap entry gets a `<news:news>` block. Google News wants a publication name, language, title, and publication date, so entries missing those get dropped. Articles older than two days get dropped too (Google's rule, not mine); tune it with `newsMaxAgeDays` if you must.
 
 ```xml
 <url>
@@ -103,9 +129,12 @@ When a page sets `openGraph.article.publishedTime`, the sitemap entry gets a `<n
 </url>
 ```
 
+Only 1,000 news entries make it into a file.
+However, the rest of the URLs still show up, just without the news block.
+
 ## xhtml:link alternates
 
-Pages with hreflang alternates get `<xhtml:link>` entries in their sitemap URL:
+Pages with hreflang alternates get `<xhtml:link>` entries in their sitemap URL, including the page's own alternate when one is missing. Google wants every variant to list itself, which sounds obvious but people keep forgetting (guilty).
 
 ```xml
 <url>
@@ -118,4 +147,4 @@ Pages with hreflang alternates get `<xhtml:link>` entries in their sitemap URL:
 
 ## Single-host enforcement
 
-All sitemap URLs must share the same host as `site.url`. If a page canonical points elsewhere, the entry is skipped. This keeps the sitemap valid. Open an issue/PR if you want to allow cross-host sitemaps.
+All sitemap URLs must share the same host as `site.url`. If a page canonical points elsewhere, the entry is skipped. This keeps the sitemap valid. Calling `buildSitemap()` directly without `siteUrl`? I fall back to the first absolute URL's origin, so cross-origin stragglers still get dropped. Open an issue/PR if you want to allow cross-host sitemaps.

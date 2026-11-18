@@ -34,7 +34,12 @@ describe("normalizeLanguageTag", () => {
 describe("languageTagToOgLocale", () => {
   it("converts a language-region tag to the underscore form", () => {
     expect(languageTagToOgLocale("en-US")).toBe("en_US");
-    expect(languageTagToOgLocale("es-419")).toBe("es_419");
+    expect(languageTagToOgLocale("es-MX")).toBe("es_MX");
+  });
+
+  it("returns undefined for numeric regions", () => {
+    expect(languageTagToOgLocale("es-419")).toBeUndefined();
+    expect(languageTagToOgLocale("es-Latn-419")).toBeUndefined();
   });
 
   it("drops variant subtags and maps common scripts to a territory", () => {
@@ -46,6 +51,11 @@ describe("languageTagToOgLocale", () => {
 
   it("returns undefined when there is no territory (bare languages aren't OG locales)", () => {
     expect(languageTagToOgLocale("fr")).toBeUndefined();
+  });
+
+  it("does not assign a territory from an ambiguous script", () => {
+    expect(languageTagToOgLocale("sr-Cyrl")).toBeUndefined();
+    expect(languageTagToOgLocale("en-Latn")).toBeUndefined();
   });
 
   it("returns undefined for x-default and blank input", () => {

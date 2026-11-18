@@ -104,6 +104,18 @@ describe("resolveSite", () => {
     expect(site.locale).toBe("en_US");
   });
 
+  it("derives an open graph locale from a script-only language", () => {
+    const site = resolveSite({ url: "https://example.com", lang: "zh-Hant" });
+    expect(site.lang).toBe("zh-Hant");
+    expect(site.openGraph.locale).toBe("zh_TW");
+  });
+
+  it("falls back to the default locale for a bare language", () => {
+    const site = resolveSite({ url: "https://example.com", lang: "de" });
+    expect(site.lang).toBe("de");
+    expect(site.openGraph.locale).toBe("en_US");
+  });
+
   it("prefers an explicit open graph locale over the language", () => {
     const site = resolveSite({
       url: "https://example.com",

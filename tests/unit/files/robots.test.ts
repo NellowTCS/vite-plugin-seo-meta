@@ -59,6 +59,11 @@ describe("buildRobots", () => {
     expect(txt).toContain("Disallow: /private/*.html$");
   });
 
+  it("renders an empty pattern without a trailing space", () => {
+    const txt = buildRobots(SITE, { disallow: [""] });
+    expect(txt).toContain("User-agent: *\nDisallow:\n");
+  });
+
   it("emits multiple user-agent lines for a group", () => {
     const txt = buildRobots(SITE, {
       userAgent: ["barbot", "bazbot"],
@@ -269,6 +274,16 @@ describe("mergeRobots", () => {
       merged.indexOf("Disallow: /shared"),
     );
     expect(merged).toContain("User-agent: a\nUser-agent: b\nDisallow: /shared");
+  });
+
+  it("keeps only the first Crawl-delay value per group", () => {
+    const existing = "User-agent: *\nCrawl-delay: 1\n";
+    const generated = buildRobots(SITE, { crawlDelay: 5 });
+    const merged = mergeRobots(existing, generated);
+
+    expect((merged.match(/Crawl-delay:/gi) ?? []).length).toBe(1);
+    expect(merged).toContain("Crawl-delay: 1");
+    expect(merged).not.toContain("Crawl-delay: 5");
   });
 
   it("keys generated groups by their whole agent set", () => {

@@ -166,6 +166,124 @@ describe("validatePage", () => {
     );
     expect(issues.filter((i) => i.field === "links")).toHaveLength(1);
   });
+
+  it("flags a non-ISO 639-1 language subtag", () => {
+    const issues = validatePage(
+      page("/", {
+        title: "Home",
+        alternates: [{ hreflang: "zho", href: "/zh" }],
+      }),
+    );
+    expect(
+      issues.some(
+        (i) => i.field === "alternates" && i.message.includes("639-1"),
+      ),
+    ).toBe(true);
+  });
+
+  it("flags an unassigned two-letter language subtag", () => {
+    const issues = validatePage(
+      page("/", {
+        title: "Home",
+        alternates: [{ hreflang: "zz", href: "/zz" }],
+      }),
+    );
+    expect(
+      issues.some(
+        (i) => i.field === "alternates" && i.message.includes('"zz"'),
+      ),
+    ).toBe(true);
+  });
+
+  it("flags a numeric region subtag", () => {
+    const issues = validatePage(
+      page("/", {
+        title: "Home",
+        alternates: [{ hreflang: "es-419", href: "/es" }],
+      }),
+    );
+    expect(
+      issues.some(
+        (i) => i.field === "alternates" && i.message.includes("numeric region"),
+      ),
+    ).toBe(true);
+  });
+
+  it("flags an unassigned region subtag", () => {
+    const issues = validatePage(
+      page("/", {
+        title: "Home",
+        alternates: [{ hreflang: "en-XX", href: "/en" }],
+      }),
+    );
+    expect(
+      issues.some(
+        (i) => i.field === "alternates" && i.message.includes('"XX"'),
+      ),
+    ).toBe(true);
+  });
+
+  it("accepts language, region, script and x-default tags", () => {
+    for (const hreflang of [
+      "en",
+      "en-US",
+      "en-GB",
+      "zh-Hant",
+      "zh-Hans-CN",
+      "x-default",
+    ])
+      expect(
+        validatePage(
+          page("/", {
+            title: "Home",
+            lang: "en",
+            alternates: [{ hreflang, href: hreflang === "en" ? "/" : "/x" }],
+          }),
+        ),
+      ).toEqual([]);
+  });
+
+  it("flags alternates without a lang or self-reference", () => {
+    const issues = validatePage(
+      page("/", {
+        title: "Home",
+        alternates: [{ hreflang: "fr", href: "/fr" }],
+      }),
+    );
+    expect(
+      issues.some(
+        (i) =>
+          i.field === "alternates" && i.message.includes("self-referencing"),
+      ),
+    ).toBe(true);
+  });
+
+  it("flags alternates that shadow the page language", () => {
+    const issues = validatePage(
+      page("/", {
+        title: "Home",
+        lang: "en",
+        alternates: [{ hreflang: "en", href: "/other" }],
+      }),
+    );
+    expect(
+      issues.some(
+        (i) =>
+          i.field === "alternates" && i.message.includes("self-referencing"),
+      ),
+    ).toBe(true);
+  });
+
+  it("accepts a manual self-reference when no lang is configured", () => {
+    expect(
+      validatePage(
+        page("/", {
+          title: "Home",
+          alternates: [{ hreflang: "en", href: "/" }],
+        }),
+      ),
+    ).toEqual([]);
+  });
 });
 
 describe("validateOptions", () => {
@@ -222,6 +340,99 @@ describe("validateOptions", () => {
       options({ "/x": { title: "X", noindex: false, sitemap: false } }),
     );
     expect(issues.some((i) => i.field === "sitemap")).toBe(false);
+  });
+
+  it("flags non-reciprocal hreflang alternates", () => {
+    const issues = validateOptions(
+      options({
+        "/a": {
+          title: "A",
+          description: LONG_DESC,
+          lang: "en",
+          alternates: [{ hreflang: "fr", href: "/b" }],
+        },
+        "/b": { title: "B", description: LONG_DESC, lang: "fr" },
+      }),
+    );
+    expect(
+      issues.some(
+        (i) => i.field === "alternates" && i.message.includes("reciprocity"),
+      ),
+    ).toBe(true);
+  });
+
+  it("accepts reciprocal hreflang alternates", () => {
+    const issues = validateOptions(
+      options({
+        "/a": {
+          title: "A",
+          description: LONG_DESC,
+          lang: "en",
+          alternates: [{ hreflang: "fr", href: "/b" }],
+        },
+        "/b": {
+          title: "B",
+          description:
+            "Learn about our company, our team, and what we build every day.",
+          lang: "fr",
+          alternates: [{ hreflang: "en", href: "/a" }],
+        },
+      }),
+    );
+    expect(issues).toEqual([]);
+  });
+
+  it("ignores alternates that point outside the configured pages", () => {
+    const issues = validateOptions(
+      options({
+        "/a": {
+          title: "A",
+          description: LONG_DESC,
+          lang: "en",
+          alternates: [{ hreflang: "fr", href: "https://example.com/fr" }],
+        },
+      }),
+    );
+    expect(issues.some((i) => i.field === "alternates")).toBe(false);
+  });
+
+  it("flags robots user-agents that cannot match a crawler", () => {
+    const opts = options();
+    opts.robotsEnabled = true;
+    opts.robots = { userAgent: "Mozilla/5.0 (compatible; FooBot)" };
+    const issues = validateOptions(opts);
+    expect(issues.some((i) => i.field === "robots.userAgent")).toBe(true);
+  });
+
+  it("accepts RFC 9309 product tokens", () => {
+    const opts = options();
+    opts.robotsEnabled = true;
+    opts.robots = {
+      userAgent: ["*", "Googlebot-News", "GPTBot"],
+      groups: [{ userAgent: "bing_bot" }],
+    };
+    expect(validateOptions(opts)).toEqual([]);
+  });
+
+  it("flags negative crawl delays", () => {
+    const opts = options();
+    opts.robotsEnabled = true;
+    opts.robots = {
+      crawlDelay: -1,
+      groups: [{ userAgent: "Googlebot", crawlDelay: Number.NaN }],
+    };
+    const issues = validateOptions(opts);
+    expect(issues.filter((i) => i.field === "robots.crawlDelay")).toHaveLength(
+      2,
+    );
+  });
+
+  it("skips robots validation when robots are disabled", () => {
+    const opts = options();
+    opts.robots = { userAgent: "not a token" };
+    expect(
+      validateOptions(opts).some((i) => i.field === "robots.userAgent"),
+    ).toBe(false);
   });
 
   it("returns no issues for a clean config", () => {

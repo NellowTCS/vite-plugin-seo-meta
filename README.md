@@ -65,11 +65,11 @@ export default defineSeoConfig({
 - Twitter Cards (summary/summary_large_image/player/app, image dims/alt, label/data pairs, `:site:id`/`:creator:id`)
 - JSON-LD: Organization, WebSite, Article, Product, BreadcrumbList, ImageObject (+ `extra` escape hatch)
 - hreflang alternates per page (with self-referencing alternate)
-- `robots.txt` following le spec at RFC 9309 (groups, `Allow`/`Disallow` with `*`/`$` wildcards, `Crawl-delay`, `Clean-param`, `Host`, `Sitemap`), merged with existing `public/robots.txt`
-- `sitemap.xml` with image/video/news namespaces and `xhtml:link` alternates; single-host enforcement and a URL cap
+- `robots.txt` following le spec at RFC 9309 (groups, `Allow`/`Disallow` with `*`/`$` wildcards, `Sitemap`), plus legacy `Crawl-delay`/`Clean-param`/`Host` extensions, merged with existing `public/robots.txt`
+- `sitemap.xml` with image/video/news namespaces and `xhtml:link` alternates; single-host enforcement, priority/size caps, and a two-day news window
 - Rich favicon and platform icons: `apple-touch-icon`, `apple-touch-icon-precomposed`, `mask-icon`, `apple-mobile-web-app-*`, `msapplication-*`
 - Coexistence detection: warns and defers to `vite-plugin-sitemap`/`vite-plugin-pwa` etc when present (override with `sitemap: true`/`robots: true`), to prevent double-builds and general pain.
-- Pre-build validation: enums, required fields, absolute URLs, length budgets (title 60, description 50-160, Twitter 70/200); `warn` by default, `error` throws
+- Pre-build validation: enums, required fields, absolute URLs, length budgets (title 60, description 50-160, Twitter 70/200), hreflang codes/reciprocity, robots tokens; `warn` by default, `error` throws
 - SPA runtime helper: `applySeo(page: PageMeta)` syncs the `<head>` for the current route on client-side navigation (`import from "vite-plugin-seo-meta/runtime"`); pass the route's own `PageMeta` and it applies it
 - Type-safe with `defineSeoConfig()` and full TypeScript types from the get go!
 
