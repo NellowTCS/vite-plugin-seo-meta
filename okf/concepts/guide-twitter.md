@@ -4,10 +4,10 @@ title: "Twitter Cards"
 description: "How the plugin emits twitter:* tags for summary, player and app cards."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/guide/twitter/"
 path: /guide/twitter/
-updated: 2026-11-08
+updated: 2026-11-18
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-08T00:40:53.613Z"
+  generated_at: "2026-11-18T17:31:47.213Z"
 ---
 ---
 title: "Twitter Cards"
