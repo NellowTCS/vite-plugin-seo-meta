@@ -10,7 +10,7 @@ import type {
   ResolvedOptions,
   ResolvedPage,
 } from "./types";
-import { isAbsoluteUrl } from "./url";
+import { isAbsoluteUrl, isHttpsUrl } from "./url";
 
 /** Rendered titles past this get cut off in search results */
 const TITLE_MAX = 60;
@@ -27,14 +27,17 @@ const TWITTER_TITLE_MAX = 70;
 /** Twitter Card description cap (~~X~~ Twitter truncates past this) */
 const TWITTER_DESCRIPTION_MAX = 200;
 
-/** 
- * Google killed the hard Article headline limit (another kill? a "good" one?), 
+/**
+ * Google killed the hard Article headline limit (another kill? a "good" one?),
  * but long ones still get truncated in search
  */
 const ARTICLE_HEADLINE_MAX = 110;
 
 /** SearchAction needs this so the query can be substituted */
 const SEARCH_TERM_PLACEHOLDER = "{search_term_string}";
+
+/** Open Graph requires `og:locale` as language_TERRITORY */
+const OG_LOCALE = /^[a-z]{2}_[A-Z]{2}$/;
 
 /** Allowed `<meta name="robots">` directives */
 const VALID_ROBOTS_DIRECTIVES = new Set([
@@ -188,10 +191,12 @@ function validateRobotsDirectives(
   add: (field: string, message: string) => void,
 ): void {
   if (!content) return;
+  const keys = new Set<string>();
   for (const directive of content.split(",")) {
     const trimmed = directive.trim();
     const key = trimmed.split(":")[0]?.trim().toLowerCase() ?? "";
     if (!key) continue;
+    keys.add(key);
     if (VALID_ROBOTS_DIRECTIVES.has(key)) continue;
     const value = trimmed.includes(":")
       ? (trimmed.slice(trimmed.indexOf(":") + 1) ?? "")
@@ -215,6 +220,10 @@ function validateRobotsDirectives(
       add("robots", `robots directive "${trimmed}" is not recognized`);
     }
   }
+  if (keys.has("none") && keys.has("all"))
+    add("robots", `robots has both "none" and "all"; dropping "all"`);
+  if (keys.has("indexifembedded") && !keys.has("noindex") && !keys.has("none"))
+    add("robots", "indexifembedded has no effect without noindex or none");
 }
 
 /** Validates site-wide JSON-LD config */
@@ -327,6 +336,55 @@ export function validatePage(page: ResolvedPage): ValidationIssue[] {
       `og:url is not an absolute URL: "${page.openGraph.url}"`,
     );
 
+  // og:image has no default
+  if (!page.openGraph.image && !(page.openGraph.images?.length ?? 0))
+    add("openGraph.image", "og:image is missing but Open Graph requires it");
+
+  const ogLocale = page.openGraph.locale;
+  if (ogLocale && !OG_LOCALE.test(ogLocale))
+    add(
+      "openGraph.locale",
+      `og:locale "${ogLocale}" must use language_TERRITORY format, like en_US`,
+    );
+  for (const locale of page.openGraph.localeAlternate ?? [])
+    if (!OG_LOCALE.test(locale))
+      add(
+        "openGraph.localeAlternate",
+        `og:locale:alternate "${locale}" must use language_TERRITORY format, like en_US`,
+      );
+
+  for (const key of [
+    "publishedTime",
+    "modifiedTime",
+    "expirationTime",
+  ] as const) {
+    const value = page.openGraph.article?.[key];
+    if (value && !isDateValue(value))
+      add(
+        `openGraph.article.${key}`,
+        `${key} "${value}" is not a parseable date. Open Graph expects ISO 8601`,
+      );
+  }
+
+  const musicDuration = page.openGraph.music?.duration;
+  if (
+    musicDuration !== undefined &&
+    (!Number.isInteger(musicDuration) || musicDuration < 1)
+  )
+    add(
+      "openGraph.music.duration",
+      `music:duration ${musicDuration} must be an integer >= 1`,
+    );
+  const videoDuration = page.openGraph.video?.duration;
+  if (
+    videoDuration !== undefined &&
+    (!Number.isInteger(videoDuration) || videoDuration < 1)
+  )
+    add(
+      "openGraph.video.duration",
+      `video:duration ${videoDuration} must be an integer >= 1`,
+    );
+
   const twitter = page.twitter;
   if (twitter.card && !VALID_TWITTER_CARDS.has(twitter.card))
     add(
@@ -346,16 +404,31 @@ export function validatePage(page: ResolvedPage): ValidationIssue[] {
       "twitter.description",
       `twitter description is ${twitter.description.length} characters, over the recommended ${TWITTER_DESCRIPTION_MAX}`,
     );
-  if (twitter.image && !isAbsoluteUrl(twitter.image))
-    add(
-      "twitter.image",
-      `twitter:image is not an absolute URL: "${twitter.image}"`,
-    );
-  if (twitter.player?.url && !isAbsoluteUrl(twitter.player.url))
-    add(
-      "twitter.player.url",
-      `twitter:player is not an absolute URL: "${twitter.player.url}"`,
-    );
+  // Twitter Cards need HTTPS for the card image and player iframe and not HTTP
+  if (twitter.image) {
+    if (!isAbsoluteUrl(twitter.image))
+      add(
+        "twitter.image",
+        `twitter:image is not an absolute URL: "${twitter.image}"`,
+      );
+    else if (!isHttpsUrl(twitter.image))
+      add(
+        "twitter.image",
+        `twitter:image has to use HTTPS: "${twitter.image}"`,
+      );
+  }
+  if (twitter.player?.url) {
+    if (!isAbsoluteUrl(twitter.player.url))
+      add(
+        "twitter.player.url",
+        `twitter:player is not an absolute URL: "${twitter.player.url}"`,
+      );
+    else if (!isHttpsUrl(twitter.player.url))
+      add(
+        "twitter.player.url",
+        `twitter:player has to use HTTPS: "${twitter.player.url}"`,
+      );
+  }
 
   // Validate hreflang codes
   for (const alternate of page.alternates) {

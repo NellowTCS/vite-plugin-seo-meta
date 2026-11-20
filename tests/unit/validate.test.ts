@@ -4,7 +4,11 @@ import { resolvePage } from "../../src/head/merge";
 import { validatePage, validateOptions } from "../../src/validate";
 import type { ResolvedOptions, SiteConfig } from "../../src/types";
 
-const BASE_SITE: SiteConfig = { url: "https://example.com", name: "Example" };
+const BASE_SITE: SiteConfig = {
+  url: "https://example.com",
+  name: "Example",
+  image: "https://example.com/og.png",
+};
 const LONG_DESC =
   "Welcome home to our example site, where you can learn more about who we are.";
 
@@ -70,6 +74,94 @@ describe("validatePage", () => {
     expect(issues.some((i) => i.field === "description")).toBe(true);
   });
 
+  it("flags a missing og:image", () => {
+    const resolved = page("/", { title: "Home" });
+    const issues = validatePage({
+      ...resolved,
+      openGraph: { ...resolved.openGraph, image: undefined, images: [] },
+    });
+    expect(
+      issues.some(
+        (i) => i.field === "openGraph.image" && i.message.includes("og:image"),
+      ),
+    ).toBe(true);
+  });
+
+  it("accepts structured og:images in place of a scalar image", () => {
+    const issues = validatePage(
+      page("/", {
+        title: "Home",
+        openGraph: {
+          images: [{ src: "https://example.com/a.jpg" }],
+        },
+      }),
+    );
+    expect(issues.some((i) => i.field === "openGraph.image")).toBe(false);
+  });
+
+  it("flags a locale that is not language_TERRITORY", () => {
+    const resolved = page("/", { title: "Home" });
+    const issues = validatePage({
+      ...resolved,
+      openGraph: { ...resolved.openGraph, locale: "en" },
+    });
+    expect(issues.some((i) => i.field === "openGraph.locale")).toBe(true);
+  });
+
+  it("flags a malformed og:locale:alternate", () => {
+    const resolved = page("/", { title: "Home" });
+    const issues = validatePage({
+      ...resolved,
+      openGraph: {
+        ...resolved.openGraph,
+        localeAlternate: ["de_DE", "nope"],
+      },
+    });
+    expect(
+      issues.some(
+        (i) =>
+          i.field === "openGraph.localeAlternate" && i.message.includes("nope"),
+      ),
+    ).toBe(true);
+  });
+
+  it("flags an unparseable article date string", () => {
+    const issues = validatePage(
+      page("/", {
+        title: "Home",
+        openGraph: { article: { publishedTime: "last tuesday" } },
+      }),
+    );
+    expect(
+      issues.some((i) => i.field === "openGraph.article.publishedTime"),
+    ).toBe(true);
+  });
+
+  it("accepts an ISO article date string", () => {
+    expect(
+      validatePage(
+        page("/", {
+          title: "Home",
+          openGraph: { article: { publishedTime: "2024-01-15T00:00:00.000Z" } },
+        }),
+      ),
+    ).toEqual([]);
+  });
+
+  it.each([
+    {
+      openGraph: { music: { duration: 0 } },
+      field: "openGraph.music.duration",
+    },
+    {
+      openGraph: { video: { duration: -1 } },
+      field: "openGraph.video.duration",
+    },
+  ])("flags an out-of-range duration", ({ openGraph, field }) => {
+    const issues = validatePage(page("/", { title: "Home", openGraph }));
+    expect(issues.some((i) => i.field === field)).toBe(true);
+  });
+
   it("flags an out-of-range priority", () => {
     expect(
       validatePage(page("/", { title: "Home", priority: 2 })).some(
@@ -132,6 +224,75 @@ describe("validatePage", () => {
     expect(issues.some((i) => i.field === "twitter.description")).toBe(true);
   });
 
+  it("flags a non-HTTPS twitter image", () => {
+    const issues = validatePage(
+      page("/", {
+        title: "Home",
+        twitter: { image: "http://example.com/img.png" },
+      }),
+    );
+    expect(issues.some((i) => i.field === "twitter.image")).toBe(true);
+  });
+
+  it("accepts an HTTPS twitter image", () => {
+    expect(
+      validatePage(
+        page("/", {
+          title: "Home",
+          twitter: { image: "https://example.com/img.png" },
+        }),
+      ),
+    ).toEqual([]);
+  });
+
+  it("flags a non-HTTPS twitter player URL", () => {
+    const issues = validatePage(
+      page("/", {
+        title: "Home",
+        twitter: {
+          player: {
+            url: "http://example.com/player",
+            width: 480,
+            height: 480,
+          },
+        },
+      }),
+    );
+    expect(issues.some((i) => i.field === "twitter.player.url")).toBe(true);
+  });
+
+  it("accepts an HTTPS twitter player URL", () => {
+    expect(
+      validatePage(
+        page("/", {
+          title: "Home",
+          twitter: {
+            player: {
+              url: "https://example.com/player",
+              width: 480,
+              height: 480,
+            },
+          },
+        }),
+      ),
+    ).toEqual([]);
+  });
+
+  it("keeps the absolute-URL error for a relative twitter image", () => {
+    const resolved = page("/", { title: "Home" });
+    const issues = validatePage({
+      ...resolved,
+      twitter: { ...resolved.twitter, image: "/img.png" },
+    });
+    expect(
+      issues.some(
+        (i) =>
+          i.field === "twitter.image" &&
+          i.message.includes("not an absolute URL"),
+      ),
+    ).toBe(true);
+  });
+
   it("flags an unrecognized robots directive", () => {
     const issues = validatePage(
       page("/", { title: "Home", robots: "nope, noindex" }),
@@ -148,6 +309,142 @@ describe("validatePage", () => {
         }),
       ),
     ).toEqual([]);
+  });
+
+  it("accepts the default index and follow directives", () => {
+    expect(
+      validatePage(page("/", { title: "Home", robots: "index, follow" })),
+    ).toEqual([]);
+  });
+
+  it("flags an unknown max-* directive", () => {
+    const issues = validatePage(
+      page("/", { title: "Home", robots: "max-banana: 5" }),
+    );
+    expect(
+      issues.some(
+        (i) =>
+          i.field === "robots" &&
+          i.message.includes('max-banana: 5" is not recognized'),
+      ),
+    ).toBe(true);
+  });
+
+  it.each(["max-snippet:banana", "max-video-preview:soon"])(
+    "flags %s without a parseable number",
+    (directive) => {
+      const issues = validatePage(
+        page("/", { title: "Home", robots: directive }),
+      );
+      expect(
+        issues.some(
+          (i) => i.field === "robots" && i.message.includes("parseable number"),
+        ),
+      ).toBe(true);
+    },
+  );
+
+  it("flags an unsupported max-image-preview value", () => {
+    const issues = validatePage(
+      page("/", { title: "Home", robots: "max-image-preview:banana" }),
+    );
+    expect(
+      issues.some(
+        (i) => i.field === "robots" && i.message.includes("max-image-preview"),
+      ),
+    ).toBe(true);
+  });
+
+  it("accepts a valid max-image-preview value", () => {
+    expect(
+      validatePage(
+        page("/", { title: "Home", robots: "max-image-preview:LARGE" }),
+      ),
+    ).toEqual([]);
+  });
+
+  it("flags an unavailable_after value with no parseable date", () => {
+    const issues = validatePage(
+      page("/", { title: "Home", robots: "unavailable_after: whenever" }),
+    );
+    expect(
+      issues.some(
+        (i) => i.field === "robots" && i.message.includes("parseable date"),
+      ),
+    ).toBe(true);
+  });
+
+  it("accepts structured unavailable_after dates", () => {
+    expect(
+      validatePage(
+        page("/", {
+          title: "Home",
+          robots: { unavailableAfter: new Date("2027-01-01T00:00:00.000Z") },
+        }),
+      ),
+    ).toEqual([]);
+  });
+
+  it("validates per-user-agent robots content", () => {
+    const issues = validatePage(
+      page("/", {
+        title: "Home",
+        robotsByUserAgent: { googlebot: "definitely-not-a-directive" },
+      }),
+    );
+    expect(
+      issues.some(
+        (i) =>
+          i.field === "robots:googlebot" &&
+          i.message.includes("not recognized"),
+      ),
+    ).toBe(true);
+  });
+
+  it("accepts valid per-user-agent robots content", () => {
+    expect(
+      validatePage(
+        page("/", {
+          title: "Home",
+          robotsByUserAgent: { googlebot: "noindex, max-snippet:50" },
+        }),
+      ),
+    ).toEqual([]);
+  });
+
+  it("flags indexifembedded without noindex", () => {
+    const issues = validatePage(
+      page("/", { title: "Home", robots: "indexifembedded" }),
+    );
+    expect(
+      issues.some(
+        (i) => i.field === "robots" && i.message.includes("indexifembedded"),
+      ),
+    ).toBe(true);
+  });
+
+  it("accepts indexifembedded with noindex", () => {
+    expect(
+      validatePage(
+        page("/", { title: "Home", robots: "noindex, indexifembedded" }),
+      ),
+    ).toEqual([]);
+  });
+
+  it("flags none and all emitted together", () => {
+    for (const robots of ["none, all", { none: true, all: true }]) {
+      const issues = validatePage(page("/", { title: "Home", robots }));
+      expect(
+        issues.some(
+          (i) => i.field === "robots" && i.message.includes('"none" wins'),
+        ),
+      ).toBe(true);
+    }
+  });
+
+  it("accepts redundant but non-conflicting directive combinations", () => {
+    for (const robots of ["none, noindex, nofollow", "all, noindex"])
+      expect(validatePage(page("/", { title: "Home", robots }))).toEqual([]);
   });
 
   it("flags empty custom meta content", () => {

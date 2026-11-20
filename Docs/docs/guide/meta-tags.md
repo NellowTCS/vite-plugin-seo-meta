@@ -58,6 +58,21 @@ pages: { "/private": { robots: "noindex, nofollow" } }
 
 `noindex: true` is shorthand for `robots: "noindex"`. It also (obviously)excludes the page from `sitemap.xml`.
 
+You can target one singular individual crawler with `robotsByUserAgent`:
+
+```ts
+pages: { "/private": { robotsByUserAgent: { googlebot: "noindex" } } }
+```
+
+Validation checks the directive names in both `robots` and `robotsByUserAgent`.
+
+- `index` and `follow` are accepted (they're the defaults, just redundant :P)
+- `max-snippet` and `max-video-preview` need a parseable number
+- `max-image-preview` takes `none`, `standard` or `large`
+- `unavailable_after` needs a parseable date, cause Google ignores the rule otherwise and the page never expires, which is bad for everyone in my opinion.
+
+It also flags `indexifembedded` without `noindex` (does nothing on its own) and `none` together with `all` (just confusing; `none` beats the other one anyway).
+
 ## noindex and crawling
 
 A page with `noindex: true` tells crawlers not to index it, but by default it does not add a `Disallow` rule to `robots.txt`. Crawlers can still reach the page to see the `noindex` directive. This is done because some crawlers (like Googlebot) still index pages... even if they're marked `noindex`, cause Google just do be like that sometimes.

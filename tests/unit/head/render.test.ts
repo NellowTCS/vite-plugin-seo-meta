@@ -424,6 +424,25 @@ describe("alternates and locale", () => {
     );
     expect(alternates.map((tag) => tag.attrs.content)).toEqual(["it_IT"]);
   });
+
+  it("normalizes hyphenated explicit locales to language_TERRITORY", () => {
+    const { tags } = renderSite({
+      title: "Home",
+      openGraph: {
+        locale: "fr-FR",
+        localeAlternate: ["en-GB", "pt_BR"],
+      },
+    });
+
+    expect(find(tags, "meta:og:locale")?.attrs.content).toBe("fr_FR");
+    const alternates = tags.filter(
+      (tag) => tag.attrs.property === "og:locale:alternate",
+    );
+    expect(alternates.map((tag) => tag.attrs.content)).toEqual([
+      "en_GB",
+      "pt_BR",
+    ]);
+  });
 });
 
 describe("json-ld", () => {

@@ -1,13 +1,22 @@
 /** URL helpers */
 
-/** Returns true when `value` is an absolute `http(s)` URL */
-export function isAbsoluteUrl(value: string): boolean {
+/** True when `value` is an absolute URL */
+function hasScheme(value: string, schemes: string[]): boolean {
   try {
-    const url = new URL(value);
-    return url.protocol === "http:" || url.protocol === "https:";
+    return schemes.includes(new URL(value).protocol);
   } catch {
     return false;
   }
+}
+
+/** Returns true when `value` is an absolute `http(s)` URL */
+export function isAbsoluteUrl(value: string): boolean {
+  return hasScheme(value, ["http:", "https:"]);
+}
+
+/** Returns true when `value` is an absolute HTTPS URL */
+export function isHttpsUrl(value: string): boolean {
+  return hasScheme(value, ["https:"]);
 }
 
 /**

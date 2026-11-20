@@ -60,10 +60,24 @@ Canonicals, `og:url`, `twitter:image` and `twitter:player` URLs **must be absolu
 - A page with alternates must include a self-referencing alternate. The plugin adds one from `lang`; when no `lang` is configured, or another alternate already uses that tag, add it manually.
 - When one configured page links to another, the target must link back. Non-reciprocal pairs are flagged because Google ignores hreflang annotations that do not point to each other.
 
+### Open Graph
+
+- `og:image` is required by Open Graph but has no default. A page with no image gets flagged, so set `site.image` or `openGraph.image`
+- `og:locale` and `og:locale:alternate` must be `language_TERRITORY` (`en_US`). Hyphenated input is converted automatically and values that can't be converted are flagged
+- `article.publishedTime`, `modifiedTime` and `expirationTime` must parse as dates, since Open Graph expects ISO 8601
+- `music.duration` and `video.duration` must be integers of at least 1
+
 ### robots.txt
 
 - `robots.userAgent` values must be RFC 9309 product tokens: `*`, or letters, `_`, and `-`. Values with spaces, punctuation, or digits are flagged because they cannot match a crawler.
 - `robots.crawlDelay` must be a non-negative number of seconds.
+
+### robots meta
+
+- Directive names in both `robots` and `robotsByUserAgent` are checked against Google's current list. `index` and `follow` are technicallyyy valid defaults, so they're accepted even though they're redundant.
+- `max-snippet` and `max-video-preview` need a parseeable number, `max-image-preview` must be `none`, `standard` or `large`, and `unavailable_after` needs a parseable date. Google ignores rules with bad values, so an invalid value can undo what you meant.
+- `indexifembedded` without `noindex` (or `none`) does nothing, so it gets flagged.
+- `none` with `all` gets flagged too. Google applies the more restrictive rule, so `none` wins, but emitting both is just confusing and silly.
 
 ## How to fix
 

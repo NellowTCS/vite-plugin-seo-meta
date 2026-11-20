@@ -35,6 +35,15 @@ function toIsoDate(value: string | Date | undefined): string | undefined {
   return trimmed.length > 0 ? trimmed : undefined;
 }
 
+/** 
+ * Converts explicit OG locales to `language_TERRITORY`
+ * keeps unconvertible values
+ */
+function normalizeOgLocale(value: string | undefined): string | undefined {
+  if (!value?.trim()) return undefined;
+  return languageTagToOgLocale(value) ?? value.trim();
+}
+
 /** Trims a `string | string[]` into a non-empty list */
 function stringList(
   value: string | string[] | undefined,
@@ -251,12 +260,18 @@ export function resolveOpenGraph(
   const openGraph = page.openGraph;
   const merged: OpenGraphInfo = { ...site.openGraph, ...openGraph };
   const locale =
-    openGraph?.locale ?? languageTagToOgLocale(lang) ?? site.openGraph.locale;
+    normalizeOgLocale(openGraph?.locale) ??
+    languageTagToOgLocale(lang) ??
+    normalizeOgLocale(site.openGraph.locale);
   const localeAlternate = [
     ...new Set(
-      openGraph?.localeAlternate ??
+      (
+        openGraph?.localeAlternate ??
         site.openGraph.localeAlternate ??
-        deriveLocaleAlternates(alternates, locale ?? ""),
+        deriveLocaleAlternates(alternates, locale ?? "")
+      )
+        .map((entry) => normalizeOgLocale(entry))
+        .filter((entry): entry is string => entry !== undefined),
     ),
   ];
   // fallback mixes page and site values

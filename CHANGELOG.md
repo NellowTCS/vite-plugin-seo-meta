@@ -21,6 +21,11 @@ All notable changes to this project are documented here. The format follows
 - Organization authors and publishers for Article JSON-LD via `"@type": "Organization"`
 - `ratingCount` for Product `aggregateRating`
 - JSON-LD tests for unparseable dates, missing rating counts, long headlines and `searchUrl` templates
+- HTTPS validation for Twitter card images and player URLs as they require it to render properly
+- Validation for robots meta directives in `robots` and `robotsByUserAgent`
+- Warning when `indexifembedded` is set without `noindex`, or when `none` and `all` are both emitted as this is bad practice :P
+- Warning for a missing `og:image`, unparseable Open Graph article dates or out-of-range music/video durations
+- Validation for borked `og:locale` and `og:locale:alternate` values
 
 ### Changed
 
@@ -34,3 +39,5 @@ All notable changes to this project are documented here. The format follows
 - News entries without a publication name, title, or valid date are dropped instead of emitting invalid XML
 - Article JSON-LD dates are normalized to ISO 8601; and unparseable values are dropped instead of emitting
 - Make JSON-LD docs accurate
+- Explicit Open Graph locales are normalized to `language_TERRITORY` before emission
+- Corrected the documented `og:determiner` values

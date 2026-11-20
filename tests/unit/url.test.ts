@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   isAbsoluteUrl,
+  isHttpsUrl,
   normalizeRoute,
   normalizeSiteUrl,
   routeFromHtmlFile,
@@ -17,6 +18,20 @@ describe("isAbsoluteUrl", () => {
     expect(isAbsoluteUrl("/a")).toBe(false);
     expect(isAbsoluteUrl("example.com")).toBe(false);
     expect(isAbsoluteUrl("mailto:a@b.com")).toBe(false);
+  });
+});
+
+describe("isHttpsUrl", () => {
+  it("accepts https URLs", () => {
+    expect(isHttpsUrl("https://example.com")).toBe(true);
+    expect(isHttpsUrl("https://example.com/a?b=c")).toBe(true);
+  });
+
+  it("rejects http and everything else", () => {
+    expect(isHttpsUrl("http://example.com")).toBe(false);
+    expect(isHttpsUrl("//example.com/a")).toBe(false);
+    expect(isHttpsUrl("/a")).toBe(false);
+    expect(isHttpsUrl("not a url")).toBe(false);
   });
 });
 
