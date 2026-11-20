@@ -93,6 +93,18 @@ describe("resolveSite", () => {
     });
   });
 
+  it("keeps an explicit mask-icon color and the msapplication-config none value", () => {
+    const site = resolveSite({
+      url: "https://example.com",
+      favicon: {
+        maskIconColor: "#123456",
+        msapplication: { config: "NONE" },
+      },
+    });
+    expect(site.favicon.maskIconColor).toBe("#123456");
+    expect(site.favicon.msapplication?.config).toBe("none");
+  });
+
   it("throws when the url is missing or invalid", () => {
     expect(() => resolveSite({ url: "nope" })).toThrow();
   });

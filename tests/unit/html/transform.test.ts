@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { linkKey } from "../../../src/html/key";
 import { injectHeadTags } from "../../../src/html/transform";
 import type { HeadTag } from "../../../src/types";
 import { countOccurrences } from "../../helpers/html";
@@ -28,6 +29,26 @@ describe("injectHeadTags", () => {
     expect(output).not.toContain("old");
     expect(countOccurrences(output, "<title")).toBe(1);
     expect(countOccurrences(output, 'name="description"')).toBe(1);
+  });
+
+  it("keeps icon links that differ only by type/kind", () => {
+    const icons: HeadTag[] = [
+      {
+        tag: "link",
+        attrs: { rel: "icon", href: "/icon.svg", type: "image/svg+xml" },
+        key: linkKey("icon", undefined, undefined, "image/svg+xml"),
+      },
+      {
+        tag: "link",
+        attrs: { rel: "icon", href: "/icon.png", type: "image/png" },
+        key: linkKey("icon", undefined, undefined, "image/png"),
+      },
+    ];
+
+    const output = injectHeadTags(HTML, icons);
+    expect(output).toContain('type="image/svg+xml"');
+    expect(output).toContain('type="image/png"');
+    expect(injectHeadTags(output, icons)).toBe(output);
   });
 
   it("leaves unmanaged head elements alone", () => {

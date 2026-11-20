@@ -112,8 +112,22 @@ site: {
 }
 ```
 
-- `maskIconColor` defaults to `#000000`
-- `mobileWebApp` covers `apple-mobile-web-app-title`, `apple-mobile-web-app-capable` and `apple-mobile-web-app-status-bar-style`
-- `msapplication` covers `msapplication-TileColor`, `msapplication-TileImage` and `msapplication-config`
+- `maskIconColor` is the pinned-tab (Safari) display color. It falls back to an unscoped `themeColor` (media-scoped ones don't count sadly), then `#000000`
+- `mobileWebApp` covers `apple-mobile-web-app-title`, `apple-mobile-web-app-capable` and `apple-mobile-web-app-status-bar-style` (`default`, `black` or `black-translucent`)
+- `msapplication` covers `msapplication-TileColor`, `msapplication-TileImage` and `msapplication-config`. The last one is a `<meta name>` tag, as IE11 (yes IE11 in the big 2026, wilted rose emoji) expects; set it to `"none"` to turn it off
+
+The `favicon` config takes one href per icon type. For multiple sizes or formats (like a SVG plus an ICO favicon), use `page.links`:
+
+```ts
+pages: {
+  "/": {
+    links: [
+      { rel: "icon", href: "/icon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/icon.ico", type: "image/x-icon" },
+      { rel: "apple-touch-icon", href: "/icon-180.png", sizes: "180x180" },
+    ],
+  },
+}
+```
 
 I plan to eventually fold this into the main seo block and automatically fill in the various fields and manifest and browserconfig files from the existing data, and also generate all icons from a single source image. For now, you have to provide all of these manually.

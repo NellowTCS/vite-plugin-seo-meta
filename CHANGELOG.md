@@ -26,6 +26,8 @@ All notable changes to this project are documented here. The format follows
 - Warning when `indexifembedded` is set without `noindex`, or when `none` and `all` are both emitted as this is bad practice :P
 - Warning for a missing `og:image`, unparseable Open Graph article dates or out-of-range music/video durations
 - Validation for borked `og:locale` and `og:locale:alternate` values
+- `maskIconColor` for Safari pinned tabs, with a `themeColor` as the fallbck
+- `page.links` icon sets with different `type`, `media` or `sizes` values now get separate dedupe keys to fix a few bugs
 
 ### Changed
 
@@ -41,3 +43,6 @@ All notable changes to this project are documented here. The format follows
 - Make JSON-LD docs accurate
 - Explicit Open Graph locales are normalized to `language_TERRITORY` before emission
 - Corrected the documented `og:determiner` values
+- `msapplication-config` emits the `<meta name>` form IE11 reads; `"none"` disables it instead of being absolutized
+- Dropped the undocumented `transparent` status bar style (i swear this was a thing somewhere, but i can't find it now, what the huh past me, where did you see that? :P)
+- Favicon docs now cover multi-size/multi-format icons through `page.links`

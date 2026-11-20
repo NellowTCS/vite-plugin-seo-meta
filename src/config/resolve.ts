@@ -69,13 +69,19 @@ function resolveFavicon(
     ),
     manifest: absolutize(favicon.manifest, siteUrl),
     maskIcon: absolutize(favicon.maskIcon, siteUrl),
+    maskIconColor: favicon.maskIconColor,
     themeColor: normalizeThemeColors(favicon.themeColor),
     mobileWebApp: favicon.mobileWebApp,
     msapplication: favicon.msapplication
       ? {
           tileColor: favicon.msapplication.tileColor,
           tileImage: absolutize(favicon.msapplication.tileImage, siteUrl),
-          config: absolutize(favicon.msapplication.config, siteUrl),
+          // Microsoft uses the literal "none" to stop using browserconfig.xml...
+          // interesting approach, but it works
+          config:
+            favicon.msapplication.config?.trim().toLowerCase() === "none"
+              ? "none"
+              : absolutize(favicon.msapplication.config, siteUrl),
         }
       : undefined,
   };

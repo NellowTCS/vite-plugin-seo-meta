@@ -19,7 +19,7 @@ function linkTag(
   return {
     tag: "link",
     attrs: { rel, href, ...extra },
-    key: linkKey(rel, undefined, sizes),
+    key: linkKey(rel, undefined, sizes, extra.type, extra.media),
   };
 }
 
@@ -54,12 +54,15 @@ export function faviconTags(site: ResolvedSite): HeadTag[] {
   if (favicon.manifest) tags.push(linkTag("manifest", favicon.manifest));
 
   if (favicon.maskIcon) {
-    // Safari needs a color for pinned-tab mask icons; themeColor is the closest thing we have
+    // Safari needs a color for pinned-tab mask icons; use an unscoped themeColor entry if available,
+    // otherwise use the default color
     // TODO: maybe we should allow a separate mask-icon color in the config? (i don't want to, but maybe we should)
-    const [maskColor] = normalizeThemeColors(favicon.themeColor);
+    const themeColor = normalizeThemeColors(favicon.themeColor).find(
+      (entry) => !entry.media,
+    );
     tags.push(
       linkTag("mask-icon", favicon.maskIcon, undefined, {
-        color: maskColor?.color ?? "#000000",
+        color: favicon.maskIconColor?.trim() || themeColor?.color || "#000000",
       }),
     );
   }
@@ -86,7 +89,9 @@ export function faviconTags(site: ResolvedSite): HeadTag[] {
       tags.push(metaTag("msapplication-TileColor", ms.tileColor));
     if (ms.tileImage)
       tags.push(metaTag("msapplication-TileImage", ms.tileImage));
-    if (ms.config) tags.push(linkTag("msapplication-config", ms.config));
+    // IE11 looks for the meta form, not a link relation
+    // (Yes IE11, I see you over there, still existing in 2026. I see you. I hate you. /slh)
+    if (ms.config) tags.push(metaTag("msapplication-config", ms.config));
   }
 
   return tags;

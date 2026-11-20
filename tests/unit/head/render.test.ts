@@ -280,9 +280,23 @@ describe("social tags", () => {
     expect(find(tags, "meta:msapplication-tileimage")?.attrs.content).toBe(
       "https://example.com/tile.png",
     );
-    expect(find(tags, "link:msapplication-config")?.attrs.href).toBe(
+    expect(find(tags, "meta:msapplication-config")?.attrs.content).toBe(
       "https://example.com/browserconfig.xml",
     );
+  });
+
+  it("keeps msapplication-config none as a meta tag", () => {
+    const { tags } = renderSite(
+      { title: "Home" },
+      {
+        ...BASE_SITE,
+        favicon: { msapplication: { config: "none" } },
+      },
+    );
+    expect(find(tags, "meta:msapplication-config")?.attrs.content).toBe("none");
+    expect(
+      tags.some((tag) => tag.key.startsWith("link:msapplication-config")),
+    ).toBe(false);
   });
 
   it("defaults the mask-icon color when no theme color is set", () => {
@@ -291,6 +305,50 @@ describe("social tags", () => {
       { ...BASE_SITE, favicon: { maskIcon: "/mask.svg" } },
     );
     expect(find(tags, "link:mask-icon")?.attrs.color).toBe("#000000");
+  });
+
+  it("uses an explicit mask-icon color over themeColor", () => {
+    const { tags } = renderSite(
+      { title: "Home" },
+      {
+        ...BASE_SITE,
+        favicon: {
+          maskIcon: "/mask.svg",
+          maskIconColor: "#123456",
+          themeColor: "#ff0000",
+        },
+      },
+    );
+    expect(find(tags, "link:mask-icon")?.attrs.color).toBe("#123456");
+  });
+
+  it("does not borrow a media-scoped themeColor for the mask icon", () => {
+    const { tags } = renderSite(
+      { title: "Home" },
+      {
+        ...BASE_SITE,
+        favicon: {
+          maskIcon: "/mask.svg",
+          themeColor: [
+            { color: "#000000", media: "(prefers-color-scheme: dark)" },
+          ],
+        },
+      },
+    );
+    expect(find(tags, "link:mask-icon")?.attrs.color).toBe("#000000");
+  });
+
+  it("keeps icon links with different types", () => {
+    const { tags } = renderSite({
+      title: "Home",
+      links: [
+        { rel: "icon", href: "/icon.svg", type: "image/svg+xml" },
+        { rel: "icon", href: "/icon.png", type: "image/png" },
+      ],
+    });
+    const icons = tags.filter((tag) => tag.attrs.rel === "icon");
+    expect(icons).toHaveLength(2);
+    expect(new Set(icons.map((tag) => tag.key)).size).toBe(2);
   });
 
   it("renders one theme-color tag per media query", () => {

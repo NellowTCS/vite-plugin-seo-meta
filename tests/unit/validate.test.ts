@@ -436,7 +436,7 @@ describe("validatePage", () => {
       const issues = validatePage(page("/", { title: "Home", robots }));
       expect(
         issues.some(
-          (i) => i.field === "robots" && i.message.includes('"none" wins'),
+          (i) => i.field === "robots" && i.message.includes('dropping "all"'),
         ),
       ).toBe(true);
     }

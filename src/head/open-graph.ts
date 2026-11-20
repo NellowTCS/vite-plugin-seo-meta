@@ -35,7 +35,7 @@ function toIsoDate(value: string | Date | undefined): string | undefined {
   return trimmed.length > 0 ? trimmed : undefined;
 }
 
-/** 
+/**
  * Converts explicit OG locales to `language_TERRITORY`
  * keeps unconvertible values
  */

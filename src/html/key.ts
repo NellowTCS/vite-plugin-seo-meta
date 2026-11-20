@@ -16,8 +16,10 @@ export function linkKey(
   rel: string,
   hreflang?: string,
   sizes?: string,
+  type?: string,
+  media?: string,
 ): string {
-  return `link:${rel.toLowerCase()}${hreflang ? `:${hreflang}` : ""}${sizes ? `:${sizes}` : ""}`;
+  return `link:${rel.toLowerCase()}${hreflang ? `:${hreflang}` : ""}${sizes ? `:${sizes}` : ""}${type ? `:type=${type.toLowerCase()}` : ""}${media ? `:media=${media}` : ""}`;
 }
 
 /**
@@ -42,7 +44,13 @@ export function headElementKey(
   if (tag === "link") {
     const rel = get("rel");
     if (!rel) return undefined;
-    return linkKey(rel, get("hreflang"), get("sizes"));
+    return linkKey(
+      rel,
+      get("hreflang"),
+      get("sizes"),
+      get("type"),
+      get("media"),
+    );
   }
   if (tag === "script" && get("type") === "application/ld+json")
     return "script:jsonld";

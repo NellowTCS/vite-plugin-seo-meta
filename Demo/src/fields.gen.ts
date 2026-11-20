@@ -217,7 +217,7 @@ const f_MobileWebAppConfig = {
     control: "select?",
     id: "statusBarStyle",
     label: "Status Bar Style",
-    options: ["default", "black", "black-translucent", "transparent"],
+    options: ["default", "black", "black-translucent"],
     hint: '`<meta name="apple-mobile-web-app-status-bar-style">`',
   },
 } satisfies Cover<MobileWebAppConfig>;
@@ -239,7 +239,7 @@ const f_MsTileConfig = {
     control: "text",
     id: "config",
     label: "Config",
-    hint: '`<link rel="msapplication-config">` pointing at a `browserconfig.xml`',
+    hint: '`<meta name="msapplication-config">` pointing at a `browserconfig.xml`, and `none` disables it',
   },
 } satisfies Cover<MsTileConfig>;
 
@@ -273,6 +273,12 @@ const f_FaviconConfig = {
     id: "maskIcon",
     label: "Mask Icon",
     hint: '`<link rel="mask-icon">`: SVG for Safari pinned tabs',
+  },
+  maskIconColor: {
+    control: "text",
+    id: "maskIconColor",
+    label: "Mask Icon Color",
+    hint: "Display color for `mask-icon`, it falls back to a `themeColor`, then `#000000`",
   },
   themeColor: {
     control: "json",
@@ -703,7 +709,6 @@ const f_JsonLdEntity = {
     id: '"@type"',
     label: '"@type"',
     options: ["Person", "Organization"],
-    hint: "Overrides the default node type (`Person` for authors, `Organization` for publishers)",
   },
 } satisfies Cover<JsonLdEntity>;
 
@@ -737,13 +742,11 @@ const f_ArticleJsonLd = {
     id: "publisher",
     label: "Publisher",
     options: ["raw", "object"],
-    hint: "Defaults to an `Organization` node",
     raw: {
       control: "text",
       id: "publisher.raw",
       label: "Publisher",
       placeholder: "Text value",
-      hint: "Defaults to an `Organization` node",
     },
     nested: { kind: "section", fields: f_JsonLdEntity, title: "Publisher" },
   },

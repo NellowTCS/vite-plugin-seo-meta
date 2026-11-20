@@ -91,7 +91,7 @@ description: "Every field the plugin accepts."
 {
   title?: string;
   capable?: boolean;
-  statusBarStyle?: "default" | "black" | "black-translucent" | "transparent";
+  statusBarStyle?: "default" | "black" | "black-translucent";
 }
 ```
 

@@ -29,6 +29,8 @@ export interface FaviconConfig {
   manifest?: string;
   /** `<link rel="mask-icon">`: SVG for Safari pinned tabs */
   maskIcon?: string;
+  /** Display color for `mask-icon`, it falls back to a `themeColor`, then `#000000` */
+  maskIconColor?: string;
   /** `<meta name="theme-color">`: basically a bare color, or one entry per media query */
   themeColor?: string | ThemeColorEntry[];
   /** Apple `<meta name="apple-mobile-web-app-*">` tags */
@@ -47,7 +49,7 @@ export interface MobileWebAppConfig {
   /** `<meta name="apple-mobile-web-app-capable">`: run the site full-screen */
   capable?: boolean;
   /** `<meta name="apple-mobile-web-app-status-bar-style">` */
-  statusBarStyle?: "default" | "black" | "black-translucent" | "transparent";
+  statusBarStyle?: "default" | "black" | "black-translucent";
 }
 
 /** Microsoft IE/Edge start-screen tile tags */
@@ -56,7 +58,7 @@ export interface MsTileConfig {
   tileColor?: string;
   /** `<meta name="msapplication-TileImage">` */
   tileImage?: string;
-  /** `<link rel="msapplication-config">` pointing at a `browserconfig.xml` */
+  /** `<meta name="msapplication-config">` pointing at a `browserconfig.xml`, and `none` disables it */
   // what's that you may ask? it's basically a Microsoft version of a web app manifest,
   // but in XML. shrug, Microsoft doing Microsoft things
   config?: string;

@@ -57,7 +57,7 @@ export function basicTags(page: ResolvedPage, site: ResolvedSite): HeadTag[] {
     tags.push({
       tag: "link",
       attrs: { ...link },
-      key: linkKey(link.rel, link.hreflang, link.sizes),
+      key: linkKey(link.rel, link.hreflang, link.sizes, link.type, link.media),
     });
   }
   return tags;
