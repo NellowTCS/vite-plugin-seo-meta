@@ -7,7 +7,7 @@ path: /guide/open-graph/
 updated: 2026-11-20
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-20T09:26:10.907Z"
+  generated_at: "2026-11-20T09:37:15.441Z"
 ---
 ---
 title: "Open Graph"

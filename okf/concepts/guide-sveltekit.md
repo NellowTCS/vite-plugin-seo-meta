@@ -7,7 +7,7 @@ path: /guide/sveltekit/
 updated: 2026-11-20
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-20T09:26:10.909Z"
+  generated_at: "2026-11-20T09:37:15.443Z"
 ---
 ---
 title: "SvelteKit"
