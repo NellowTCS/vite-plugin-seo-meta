@@ -36,11 +36,11 @@
     
     
 
-    <link id="site-favicon" rel="icon" href="../assets/favicon.ico?v=mwmkmaso">
-    <link rel="stylesheet" href="../assets/css/docmd-main.css?v=mwmkmaso">
+    <link id="site-favicon" rel="icon" href="../assets/favicon.ico?v=mwono185">
+    <link rel="stylesheet" href="../assets/css/docmd-main.css?v=mwono185">
     
-    <link rel="stylesheet" href="../assets/css/docmd-highlight-light.css?v=mwmkmaso" id="hljs-light" >
-    <link rel="stylesheet" href="../assets/css/docmd-highlight-dark.css?v=mwmkmaso" id="hljs-dark" disabled>
+    <link rel="stylesheet" href="../assets/css/docmd-highlight-light.css?v=mwono185" id="hljs-light" >
+    <link rel="stylesheet" href="../assets/css/docmd-highlight-dark.css?v=mwono185" id="hljs-dark" disabled>
     
     <script>/**
  * --------------------------------------------------------------------
@@ -126,10 +126,10 @@
 
 
 
-<link rel="stylesheet" href="../assets/css/docmd-theme-sky.css?v=mwmkmaso" >
-<link rel="stylesheet" href="../assets/css/docmd-git.css?v=mwmkmaso" >
-<link rel="stylesheet" href="../assets/css/docmd-openapi.css?v=mwmkmaso" >
-<link rel="stylesheet" href="../assets/css/docmd-ai.css?v=mwmkmaso" >
+<link rel="stylesheet" href="../assets/css/docmd-theme-sky.css?v=mwono185" >
+<link rel="stylesheet" href="../assets/css/docmd-git.css?v=mwono185" >
+<link rel="stylesheet" href="../assets/css/docmd-openapi.css?v=mwono185" >
+<link rel="stylesheet" href="../assets/css/docmd-ai.css?v=mwono185" >
 
     
     
@@ -1033,7 +1033,7 @@
             <div class="content-layout">
               <div class="main-content">
                 <div class="docmd-breadcrumbs-row">
-                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22API%22%0Adescription%3A%20%22Public%20exports%3A%20seo()%2C%20defineSeoConfig()%20and%20the%20runtime%20helper.%22%0A---%0A%0A%23%23%20%60seo(options%3F)%60%0A%0AThe%20Vite%20plugin.%20Returns%20a%20Vite%20%60Plugin%60%20(gasp%2C%20i%20know%2C%20how%20shocking).%0A%0A%60%60%60ts%0Aimport%20%7B%20seo%20%7D%20from%20%22vite-plugin-seo-meta%22%3B%0A%0Aexport%20default%20defineConfig(%7B%0A%20%20plugins%3A%20%5Bseo(%7B%20site%3A%20%7B%20url%3A%20%22https%3A%2F%2Fexample.com%22%2C%20name%3A%20%22My%20Site%22%20%7D%20%7D)%5D%2C%0A%7D)%3B%0A%60%60%60%0A%0A%23%23%23%20Options%0A%0A%7C%20Option%20%20%20%20%20%20%20%7C%20Type%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20Default%20%20%20%20%20%20%20%20%20%20%20%7C%20Notes%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20------------%20%7C%20--------------------------------------------%20%7C%20-----------------%20%7C%20------------------------------------------------------%20%7C%0A%7C%20%60site%60%20%20%20%20%20%20%20%7C%20%60SiteConfig%60%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20-%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20Site%20defaults%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%60pages%60%20%20%20%20%20%20%7C%20%60Record%3Cstring%2C%20PageMeta%3E%60%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20%60%7B%7D%60%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20Per-page%20overrides%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%60robots%60%20%20%20%20%20%7C%20%60%22auto%22%60%20%5C%7C%20%60boolean%60%20%5C%7C%20%60RobotsFileOptions%60%20%7C%20%60%22auto%22%60%20%20%20%20%20%20%20%20%20%20%7C%20%60false%60%20disables%20generation%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%60sitemap%60%20%20%20%20%7C%20%60%22auto%22%60%20%5C%7C%20%60boolean%60%20%5C%7C%20%60SitemapOptions%60%20%20%20%20%7C%20%60%22auto%22%60%20%20%20%20%20%20%20%20%20%20%7C%20%60false%60%20disables%20generation%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%60validate%60%20%20%20%7C%20%60%22warn%22%60%20%5C%7C%20%60%22error%22%60%20%5C%7C%20%60false%60%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20%60%22warn%22%60%20%20%20%20%20%20%20%20%20%20%7C%20Validation%20policy%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%60configFile%60%20%7C%20%60string%60%20%5C%7C%20%60false%60%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20%60%22seo.config.ts%22%60%20%7C%20Path%20to%20config%20file%2C%20or%20%60false%60%20to%20skip%20auto-detection%20%7C%0A%0A%23%23%20%60defineSeoConfig(config)%60%0A%0AA%20typed%20identity%20function%20that%20returns%20its%20argument%20unchanged.%20This%20only%20exists%20so%20that%20the%20config%20can%20be%20easily%20typechecked.%0A%0A%60%60%60ts%0Aimport%20%7B%20defineSeoConfig%20%7D%20from%20%22vite-plugin-seo-meta%22%3B%0A%0Aexport%20default%20defineSeoConfig(%7B%0A%20%20site%3A%20%7B%20url%3A%20%22https%3A%2F%2Fexample.com%22%2C%20name%3A%20%22My%20Site%22%20%7D%2C%0A%20%20pages%3A%20%7B%20%22%2Fabout%22%3A%20%7B%20title%3A%20%22About%22%20%7D%20%7D%2C%0A%7D)%3B%0A%60%60%60%0A%0AThe%20plugin%20auto-detects%20%60seo.config.ts%60%20in%20the%20project%20root%20and%20loads%20it.%20Set%20%60configFile%3A%20false%60%20to%20disable%20this.%0A%0A%23%23%20%60applySeo(page%2C%20site%3F)%60%0A%0ARuntime%20helper%20for%20SPAs.%20Updates%20managed%20head%20elements%20after%20a%20route%20change.%0A%0A%60%60%60ts%0Aimport%20%7B%20applySeo%20%7D%20from%20%22vite-plugin-seo-meta%2Fruntime%22%3B%0A%0AapplySeo(%7B%20title%3A%20%22New%20Page%22%2C%20description%3A%20%22...%22%20%7D)%3B%0A%60%60%60%0A%0ASee%20%5BSPA%20Runtime%5D(.%2Fspa-runtime.md).%20(No%2C%20no%2C%20not%20a%20spa%2C%20a%20Single-Page%20Application%2C%20though%20we%20_all_%20would%20love%20that...%20probably.)%0A%0A%23%23%20Exported%20types%0A%0AThe%20plugin%20exports%20types%20for%20every%20config%20shape%3A%0A%0A-%20%60SeoPluginOptions%60%20-%20options%20accepted%20by%20%60seo()%60%0A-%20%60SeoOptions%60%20-%20the%20full%20beeg%20config%20(site%2C%20pages%2C%20robots%2C%20sitemap%2C%20validate)%0A-%20%60SiteConfig%60%20-%20site%20defaults%0A-%20%60PageMeta%60%20-%20per-page%20overrides%0A-%20%60OpenGraphInfo%60%20-%20Open%20Graph%20values%0A-%20%60TwitterInfo%60%20-%20Twitter%20Card%20values%0A-%20%60FaviconConfig%60%20-%20favicon%20and%20platform%20icons%0A-%20%60RobotsFileOptions%60%20-%20robots.txt%20options%0A-%20%60RobotsGroup%60%20-%20an%20RFC%209309%20agent%20group%0A-%20%60SitemapOptions%60%20-%20sitemap%20options%0A-%20%60ImageRef%60%20%2F%20%60ImageInput%60%20-%20image%20references%2C%20including%20%60thumbnail%60%20for%20video%20sitemaps%0A-%20%60JsonLdConfig%60%20-%20JSON-LD%20configuration%0A-%20%60HreflangAlternate%60%20-%20a%20hreflang%20entry%0A-%20%60ThemeColorEntry%60%20-%20a%20theme%20color%20meta%20tag%0A-%20%60TwitterCardType%60%20-%20%60summary%60%20%5C%7C%20%60summary_large_image%60%20%5C%7C%20%60player%60%20%5C%7C%20%60app%60%0A-%20%60TwitterHandle%60%20-%20a%20Twitter%20%60%40handle%60%0A-%20%60TwitterAppPlatform%60%20-%20%60iphone%60%20%5C%7C%20%60ipad%60%20%5C%7C%20%60googleplay%60%0A-%20%60TwitterPlayer%60%20-%20player%20card%20iframe%20config%0A-%20%60TwitterApps%60%20-%20app%20card%20per-platform%20config%0A-%20%60ArticleJsonLd%60%20%2F%20%60OrganizationJsonLd%60%20%2F%20%60WebSiteJsonLd%60%20%2F%20%60ProductJsonLd%60%20%2F%20%60JsonLdPerson%60%20-%20JSON-LD%20shapes%0A-%20%60OpenGraphArticle%60%20%2F%20%60OpenGraphBook%60%20%2F%20%60OpenGraphMusic%60%20%2F%20%60OpenGraphVideo%60%20%2F%20%60OpenGraphPayment%60%20-%20Open%20Graph%20verticals%0A-%20%60SitemapChangefreq%60%20-%20changefreq%20enum%0A-%20%60RobotsDirectives%60%20-%20structured%20robots%20meta%20directives%0A" style="display: none;"></div>
+                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22API%22%0Adescription%3A%20%22Public%20exports%3A%20seo()%2C%20defineSeoConfig()%20and%20the%20runtime%20helper.%22%0A---%0A%0A%23%23%20%60seo(options%3F)%60%0A%0AThe%20Vite%20plugin.%20Returns%20a%20Vite%20%60Plugin%60%20(gasp%2C%20i%20know%2C%20how%20shocking).%0A%0A%60%60%60ts%0Aimport%20%7B%20seo%20%7D%20from%20%22vite-plugin-seo-meta%22%3B%0A%0Aexport%20default%20defineConfig(%7B%0A%20%20plugins%3A%20%5Bseo(%7B%20site%3A%20%7B%20url%3A%20%22https%3A%2F%2Fexample.com%22%2C%20name%3A%20%22My%20Site%22%20%7D%20%7D)%5D%2C%0A%7D)%3B%0A%60%60%60%0A%0A%23%23%23%20Options%0A%0A%7C%20Option%20%20%20%20%20%20%20%7C%20Type%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20Default%20%20%20%20%20%20%20%20%20%20%20%7C%20Notes%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20------------%20%7C%20--------------------------------------------%20%7C%20-----------------%20%7C%20------------------------------------------------------%20%7C%0A%7C%20%60site%60%20%20%20%20%20%20%20%7C%20%60SiteConfig%60%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20-%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20Site%20defaults%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%60pages%60%20%20%20%20%20%20%7C%20%60Record%3Cstring%2C%20PageMeta%3E%60%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20%60%7B%7D%60%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20Per-page%20overrides%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%60robots%60%20%20%20%20%20%7C%20%60%22auto%22%60%20%5C%7C%20%60boolean%60%20%5C%7C%20%60RobotsFileOptions%60%20%7C%20%60%22auto%22%60%20%20%20%20%20%20%20%20%20%20%7C%20%60false%60%20disables%20generation%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%60sitemap%60%20%20%20%20%7C%20%60%22auto%22%60%20%5C%7C%20%60boolean%60%20%5C%7C%20%60SitemapOptions%60%20%20%20%20%7C%20%60%22auto%22%60%20%20%20%20%20%20%20%20%20%20%7C%20%60false%60%20disables%20generation%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%60validate%60%20%20%20%7C%20%60%22warn%22%60%20%5C%7C%20%60%22error%22%60%20%5C%7C%20%60false%60%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20%60%22warn%22%60%20%20%20%20%20%20%20%20%20%20%7C%20Validation%20policy%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20%60configFile%60%20%7C%20%60string%60%20%5C%7C%20%60false%60%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20%60%22seo.config.ts%22%60%20%7C%20Path%20to%20config%20file%2C%20or%20%60false%60%20to%20skip%20auto-detection%20%7C%0A%0A%23%23%20%60defineSeoConfig(config)%60%0A%0AA%20typed%20identity%20function%20that%20returns%20its%20argument%20unchanged.%20This%20only%20exists%20so%20that%20the%20config%20can%20be%20easily%20typechecked.%0A%0A%60%60%60ts%0Aimport%20%7B%20defineSeoConfig%20%7D%20from%20%22vite-plugin-seo-meta%22%3B%0A%0Aexport%20default%20defineSeoConfig(%7B%0A%20%20site%3A%20%7B%20url%3A%20%22https%3A%2F%2Fexample.com%22%2C%20name%3A%20%22My%20Site%22%20%7D%2C%0A%20%20pages%3A%20%7B%20%22%2Fabout%22%3A%20%7B%20title%3A%20%22About%22%20%7D%20%7D%2C%0A%7D)%3B%0A%60%60%60%0A%0AThe%20plugin%20auto-detects%20%60seo.config.ts%60%20in%20the%20project%20root%20and%20loads%20it.%20Set%20%60configFile%3A%20false%60%20to%20disable%20this.%0A%0A%23%23%20%60applySeo(page%2C%20site%3F)%60%0A%0ARuntime%20helper%20for%20SPAs.%20Updates%20managed%20head%20elements%20after%20a%20route%20change.%0A%0A%60%60%60ts%0Aimport%20%7B%20applySeo%20%7D%20from%20%22vite-plugin-seo-meta%2Fruntime%22%3B%0A%0AapplySeo(%7B%20title%3A%20%22New%20Page%22%2C%20description%3A%20%22...%22%20%7D)%3B%0A%60%60%60%0A%0ASee%20%5BSPA%20Runtime%5D(.%2Fspa-runtime.md).%20(No%2C%20no%2C%20not%20a%20spa%2C%20a%20Single-Page%20Application%2C%20though%20we%20_all_%20would%20love%20that...%20probably.)%0A%0A%23%23%20Exported%20types%0A%0AThe%20plugin%20exports%20types%20for%20every%20config%20shape%3A%0A%0A-%20%60SeoPluginOptions%60%20-%20options%20accepted%20by%20%60seo()%60%0A-%20%60SeoOptions%60%20-%20the%20full%20beeg%20config%20(site%2C%20pages%2C%20robots%2C%20sitemap%2C%20validate)%0A-%20%60SiteConfig%60%20-%20site%20defaults%0A-%20%60PageMeta%60%20-%20per-page%20overrides%0A-%20%60OpenGraphInfo%60%20-%20Open%20Graph%20values%0A-%20%60TwitterInfo%60%20-%20Twitter%20Card%20values%0A-%20%60FaviconConfig%60%20-%20favicon%20and%20platform%20icons%0A-%20%60RobotsFileOptions%60%20-%20robots.txt%20options%0A-%20%60RobotsGroup%60%20-%20an%20RFC%209309%20agent%20group%0A-%20%60SitemapOptions%60%20-%20sitemap%20options%0A-%20%60ImageRef%60%20%2F%20%60ImageInput%60%20-%20image%20references%2C%20including%20%60thumbnail%60%20for%20video%20sitemaps%0A-%20%60JsonLdConfig%60%20-%20JSON-LD%20configuration%0A-%20%60HreflangAlternate%60%20-%20a%20hreflang%20entry%0A-%20%60ThemeColorEntry%60%20-%20a%20theme%20color%20meta%20tag%0A-%20%60TwitterCardType%60%20-%20%60summary%60%20%5C%7C%20%60summary_large_image%60%20%5C%7C%20%60player%60%20%5C%7C%20%60app%60%0A-%20%60TwitterHandle%60%20-%20a%20Twitter%20%60%40handle%60%0A-%20%60TwitterAppPlatform%60%20-%20%60iphone%60%20%5C%7C%20%60ipad%60%20%5C%7C%20%60googleplay%60%0A-%20%60TwitterPlayer%60%20-%20player%20card%20iframe%20config%0A-%20%60TwitterApps%60%20-%20app%20card%20per-platform%20config%0A-%20%60ArticleJsonLd%60%20%2F%20%60OrganizationJsonLd%60%20%2F%20%60WebSiteJsonLd%60%20%2F%20%60ProductJsonLd%60%20%2F%20%60JsonLdEntity%60%20-%20JSON-LD%20shapes%0A-%20%60OpenGraphArticle%60%20%2F%20%60OpenGraphBook%60%20%2F%20%60OpenGraphMusic%60%20%2F%20%60OpenGraphVideo%60%20%2F%20%60OpenGraphPayment%60%20-%20Open%20Graph%20verticals%0A-%20%60SitemapChangefreq%60%20-%20changefreq%20enum%0A-%20%60RobotsDirectives%60%20-%20structured%20robots%20meta%20directives%0A" style="display: none;"></div>
                   
                     <nav aria-label="breadcrumb" class="docmd-breadcrumbs">
                       <ol>
@@ -1224,7 +1224,7 @@
 <li><code>TwitterAppPlatform</code> - <code>iphone</code> | <code>ipad</code> | <code>googleplay</code></li>
 <li><code>TwitterPlayer</code> - player card iframe config</li>
 <li><code>TwitterApps</code> - app card per-platform config</li>
-<li><code>ArticleJsonLd</code> / <code>OrganizationJsonLd</code> / <code>WebSiteJsonLd</code> / <code>ProductJsonLd</code> / <code>JsonLdPerson</code> - JSON-LD shapes</li>
+<li><code>ArticleJsonLd</code> / <code>OrganizationJsonLd</code> / <code>WebSiteJsonLd</code> / <code>ProductJsonLd</code> / <code>JsonLdEntity</code> - JSON-LD shapes</li>
 <li><code>OpenGraphArticle</code> / <code>OpenGraphBook</code> / <code>OpenGraphMusic</code> / <code>OpenGraphVideo</code> / <code>OpenGraphPayment</code> - Open Graph verticals</li>
 <li><code>SitemapChangefreq</code> - changefreq enum</li>
 <li><code>RobotsDirectives</code> - structured robots meta directives</li>
@@ -1342,13 +1342,13 @@
             <div class="page-footer-actions">
               
               
-                <span class="git-last-updated" data-timestamp="1795033500000">
+                <span class="git-last-updated" data-timestamp="1795159555000">
                   <svg class="git-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                   </svg>
                   <span class="git-label">Last updated:</span>
-                  <span class="git-time" data-timestamp="1795033500000"></span>
+                  <span class="git-time" data-timestamp="1795159555000"></span>
                   
                   <div class="git-commit-tooltip" role="tooltip">
                     <div class="git-tooltip-title">Recent commits</div>
@@ -1361,10 +1361,10 @@
                             
                           </div>
                           <div class="git-commit-details">
-                            <div class="git-commit-message" title="A lot of bugfixes (uncommited work from the past few weeks while waiting for review, so time spent is inaccurate)">A lot of bugfixes (uncommited work fr...</div>
+                            <div class="git-commit-message" title="JSON-LD fixes">JSON-LD fixes</div>
                             <div class="git-commit-meta">
                               <span class="git-commit-author">NellowTCS</span>
-                              <span class="git-commit-date" data-timestamp="1795033500000"></span>
+                              <span class="git-commit-date" data-timestamp="1795159555000"></span>
                             </div>
                           </div>
                         </li>
@@ -1417,17 +1417,17 @@
       </div>
       
       
-      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-18T20:25:33.781Z","buildDate":"2026-11-18","buildYear":"2026","gitCommit":"5eb760d","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-18","GIT_COMMIT":"5eb760d","GIT_BRANCH":"main","git":{"commit":"5eb760d","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"API","slug":"/vite-plugin-seo-meta/api/","path":"api/index.html"},"frontmatter":{"title":"API","description":"Public exports: seo(), defineSeoConfig() and the runtime helper.","_git":{"lastUpdated":"2026-11-18T20:25:00.000Z","lastUpdatedTimestamp":1795033500000,"commits":[{"hash":"5eb760d70a267b936b6962fd2aa02aa3b4a6e567","shortHash":"5eb760d","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-18T20:25:00.000Z","timestamp":1795033500000,"message":"A lot of bugfixes (uncommited work from the past few weeks while waiting for review, so time spent is inaccurate)","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
+      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-20T07:26:25.940Z","buildDate":"2026-11-20","buildYear":"2026","gitCommit":"6ac314e","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-20","GIT_COMMIT":"6ac314e","GIT_BRANCH":"main","git":{"commit":"6ac314e","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"API","slug":"/vite-plugin-seo-meta/api/","path":"api/index.html"},"frontmatter":{"title":"API","description":"Public exports: seo(), defineSeoConfig() and the runtime helper.","_git":{"lastUpdated":"2026-11-20T07:25:55.000Z","lastUpdatedTimestamp":1795159555000,"commits":[{"hash":"6ac314eb1b594e5b153180eb4b2dc7ae31fa4075","shortHash":"6ac314e","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-20T07:25:55.000Z","timestamp":1795159555000,"message":"JSON-LD fixes","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
       
-      <script src="../assets/js/docmd-runtime.js?v=mwmkmaso"></script>
-      <script src="../assets/js/docmd-main.js?v=mwmkmaso"></script>
+      <script src="../assets/js/docmd-runtime.js?v=mwono185"></script>
+      <script src="../assets/js/docmd-main.js?v=mwono185"></script>
       
-      <script src="../assets/js/docmd-git.js?v=mwmkmaso"></script>
-      <script src="../assets/js/docmd-image-lightbox.js?v=mwmkmaso" ></script>
-<script src="../assets/js/vendor/minisearch.js?v=mwmkmaso" ></script>
-<script src="../assets/js/docmd-search.js?v=mwmkmaso" ></script>
-<script src="../assets/js/docmd-git.js?v=mwmkmaso" ></script>
-<script src="../assets/js/docmd-ai.js?v=mwmkmaso" ></script>
+      <script src="../assets/js/docmd-git.js?v=mwono185"></script>
+      <script src="../assets/js/docmd-image-lightbox.js?v=mwono185" ></script>
+<script src="../assets/js/vendor/minisearch.js?v=mwono185" ></script>
+<script src="../assets/js/docmd-search.js?v=mwono185" ></script>
+<script src="../assets/js/docmd-git.js?v=mwono185" ></script>
+<script src="../assets/js/docmd-ai.js?v=mwono185" ></script>
 
   <!-- Search Modal (Injected by @docmd/plugin-search) -->
   <div id="docmd-search-modal" class="docmd-search-modal" style="display: none;" data-semantic="true" data-show-confidence="true" data-show-filters="true"

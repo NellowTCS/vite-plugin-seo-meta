@@ -6,7 +6,7 @@
     "description": "",
     "url": "https://nellowtcs.me/vite-plugin-seo-meta/",
     "generated_by": "@docmd/plugin-okf",
-    "generated_at": "2026-11-18T20:25:38.805Z",
+    "generated_at": "2026-11-20T07:26:30.898Z",
     "default_type": "concept"
   },
   "stats": {
@@ -79,7 +79,7 @@
       "id": "guide-json-ld",
       "type": "concept",
       "title": "JSON-LD",
-      "description": "Structured data for search engines: Organization, WebSite, Article, Product, BreadcrumbList and ImageObject.",
+      "description": "Structured data for search engines: Organization, WebSite, Article and Product.",
       "path": "/guide/json-ld/",
       "file": "concepts/guide-json-ld.md",
       "locale": "",

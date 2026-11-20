@@ -40,7 +40,7 @@
     {
       "title": "JSON-LD",
       "url": "https://nellowtcs.me/vite-plugin-seo-meta/guide/json-ld/",
-      "description": "Structured data for search engines: Organization, WebSite, Article, Product, BreadcrumbList and ImageObject.",
+      "description": "Structured data for search engines: Organization, WebSite, Article and Product.",
       "section": "Guide",
       "priority": "medium"
     },

@@ -4,10 +4,10 @@ title: API
 description: "Public exports: seo(), defineSeoConfig() and the runtime helper."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/api/"
 path: /api/
-updated: 2026-11-18
+updated: 2026-11-20
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-18T20:25:38.801Z"
+  generated_at: "2026-11-20T07:26:30.889Z"
 ---
 ---
 title: "API"
@@ -87,7 +87,7 @@ The plugin exports types for every config shape:
 - `TwitterAppPlatform` - `iphone` \| `ipad` \| `googleplay`
 - `TwitterPlayer` - player card iframe config
 - `TwitterApps` - app card per-platform config
-- `ArticleJsonLd` / `OrganizationJsonLd` / `WebSiteJsonLd` / `ProductJsonLd` / `JsonLdPerson` - JSON-LD shapes
+- `ArticleJsonLd` / `OrganizationJsonLd` / `WebSiteJsonLd` / `ProductJsonLd` / `JsonLdEntity` - JSON-LD shapes
 - `OpenGraphArticle` / `OpenGraphBook` / `OpenGraphMusic` / `OpenGraphVideo` / `OpenGraphPayment` - Open Graph verticals
 - `SitemapChangefreq` - changefreq enum
 - `RobotsDirectives` - structured robots meta directives

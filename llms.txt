@@ -26,7 +26,7 @@
 - [hreflang](https://nellowtcs.me/vite-plugin-seo-meta/guide/hreflang/)
   Tell search engines which language and region variant of a page to show.
 - [JSON-LD](https://nellowtcs.me/vite-plugin-seo-meta/guide/json-ld/)
-  Structured data for search engines: Organization, WebSite, Article, Product, BreadcrumbList and ImageObject.
+  Structured data for search engines: Organization, WebSite, Article and Product.
 - [Meta Tags](https://nellowtcs.me/vite-plugin-seo-meta/guide/meta-tags/)
   How the plugin emits title, description, canonical and robots meta tags.
 - [Open Graph](https://nellowtcs.me/vite-plugin-seo-meta/guide/open-graph/)

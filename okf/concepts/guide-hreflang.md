@@ -4,10 +4,10 @@ title: hreflang
 description: "Tell search engines which language and region variant of a page to show."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/guide/hreflang/"
 path: /guide/hreflang/
-updated: 2026-11-18
+updated: 2026-11-20
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-18T20:25:38.803Z"
+  generated_at: "2026-11-20T07:26:30.891Z"
 ---
 ---
 title: "hreflang"

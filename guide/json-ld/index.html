@@ -36,11 +36,11 @@
     
     
 
-    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mwmkmaso">
-    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mwmkmaso">
+    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mwono185">
+    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mwono185">
     
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mwmkmaso" id="hljs-light" >
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mwmkmaso" id="hljs-dark" disabled>
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mwono185" id="hljs-light" >
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mwono185" id="hljs-dark" disabled>
     
     <script>/**
  * --------------------------------------------------------------------
@@ -109,16 +109,16 @@
   }
 })();</script>
     
-<meta name="description" content="Structured data for search engines: Organization, WebSite, Article, Product, BreadcrumbList and ImageObject.">
+<meta name="description" content="Structured data for search engines: Organization, WebSite, Article and Product.">
 <link rel="canonical" href="https://nellowtcs.me/vite-plugin-seo-meta/guide/json-ld/">
 <meta property="og:title" content="JSON-LD - vite-plugin-seo-meta">
 <meta property="og:site_name" content="vite-plugin-seo-meta">
-<meta property="og:description" content="Structured data for search engines: Organization, WebSite, Article, Product, BreadcrumbList and ImageObject.">
+<meta property="og:description" content="Structured data for search engines: Organization, WebSite, Article and Product.">
 <meta property="og:url" content="https://nellowtcs.me/vite-plugin-seo-meta/guide/json-ld/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="JSON-LD - vite-plugin-seo-meta">
-<meta name="twitter:description" content="Structured data for search engines: Organization, WebSite, Article, Product, BreadcrumbList and ImageObject.">
+<meta name="twitter:description" content="Structured data for search engines: Organization, WebSite, Article and Product.">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"vite-plugin-seo-meta","item":"https://nellowtcs.me/vite-plugin-seo-meta/"},{"@type":"ListItem","position":2,"name":"JSON-LD","item":"https://nellowtcs.me/vite-plugin-seo-meta/guide/json-ld/"}]}
 </script>
@@ -126,10 +126,10 @@
 
 
 
-<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mwmkmaso" >
-<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mwmkmaso" >
-<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mwmkmaso" >
-<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mwmkmaso" >
+<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mwono185" >
+<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mwono185" >
+<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mwono185" >
+<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mwono185" >
 
     
     
@@ -1033,7 +1033,7 @@
             <div class="content-layout">
               <div class="main-content">
                 <div class="docmd-breadcrumbs-row">
-                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22JSON-LD%22%0Adescription%3A%20%22Structured%20data%20for%20search%20engines%3A%20Organization%2C%20WebSite%2C%20Article%2C%20Product%2C%20BreadcrumbList%20and%20ImageObject.%22%0A---%0A%0AJSON-LD%2C%20also%20known%20as%20JSON%20Linked%20Data%2C%20is%20a%20way%20to%20provide%20structured%20data%20to%20search%20engines.%20It%20is%20a%20standard%20format%20for%20describing%20the%20content%20of%20a%20web%20page%20for%20better%20indexing%20and%20results.This%20plugin%20emits%20JSON-LD%20as%20%60%3Cscript%20type%3D%22application%2Fld%2Bjson%22%3E%60%20blocks.%20Enable%20the%20types%20you%20need%20in%20%60site.jsonLd%60%20and%20add%20per-page%20data%20in%20%60pages%5B%5D.jsonLd%60.%0A%0A!%5Bexample%20JSON-LD%5D(.%2Fassets%2Fimages%2Fjson-ld.png)%0A%0AThe%20format%20is%20pretty%20well%20standardized%20at%20%5Bjson-ld.org%5D(https%3A%2F%2Fjson-ld.org%2F)%20and%20the%20vocabulary%20for%20what%20you%20can%20describe%20lives%20at%20%5Bschema.org%5D(https%3A%2F%2Fschema.org%2F).%20The%20plugin%20models%20the%20common%20types%20from%20schema.org%3B%20anything%20not%20covered%20goes%20through%20%60extra%60!%20If%20you%20feel%20that%20any%20type%20is%20missing%20or%20should%20be%20added%20to%20the%20plugin%2C%20please%20open%20an%20issue%20or%20PR%2C%20I&#039;d%20love%20to%20add%20it!%0A%0A%23%23%20Organization%0A%0A%60%60%60ts%0Asite%3A%20%7B%0A%20%20jsonLd%3A%20%7B%20organization%3A%20true%20%7D%2C%0A%7D%0A%60%60%60%0A%0AThis%20emits%20an%20%60Organization%60%20block%20with%20the%20site%20name%20and%20URL.%20Add%20a%20logo%3A%0A%0A%60%60%60ts%0Asite%3A%20%7B%0A%20%20name%3A%20%22My%20Site%22%2C%0A%20%20jsonLd%3A%20%7B%20organization%3A%20%7B%20logo%3A%20%22https%3A%2F%2Fexample.com%2Flogo.png%22%20%7D%20%7D%2C%0A%7D%0A%60%60%60%0A%0A%23%23%20WebSite%0A%0A%60%60%60ts%0Asite%3A%20%7B%0A%20%20jsonLd%3A%20%7B%20website%3A%20true%20%7D%2C%0A%7D%0A%60%60%60%0A%0AEmits%20a%20%60WebSite%60%20block.%20Set%20%60site.searchAction%60%20to%20add%20a%20search%20box%20to%20the%20result%3A%0A%0A%60%60%60ts%0Asite%3A%20%7B%0A%20%20jsonLd%3A%20%7B%0A%20%20%20%20website%3A%20%7B%0A%20%20%20%20%20%20searchAction%3A%20%7B%0A%20%20%20%20%20%20%20%20target%3A%20%22https%3A%2F%2Fexample.com%2Fsearch%3Fq%3D%7Bquery%7D%22%2C%0A%20%20%20%20%20%20%20%20queryInput%3A%20%22required%20name%3Dquery%22%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0A%23%23%20Article%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2Fblog%2Fhello-world%22%3A%20%7B%0A%20%20%20%20jsonLd%3A%20%7B%0A%20%20%20%20%20%20article%3A%20%7B%0A%20%20%20%20%20%20%20%20headline%3A%20%22Hello%2C%20world%22%2C%0A%20%20%20%20%20%20%20%20type%3A%20%22BlogPosting%22%2C%0A%20%20%20%20%20%20%20%20author%3A%20%7B%20name%3A%20%22Alice%22%20%7D%2C%0A%20%20%20%20%20%20%20%20datePublished%3A%20%222024-01-15%22%2C%0A%20%20%20%20%20%20%20%20dateModified%3A%20%222024-06-20%22%2C%0A%20%20%20%20%20%20%20%20description%3A%20%22My%20first%20post%20on%20this%20site.%22%2C%0A%20%20%20%20%20%20%20%20image%3A%20%22https%3A%2F%2Fexample.com%2Fpost.png%22%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0ANote%3A%20%60author%60%20can%20be%20a%20single%20object%20or%20an%20array.%20%60type%60%20defaults%20to%20%60Article%60%3B%20set%20%60BlogPosting%60%2C%20%60NewsArticle%60%20or%20others%20as%20needed.%0A%0A%23%23%20Product%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2Fproducts%2Fwidget%22%3A%20%7B%0A%20%20%20%20jsonLd%3A%20%7B%0A%20%20%20%20%20%20product%3A%20%7B%0A%20%20%20%20%20%20%20%20name%3A%20%22Widget%22%2C%0A%20%20%20%20%20%20%20%20image%3A%20%22https%3A%2F%2Fexample.com%2Fwidget.png%22%2C%0A%20%20%20%20%20%20%20%20description%3A%20%22A%20widget%20for%20doing%20things.%22%2C%0A%20%20%20%20%20%20%20%20sku%3A%20%22WIDGET-001%22%2C%0A%20%20%20%20%20%20%20%20brand%3A%20%22My%20Brand%22%2C%0A%20%20%20%20%20%20%20%20mpn%3A%20%22MPN-001%22%2C%0A%20%20%20%20%20%20%20%20offers%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20price%3A%2019.99%2C%0A%20%20%20%20%20%20%20%20%20%20priceCurrency%3A%20%22USD%22%2C%0A%20%20%20%20%20%20%20%20%20%20availability%3A%20%22InStock%22%2C%0A%20%20%20%20%20%20%20%20%20%20url%3A%20%22https%3A%2F%2Fexample.com%2Fproducts%2Fwidget%22%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%20%20review%3A%20%7B%0A%20%20%20%20%20%20%20%20%20%20reviewRating%3A%20%7B%20ratingValue%3A%205%2C%20bestRating%3A%205%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20author%3A%20%7B%20name%3A%20%22Bob%22%20%7D%2C%0A%20%20%20%20%20%20%20%20%20%20reviewBody%3A%20%22Best%20widget%20I%20have%20owned.%22%2C%0A%20%20%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0A%23%23%20BreadcrumbList%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2Fproducts%2Fwidget%22%3A%20%7B%0A%20%20%20%20jsonLd%3A%20%7B%0A%20%20%20%20%20%20breadcrumb%3A%20%5B%0A%20%20%20%20%20%20%20%20%7B%20name%3A%20%22Home%22%2C%20item%3A%20%22https%3A%2F%2Fexample.com%2F%22%20%7D%2C%0A%20%20%20%20%20%20%20%20%7B%20name%3A%20%22Products%22%2C%20item%3A%20%22https%3A%2F%2Fexample.com%2Fproducts%22%20%7D%2C%0A%20%20%20%20%20%20%20%20%7B%20name%3A%20%22Widget%22%2C%20item%3A%20%22https%3A%2F%2Fexample.com%2Fproducts%2Fwidget%22%20%7D%2C%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0A%23%23%20ImageObject%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2Fgallery%2Fphoto-1%22%3A%20%7B%0A%20%20%20%20jsonLd%3A%20%7B%0A%20%20%20%20%20%20image%3A%20%7B%0A%20%20%20%20%20%20%20%20url%3A%20%22https%3A%2F%2Fexample.com%2Fphoto-1.jpg%22%2C%0A%20%20%20%20%20%20%20%20description%3A%20%22A%20photo%20of%20a%20thing%22%2C%0A%20%20%20%20%20%20%20%20license%3A%20%22https%3A%2F%2Fcreativecommons.org%2Flicenses%2Fby%2F4.0%2F%22%2C%0A%20%20%20%20%20%20%20%20author%3A%20%7B%20name%3A%20%22Alice%22%20%7D%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0A%23%23%20Extra%0A%0AIf%20the%20plugin%20does%20not%20cover%20a%20type%20you%20need%2C%20pass%20raw%20JSON-LD%20through%20%60extra%60%3A%0A%0A%60%60%60ts%0AjsonLd%3A%20%7B%0A%20%20extra%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22%40type%22%3A%20%22HowTo%22%2C%0A%20%20%20%20%20%20name%3A%20%22How%20to%20do%20the%20thing%22%2C%0A%20%20%20%20%20%20step%3A%20%5B%7B%20%22%40type%22%3A%20%22HowToStep%22%2C%20text%3A%20%22Do%20the%20thing%22%20%7D%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%5D%2C%0A%7D%0A%60%60%60%0A%0A%60extra%60%20is%20emitted%20verbatim.%20It%20is%20what%20you%20would%20call%20an%20%22escape%20hatch%22%20for%20types%20the%20plugin%20does%20not%20model.%20If%20you%20feel%20that%20any%20type%20is%20missing%20or%20should%20be%20added%20to%20the%20plugin%2C%20please%20open%20an%20issue%20or%20PR.%0A" style="display: none;"></div>
+                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22JSON-LD%22%0Adescription%3A%20%22Structured%20data%20for%20search%20engines%3A%20Organization%2C%20WebSite%2C%20Article%20and%20Product.%22%0A---%0A%0AJSON-LD%2C%20also%20known%20as%20JSON%20Linked%20Data%2C%20is%20a%20way%20to%20provide%20structured%20data%20to%20search%20engines.%20It%20is%20a%20standard%20format%20for%20describing%20the%20content%20of%20a%20web%20page%20for%20better%20indexing%20and%20results.This%20plugin%20emits%20JSON-LD%20as%20%60%3Cscript%20type%3D%22application%2Fld%2Bjson%22%3E%60%20blocks.%20Enable%20the%20types%20you%20need%20in%20%60site.jsonLd%60%20and%20add%20per-page%20data%20in%20%60pages%5B%5D.jsonLd%60.%0A%0A!%5Bexample%20JSON-LD%5D(.%2Fassets%2Fimages%2Fjson-ld.png)%0A%0AThe%20format%20is%20pretty%20well%20standardized%20at%20%5Bjson-ld.org%5D(https%3A%2F%2Fjson-ld.org%2F)%20and%20the%20vocabulary%20for%20what%20you%20can%20describe%20lives%20at%20%5Bschema.org%5D(https%3A%2F%2Fschema.org%2F).%20The%20plugin%20models%20the%20common%20types%20from%20schema.org%3B%20anything%20not%20covered%20goes%20through%20%60extra%60!%20If%20you%20feel%20that%20any%20type%20is%20missing%20or%20should%20be%20added%20to%20the%20plugin%2C%20please%20open%20an%20issue%20or%20PR%2C%20I&#039;d%20love%20to%20add%20it!%0A%0A%23%23%20Organization%0A%0A%60%60%60ts%0Asite%3A%20%7B%0A%20%20jsonLd%3A%20%7B%20organization%3A%20true%20%7D%2C%0A%7D%0A%60%60%60%0A%0AThis%20emits%20an%20%60Organization%60%20block%20with%20the%20site%20name%20and%20URL.%20Add%20a%20logo%3A%0A%0A%60%60%60ts%0Asite%3A%20%7B%0A%20%20name%3A%20%22My%20Site%22%2C%0A%20%20jsonLd%3A%20%7B%0A%20%20%20%20organization%3A%20%7B%0A%20%20%20%20%20%20name%3A%20%22My%20Site%22%2C%0A%20%20%20%20%20%20logo%3A%20%22https%3A%2F%2Fexample.com%2Flogo.png%22%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0AHeads%20up!%20This%20is%20site-wide%20config%2C%20so%20it%20goes%20on%20every%20page.%20Google%20recommends%20putting%20Organization%20markup%20on%20just%20the%20home%20page%2C%20but%20having%20it%20everywhere%20is%20still%20valid%2C%20just%20a%20bit%20redundant.%20If%20you%20really%20only%20want%20it%20once%2C%20use%20%60extra%60%20on%20that%20page%20instead%20(sigh%20if%20you&#039;re%20really%20that%20picky%2C%20alright%2C%20but%20I%20get%20it%20lol).%0A%0A%23%23%20WebSite%0A%0A%60%60%60ts%0Asite%3A%20%7B%0A%20%20jsonLd%3A%20%7B%20website%3A%20true%20%7D%2C%0A%7D%0A%60%60%60%0A%0AEmits%20a%20%60WebSite%60%20block.%20Set%20%60searchUrl%60%20to%20add%20a%20search%20action%3A%0A%0A%60%60%60ts%0Asite%3A%20%7B%0A%20%20jsonLd%3A%20%7B%0A%20%20%20%20website%3A%20%7B%0A%20%20%20%20%20%20searchUrl%3A%20%22https%3A%2F%2Fexample.com%2Fsearch%3Fq%3D%7Bsearch_term_string%7D%22%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0AThat%20emits%20a%20%60SearchAction%60%20with%20an%20%60EntryPoint%60%20and%20%60query-input%60.%20The%20%60%7Bsearch_term_string%7D%60%20bit%20is%20required%3B%20the%20validator%20flags%20a%20%60searchUrl%60%20without%20it%2C%20cause%20nothing%20could%20fill%20the%20query%20in%20otherwise.%0A%0AGoogle%20removed%20the%20sitelinks%20search%20box%20feature%20on%20November%2029%2C%202024.%20The%20markup%20is%20still%20valid%20schema.org%20and%20harmless%2C%20so%20I%20emit%20it%2C%20but%20it%20won&#039;t%20do%20a%20Google%20feature%20anymore%20sadly%20cause%20Google%20keeps%20killing%20things.%0A%0A%23%23%20Article%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2Fblog%2Fhello-world%22%3A%20%7B%0A%20%20%20%20jsonLd%3A%20%7B%0A%20%20%20%20%20%20article%3A%20%7B%0A%20%20%20%20%20%20%20%20headline%3A%20%22Hello%2C%20world%22%2C%0A%20%20%20%20%20%20%20%20type%3A%20%22BlogPosting%22%2C%0A%20%20%20%20%20%20%20%20author%3A%20%7B%20name%3A%20%22Alice%22%20%7D%2C%0A%20%20%20%20%20%20%20%20publisher%3A%20%22Example%20Inc%22%2C%0A%20%20%20%20%20%20%20%20datePublished%3A%20%222024-01-15%22%2C%0A%20%20%20%20%20%20%20%20dateModified%3A%20%222024-06-20%22%2C%0A%20%20%20%20%20%20%20%20description%3A%20%22My%20first%20post%20on%20this%20site.%22%2C%0A%20%20%20%20%20%20%20%20image%3A%20%22https%3A%2F%2Fexample.com%2Fpost.png%22%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0ANote%3A%20%60author%60%20can%20be%20a%20string%20or%20an%20object%20with%20%60name%60%2C%20%60url%60%20and%20%60sameAs%60.%20Set%20%60%22%40type%22%3A%20%22Organization%22%60%20on%20that%20object%20for%20a%20company%20author%20(it%20defaults%20to%20%60Person%60).%20%60publisher%60%20takes%20the%20same%20shapes%20but%20defaults%20to%20%60Organization%60%3B%20Google%20doesn&#039;t%20require%20it%2C%20so%20skip%20it%20if%20you%20don&#039;t%20have%20one.%0A%0A%60type%60%20defaults%20to%20%60Article%60%3B%20set%20%60BlogPosting%60%2C%20%60NewsArticle%60%20or%20the%20others%20as%20needed.%20Dates%20are%20normalized%20to%20ISO%208601%2C%20so%20both%20%60Date%60%20objects%20and%20loose%20strings%20like%20%60%22Jan%201%202024%22%60%20come%20out%20(they%20queer%3F%20eyes%20emoji)%20as%20proper%20timestamps.%20Anything%20that%20doesn&#039;t%20parse%20gets%20dropped%20rather%20than%20emitted%20as%20garbage%2C%20and%20validation%20warns%20you%20about%20it.%20Google%20dropped%20the%20old%20hard%20110-character%20headline%20limit%2C%20but%20the%20validator%20still%20nudges%20you%20past%20that%20point%2C%20cause%20long%20headlines%20get%20truncated%20on%20some%20devices.%0A%0A%23%23%20Product%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2Fproducts%2Fwidget%22%3A%20%7B%0A%20%20%20%20jsonLd%3A%20%7B%0A%20%20%20%20%20%20product%3A%20%7B%0A%20%20%20%20%20%20%20%20name%3A%20%22Widget%22%2C%0A%20%20%20%20%20%20%20%20image%3A%20%22https%3A%2F%2Fexample.com%2Fwidget.png%22%2C%0A%20%20%20%20%20%20%20%20description%3A%20%22A%20widget%20for%20doing%20things.%22%2C%0A%20%20%20%20%20%20%20%20sku%3A%20%22WIDGET-001%22%2C%0A%20%20%20%20%20%20%20%20brand%3A%20%22My%20Brand%22%2C%0A%20%20%20%20%20%20%20%20price%3A%2019.99%2C%0A%20%20%20%20%20%20%20%20priceCurrency%3A%20%22USD%22%2C%0A%20%20%20%20%20%20%20%20availability%3A%20%22InStock%22%2C%0A%20%20%20%20%20%20%20%20ratingValue%3A%204.8%2C%0A%20%20%20%20%20%20%20%20ratingCount%3A%20127%2C%0A%20%20%20%20%20%20%20%20reviewCount%3A%2042%2C%0A%20%20%20%20%20%20%7D%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0AEverything%20is%20flat%20here%3B%20nothing%20to%20build.%20%60price%60%20can%20be%20a%20number%20or%20a%20string%2C%20and%20%600%60%20is%20preserved.%20%60availability%60%20takes%20a%20short%20name%20like%20%60InStock%60%20or%20a%20full%20%60https%3A%2F%2Fschema.org%2FInStock%60%20URL.%20Even%20%60%2FInStock%60%20works%2C%20as%20I%20(subjectively%20smartly)%20strip%20the%20leading%20slash.%0A%0ARatings%20need%20%60ratingValue%60%20plus%20at%20least%20one%20of%20%60ratingCount%60%20or%20%60reviewCount%60%20to%20be%20eligible%20for%20rich%20results.%20The%20validator%20warns%20if%20you%20leave%20both%20counts%20off.%0A%0A%23%23%20Extra%0A%0AIf%20the%20plugin%20does%20not%20cover%20a%20type%20you%20need%2C%20pass%20raw%20JSON-LD%20through%20%60extra%60%3A%0A%0A%60%60%60ts%0AjsonLd%3A%20%7B%0A%20%20extra%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22%40type%22%3A%20%22HowTo%22%2C%0A%20%20%20%20%20%20name%3A%20%22How%20to%20do%20the%20thing%22%2C%0A%20%20%20%20%20%20step%3A%20%5B%7B%20%22%40type%22%3A%20%22HowToStep%22%2C%20text%3A%20%22Do%20the%20thing%22%20%7D%5D%2C%0A%20%20%20%20%7D%2C%0A%20%20%5D%2C%0A%7D%0A%60%60%60%0A%0A%60extra%60%20is%20emitted%20verbatim.%20It%20is%20what%20you%20would%20call%20an%20%22escape%20hatch%22%20for%20types%20the%20plugin%20does%20not%20model.%20%60BreadcrumbList%60%20and%20%60ImageObject%60%20aren&#039;t%20built%20in%2C%20so%20use%20%60extra%60%20for%20those.%20Whenever%20anything%20is%20configured%2C%20the%20plugin%20will%20prepend%20a%20%60WebPage%60%20node%20with%20the%20page&#039;s%20title%2C%20description%2C%20canonical%20and%20image.%20If%20nothing%20at%20all%20is%20configured%2C%20no%20script%20tag%20is%20emitted%2C%20obviously.%0A%0AIf%20you%20feel%20that%20any%20type%20is%20missing%20or%20should%20be%20added%20to%20the%20plugin%2C%20please%20open%20an%20issue%20or%20PR.%0A" style="display: none;"></div>
                   
                     <nav aria-label="breadcrumb" class="docmd-breadcrumbs">
                       <ol>
@@ -1139,26 +1139,31 @@
 <p>This emits an <code>Organization</code> block with the site name and URL. Add a logo:</p>
 <pre class="hljs"><code class="language-ts">site<span class="hljs-operator">:</span> {
   name<span class="hljs-operator">:</span> <span class="hljs-string">&quot;My Site&quot;</span>,
-  jsonLd<span class="hljs-operator">:</span> { organization<span class="hljs-operator">:</span> { logo<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://example.com/logo.png&quot;</span> } },
+  jsonLd<span class="hljs-operator">:</span> {
+    organization<span class="hljs-operator">:</span> {
+      name<span class="hljs-operator">:</span> <span class="hljs-string">&quot;My Site&quot;</span>,
+      logo<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://example.com/logo.png&quot;</span>,
+    },
+  },
 }
 </code></pre>
+<p>Heads up! This is site-wide config, so it goes on every page. Google recommends putting Organization markup on just the home page, but having it everywhere is still valid, just a bit redundant. If you really only want it once, use <code>extra</code> on that page instead (sigh if you’re really that picky, alright, but I get it lol).</p>
 <h2 id="website" class="docmd-heading"><a href="#website" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>WebSite</h2>
 <pre class="hljs"><code class="language-ts">site<span class="hljs-operator">:</span> {
   jsonLd<span class="hljs-operator">:</span> { website<span class="hljs-operator">:</span> <span class="hljs-literal">true</span> },
 }
 </code></pre>
-<p>Emits a <code>WebSite</code> block. Set <code>site.searchAction</code> to add a search box to the result:</p>
+<p>Emits a <code>WebSite</code> block. Set <code>searchUrl</code> to add a search action:</p>
 <pre class="hljs"><code class="language-ts">site<span class="hljs-operator">:</span> {
   jsonLd<span class="hljs-operator">:</span> {
     website<span class="hljs-operator">:</span> {
-      searchAction<span class="hljs-operator">:</span> {
-        target<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://example.com/search?q={query}&quot;</span>,
-        queryInput<span class="hljs-operator">:</span> <span class="hljs-string">&quot;required name=query&quot;</span>,
-      },
+      searchUrl<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://example.com/search?q={search_term_string}&quot;</span>,
     },
   },
 }
 </code></pre>
+<p>That emits a <code>SearchAction</code> with an <code>EntryPoint</code> and <code>query-input</code>. The <code>{search_term_string}</code> bit is required; the validator flags a <code>searchUrl</code> without it, cause nothing could fill the query in otherwise.</p>
+<p>Google removed the sitelinks search box feature on November 29, 2024. The markup is still valid <a href="https://schema.org">schema.org</a> and harmless, so I emit it, but it won’t do a Google feature anymore sadly cause Google keeps killing things.</p>
 <h2 id="article" class="docmd-heading"><a href="#article" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Article</h2>
 <pre class="hljs"><code class="language-ts">pages<span class="hljs-operator">:</span> {
   <span class="hljs-string">&quot;/blog/hello-world&quot;</span><span class="hljs-operator">:</span> {
@@ -1167,6 +1172,7 @@
         headline<span class="hljs-operator">:</span> <span class="hljs-string">&quot;Hello, world&quot;</span>,
         <span class="hljs-keyword">type</span><span class="hljs-operator">:</span> <span class="hljs-string">&quot;BlogPosting&quot;</span>,
         author<span class="hljs-operator">:</span> { name<span class="hljs-operator">:</span> <span class="hljs-string">&quot;Alice&quot;</span> },
+        publisher<span class="hljs-operator">:</span> <span class="hljs-string">&quot;Example Inc&quot;</span>,
         datePublished<span class="hljs-operator">:</span> <span class="hljs-string">&quot;2024-01-15&quot;</span>,
         dateModified<span class="hljs-operator">:</span> <span class="hljs-string">&quot;2024-06-20&quot;</span>,
         description<span class="hljs-operator">:</span> <span class="hljs-string">&quot;My first post on this site.&quot;</span>,
@@ -1176,7 +1182,8 @@
   },
 }
 </code></pre>
-<p>Note: <code>author</code> can be a single object or an array. <code>type</code> defaults to <code>Article</code>; set <code>BlogPosting</code>, <code>NewsArticle</code> or others as needed.</p>
+<p>Note: <code>author</code> can be a string or an object with <code>name</code>, <code>url</code> and <code>sameAs</code>. Set <code>&quot;@type&quot;: &quot;Organization&quot;</code> on that object for a company author (it defaults to <code>Person</code>). <code>publisher</code> takes the same shapes but defaults to <code>Organization</code>; Google doesn’t require it, so skip it if you don’t have one.</p>
+<p><code>type</code> defaults to <code>Article</code>; set <code>BlogPosting</code>, <code>NewsArticle</code> or the others as needed. Dates are normalized to ISO 8601, so both <code>Date</code> objects and loose strings like <code>&quot;Jan 1 2024&quot;</code> come out (they queer? eyes emoji) as proper timestamps. Anything that doesn’t parse gets dropped rather than emitted as garbage, and validation warns you about it. Google dropped the old hard 110-character headline limit, but the validator still nudges you past that point, cause long headlines get truncated on some devices.</p>
 <h2 id="product" class="docmd-heading"><a href="#product" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Product</h2>
 <pre class="hljs"><code class="language-ts">pages<span class="hljs-operator">:</span> {
   <span class="hljs-string">&quot;/products/widget&quot;</span><span class="hljs-operator">:</span> {
@@ -1187,50 +1194,19 @@
         description<span class="hljs-operator">:</span> <span class="hljs-string">&quot;A widget for doing things.&quot;</span>,
         sku<span class="hljs-operator">:</span> <span class="hljs-string">&quot;WIDGET-001&quot;</span>,
         brand<span class="hljs-operator">:</span> <span class="hljs-string">&quot;My Brand&quot;</span>,
-        mpn<span class="hljs-operator">:</span> <span class="hljs-string">&quot;MPN-001&quot;</span>,
-        offers<span class="hljs-operator">:</span> {
-          price<span class="hljs-operator">:</span> <span class="hljs-number">19.99</span>,
-          priceCurrency<span class="hljs-operator">:</span> <span class="hljs-string">&quot;USD&quot;</span>,
-          availability<span class="hljs-operator">:</span> <span class="hljs-string">&quot;InStock&quot;</span>,
-          url<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://example.com/products/widget&quot;</span>,
-        },
-        review<span class="hljs-operator">:</span> {
-          reviewRating<span class="hljs-operator">:</span> { ratingValue<span class="hljs-operator">:</span> <span class="hljs-number">5</span>, bestRating<span class="hljs-operator">:</span> <span class="hljs-number">5</span> },
-          author<span class="hljs-operator">:</span> { name<span class="hljs-operator">:</span> <span class="hljs-string">&quot;Bob&quot;</span> },
-          reviewBody<span class="hljs-operator">:</span> <span class="hljs-string">&quot;Best widget I have owned.&quot;</span>,
-        },
+        price<span class="hljs-operator">:</span> <span class="hljs-number">19.99</span>,
+        priceCurrency<span class="hljs-operator">:</span> <span class="hljs-string">&quot;USD&quot;</span>,
+        availability<span class="hljs-operator">:</span> <span class="hljs-string">&quot;InStock&quot;</span>,
+        ratingValue<span class="hljs-operator">:</span> <span class="hljs-number">4.8</span>,
+        ratingCount<span class="hljs-operator">:</span> <span class="hljs-number">127</span>,
+        reviewCount<span class="hljs-operator">:</span> <span class="hljs-number">42</span>,
       },
     },
   },
 }
 </code></pre>
-<h2 id="breadcrumblist" class="docmd-heading"><a href="#breadcrumblist" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>BreadcrumbList</h2>
-<pre class="hljs"><code class="language-ts">pages<span class="hljs-operator">:</span> {
-  <span class="hljs-string">&quot;/products/widget&quot;</span><span class="hljs-operator">:</span> {
-    jsonLd<span class="hljs-operator">:</span> {
-      breadcrumb<span class="hljs-operator">:</span> [
-        { name<span class="hljs-operator">:</span> <span class="hljs-string">&quot;Home&quot;</span>, item<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://example.com/&quot;</span> },
-        { name<span class="hljs-operator">:</span> <span class="hljs-string">&quot;Products&quot;</span>, item<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://example.com/products&quot;</span> },
-        { name<span class="hljs-operator">:</span> <span class="hljs-string">&quot;Widget&quot;</span>, item<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://example.com/products/widget&quot;</span> },
-      ],
-    },
-  },
-}
-</code></pre>
-<h2 id="imageobject" class="docmd-heading"><a href="#imageobject" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>ImageObject</h2>
-<pre class="hljs"><code class="language-ts">pages<span class="hljs-operator">:</span> {
-  <span class="hljs-string">&quot;/gallery/photo-1&quot;</span><span class="hljs-operator">:</span> {
-    jsonLd<span class="hljs-operator">:</span> {
-      image<span class="hljs-operator">:</span> {
-        url<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://example.com/photo-1.jpg&quot;</span>,
-        description<span class="hljs-operator">:</span> <span class="hljs-string">&quot;A photo of a thing&quot;</span>,
-        license<span class="hljs-operator">:</span> <span class="hljs-string">&quot;https://creativecommons.org/licenses/by/4.0/&quot;</span>,
-        author<span class="hljs-operator">:</span> { name<span class="hljs-operator">:</span> <span class="hljs-string">&quot;Alice&quot;</span> },
-      },
-    },
-  },
-}
-</code></pre>
+<p>Everything is flat here; nothing to build. <code>price</code> can be a number or a string, and <code>0</code> is preserved. <code>availability</code> takes a short name like <code>InStock</code> or a full <code>https://schema.org/InStock</code> URL. Even <code>/InStock</code> works, as I (subjectively smartly) strip the leading slash.</p>
+<p>Ratings need <code>ratingValue</code> plus at least one of <code>ratingCount</code> or <code>reviewCount</code> to be eligible for rich results. The validator warns if you leave both counts off.</p>
 <h2 id="extra" class="docmd-heading"><a href="#extra" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Extra</h2>
 <p>If the plugin does not cover a type you need, pass raw JSON-LD through <code>extra</code>:</p>
 <pre class="hljs"><code class="language-ts">jsonLd<span class="hljs-operator">:</span> {
@@ -1243,7 +1219,8 @@
   ],
 }
 </code></pre>
-<p><code>extra</code> is emitted verbatim. It is what you would call an “escape hatch” for types the plugin does not model. If you feel that any type is missing or should be added to the plugin, please open an issue or PR.</p>
+<p><code>extra</code> is emitted verbatim. It is what you would call an “escape hatch” for types the plugin does not model. <code>BreadcrumbList</code> and <code>ImageObject</code> aren’t built in, so use <code>extra</code> for those. Whenever anything is configured, the plugin will prepend a <code>WebPage</code> node with the page’s title, description, canonical and image. If nothing at all is configured, no script tag is emitted, obviously.</p>
+<p>If you feel that any type is missing or should be added to the plugin, please open an issue or PR.</p>
 
                 
                   <div class="page-navigation">
@@ -1343,14 +1320,6 @@
         </li>
       
         <li class="toc-item toc-level-2">
-          <a href="#breadcrumblist" class="toc-link">BreadcrumbList</a>
-        </li>
-      
-        <li class="toc-item toc-level-2">
-          <a href="#imageobject" class="toc-link">ImageObject</a>
-        </li>
-      
-        <li class="toc-item toc-level-2">
           <a href="#extra" class="toc-link">Extra</a>
         </li>
       
@@ -1365,13 +1334,13 @@
             <div class="page-footer-actions">
               
               
-                <span class="git-last-updated" data-timestamp="1795033500000">
+                <span class="git-last-updated" data-timestamp="1795159555000">
                   <svg class="git-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                   </svg>
                   <span class="git-label">Last updated:</span>
-                  <span class="git-time" data-timestamp="1795033500000"></span>
+                  <span class="git-time" data-timestamp="1795159555000"></span>
                   
                   <div class="git-commit-tooltip" role="tooltip">
                     <div class="git-tooltip-title">Recent commits</div>
@@ -1384,10 +1353,10 @@
                             
                           </div>
                           <div class="git-commit-details">
-                            <div class="git-commit-message" title="A lot of bugfixes (uncommited work from the past few weeks while waiting for review, so time spent is inaccurate)">A lot of bugfixes (uncommited work fr...</div>
+                            <div class="git-commit-message" title="JSON-LD fixes">JSON-LD fixes</div>
                             <div class="git-commit-meta">
                               <span class="git-commit-author">NellowTCS</span>
-                              <span class="git-commit-date" data-timestamp="1795033500000"></span>
+                              <span class="git-commit-date" data-timestamp="1795159555000"></span>
                             </div>
                           </div>
                         </li>
@@ -1440,17 +1409,17 @@
       </div>
       
       
-      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-18T20:25:33.781Z","buildDate":"2026-11-18","buildYear":"2026","gitCommit":"5eb760d","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-18","GIT_COMMIT":"5eb760d","GIT_BRANCH":"main","git":{"commit":"5eb760d","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"JSON-LD","slug":"/vite-plugin-seo-meta/guide/json-ld/","path":"guide/json-ld/index.html"},"frontmatter":{"title":"JSON-LD","description":"Structured data for search engines: Organization, WebSite, Article, Product, BreadcrumbList and ImageObject.","_git":{"lastUpdated":"2026-11-18T20:25:00.000Z","lastUpdatedTimestamp":1795033500000,"commits":[{"hash":"5eb760d70a267b936b6962fd2aa02aa3b4a6e567","shortHash":"5eb760d","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-18T20:25:00.000Z","timestamp":1795033500000,"message":"A lot of bugfixes (uncommited work from the past few weeks while waiting for review, so time spent is inaccurate)","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
+      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-20T07:26:25.940Z","buildDate":"2026-11-20","buildYear":"2026","gitCommit":"6ac314e","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-20","GIT_COMMIT":"6ac314e","GIT_BRANCH":"main","git":{"commit":"6ac314e","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"JSON-LD","slug":"/vite-plugin-seo-meta/guide/json-ld/","path":"guide/json-ld/index.html"},"frontmatter":{"title":"JSON-LD","description":"Structured data for search engines: Organization, WebSite, Article and Product.","_git":{"lastUpdated":"2026-11-20T07:25:55.000Z","lastUpdatedTimestamp":1795159555000,"commits":[{"hash":"6ac314eb1b594e5b153180eb4b2dc7ae31fa4075","shortHash":"6ac314e","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-20T07:25:55.000Z","timestamp":1795159555000,"message":"JSON-LD fixes","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
       
-      <script src="../../assets/js/docmd-runtime.js?v=mwmkmaso"></script>
-      <script src="../../assets/js/docmd-main.js?v=mwmkmaso"></script>
+      <script src="../../assets/js/docmd-runtime.js?v=mwono185"></script>
+      <script src="../../assets/js/docmd-main.js?v=mwono185"></script>
       
-      <script src="../../assets/js/docmd-git.js?v=mwmkmaso"></script>
-      <script src="../../assets/js/docmd-image-lightbox.js?v=mwmkmaso" ></script>
-<script src="../../assets/js/vendor/minisearch.js?v=mwmkmaso" ></script>
-<script src="../../assets/js/docmd-search.js?v=mwmkmaso" ></script>
-<script src="../../assets/js/docmd-git.js?v=mwmkmaso" ></script>
-<script src="../../assets/js/docmd-ai.js?v=mwmkmaso" ></script>
+      <script src="../../assets/js/docmd-git.js?v=mwono185"></script>
+      <script src="../../assets/js/docmd-image-lightbox.js?v=mwono185" ></script>
+<script src="../../assets/js/vendor/minisearch.js?v=mwono185" ></script>
+<script src="../../assets/js/docmd-search.js?v=mwono185" ></script>
+<script src="../../assets/js/docmd-git.js?v=mwono185" ></script>
+<script src="../../assets/js/docmd-ai.js?v=mwono185" ></script>
 
   <!-- Search Modal (Injected by @docmd/plugin-search) -->
   <div id="docmd-search-modal" class="docmd-search-modal" style="display: none;" data-semantic="true" data-show-confidence="true" data-show-filters="true"

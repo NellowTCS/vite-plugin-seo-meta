@@ -4,10 +4,10 @@ title: Installation
 description: "Install vite-plugin-seo-meta and set up its peer dependency."
 source: "https://nellowtcs.me/vite-plugin-seo-meta/getting-started/installation/"
 path: /getting-started/installation/
-updated: 2026-11-18
+updated: 2026-11-20
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-18T20:25:38.802Z"
+  generated_at: "2026-11-20T07:26:30.890Z"
 ---
 ---
 title: "Installation"
