@@ -8,9 +8,12 @@ const BASE_SITE: SiteConfig = { url: "https://example.com", name: "Example" };
 const LONG_DESC =
   "Welcome home to our example site, where you can learn more about who we are.";
 
-function options(meta: Record<string, any> = {}): ResolvedOptions {
+function options(
+  meta: Record<string, any> = {},
+  site: SiteConfig = BASE_SITE,
+): ResolvedOptions {
   return {
-    site: resolveSite(BASE_SITE),
+    site: resolveSite(site),
     pageMeta: meta,
     robotsEnabled: false,
     robots: {},
@@ -448,5 +451,120 @@ describe("validateOptions", () => {
         }),
       ),
     ).toEqual([]);
+  });
+
+  it("flags unparseable Article dates but accepts loose date strings", () => {
+    const issues = validateOptions(
+      options({
+        "/bad": {
+          title: "Bad",
+          description: LONG_DESC,
+          jsonLd: {
+            article: {
+              headline: "Hello",
+              datePublished: "not a date",
+              dateModified: new Date("bad"),
+            },
+          },
+        },
+        "/good": {
+          title: "Good",
+          description: LONG_DESC,
+          jsonLd: {
+            article: { headline: "Hello", datePublished: "Jan 1 2024" },
+          },
+        },
+      }),
+    );
+    expect(
+      issues.filter(
+        (i) => i.route === "/bad" && i.field.startsWith("jsonLd.article.date"),
+      ),
+    ).toHaveLength(2);
+    expect(
+      issues.some(
+        (i) => i.route === "/good" && i.field.startsWith("jsonLd.article"),
+      ),
+    ).toBe(false);
+  });
+
+  it("flags an overly long Article headline", () => {
+    const issues = validateOptions(
+      options({
+        "/": {
+          title: "Home",
+          description: LONG_DESC,
+          jsonLd: { article: { headline: "x".repeat(111) } },
+        },
+      }),
+    );
+    expect(issues.some((i) => i.field === "jsonLd.article.headline")).toBe(
+      true,
+    );
+  });
+
+  it("flags aggregateRating without a count and accepts ratingCount", () => {
+    const issues = validateOptions(
+      options({
+        "/bad": {
+          title: "Bad",
+          description: LONG_DESC,
+          jsonLd: { product: { name: "Widget", ratingValue: 5 } },
+        },
+        "/good": {
+          title: "Good",
+          description: LONG_DESC,
+          jsonLd: {
+            product: { name: "Widget", ratingValue: 5, ratingCount: 12 },
+          },
+        },
+      }),
+    );
+    expect(
+      issues.some(
+        (i) =>
+          i.route === "/bad" && i.field === "jsonLd.product.aggregateRating",
+      ),
+    ).toBe(true);
+    expect(
+      issues.some(
+        (i) =>
+          i.route === "/good" && i.field === "jsonLd.product.aggregateRating",
+      ),
+    ).toBe(false);
+  });
+
+  it("flags a WebSite searchUrl without the search term placeholder", () => {
+    const issues = validateOptions(
+      options(
+        { "/": { title: "Home", description: LONG_DESC } },
+        {
+          ...BASE_SITE,
+          jsonLd: {
+            website: { searchUrl: "https://example.com/search?q=term" },
+          },
+        },
+      ),
+    );
+    expect(issues.some((i) => i.field === "jsonLd.website.searchUrl")).toBe(
+      true,
+    );
+  });
+
+  it("accepts a WebSite searchUrl with the search term placeholder", () => {
+    const issues = validateOptions(
+      options(
+        { "/": { title: "Home", description: LONG_DESC } },
+        {
+          ...BASE_SITE,
+          jsonLd: {
+            website: {
+              searchUrl: "https://example.com/search?q={search_term_string}",
+            },
+          },
+        },
+      ),
+    );
+    expect(issues).toEqual([]);
   });
 });

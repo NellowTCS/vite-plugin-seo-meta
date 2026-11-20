@@ -4,7 +4,12 @@ import { resolvePage } from "./head/merge";
 import { isAlphaRegion, isNumericRegion, isScriptSubtag } from "./locale";
 import { ISO_3166_1_ALPHA_2, ISO_639_1 } from "./locale-codes";
 import type { Logger } from "./log";
-import type { RobotsFileOptions, ResolvedOptions, ResolvedPage } from "./types";
+import type {
+  JsonLdConfig,
+  RobotsFileOptions,
+  ResolvedOptions,
+  ResolvedPage,
+} from "./types";
 import { isAbsoluteUrl } from "./url";
 
 /** Rendered titles past this get cut off in search results */
@@ -21,6 +26,15 @@ const TWITTER_TITLE_MAX = 70;
 
 /** Twitter Card description cap (~~X~~ Twitter truncates past this) */
 const TWITTER_DESCRIPTION_MAX = 200;
+
+/** 
+ * Google killed the hard Article headline limit (another kill? a "good" one?), 
+ * but long ones still get truncated in search
+ */
+const ARTICLE_HEADLINE_MAX = 110;
+
+/** SearchAction needs this so the query can be substituted */
+const SEARCH_TERM_PLACEHOLDER = "{search_term_string}";
 
 /** Allowed `<meta name="robots">` directives */
 const VALID_ROBOTS_DIRECTIVES = new Set([
@@ -203,6 +217,71 @@ function validateRobotsDirectives(
   }
 }
 
+/** Validates site-wide JSON-LD config */
+function validateSiteJsonLd(jsonLd: JsonLdConfig): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const website = jsonLd.website;
+  if (
+    website &&
+    typeof website === "object" &&
+    website.searchUrl &&
+    !website.searchUrl.includes(SEARCH_TERM_PLACEHOLDER)
+  )
+    issues.push({
+      route: "(site)",
+      field: "jsonLd.website.searchUrl",
+      message: `searchUrl "${website.searchUrl}" is missing ${SEARCH_TERM_PLACEHOLDER}, so the search query cannot be substituted`,
+    });
+  return issues;
+}
+
+/** Validates raw page JSON-LD before the builders normalize it */
+function validatePageJsonLd(
+  jsonLd: JsonLdConfig | undefined,
+  route: string,
+): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+  const add = (field: string, message: string) =>
+    issues.push({ route, field, message });
+
+  const article = jsonLd?.article;
+  if (article && typeof article === "object") {
+    for (const key of ["datePublished", "dateModified"] as const) {
+      const value = article[key];
+      if (!value) continue;
+      const valid =
+        value instanceof Date
+          ? !Number.isNaN(value.getTime())
+          : isDateValue(value);
+      if (!valid)
+        add(
+          `jsonLd.article.${key}`,
+          `${key} "${String(value)}" is not a parseable date and will be omitted (Google expects ISO 8601)`,
+        );
+    }
+    if (article.headline && article.headline.length > ARTICLE_HEADLINE_MAX)
+      add(
+        "jsonLd.article.headline",
+        `headline is ${article.headline.length} characters; long headlines may be truncated in search results`,
+      );
+  }
+
+  const product = jsonLd?.product;
+  if (
+    product &&
+    typeof product === "object" &&
+    product.ratingValue !== undefined &&
+    product.reviewCount === undefined &&
+    product.ratingCount === undefined
+  )
+    add(
+      "jsonLd.product.aggregateRating",
+      "aggregateRating needs reviewCount or ratingCount alongside ratingValue to be eligible for rich results",
+    );
+
+  return issues;
+}
+
 /** Checks a single resolved page. Returns an empty array when it passes. */
 export function validatePage(page: ResolvedPage): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
@@ -338,12 +417,14 @@ export function validateOptions(options: ResolvedOptions): ValidationIssue[] {
 
   if (options.robotsEnabled)
     issues.push(...validateRobotsOptions(options.robots));
+  issues.push(...validateSiteJsonLd(options.site.jsonLd));
 
   const resolvedPages = new Map<string, ResolvedPage>();
   for (const [route, raw] of Object.entries(options.pageMeta)) {
     const page = resolvePage(route, options);
     resolvedPages.set(page.route, page);
     issues.push(...validatePage(page));
+    issues.push(...validatePageJsonLd(raw.jsonLd, page.route));
 
     const title = page.title.trim();
     if (title) collect(titles, title, page.route);

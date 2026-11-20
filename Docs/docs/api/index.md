@@ -76,7 +76,7 @@ The plugin exports types for every config shape:
 - `TwitterAppPlatform` - `iphone` \| `ipad` \| `googleplay`
 - `TwitterPlayer` - player card iframe config
 - `TwitterApps` - app card per-platform config
-- `ArticleJsonLd` / `OrganizationJsonLd` / `WebSiteJsonLd` / `ProductJsonLd` / `JsonLdPerson` - JSON-LD shapes
+- `ArticleJsonLd` / `OrganizationJsonLd` / `WebSiteJsonLd` / `ProductJsonLd` / `JsonLdEntity` - JSON-LD shapes
 - `OpenGraphArticle` / `OpenGraphBook` / `OpenGraphMusic` / `OpenGraphVideo` / `OpenGraphPayment` - Open Graph verticals
 - `SitemapChangefreq` - changefreq enum
 - `RobotsDirectives` - structured robots meta directives

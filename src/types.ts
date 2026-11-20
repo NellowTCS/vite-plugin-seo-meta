@@ -415,10 +415,12 @@ export interface TwitterInfo {
   apps?: TwitterApps;
 }
 
-/** A named author for Article structured data */
-export interface JsonLdPerson {
+/** A referenced Person or Organization; can vary between the two */
+export interface JsonLdEntity {
   name: string;
   url?: string;
+  sameAs?: string[];
+  "@type"?: "Person" | "Organization";
 }
 
 /** `Organization` structured data */
@@ -445,7 +447,8 @@ export interface ArticleJsonLd {
   image?: string;
   datePublished?: string | Date;
   dateModified?: string | Date;
-  author?: string | JsonLdPerson;
+  author?: string | JsonLdEntity;
+  publisher?: string | JsonLdEntity;
   /** Schema.org type, defaults to `Article` */
   type?: "Article" | "BlogPosting" | "NewsArticle";
 }
@@ -462,6 +465,7 @@ export interface ProductJsonLd {
   /** Schema.org availability URL or short name, like `InStock`. */
   availability?: string;
   ratingValue?: number;
+  ratingCount?: number;
   reviewCount?: number;
 }
 

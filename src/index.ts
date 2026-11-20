@@ -7,7 +7,7 @@ export type {
   FaviconConfig,
   HreflangAlternate,
   JsonLdConfig,
-  JsonLdPerson,
+  JsonLdEntity,
   OgDeterminer,
   OpenGraphArticle,
   OpenGraphBook,

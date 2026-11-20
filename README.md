@@ -1,6 +1,6 @@
 # vite-plugin-seo-meta
 
-All-in-one Vite plugin that generates SEO metadata for your app at build time: `<title>`, meta tags, canonical, Open Graph, Twitter Cards, JSON-LD (Organization/WebSite/Article/Product/BreadcrumbList/ImageObject), hreflang alternates, `robots.txt` and `sitemap.xml`. Zero-config defaults, per-page overrides.
+All-in-one Vite plugin that generates SEO metadata for your app at build time: `<title>`, meta tags, canonical, Open Graph, Twitter Cards, JSON-LD (Organization/WebSite/Article/Product), hreflang alternates, `robots.txt` and `sitemap.xml`. Zero-config defaults, per-page overrides.
 
 Made for any build that produces static HTML: some SPA, MPA, SSG, and prerendered builds.
 
@@ -63,7 +63,7 @@ export default defineSeoConfig({
 - Per-page overrides via `pages`
 - Canonical, Open Graph (full ogp.me spec incl. structured image/video/audio, type-specific verticals and `payment.link`)
 - Twitter Cards (summary/summary_large_image/player/app, image dims/alt, label/data pairs, `:site:id`/`:creator:id`)
-- JSON-LD: Organization, WebSite, Article, Product, BreadcrumbList, ImageObject (+ `extra` escape hatch)
+- JSON-LD: Organization, WebSite, Article, Product (+ `extra` escape hatch for anything else)
 - hreflang alternates per page (with self-referencing alternate)
 - `robots.txt` following le spec at RFC 9309 (groups, `Allow`/`Disallow` with `*`/`$` wildcards, `Sitemap`), plus legacy `Crawl-delay`/`Clean-param`/`Host` extensions, merged with existing `public/robots.txt`
 - `sitemap.xml` with image/video/news namespaces and `xhtml:link` alternates; single-host enforcement, priority/size caps, and a two-day news window

@@ -4,7 +4,7 @@ import type {
   ArticleJsonLd,
   HeadTag,
   JsonLdConfig,
-  JsonLdPerson,
+  JsonLdEntity,
   OrganizationJsonLd,
   ProductJsonLd,
   ResolvedPage,
@@ -27,9 +27,13 @@ export interface PageContext {
 
 const CONTEXT = "https://schema.org";
 
-/** Normalizes a date to ISO 8601 (Google requires it for datePublished/dateModified) */
-function isoDate(value: string | Date): string {
-  return value instanceof Date ? value.toISOString() : value;
+/** Normalizes a date to ISO 8601 (Google requires it for datePublished/dateModified).
+ * Unparseable values are dropped rather emitted emitted invalid.
+ * Ref: https://developers.google.com/search/docs/appearance/structured-data/article */
+function isoDate(value: string | Date): string | undefined {
+  const time =
+    value instanceof Date ? value.getTime() : Date.parse(value.trim());
+  return Number.isNaN(time) ? undefined : new Date(time).toISOString();
 }
 
 /** Turns `InStock` into `https://schema.org/InStock`, leaving full URLs alone
@@ -40,15 +44,20 @@ function schemaUrl(value: string): string {
   return short ? `${CONTEXT}/${short}` : value;
 }
 
-/** Normalizes an Author into a `Person` node */
-function personFrom(
-  author: string | JsonLdPerson | undefined,
+/** Normalizes an author or publisher into a `Person`/`Organization` node */
+function entityFrom(
+  value: string | JsonLdEntity | undefined,
+  defaultType: "Person" | "Organization",
 ): JsonLdNode | undefined {
-  if (!author) return undefined;
-  if (typeof author === "string") return { "@type": "Person", name: author };
-  const person: JsonLdNode = { "@type": "Person", name: author.name };
-  if (author.url) person.url = author.url;
-  return person;
+  if (!value) return undefined;
+  if (typeof value === "string") return { "@type": defaultType, name: value };
+  const node: JsonLdNode = {
+    "@type": value["@type"] ?? defaultType,
+    name: value.name,
+  };
+  if (value.url) node.url = value.url;
+  if (value.sameAs) node.sameAs = value.sameAs;
+  return node;
 }
 
 /** `Organization` node, from site name/url or an explicit object */
@@ -136,10 +145,18 @@ function buildArticle(
   };
   if (source.description) node.description = source.description;
   if (source.image) node.image = toAbsolute(source.image, site.url);
-  if (source.datePublished) node.datePublished = isoDate(source.datePublished);
-  if (source.dateModified) node.dateModified = isoDate(source.dateModified);
-  const author = personFrom(source.author);
+  if (source.datePublished) {
+    const date = isoDate(source.datePublished);
+    if (date) node.datePublished = date;
+  }
+  if (source.dateModified) {
+    const date = isoDate(source.dateModified);
+    if (date) node.dateModified = date;
+  }
+  const author = entityFrom(source.author, "Person");
   if (author) node.author = author;
+  const publisher = entityFrom(source.publisher, "Organization");
+  if (publisher) node.publisher = publisher;
   return node;
 }
 
@@ -176,6 +193,8 @@ function buildProduct(
       "@type": "AggregateRating",
       ratingValue: source.ratingValue,
     };
+    if (source.ratingCount !== undefined)
+      rating.ratingCount = source.ratingCount;
     if (source.reviewCount !== undefined)
       rating.reviewCount = source.reviewCount;
     node.aggregateRating = rating;

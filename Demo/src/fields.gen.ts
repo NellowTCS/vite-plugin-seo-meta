@@ -5,7 +5,7 @@ import type {
   ArticleJsonLd,
   FaviconConfig,
   JsonLdConfig,
-  JsonLdPerson,
+  JsonLdEntity,
   MobileWebAppConfig,
   MsTileConfig,
   OpenGraphArticle,
@@ -694,10 +694,18 @@ const f_RobotsDirectives = {
   },
 } satisfies Cover<RobotsDirectives>;
 
-const f_JsonLdPerson = {
+const f_JsonLdEntity = {
   name: { control: "text", id: "name", label: "Name" },
   url: { control: "text", id: "url", label: "Url" },
-} satisfies Cover<JsonLdPerson>;
+  sameAs: { control: "list", id: "sameAs", label: "Same As" },
+  "@type": {
+    control: "select?",
+    id: '"@type"',
+    label: '"@type"',
+    options: ["Person", "Organization"],
+    hint: "Overrides the default node type (`Person` for authors, `Organization` for publishers)",
+  },
+} satisfies Cover<JsonLdEntity>;
 
 const f_ArticleJsonLd = {
   headline: { control: "text", id: "headline", label: "Headline" },
@@ -721,7 +729,23 @@ const f_ArticleJsonLd = {
       label: "Author",
       placeholder: "Text value",
     },
-    nested: { kind: "section", fields: f_JsonLdPerson, title: "Author" },
+    nested: { kind: "section", fields: f_JsonLdEntity, title: "Author" },
+  },
+  publisher: {
+    gate: true,
+    control: "select?",
+    id: "publisher",
+    label: "Publisher",
+    options: ["raw", "object"],
+    hint: "Defaults to an `Organization` node",
+    raw: {
+      control: "text",
+      id: "publisher.raw",
+      label: "Publisher",
+      placeholder: "Text value",
+      hint: "Defaults to an `Organization` node",
+    },
+    nested: { kind: "section", fields: f_JsonLdEntity, title: "Publisher" },
   },
   type: {
     control: "select?",
@@ -751,6 +775,7 @@ const f_ProductJsonLd = {
     hint: "Schema.org availability URL or short name, like `InStock`.",
   },
   ratingValue: { control: "number", id: "ratingValue", label: "Rating Value" },
+  ratingCount: { control: "number", id: "ratingCount", label: "Rating Count" },
   reviewCount: { control: "number", id: "reviewCount", label: "Review Count" },
 } satisfies Cover<ProductJsonLd>;
 
