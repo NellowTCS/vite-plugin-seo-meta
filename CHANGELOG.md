@@ -32,6 +32,7 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
+- Minimum Node version is now 22 as tsdown requires it.
 - Builder moved from `tsup` to `tsdown` (latter is maintained and just better)
 - Demo field generator uses TypeScript 7's API now
 - Documented `Crawl-delay`, `Clean-param`, and `Host` as legacy extensions outside RFC 9309

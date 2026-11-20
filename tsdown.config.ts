@@ -14,7 +14,7 @@ export default defineConfig({
       dts: esm ? ".d.ts" : ".d.cts",
     };
   },
-  target: "node20",
+  target: "node22",
   dts: true,
   clean: true,
   sourcemap: true,

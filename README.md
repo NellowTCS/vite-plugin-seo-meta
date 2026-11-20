@@ -18,7 +18,7 @@ Made for any build that produces static HTML: some SPA, MPA, SSG, and prerendere
 npm i -D vite-plugin-seo-meta vite
 ```
 
-Vite 5 or newer. The plugin is ESM only.
+Node 22.12 or newer and Vite 5 or newer. The plugin is ESM only.
 
 ## Quick start
 
