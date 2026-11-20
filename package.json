@@ -62,20 +62,20 @@
   "dependencies": {
     "parse5": "^8.0.1",
     "sitemap": "^10.0.0",
-    "xml-formatter": "^3.7.0"
+    "xml-formatter": "^3.7.1"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",
     "prettier": "^3.9.10",
     "schema-dts": "^2.1.0",
-    "tsup": "^9.0.0",
-    "typescript": "^5.9.3",
-    "vite": "^8.3.4",
-    "vitest": "^5.0.4"
+    "tsdown": "^0.23.7",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1"
   },
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
     "generate": "node Demo/scripts/gen-fields.mjs",
     "test": "vitest run",

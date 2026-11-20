@@ -12,7 +12,7 @@
   "devDependencies": {
     "typescript": "^7.0.2",
     "uhtml": "^5.0.9",
-    "vite": "^8.3.4",
+    "vite": "^8.3.8",
     "vite-plugin-seo-meta": "file:.."
   }
 }

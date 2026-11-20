@@ -163,6 +163,7 @@ export default defineSeoConfig({
      */
     robotsByUserAgent: {
       googlebot: {
+        noindex: true,
         indexifembedded: true,
         maxSnippet: -1,
         maxImagePreview: "large",
@@ -514,6 +515,7 @@ export default defineSeoConfig({
        */
       robotsByUserAgent: {
         googlebot: {
+          noindex: true,
           indexifembedded: true,
         },
       },
