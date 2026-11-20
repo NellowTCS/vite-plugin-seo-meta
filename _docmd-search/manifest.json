@@ -9,82 +9,82 @@
   "batchCount": 1,
   "files": {
     "api/index.md": {
-      "mtime": 1795167407333.1726,
+      "mtime": 1795168825880.5002,
       "size": 4559,
       "batches": []
     },
     "getting-started/configuration.md": {
-      "mtime": 1795167407333.1726,
+      "mtime": 1795168825880.5002,
       "size": 4935,
       "batches": []
     },
     "getting-started/installation.md": {
-      "mtime": 1795167407333.3389,
+      "mtime": 1795168825880.6243,
       "size": 802,
       "batches": []
     },
     "getting-started/quickstart.md": {
-      "mtime": 1795167407333.3389,
+      "mtime": 1795168825880.6243,
       "size": 1601,
       "batches": []
     },
     "guide/hreflang.md": {
-      "mtime": 1795167407333.3389,
+      "mtime": 1795168825880.6243,
       "size": 2448,
       "batches": []
     },
     "guide/json-ld.md": {
-      "mtime": 1795167407333.4934,
+      "mtime": 1795168825880.7505,
       "size": 5075,
       "batches": []
     },
     "guide/meta-tags.md": {
-      "mtime": 1795167407333.4934,
+      "mtime": 1795168825880.7505,
       "size": 5359,
       "batches": []
     },
     "guide/open-graph.md": {
-      "mtime": 1795167407333.4934,
+      "mtime": 1795168825880.7505,
       "size": 4427,
       "batches": []
     },
     "guide/robots.md": {
-      "mtime": 1795167407333.4934,
+      "mtime": 1795168825880.7505,
       "size": 3933,
       "batches": []
     },
     "guide/sitemap.md": {
-      "mtime": 1795167407333.4934,
+      "mtime": 1795168825880.7505,
       "size": 6225,
       "batches": []
     },
     "guide/spa-runtime.md": {
-      "mtime": 1795167407333.4934,
+      "mtime": 1795168825880.7505,
       "size": 1800,
       "batches": []
     },
     "guide/sveltekit.md": {
-      "mtime": 1795167407333.4934,
+      "mtime": 1795168825880.7505,
       "size": 3013,
       "batches": []
     },
     "guide/twitter.md": {
-      "mtime": 1795167407333.4934,
+      "mtime": 1795168825880.7505,
       "size": 3502,
       "batches": []
     },
     "guide/validation.md": {
-      "mtime": 1795167407333.4934,
+      "mtime": 1795168825880.7505,
       "size": 4312,
       "batches": []
     },
     "index.md": {
-      "mtime": 1795167407333.4934,
+      "mtime": 1795168825880.7505,
       "size": 2636,
       "batches": []
     },
     "reference/config.md": {
-      "mtime": 1795167407333.4934,
+      "mtime": 1795168825880.7505,
       "size": 4729,
       "batches": []
     }
