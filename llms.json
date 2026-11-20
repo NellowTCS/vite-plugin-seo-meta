@@ -5,7 +5,7 @@
     {
       "title": "API",
       "url": "https://nellowtcs.me/vite-plugin-seo-meta/api/",
-      "description": "Public exports: seo(), defineSeoConfig() and the runtime helper.",
+      "description": "Public exports: seo(), defineSeoConfig(), the runtime helper, and the SvelteKit handle.",
       "section": "API",
       "priority": "medium"
     },
@@ -76,6 +76,13 @@
       "title": "SPA Runtime",
       "url": "https://nellowtcs.me/vite-plugin-seo-meta/guide/spa-runtime/",
       "description": "Update SEO tags when the URL changes in a single-page app.",
+      "section": "Guide",
+      "priority": "medium"
+    },
+    {
+      "title": "SvelteKit",
+      "url": "https://nellowtcs.me/vite-plugin-seo-meta/guide/sveltekit/",
+      "description": "Inject SEO head tags in SvelteKit with a server handle hook.",
       "section": "Guide",
       "priority": "medium"
     },

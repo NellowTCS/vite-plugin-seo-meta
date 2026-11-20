@@ -10,7 +10,7 @@
 ## API
 
 - [API](https://nellowtcs.me/vite-plugin-seo-meta/api/)
-  Public exports: seo(), defineSeoConfig() and the runtime helper.
+  Public exports: seo(), defineSeoConfig(), the runtime helper, and the SvelteKit handle.
 
 ## Getting Started
 
@@ -37,6 +37,8 @@
   Generate sitemap.xml with image, video and news namespaces, plus URL caps.
 - [SPA Runtime](https://nellowtcs.me/vite-plugin-seo-meta/guide/spa-runtime/)
   Update SEO tags when the URL changes in a single-page app.
+- [SvelteKit](https://nellowtcs.me/vite-plugin-seo-meta/guide/sveltekit/)
+  Inject SEO head tags in SvelteKit with a server handle hook.
 - [Twitter Cards](https://nellowtcs.me/vite-plugin-seo-meta/guide/twitter/)
   How the plugin emits twitter:* tags for summary, player and app cards.
 - [Validation](https://nellowtcs.me/vite-plugin-seo-meta/guide/validation/)

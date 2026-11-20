@@ -7,7 +7,7 @@ path: /guide/meta-tags/
 updated: 2026-11-20
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-20T07:26:30.891Z"
+  generated_at: "2026-11-20T09:26:10.907Z"
 ---
 ---
 title: "Meta Tags"
@@ -69,6 +69,21 @@ pages: { "/private": { robots: "noindex, nofollow" } }
 
 `noindex: true` is shorthand for `robots: "noindex"`. It also (obviously)excludes the page from `sitemap.xml`.
 
+You can target one singular individual crawler with `robotsByUserAgent`:
+
+```ts
+pages: { "/private": { robotsByUserAgent: { googlebot: "noindex" } } }
+```
+
+Validation checks the directive names in both `robots` and `robotsByUserAgent`.
+
+- `index` and `follow` are accepted (they're the defaults, just redundant :P)
+- `max-snippet` and `max-video-preview` need a parseable number
+- `max-image-preview` takes `none`, `standard` or `large`
+- `unavailable_after` needs a parseable date, cause Google ignores the rule otherwise and the page never expires, which is bad for everyone in my opinion.
+
+It also flags `indexifembedded` without `noindex` (does nothing on its own) and `none` together with `all` (just confusing; `none` beats the other one anyway).
+
 ## noindex and crawling
 
 A page with `noindex: true` tells crawlers not to index it, but by default it does not add a `Disallow` rule to `robots.txt`. Crawlers can still reach the page to see the `noindex` directive. This is done because some crawlers (like Googlebot) still index pages... even if they're marked `noindex`, cause Google just do be like that sometimes.
@@ -108,8 +123,22 @@ site: {
 }
 ```
 
-- `maskIconColor` defaults to `#000000`
-- `mobileWebApp` covers `apple-mobile-web-app-title`, `apple-mobile-web-app-capable` and `apple-mobile-web-app-status-bar-style`
-- `msapplication` covers `msapplication-TileColor`, `msapplication-TileImage` and `msapplication-config`
+- `maskIconColor` is the pinned-tab (Safari) display color. It falls back to an unscoped `themeColor` (media-scoped ones don't count sadly), then `#000000`
+- `mobileWebApp` covers `apple-mobile-web-app-title`, `apple-mobile-web-app-capable` and `apple-mobile-web-app-status-bar-style` (`default`, `black` or `black-translucent`)
+- `msapplication` covers `msapplication-TileColor`, `msapplication-TileImage` and `msapplication-config`. The last one is a `<meta name>` tag, as IE11 (yes IE11 in the big 2026, wilted rose emoji) expects; set it to `"none"` to turn it off
+
+The `favicon` config takes one href per icon type. For multiple sizes or formats (like a SVG plus an ICO favicon), use `page.links`:
+
+```ts
+pages: {
+  "/": {
+    links: [
+      { rel: "icon", href: "/icon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/icon.ico", type: "image/x-icon" },
+      { rel: "apple-touch-icon", href: "/icon-180.png", sizes: "180x180" },
+    ],
+  },
+}
+```
 
 I plan to eventually fold this into the main seo block and automatically fill in the various fields and manifest and browserconfig files from the existing data, and also generate all icons from a single source image. For now, you have to provide all of these manually.

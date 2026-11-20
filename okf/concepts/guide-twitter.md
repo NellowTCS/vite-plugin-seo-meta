@@ -7,7 +7,7 @@ path: /guide/twitter/
 updated: 2026-11-20
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-20T07:26:30.896Z"
+  generated_at: "2026-11-20T09:26:10.910Z"
 ---
 ---
 title: "Twitter Cards"
@@ -57,6 +57,7 @@ twitter: {
 - `site` and `creator` are `@handles`
 - `imageAlt` is required when `image` is set. Max 420 characters
 - `imageWidth` and `imageHeight` are the card image dimensions in pixels
+- `image` needs to be HTTPS. Root-relative paths get resolved against `site.url`, so a HTTPS site just works, but an absolute `http://` URL gets a validation warning, cause mixed content makes the card not render
 
 ## Numeric IDs
 
@@ -101,9 +102,9 @@ twitter: {
 }
 ```
 
-- `url` is the HTTPS iframe URL.
+- `url` is the HTTPS iframe URL. This one's a hard requirement in the spec ("must be a HTTPS URL"), so validation flags a `http://` player URL
 - `width` and `height` are the iframe dimensions in pixels.
-- `stream` is optional. It points to a raw video or audio stream.
+- `stream` is optional. It points to a raw video or audio stream. Any raw stream works but Twitter recommends HLS (`.m3u8`) or MPEG-DASH (`.mpd`) for reasons...
 
 ## App Card
 

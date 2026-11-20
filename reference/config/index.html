@@ -36,11 +36,11 @@
     
     
 
-    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mwono185">
-    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mwono185">
+    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mworxu76">
+    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mworxu76">
     
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mwono185" id="hljs-light" >
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mwono185" id="hljs-dark" disabled>
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mworxu76" id="hljs-light" >
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mworxu76" id="hljs-dark" disabled>
     
     <script>/**
  * --------------------------------------------------------------------
@@ -126,10 +126,10 @@
 
 
 
-<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mwono185" >
-<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mwono185" >
-<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mwono185" >
-<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mwono185" >
+<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mworxu76" >
+<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mworxu76" >
+<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mworxu76" >
+<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mworxu76" >
 
     
     
@@ -672,6 +672,40 @@
     
       <li class="" >
       
+        <a href="../../guide/sveltekit/" class=" "
+          >
+           
+<svg class="lucide-icon icon-layers " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-layers"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" />
+  <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" />
+  <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            SvelteKit
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
         <a href="../../guide/validation/" class=" "
           >
            
@@ -1033,7 +1067,7 @@
             <div class="content-layout">
               <div class="main-content">
                 <div class="docmd-breadcrumbs-row">
-                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22Config%20Reference%22%0Adescription%3A%20%22Every%20field%20the%20plugin%20accepts.%22%0A---%0A%0A%23%23%20%60SeoPluginOptions%60%0A%0A%60%60%60ts%0A%7B%0A%20%20site%3F%3A%20SiteConfig%3B%0A%20%20pages%3F%3A%20Record%3Cstring%2C%20PageMeta%3E%3B%0A%20%20robots%3F%3A%20%22auto%22%20%7C%20boolean%20%7C%20RobotsFileOptions%3B%0A%20%20sitemap%3F%3A%20%22auto%22%20%7C%20boolean%20%7C%20SitemapOptions%3B%0A%20%20validate%3F%3A%20%22warn%22%20%7C%20%22error%22%20%7C%20false%3B%0A%20%20configFile%3F%3A%20string%20%7C%20false%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60SiteConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20url%3A%20string%3B%0A%20%20name%3F%3A%20string%3B%0A%20%20title%3F%3A%20string%3B%0A%20%20titleTemplate%3F%3A%20string%3B%0A%20%20description%3F%3A%20string%3B%0A%20%20image%3F%3A%20string%3B%0A%20%20imageAlt%3F%3A%20string%3B%0A%20%20twitter%3F%3A%20string%20%7C%20TwitterInfo%3B%0A%20%20locale%3F%3A%20string%3B%0A%20%20lang%3F%3A%20string%3B%0A%20%20author%3F%3A%20string%3B%0A%20%20keywords%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%20%20robotsByUserAgent%3F%3A%20Record%3Cstring%2C%20string%20%7C%20RobotsDirectives%3E%3B%0A%20%20favicon%3F%3A%20FaviconConfig%3B%0A%20%20openGraph%3F%3A%20OpenGraphInfo%3B%0A%20%20jsonLd%3F%3A%20JsonLdConfig%3B%0A%7D%0A%60%60%60%0A%0A%60twitter%60%20accepts%20a%20bare%20%60%40handle%60%20as%20shorthand%20for%20%60twitter%3Asite%60.%0A%0A%23%23%20%60PageMeta%60%0A%0A%60%60%60ts%0A%7B%0A%20%20title%3F%3A%20string%3B%0A%20%20description%3F%3A%20string%3B%0A%20%20canonical%3F%3A%20string%3B%0A%20%20lang%3F%3A%20string%3B%0A%20%20image%3F%3A%20string%3B%0A%20%20imageAlt%3F%3A%20string%3B%0A%20%20keywords%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%20%20author%3F%3A%20string%3B%0A%20%20noindex%3F%3A%20boolean%3B%0A%20%20robots%3F%3A%20string%20%7C%20RobotsDirectives%3B%0A%20%20robotsByUserAgent%3F%3A%20Record%3Cstring%2C%20string%20%7C%20RobotsDirectives%3E%3B%0A%20%20openGraph%3F%3A%20OpenGraphInfo%3B%0A%20%20twitter%3F%3A%20TwitterInfo%3B%0A%20%20jsonLd%3F%3A%20JsonLdConfig%3B%0A%20%20alternates%3F%3A%20HreflangAlternate%5B%5D%3B%0A%20%20sitemap%3F%3A%20boolean%3B%0A%20%20priority%3F%3A%20number%3B%0A%20%20changefreq%3F%3A%20SitemapChangefreq%3B%0A%20%20lastmod%3F%3A%20string%20%7C%20Date%3B%0A%20%20meta%3F%3A%20Record%3Cstring%2C%20string%3E%3B%0A%20%20links%3F%3A%20Array%3C%7B%20rel%3A%20string%3B%20href%3A%20string%20%7D%20%26%20Record%3Cstring%2C%20string%3E%3E%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60FaviconConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20icon%3F%3A%20string%3B%0A%20%20appleTouchIcon%3F%3A%20string%3B%0A%20%20appleTouchIconPrecomposed%3F%3A%20string%3B%0A%20%20manifest%3F%3A%20string%3B%0A%20%20maskIcon%3F%3A%20string%3B%0A%20%20maskIconColor%3F%3A%20string%3B%0A%20%20themeColor%3F%3A%20string%20%7C%20ThemeColorEntry%5B%5D%3B%0A%20%20mobileWebApp%3F%3A%20MobileWebAppConfig%3B%0A%20%20msapplication%3F%3A%20MsTileConfig%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60MobileWebAppConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20title%3F%3A%20string%3B%0A%20%20capable%3F%3A%20boolean%3B%0A%20%20statusBarStyle%3F%3A%20%22default%22%20%7C%20%22black%22%20%7C%20%22black-translucent%22%20%7C%20%22transparent%22%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60MsTileConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20tileColor%3F%3A%20string%3B%0A%20%20tileImage%3F%3A%20string%3B%0A%20%20config%3F%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60RobotsFileOptions%60%0A%0A%60%60%60ts%0A%7B%0A%20%20userAgent%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%20%20disallow%3F%3A%20string%5B%5D%3B%0A%20%20allow%3F%3A%20string%5B%5D%3B%0A%20%20groups%3F%3A%20RobotsGroup%5B%5D%3B%0A%20%20rules%3F%3A%20string%5B%5D%3B%0A%20%20sitemap%3F%3A%20string%20%7C%20false%3B%0A%20%20merge%3F%3A%20boolean%3B%0A%20%20disallowNoindex%3F%3A%20boolean%3B%0A%20%20host%3F%3A%20string%3B%0A%20%20crawlDelay%3F%3A%20number%3B%0A%20%20cleanParam%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60RobotsGroup%60%0A%0A%60%60%60ts%0A%7B%0A%20%20userAgent%3A%20string%20%7C%20string%5B%5D%3B%0A%20%20disallow%3F%3A%20string%5B%5D%3B%0A%20%20allow%3F%3A%20string%5B%5D%3B%0A%20%20crawlDelay%3F%3A%20number%3B%0A%20%20cleanParam%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60SitemapOptions%60%0A%0A%60%60%60ts%0A%7B%0A%20%20filename%3F%3A%20string%3B%0A%20%20exclude%3F%3A%20string%5B%5D%3B%0A%20%20defaultChangefreq%3F%3A%20SitemapChangefreq%3B%0A%20%20defaultPriority%3F%3A%20number%3B%0A%20%20siteUrl%3F%3A%20string%3B%0A%20%20maxUrls%3F%3A%20number%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60SitemapChangefreq%60%0A%0A%60%22always%22%60%20%7C%20%60%22hourly%22%60%20%7C%20%60%22daily%22%60%20%7C%20%60%22weekly%22%60%20%7C%20%60%22monthly%22%60%20%7C%20%60%22yearly%22%60%20%7C%20%60%22never%22%60%0A%0A%23%23%20%60ImageRef%60%20%2F%20%60ImageInput%60%0A%0A%60%60%60ts%0A%2F%2F%20ImageRef%0A%7B%0A%20%20src%3A%20string%3B%0A%20%20alt%3F%3A%20string%3B%0A%20%20width%3F%3A%20number%3B%0A%20%20height%3F%3A%20number%3B%0A%20%20type%3F%3A%20string%3B%0A%20%20secureUrl%3F%3A%20string%3B%0A%20%20thumbnail%3F%3A%20string%3B%0A%7D%0A%0A%2F%2F%20ImageInput%3A%20string%20%7C%20ImageRef%20%7C%20%7B%20src%3F%2C%20url%3F%2C%20href%3F%2C%20alt%3F%2C%20width%3F%2C%20height%3F%2C%20type%3F%2C%20secureUrl%3F%2C%20secure_url%3F%2C%20thumbnail%3F%20%7D%0A%60%60%60%0A%0A%60thumbnail%60%20is%20the%20video%20sitemap%20thumbnail%20URL.%20Required%20for%20video%20entries.%0A%0A%23%23%20%60TwitterInfo%60%0A%0A%60%60%60ts%0A%7B%0A%20%20card%3F%3A%20TwitterCardType%3B%0A%20%20title%3F%3A%20string%3B%0A%20%20description%3F%3A%20string%3B%0A%20%20site%3F%3A%20TwitterHandle%3B%0A%20%20siteId%3F%3A%20string%3B%0A%20%20creator%3F%3A%20TwitterHandle%3B%0A%20%20creatorId%3F%3A%20string%3B%0A%20%20image%3F%3A%20string%3B%0A%20%20imageAlt%3F%3A%20string%3B%0A%20%20imageWidth%3F%3A%20number%3B%0A%20%20imageHeight%3F%3A%20number%3B%0A%20%20label1%3F%3A%20string%3B%0A%20%20data1%3F%3A%20string%3B%0A%20%20label2%3F%3A%20string%3B%0A%20%20data2%3F%3A%20string%3B%0A%20%20player%3F%3A%20TwitterPlayer%3B%0A%20%20apps%3F%3A%20TwitterApps%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60TwitterPlayer%60%0A%0A%60%60%60ts%0A%7B%0A%20%20url%3A%20string%3B%0A%20%20width%3A%20number%3B%0A%20%20height%3A%20number%3B%0A%20%20stream%3F%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60TwitterApps%60%0A%0A%60%60%60ts%0A%7B%0A%20%20iphone%3F%3A%20TwitterAppEntry%3B%0A%20%20ipad%3F%3A%20TwitterAppEntry%3B%0A%20%20googleplay%3F%3A%20TwitterAppEntry%3B%0A%20%20country%3F%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60TwitterAppEntry%60%0A%0A%60%60%60ts%0A%7B%0A%20%20name%3F%3A%20string%3B%0A%20%20id%3F%3A%20string%3B%0A%20%20url%3F%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60TwitterCardType%60%0A%0A%60%22summary%22%60%20%7C%20%60%22summary_large_image%22%60%20%7C%20%60%22player%22%60%20%7C%20%60%22app%22%60%0A%0A%23%23%20%60JsonLdConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20organization%3F%3A%20boolean%20%7C%20OrganizationJsonLd%3B%0A%20%20website%3F%3A%20boolean%20%7C%20WebSiteJsonLd%3B%0A%20%20article%3F%3A%20boolean%20%7C%20ArticleJsonLd%3B%0A%20%20product%3F%3A%20boolean%20%7C%20ProductJsonLd%3B%0A%20%20extra%3F%3A%20Record%3Cstring%2C%20unknown%3E%5B%5D%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60HreflangAlternate%60%0A%0A%60%60%60ts%0A%7B%0A%20%20hreflang%3A%20string%3B%0A%20%20href%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60RobotsDirectives%60%0A%0A%60%60%60ts%0A%7B%0A%20%20noindex%3F%3A%20boolean%3B%0A%20%20nofollow%3F%3A%20boolean%3B%0A%20%20none%3F%3A%20boolean%3B%0A%20%20all%3F%3A%20boolean%3B%0A%20%20nosnippet%3F%3A%20boolean%3B%0A%20%20noarchive%3F%3A%20boolean%3B%0A%20%20noimageindex%3F%3A%20boolean%3B%0A%20%20notranslate%3F%3A%20boolean%3B%0A%20%20indexifembedded%3F%3A%20boolean%3B%0A%20%20nositelinkssearchbox%3F%3A%20boolean%3B%0A%20%20maxSnippet%3F%3A%20number%3B%0A%20%20maxImagePreview%3F%3A%20%22none%22%20%7C%20%22standard%22%20%7C%20%22large%22%3B%0A%20%20maxVideoPreview%3F%3A%20number%3B%0A%20%20unavailableAfter%3F%3A%20string%20%7C%20Date%3B%0A%7D%0A%60%60%60%0A" style="display: none;"></div>
+                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22Config%20Reference%22%0Adescription%3A%20%22Every%20field%20the%20plugin%20accepts.%22%0A---%0A%0A%23%23%20%60SeoPluginOptions%60%0A%0A%60%60%60ts%0A%7B%0A%20%20site%3F%3A%20SiteConfig%3B%0A%20%20pages%3F%3A%20Record%3Cstring%2C%20PageMeta%3E%3B%0A%20%20robots%3F%3A%20%22auto%22%20%7C%20boolean%20%7C%20RobotsFileOptions%3B%0A%20%20sitemap%3F%3A%20%22auto%22%20%7C%20boolean%20%7C%20SitemapOptions%3B%0A%20%20validate%3F%3A%20%22warn%22%20%7C%20%22error%22%20%7C%20false%3B%0A%20%20configFile%3F%3A%20string%20%7C%20false%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60SiteConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20url%3A%20string%3B%0A%20%20name%3F%3A%20string%3B%0A%20%20title%3F%3A%20string%3B%0A%20%20titleTemplate%3F%3A%20string%3B%0A%20%20description%3F%3A%20string%3B%0A%20%20image%3F%3A%20string%3B%0A%20%20imageAlt%3F%3A%20string%3B%0A%20%20twitter%3F%3A%20string%20%7C%20TwitterInfo%3B%0A%20%20locale%3F%3A%20string%3B%0A%20%20lang%3F%3A%20string%3B%0A%20%20author%3F%3A%20string%3B%0A%20%20keywords%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%20%20robotsByUserAgent%3F%3A%20Record%3Cstring%2C%20string%20%7C%20RobotsDirectives%3E%3B%0A%20%20favicon%3F%3A%20FaviconConfig%3B%0A%20%20openGraph%3F%3A%20OpenGraphInfo%3B%0A%20%20jsonLd%3F%3A%20JsonLdConfig%3B%0A%7D%0A%60%60%60%0A%0A%60twitter%60%20accepts%20a%20bare%20%60%40handle%60%20as%20shorthand%20for%20%60twitter%3Asite%60.%0A%0A%23%23%20%60PageMeta%60%0A%0A%60%60%60ts%0A%7B%0A%20%20title%3F%3A%20string%3B%0A%20%20description%3F%3A%20string%3B%0A%20%20canonical%3F%3A%20string%3B%0A%20%20lang%3F%3A%20string%3B%0A%20%20image%3F%3A%20string%3B%0A%20%20imageAlt%3F%3A%20string%3B%0A%20%20keywords%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%20%20author%3F%3A%20string%3B%0A%20%20noindex%3F%3A%20boolean%3B%0A%20%20robots%3F%3A%20string%20%7C%20RobotsDirectives%3B%0A%20%20robotsByUserAgent%3F%3A%20Record%3Cstring%2C%20string%20%7C%20RobotsDirectives%3E%3B%0A%20%20openGraph%3F%3A%20OpenGraphInfo%3B%0A%20%20twitter%3F%3A%20TwitterInfo%3B%0A%20%20jsonLd%3F%3A%20JsonLdConfig%3B%0A%20%20alternates%3F%3A%20HreflangAlternate%5B%5D%3B%0A%20%20sitemap%3F%3A%20boolean%3B%0A%20%20priority%3F%3A%20number%3B%0A%20%20changefreq%3F%3A%20SitemapChangefreq%3B%0A%20%20lastmod%3F%3A%20string%20%7C%20Date%3B%0A%20%20meta%3F%3A%20Record%3Cstring%2C%20string%3E%3B%0A%20%20links%3F%3A%20Array%3C%7B%20rel%3A%20string%3B%20href%3A%20string%20%7D%20%26%20Record%3Cstring%2C%20string%3E%3E%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60FaviconConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20icon%3F%3A%20string%3B%0A%20%20appleTouchIcon%3F%3A%20string%3B%0A%20%20appleTouchIconPrecomposed%3F%3A%20string%3B%0A%20%20manifest%3F%3A%20string%3B%0A%20%20maskIcon%3F%3A%20string%3B%0A%20%20maskIconColor%3F%3A%20string%3B%0A%20%20themeColor%3F%3A%20string%20%7C%20ThemeColorEntry%5B%5D%3B%0A%20%20mobileWebApp%3F%3A%20MobileWebAppConfig%3B%0A%20%20msapplication%3F%3A%20MsTileConfig%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60MobileWebAppConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20title%3F%3A%20string%3B%0A%20%20capable%3F%3A%20boolean%3B%0A%20%20statusBarStyle%3F%3A%20%22default%22%20%7C%20%22black%22%20%7C%20%22black-translucent%22%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60MsTileConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20tileColor%3F%3A%20string%3B%0A%20%20tileImage%3F%3A%20string%3B%0A%20%20config%3F%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60RobotsFileOptions%60%0A%0A%60%60%60ts%0A%7B%0A%20%20userAgent%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%20%20disallow%3F%3A%20string%5B%5D%3B%0A%20%20allow%3F%3A%20string%5B%5D%3B%0A%20%20groups%3F%3A%20RobotsGroup%5B%5D%3B%0A%20%20rules%3F%3A%20string%5B%5D%3B%0A%20%20sitemap%3F%3A%20string%20%7C%20false%3B%0A%20%20merge%3F%3A%20boolean%3B%0A%20%20disallowNoindex%3F%3A%20boolean%3B%0A%20%20host%3F%3A%20string%3B%0A%20%20crawlDelay%3F%3A%20number%3B%0A%20%20cleanParam%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60RobotsGroup%60%0A%0A%60%60%60ts%0A%7B%0A%20%20userAgent%3A%20string%20%7C%20string%5B%5D%3B%0A%20%20disallow%3F%3A%20string%5B%5D%3B%0A%20%20allow%3F%3A%20string%5B%5D%3B%0A%20%20crawlDelay%3F%3A%20number%3B%0A%20%20cleanParam%3F%3A%20string%20%7C%20string%5B%5D%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60SitemapOptions%60%0A%0A%60%60%60ts%0A%7B%0A%20%20filename%3F%3A%20string%3B%0A%20%20exclude%3F%3A%20string%5B%5D%3B%0A%20%20defaultChangefreq%3F%3A%20SitemapChangefreq%3B%0A%20%20defaultPriority%3F%3A%20number%3B%0A%20%20siteUrl%3F%3A%20string%3B%0A%20%20maxUrls%3F%3A%20number%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60SitemapChangefreq%60%0A%0A%60%22always%22%60%20%7C%20%60%22hourly%22%60%20%7C%20%60%22daily%22%60%20%7C%20%60%22weekly%22%60%20%7C%20%60%22monthly%22%60%20%7C%20%60%22yearly%22%60%20%7C%20%60%22never%22%60%0A%0A%23%23%20%60ImageRef%60%20%2F%20%60ImageInput%60%0A%0A%60%60%60ts%0A%2F%2F%20ImageRef%0A%7B%0A%20%20src%3A%20string%3B%0A%20%20alt%3F%3A%20string%3B%0A%20%20width%3F%3A%20number%3B%0A%20%20height%3F%3A%20number%3B%0A%20%20type%3F%3A%20string%3B%0A%20%20secureUrl%3F%3A%20string%3B%0A%20%20thumbnail%3F%3A%20string%3B%0A%7D%0A%0A%2F%2F%20ImageInput%3A%20string%20%7C%20ImageRef%20%7C%20%7B%20src%3F%2C%20url%3F%2C%20href%3F%2C%20alt%3F%2C%20width%3F%2C%20height%3F%2C%20type%3F%2C%20secureUrl%3F%2C%20secure_url%3F%2C%20thumbnail%3F%20%7D%0A%60%60%60%0A%0A%60thumbnail%60%20is%20the%20video%20sitemap%20thumbnail%20URL.%20Required%20for%20video%20entries.%0A%0A%23%23%20%60TwitterInfo%60%0A%0A%60%60%60ts%0A%7B%0A%20%20card%3F%3A%20TwitterCardType%3B%0A%20%20title%3F%3A%20string%3B%0A%20%20description%3F%3A%20string%3B%0A%20%20site%3F%3A%20TwitterHandle%3B%0A%20%20siteId%3F%3A%20string%3B%0A%20%20creator%3F%3A%20TwitterHandle%3B%0A%20%20creatorId%3F%3A%20string%3B%0A%20%20image%3F%3A%20string%3B%0A%20%20imageAlt%3F%3A%20string%3B%0A%20%20imageWidth%3F%3A%20number%3B%0A%20%20imageHeight%3F%3A%20number%3B%0A%20%20label1%3F%3A%20string%3B%0A%20%20data1%3F%3A%20string%3B%0A%20%20label2%3F%3A%20string%3B%0A%20%20data2%3F%3A%20string%3B%0A%20%20player%3F%3A%20TwitterPlayer%3B%0A%20%20apps%3F%3A%20TwitterApps%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60TwitterPlayer%60%0A%0A%60%60%60ts%0A%7B%0A%20%20url%3A%20string%3B%0A%20%20width%3A%20number%3B%0A%20%20height%3A%20number%3B%0A%20%20stream%3F%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60TwitterApps%60%0A%0A%60%60%60ts%0A%7B%0A%20%20iphone%3F%3A%20TwitterAppEntry%3B%0A%20%20ipad%3F%3A%20TwitterAppEntry%3B%0A%20%20googleplay%3F%3A%20TwitterAppEntry%3B%0A%20%20country%3F%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60TwitterAppEntry%60%0A%0A%60%60%60ts%0A%7B%0A%20%20name%3F%3A%20string%3B%0A%20%20id%3F%3A%20string%3B%0A%20%20url%3F%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60TwitterCardType%60%0A%0A%60%22summary%22%60%20%7C%20%60%22summary_large_image%22%60%20%7C%20%60%22player%22%60%20%7C%20%60%22app%22%60%0A%0A%23%23%20%60JsonLdConfig%60%0A%0A%60%60%60ts%0A%7B%0A%20%20organization%3F%3A%20boolean%20%7C%20OrganizationJsonLd%3B%0A%20%20website%3F%3A%20boolean%20%7C%20WebSiteJsonLd%3B%0A%20%20article%3F%3A%20boolean%20%7C%20ArticleJsonLd%3B%0A%20%20product%3F%3A%20boolean%20%7C%20ProductJsonLd%3B%0A%20%20extra%3F%3A%20Record%3Cstring%2C%20unknown%3E%5B%5D%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60HreflangAlternate%60%0A%0A%60%60%60ts%0A%7B%0A%20%20hreflang%3A%20string%3B%0A%20%20href%3A%20string%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20%60RobotsDirectives%60%0A%0A%60%60%60ts%0A%7B%0A%20%20noindex%3F%3A%20boolean%3B%0A%20%20nofollow%3F%3A%20boolean%3B%0A%20%20none%3F%3A%20boolean%3B%0A%20%20all%3F%3A%20boolean%3B%0A%20%20nosnippet%3F%3A%20boolean%3B%0A%20%20noarchive%3F%3A%20boolean%3B%0A%20%20noimageindex%3F%3A%20boolean%3B%0A%20%20notranslate%3F%3A%20boolean%3B%0A%20%20indexifembedded%3F%3A%20boolean%3B%0A%20%20nositelinkssearchbox%3F%3A%20boolean%3B%0A%20%20maxSnippet%3F%3A%20number%3B%0A%20%20maxImagePreview%3F%3A%20%22none%22%20%7C%20%22standard%22%20%7C%20%22large%22%3B%0A%20%20maxVideoPreview%3F%3A%20number%3B%0A%20%20unavailableAfter%3F%3A%20string%20%7C%20Date%3B%0A%7D%0A%60%60%60%0A" style="display: none;"></div>
                   
                     <nav aria-label="breadcrumb" class="docmd-breadcrumbs">
                       <ol>
@@ -1201,7 +1235,7 @@
 <pre class="hljs"><code class="language-ts">{
   title<span class="hljs-operator">?:</span> string;
   capable<span class="hljs-operator">?:</span> boolean;
-  statusBarStyle<span class="hljs-operator">?:</span> <span class="hljs-string">&quot;default&quot;</span> <span class="hljs-operator">|</span> <span class="hljs-string">&quot;black&quot;</span> <span class="hljs-operator">|</span> <span class="hljs-string">&quot;black-translucent&quot;</span> <span class="hljs-operator">|</span> <span class="hljs-string">&quot;transparent&quot;</span>;
+  statusBarStyle<span class="hljs-operator">?:</span> <span class="hljs-string">&quot;default&quot;</span> <span class="hljs-operator">|</span> <span class="hljs-string">&quot;black&quot;</span> <span class="hljs-operator">|</span> <span class="hljs-string">&quot;black-translucent&quot;</span>;
 }
 </code></pre>
 <h2 id="mstileconfig" class="docmd-heading"><a href="#mstileconfig" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a><code>MsTileConfig</code></h2>
@@ -1489,13 +1523,13 @@
             <div class="page-footer-actions">
               
               
-                <span class="git-last-updated" data-timestamp="1795159555000">
+                <span class="git-last-updated" data-timestamp="1795166733000">
                   <svg class="git-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                   </svg>
                   <span class="git-label">Last updated:</span>
-                  <span class="git-time" data-timestamp="1795159555000"></span>
+                  <span class="git-time" data-timestamp="1795166733000"></span>
                   
                   <div class="git-commit-tooltip" role="tooltip">
                     <div class="git-tooltip-title">Recent commits</div>
@@ -1508,10 +1542,10 @@
                             
                           </div>
                           <div class="git-commit-details">
-                            <div class="git-commit-message" title="JSON-LD fixes">JSON-LD fixes</div>
+                            <div class="git-commit-message" title="Quick fix for tsdown (node 22)">Quick fix for tsdown (node 22)</div>
                             <div class="git-commit-meta">
                               <span class="git-commit-author">NellowTCS</span>
-                              <span class="git-commit-date" data-timestamp="1795159555000"></span>
+                              <span class="git-commit-date" data-timestamp="1795166733000"></span>
                             </div>
                           </div>
                         </li>
@@ -1564,17 +1598,17 @@
       </div>
       
       
-      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-20T07:26:25.940Z","buildDate":"2026-11-20","buildYear":"2026","gitCommit":"6ac314e","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-20","GIT_COMMIT":"6ac314e","GIT_BRANCH":"main","git":{"commit":"6ac314e","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"Config Reference","slug":"/vite-plugin-seo-meta/reference/config/","path":"reference/config/index.html"},"frontmatter":{"title":"Config Reference","description":"Every field the plugin accepts.","_git":{"lastUpdated":"2026-11-20T07:25:55.000Z","lastUpdatedTimestamp":1795159555000,"commits":[{"hash":"6ac314eb1b594e5b153180eb4b2dc7ae31fa4075","shortHash":"6ac314e","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-20T07:25:55.000Z","timestamp":1795159555000,"message":"JSON-LD fixes","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
+      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-20T09:26:01.575Z","buildDate":"2026-11-20","buildYear":"2026","gitCommit":"fd4a2d7","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-20","GIT_COMMIT":"fd4a2d7","GIT_BRANCH":"main","git":{"commit":"fd4a2d7","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"Config Reference","slug":"/vite-plugin-seo-meta/reference/config/","path":"reference/config/index.html"},"frontmatter":{"title":"Config Reference","description":"Every field the plugin accepts.","_git":{"lastUpdated":"2026-11-20T09:25:33.000Z","lastUpdatedTimestamp":1795166733000,"commits":[{"hash":"fd4a2d7e143389f558074c40845af3e25074efc8","shortHash":"fd4a2d7","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-20T09:25:33.000Z","timestamp":1795166733000,"message":"Quick fix for tsdown (node 22)","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
       
-      <script src="../../assets/js/docmd-runtime.js?v=mwono185"></script>
-      <script src="../../assets/js/docmd-main.js?v=mwono185"></script>
+      <script src="../../assets/js/docmd-runtime.js?v=mworxu76"></script>
+      <script src="../../assets/js/docmd-main.js?v=mworxu76"></script>
       
-      <script src="../../assets/js/docmd-git.js?v=mwono185"></script>
-      <script src="../../assets/js/docmd-image-lightbox.js?v=mwono185" ></script>
-<script src="../../assets/js/vendor/minisearch.js?v=mwono185" ></script>
-<script src="../../assets/js/docmd-search.js?v=mwono185" ></script>
-<script src="../../assets/js/docmd-git.js?v=mwono185" ></script>
-<script src="../../assets/js/docmd-ai.js?v=mwono185" ></script>
+      <script src="../../assets/js/docmd-git.js?v=mworxu76"></script>
+      <script src="../../assets/js/docmd-image-lightbox.js?v=mworxu76" ></script>
+<script src="../../assets/js/vendor/minisearch.js?v=mworxu76" ></script>
+<script src="../../assets/js/docmd-search.js?v=mworxu76" ></script>
+<script src="../../assets/js/docmd-git.js?v=mworxu76" ></script>
+<script src="../../assets/js/docmd-ai.js?v=mworxu76" ></script>
 
   <!-- Search Modal (Injected by @docmd/plugin-search) -->
   <div id="docmd-search-modal" class="docmd-search-modal" style="display: none;" data-semantic="true" data-show-confidence="true" data-show-filters="true"
@@ -1650,7 +1684,7 @@
     </script>
 
 <script>window.__git_config={"repo":"https://github.com/NellowTCS/vite-plugin-seo-meta/edit/main/","branch":"main","editLink":true,"lastUpdated":true,"commitHistory":true,"maxCommits":5,"dateFormat":"relative"};window.__git_i18n={"lastUpdated":"Last updated","recentCommits":"Recent commits","viewCommitHistory":"View commit history","editOnGitHub":"Edit on GitHub","editOnGitLab":"Edit on GitLab","editOnBitbucket":"Edit on Bitbucket","editThisPage":"Edit this page","justNow":"just now","minutesAgo":"{n}m ago","hoursAgo":"{n}h ago","daysAgo":"{n}d ago"}</script>
-<div id="docmd-ai-root"></div><script>window.__docmd_ai_config={"endpoint":"","cloud":{},"captcha":true,"position":"bottom-center","siteTitle":"vite-plugin-seo-meta","siteBase":"/vite-plugin-seo-meta/","siteUrl":"https://nellowtcs.me/vite-plugin-seo-meta/","versions":null,"i18n":null,"navigation":[{"title":"Home","path":"/","icon":"home"},{"title":"Getting Started","icon":"rocket","collapsible":false,"children":[{"title":"Installation","path":"/getting-started/installation/","icon":"download"},{"title":"Quick Start","path":"/getting-started/quickstart/","icon":"play"},{"title":"Configuration","path":"/getting-started/configuration/","icon":"sliders"}]},{"title":"Guide","icon":"book-open","collapsible":false,"children":[{"title":"Meta Tags","path":"/guide/meta-tags/","icon":"tag"},{"title":"Open Graph","path":"/guide/open-graph/","icon":"globe"},{"title":"Twitter Cards","path":"/guide/twitter/","icon":"bird"},{"title":"JSON-LD","path":"/guide/json-ld/","icon":"braces"},{"title":"hreflang","path":"/guide/hreflang/","icon":"languages"},{"title":"robots.txt","path":"/guide/robots/","icon":"shield"},{"title":"Sitemap","path":"/guide/sitemap/","icon":"map"},{"title":"SPA Runtime","path":"/guide/spa-runtime/","icon":"refresh-cw"},{"title":"Validation","path":"/guide/validation/","icon":"check-circle"}]},{"title":"API Reference","icon":"code","collapsible":false,"children":[{"title":"API","path":"/api/","icon":"book"},{"title":"Config Reference","path":"/reference/config/","icon":"file-text"}]},{"title":"Live Demo","path":"/vite-plugin-seo-meta/demo/","icon":"monitor","external":true},{"title":"GitHub","path":"https://github.com/NellowTCS/vite-plugin-seo-meta","icon":"github","external":true}],"searchCapabilities":{"keyword":true,"semantic":true},"isWorkspace":false,"workspaceProjects":[],"messageActions":false,"fetchExternalUrls":false,"contextLimit":5};</script>
+<div id="docmd-ai-root"></div><script>window.__docmd_ai_config={"endpoint":"","cloud":{},"captcha":true,"position":"bottom-center","siteTitle":"vite-plugin-seo-meta","siteBase":"/vite-plugin-seo-meta/","siteUrl":"https://nellowtcs.me/vite-plugin-seo-meta/","versions":null,"i18n":null,"navigation":[{"title":"Home","path":"/","icon":"home"},{"title":"Getting Started","icon":"rocket","collapsible":false,"children":[{"title":"Installation","path":"/getting-started/installation/","icon":"download"},{"title":"Quick Start","path":"/getting-started/quickstart/","icon":"play"},{"title":"Configuration","path":"/getting-started/configuration/","icon":"sliders"}]},{"title":"Guide","icon":"book-open","collapsible":false,"children":[{"title":"Meta Tags","path":"/guide/meta-tags/","icon":"tag"},{"title":"Open Graph","path":"/guide/open-graph/","icon":"globe"},{"title":"Twitter Cards","path":"/guide/twitter/","icon":"bird"},{"title":"JSON-LD","path":"/guide/json-ld/","icon":"braces"},{"title":"hreflang","path":"/guide/hreflang/","icon":"languages"},{"title":"robots.txt","path":"/guide/robots/","icon":"shield"},{"title":"Sitemap","path":"/guide/sitemap/","icon":"map"},{"title":"SPA Runtime","path":"/guide/spa-runtime/","icon":"refresh-cw"},{"title":"SvelteKit","path":"/guide/sveltekit/","icon":"layers"},{"title":"Validation","path":"/guide/validation/","icon":"check-circle"}]},{"title":"API Reference","icon":"code","collapsible":false,"children":[{"title":"API","path":"/api/","icon":"book"},{"title":"Config Reference","path":"/reference/config/","icon":"file-text"}]},{"title":"Live Demo","path":"/vite-plugin-seo-meta/demo/","icon":"monitor","external":true},{"title":"GitHub","path":"https://github.com/NellowTCS/vite-plugin-seo-meta","icon":"github","external":true}],"searchCapabilities":{"keyword":true,"semantic":true},"isWorkspace":false,"workspaceProjects":[],"messageActions":false,"fetchExternalUrls":false,"contextLimit":5};</script>
       
       
       

@@ -61,6 +61,10 @@
           "path": "guide/spa-runtime.md"
         },
         {
+          "title": "Sveltekit",
+          "path": "guide/sveltekit.md"
+        },
+        {
           "title": "Twitter",
           "path": "guide/twitter.md"
         },

@@ -7,7 +7,7 @@ path: /guide/open-graph/
 updated: 2026-11-20
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-20T07:26:30.892Z"
+  generated_at: "2026-11-20T09:26:10.907Z"
 ---
 ---
 title: "Open Graph"
@@ -42,7 +42,9 @@ pages: {
 
 - `type` defaults to `website`. Set `article` for blog posts, `book`, `profile`, `music.*`, `video.*` or others... based on what your page is about.
 - `url` defaults to the page canonical
-- `image` defaults to `site.image`
+- `image` defaults to `site.image`. There's no built-in fallback image, so if neither is set the tag is missing entirely, which Open Graph doesn't allow. Validation warns you about it, so set `site.image` (or `openGraph.image`) somewhere please
+
+`locale` follows `language_TERRITORY`, so `en_US`. You can write `en-US` too, it gets converted, same for `localeAlternate` entries. Anything that can't be converted gets flagged by validation and yells at you
 
 ## Article type
 
@@ -59,7 +61,7 @@ openGraph: {
 }
 ```
 
-`author` can be a single URL or an array. `tag` is the same.
+`author` can be a single URL or an array. `tag` is the same. Dates should be ISO 8601. `Date` objects get converted automatically, and strings are checked by validation, cause Open Graph wants an actual time rather than something like "last tuesday" lol.
 
 ## Book type
 
@@ -107,7 +109,7 @@ openGraph: {
 }
 ```
 
-`song` and `album` are arrays of `{ url, disc?, track? }`. `disc` and `track` default to 1.
+`song` and `album` are arrays of `{ url, disc?, track? }`. `disc` and `track` default to 1. `duration` is a whole number of seconds, at least 1 (NO 0); validation flags zero, negatives and fractions.
 
 ## Video types
 
@@ -166,4 +168,4 @@ openGraph: {
 }
 ```
 
-Valid values: `"auto"`, `"none"`, `"noun"`. A determiner is the word that comes before the title (noun), like "a," "an," or "the." By default, it's set to auto, which means the system decides whether or not to include it.
+Valid values: `"a"`, `"an"`, `"the"`, `"auto"`, and `""` (the default, which omits the tag.). A determiner is the word that comes before the title noun. `"auto"` lets the platform decide whether or not to include it.

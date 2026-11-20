@@ -8,7 +8,7 @@
 
 ---
 title: "API"
-description: "Public exports: seo(), defineSeoConfig() and the runtime helper."
+description: "Public exports: seo(), defineSeoConfig(), the runtime helper, and the SvelteKit handle."
 ---
 
 ## `seo(options?)`
@@ -60,6 +60,26 @@ applySeo({ title: "New Page", description: "..." });
 ```
 
 See [SPA Runtime](./spa-runtime.md). (No, no, not a spa, a Single-Page Application, though we _all_ would love that... probably.)
+
+## `seoHandle(options)`
+
+SvelteKit handle hook from `vite-plugin-seo-meta/sveltekit`.
+
+```ts
+// src/hooks.server.ts
+import { site, pages } from "virtual:vite-plugin-seo-meta/config";
+import { seoHandle } from "vite-plugin-seo-meta/sveltekit";
+
+export const handle = seoHandle({ site, pages });
+```
+
+| Option  | Type                       | Default             | Notes                                    |
+| ------- | -------------------------- | ------------------- | ---------------------------------------- |
+| `site`  | `ResolvedSite`             | -                   | Required, from the virtual config module |
+| `pages` | `Record<string, PageMeta>` | `{}`                | From the virtual config module           |
+| `base`  | `string`                   | `site.url` pathname | SvelteKit's `paths.base` when it differs |
+
+See [SvelteKit](../guide/sveltekit.md).
 
 ## Exported types
 
@@ -552,6 +572,21 @@ pages: { "/private": { robots: "noindex, nofollow" } }
 
 `noindex: true` is shorthand for `robots: "noindex"`. It also (obviously)excludes the page from `sitemap.xml`.
 
+You can target one singular individual crawler with `robotsByUserAgent`:
+
+```ts
+pages: { "/private": { robotsByUserAgent: { googlebot: "noindex" } } }
+```
+
+Validation checks the directive names in both `robots` and `robotsByUserAgent`.
+
+- `index` and `follow` are accepted (they're the defaults, just redundant :P)
+- `max-snippet` and `max-video-preview` need a parseable number
+- `max-image-preview` takes `none`, `standard` or `large`
+- `unavailable_after` needs a parseable date, cause Google ignores the rule otherwise and the page never expires, which is bad for everyone in my opinion.
+
+It also flags `indexifembedded` without `noindex` (does nothing on its own) and `none` together with `all` (just confusing; `none` beats the other one anyway).
+
 ## noindex and crawling
 
 A page with `noindex: true` tells crawlers not to index it, but by default it does not add a `Disallow` rule to `robots.txt`. Crawlers can still reach the page to see the `noindex` directive. This is done because some crawlers (like Googlebot) still index pages... even if they're marked `noindex`, cause Google just do be like that sometimes.
@@ -591,9 +626,23 @@ site: {
 }
 ```
 
-- `maskIconColor` defaults to `#000000`
-- `mobileWebApp` covers `apple-mobile-web-app-title`, `apple-mobile-web-app-capable` and `apple-mobile-web-app-status-bar-style`
-- `msapplication` covers `msapplication-TileColor`, `msapplication-TileImage` and `msapplication-config`
+- `maskIconColor` is the pinned-tab (Safari) display color. It falls back to an unscoped `themeColor` (media-scoped ones don't count sadly), then `#000000`
+- `mobileWebApp` covers `apple-mobile-web-app-title`, `apple-mobile-web-app-capable` and `apple-mobile-web-app-status-bar-style` (`default`, `black` or `black-translucent`)
+- `msapplication` covers `msapplication-TileColor`, `msapplication-TileImage` and `msapplication-config`. The last one is a `<meta name>` tag, as IE11 (yes IE11 in the big 2026, wilted rose emoji) expects; set it to `"none"` to turn it off
+
+The `favicon` config takes one href per icon type. For multiple sizes or formats (like a SVG plus an ICO favicon), use `page.links`:
+
+```ts
+pages: {
+  "/": {
+    links: [
+      { rel: "icon", href: "/icon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/icon.ico", type: "image/x-icon" },
+      { rel: "apple-touch-icon", href: "/icon-180.png", sizes: "180x180" },
+    ],
+  },
+}
+```
 
 I plan to eventually fold this into the main seo block and automatically fill in the various fields and manifest and browserconfig files from the existing data, and also generate all icons from a single source image. For now, you have to provide all of these manually.
 
@@ -635,7 +684,9 @@ pages: {
 
 - `type` defaults to `website`. Set `article` for blog posts, `book`, `profile`, `music.*`, `video.*` or others... based on what your page is about.
 - `url` defaults to the page canonical
-- `image` defaults to `site.image`
+- `image` defaults to `site.image`. There's no built-in fallback image, so if neither is set the tag is missing entirely, which Open Graph doesn't allow. Validation warns you about it, so set `site.image` (or `openGraph.image`) somewhere please
+
+`locale` follows `language_TERRITORY`, so `en_US`. You can write `en-US` too, it gets converted, same for `localeAlternate` entries. Anything that can't be converted gets flagged by validation and yells at you
 
 ## Article type
 
@@ -652,7 +703,7 @@ openGraph: {
 }
 ```
 
-`author` can be a single URL or an array. `tag` is the same.
+`author` can be a single URL or an array. `tag` is the same. Dates should be ISO 8601. `Date` objects get converted automatically, and strings are checked by validation, cause Open Graph wants an actual time rather than something like "last tuesday" lol.
 
 ## Book type
 
@@ -700,7 +751,7 @@ openGraph: {
 }
 ```
 
-`song` and `album` are arrays of `{ url, disc?, track? }`. `disc` and `track` default to 1.
+`song` and `album` are arrays of `{ url, disc?, track? }`. `disc` and `track` default to 1. `duration` is a whole number of seconds, at least 1 (NO 0); validation flags zero, negatives and fractions.
 
 ## Video types
 
@@ -759,7 +810,7 @@ openGraph: {
 }
 ```
 
-Valid values: `"auto"`, `"none"`, `"noun"`. A determiner is the word that comes before the title (noun), like "a," "an," or "the." By default, it's set to auto, which means the system decides whether or not to include it.
+Valid values: `"a"`, `"an"`, `"the"`, `"auto"`, and `""` (the default, which omits the tag.). A determiner is the word that comes before the title noun. `"auto"` lets the platform decide whether or not to include it.
 
 
 ---
@@ -1097,6 +1148,89 @@ It also does not fetch data, as you should already have it available. Pass the m
 
 ---
 
+## [SvelteKit](https://nellowtcs.me/vite-plugin-seo-meta/guide/sveltekit/) (Guide)
+
+---
+title: "SvelteKit"
+description: "Inject SEO head tags in SvelteKit with a server handle hook."
+---
+
+SvelteKit makes its own HTML, so Vite's `transformIndexHtml` never fires and the main plugin just sits there doing nothing. It even warns you about the unsupported hook, which is rude but fair. Use the `vite-plugin-seo-meta/sveltekit` subpackage for this purpose, which injects through SvelteKit's own `transformPageChunk`. Basically the same tags, but with a different entry.
+
+## Setup
+
+Keep `seo()` in your Vite config. It still does config resolution, validation, robots.txt and sitemap.xml. The handle hook only takes over head injection.
+
+```ts
+// vite.config.ts
+import { sveltekit } from "@sveltejs/kit/vite";
+import { seo } from "vite-plugin-seo-meta";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [seo(), sveltekit()],
+});
+```
+
+Then add the hook. Import `site` and `pages` from the plugin's virtual config module and pass them to `seoHandle()`:
+
+```ts
+// src/hooks.server.ts
+import { site, pages } from "virtual:vite-plugin-seo-meta/config";
+import { seoHandle } from "vite-plugin-seo-meta/sveltekit";
+
+export const handle = seoHandle({ site, pages });
+```
+
+That's it!!!!!! Dev SSR and prerendered builds both go through this hook so it's an all-in-one solution :D. Already got a handle hook of your own (niceee I like you if so)? Compose them with SvelteKit's `sequence`:
+
+```ts
+import { sequence } from "@sveltejs/kit/hooks";
+
+export const handle = sequence(seoHandle({ site, pages }), myOtherHandle);
+```
+
+## Base paths
+
+The hook strips the deployment base from `event.url.pathname` before matching a page key, so `/docs/about` still finds `pages["/about"]`. The base defaults to the pathname of `site.url`, since that's usually where a subpath deployment hides it. If SvelteKit's `paths.base` disagrees, say so:
+
+```ts
+export const handle = seoHandle({ site, pages, base: "/docs" });
+```
+
+## Dynamic routes
+
+Page keys match the concrete pathname first. Nothing matched? The hook then tries SvelteKit's `event.route.id`, so one entry can cover a whole dynamic route (blog posts and the like yk):
+
+```ts
+// seo.config.ts
+export default defineSeoConfig({
+  site: { url: "https://example.com" },
+  pages: {
+    "/blog/[slug]": { title: "Blog post" },
+  },
+});
+```
+
+## Robots.txt and sitemap.xml
+
+These still come from the plugin's `closeBundle` hook, with URLs built from `site.url`, so they already know about the base. Routes come from built HTML plus the keys in `pages`, so SSR-only routes need an explicit `pages` entry if you want them in the sitemap, which I thought was fair:
+
+```ts
+pages: {
+  "/blog/[slug]": { title: "Blog post" },
+  "/dashboard": { title: "Dashboard" },
+},
+```
+
+## Notes
+
+- The hook buffers the page until SvelteKit marks the last chunk done, then injects once. That trades streaming for correct, non-duplicated tags. Worth it in my opinion, but if you disagree, open an issue and we can discuss it! :D
+- Non-HTML responses are left alone
+
+
+---
+
 ## [Twitter Cards](https://nellowtcs.me/vite-plugin-seo-meta/guide/twitter/) (Guide)
 
 ---
@@ -1147,6 +1281,7 @@ twitter: {
 - `site` and `creator` are `@handles`
 - `imageAlt` is required when `image` is set. Max 420 characters
 - `imageWidth` and `imageHeight` are the card image dimensions in pixels
+- `image` needs to be HTTPS. Root-relative paths get resolved against `site.url`, so a HTTPS site just works, but an absolute `http://` URL gets a validation warning, cause mixed content makes the card not render
 
 ## Numeric IDs
 
@@ -1191,9 +1326,9 @@ twitter: {
 }
 ```
 
-- `url` is the HTTPS iframe URL.
+- `url` is the HTTPS iframe URL. This one's a hard requirement in the spec ("must be a HTTPS URL"), so validation flags a `http://` player URL
 - `width` and `height` are the iframe dimensions in pixels.
-- `stream` is optional. It points to a raw video or audio stream.
+- `stream` is optional. It points to a raw video or audio stream. Any raw stream works but Twitter recommends HLS (`.m3u8`) or MPEG-DASH (`.mpd`) for reasons...
 
 ## App Card
 
@@ -1283,10 +1418,24 @@ Canonicals, `og:url`, `twitter:image` and `twitter:player` URLs **must be absolu
 - A page with alternates must include a self-referencing alternate. The plugin adds one from `lang`; when no `lang` is configured, or another alternate already uses that tag, add it manually.
 - When one configured page links to another, the target must link back. Non-reciprocal pairs are flagged because Google ignores hreflang annotations that do not point to each other.
 
+### Open Graph
+
+- `og:image` is required by Open Graph but has no default. A page with no image gets flagged, so set `site.image` or `openGraph.image`
+- `og:locale` and `og:locale:alternate` must be `language_TERRITORY` (`en_US`). Hyphenated input is converted automatically and values that can't be converted are flagged
+- `article.publishedTime`, `modifiedTime` and `expirationTime` must parse as dates, since Open Graph expects ISO 8601
+- `music.duration` and `video.duration` must be integers of at least 1
+
 ### robots.txt
 
 - `robots.userAgent` values must be RFC 9309 product tokens: `*`, or letters, `_`, and `-`. Values with spaces, punctuation, or digits are flagged because they cannot match a crawler.
 - `robots.crawlDelay` must be a non-negative number of seconds.
+
+### robots meta
+
+- Directive names in both `robots` and `robotsByUserAgent` are checked against Google's current list. `index` and `follow` are technicallyyy valid defaults, so they're accepted even though they're redundant.
+- `max-snippet` and `max-video-preview` need a parseeable number, `max-image-preview` must be `none`, `standard` or `large`, and `unavailable_after` needs a parseable date. Google ignores rules with bad values, so an invalid value can undo what you meant.
+- `indexifembedded` without `noindex` (or `none`) does nothing, so it gets flagged.
+- `none` with `all` gets flagged too. Google applies the more restrictive rule, so `none` wins, but emitting both is just confusing and silly.
 
 ## How to fix
 
@@ -1466,7 +1615,7 @@ description: "Every field the plugin accepts."
 {
   title?: string;
   capable?: boolean;
-  statusBarStyle?: "default" | "black" | "black-translucent" | "transparent";
+  statusBarStyle?: "default" | "black" | "black-translucent";
 }
 ```
 

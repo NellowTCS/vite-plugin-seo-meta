@@ -36,11 +36,11 @@
     
     
 
-    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mwono185">
-    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mwono185">
+    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mworxu76">
+    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mworxu76">
     
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mwono185" id="hljs-light" >
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mwono185" id="hljs-dark" disabled>
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mworxu76" id="hljs-light" >
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mworxu76" id="hljs-dark" disabled>
     
     <script>/**
  * --------------------------------------------------------------------
@@ -126,10 +126,10 @@
 
 
 
-<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mwono185" >
-<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mwono185" >
-<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mwono185" >
-<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mwono185" >
+<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mworxu76" >
+<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mworxu76" >
+<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mworxu76" >
+<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mworxu76" >
 
     
     
@@ -670,6 +670,40 @@
         
       </li>
     
+      <li class="" >
+      
+        <a href="../../guide/sveltekit/" class=" "
+          >
+           
+<svg class="lucide-icon icon-layers " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-layers"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" />
+  <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" />
+  <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            SvelteKit
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
       <li class="active" >
       
         <a href="../../guide/validation/" class="active "
@@ -1033,7 +1067,7 @@
             <div class="content-layout">
               <div class="main-content">
                 <div class="docmd-breadcrumbs-row">
-                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22Validation%22%0Adescription%3A%20%22Catch%20misconfigured%20SEO%20before%20it%20ships.%22%0A---%0A%0AThe%20plugin%20validates%20config%20at%20build%20time.%20By%20default%20it%20logs%20issues%20and%20continues.%20Set%20%60validate%3A%20%22error%22%60%20to%20fail%20the%20build.%20I&#039;d%20recommend%20doing%20this%20in%20CI%2C%20so%20you%20catch%20problems%20before%20they%20reach%20production!!!%0A%0A%60%60%60ts%0Aseo(%7B%20validate%3A%20%22error%22%20%7D)%3B%0A%60%60%60%0A%0A%23%23%20Modes%0A%0A%7C%20Value%20%20%20%20%20%7C%20Behavior%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20---------%20%7C%20----------------------%20%7C%0A%7C%20%60%22warn%22%60%20%20%7C%20Log%20issues%20(default)%20%20%20%7C%0A%7C%20%60%22error%22%60%20%7C%20Throw%2C%20fails%20the%20build%20%7C%0A%7C%20%60false%60%20%20%20%7C%20Disable%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%0A%23%23%20What%20it%20checks%0A%0A%23%23%23%20Enums%0A%0A-%20%60changefreq%60%20must%20be%20one%20of%20%60always%60%2C%20%60hourly%60%2C%20%60daily%60%2C%20%60weekly%60%2C%20%60monthly%60%2C%20%60yearly%60%2C%20%60never%60%0A-%20%60twitter.card%60%20must%20be%20one%20of%20%60summary%60%2C%20%60summary_large_image%60%2C%20%60player%60%2C%20%60app%60%0A%0A%23%23%23%20Required%20fields%0A%0A-%20%60site.url%60%20must%20be%20set%0A-%20%60site.name%60%20and%20%60site.description%60%20are%20required%20when%20their%20page-level%20values%20are%20missing%0A%0A%23%23%23%20Absolute%20URLs%0A%0ACanonicals%2C%20%60og%3Aurl%60%2C%20%60twitter%3Aimage%60%20and%20%60twitter%3Aplayer%60%20URLs%20**must%20be%20absolute**.%20Relative%20URLs%20are%20resolved%20against%20%60site.url%60%20before%20validation%2C%20so%20this%20check%20runs%20on%20the%20resolved%20value.%0A%0A%23%23%23%20Length%20budgets%0A%0A%7C%20Field%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20Limit%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20---------------------%20%7C%20-----------------%20%7C%0A%7C%20%60title%60%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%2060%20characters%20%20%20%20%20%7C%0A%7C%20%60description%60%20%20%20%20%20%20%20%20%20%7C%2050-160%20characters%20%7C%0A%7C%20%60twitter%3Atitle%60%20%20%20%20%20%20%20%7C%2070%20characters%20%20%20%20%20%7C%0A%7C%20%60twitter%3Adescription%60%20%7C%20200%20characters%20%20%20%20%7C%0A%7C%20%60twitter%3Aimage%3Aalt%60%20%20%20%7C%20420%20characters%20%20%20%20%7C%0A%0A%23%23%23%20Duplicates%0A%0A-%20Two%20pages%20with%20the%20same%20%60title%60%0A-%20Two%20pages%20with%20the%20same%20%60canonical%60%0A%0A%23%23%23%20Conflicts%0A%0A-%20A%20page%20with%20%60noindex%3A%20true%60%20that%20is%20also%20in%20%60sitemap.xml%60%20(noindex%20pages%20are%20excluded%20from%20the%20sitemap%20by%20default%2C%20but%20this%20catches%20explicit%20overrides%2C%20juuuust%20in%20case)%0A-%20A%20page%20with%20%60sitemap%3A%20false%60%20that%20still%20has%20hreflang%20alternates%0A%0A%23%23%23%20hreflang%0A%0A-%20Language%20subtags%20must%20be%20assigned%20ISO%20639-1%20codes.%20Three-letter%20codes%20like%20%60zho%60%20and%20unassigned%20codes%20like%20%60zz%60%20are%20flagged%20because%20Google%20ignores%20the%20unsupported%20part%20of%20the%20annotation.%0A-%20Region%20subtags%20must%20be%20assigned%20ISO%203166-1%20alpha-2%20codes.%20Numeric%20regions%20like%20%60es-419%60%20and%20unassigned%20codes%20like%20%60en-XX%60%20are%20flagged%3B%20use%20a%20real%20region%20such%20as%20%60es-MX%60.%0A-%20A%20page%20with%20alternates%20must%20include%20a%20self-referencing%20alternate.%20The%20plugin%20adds%20one%20from%20%60lang%60%3B%20when%20no%20%60lang%60%20is%20configured%2C%20or%20another%20alternate%20already%20uses%20that%20tag%2C%20add%20it%20manually.%0A-%20When%20one%20configured%20page%20links%20to%20another%2C%20the%20target%20must%20link%20back.%20Non-reciprocal%20pairs%20are%20flagged%20because%20Google%20ignores%20hreflang%20annotations%20that%20do%20not%20point%20to%20each%20other.%0A%0A%23%23%23%20robots.txt%0A%0A-%20%60robots.userAgent%60%20values%20must%20be%20RFC%209309%20product%20tokens%3A%20%60*%60%2C%20or%20letters%2C%20%60_%60%2C%20and%20%60-%60.%20Values%20with%20spaces%2C%20punctuation%2C%20or%20digits%20are%20flagged%20because%20they%20cannot%20match%20a%20crawler.%0A-%20%60robots.crawlDelay%60%20must%20be%20a%20non-negative%20number%20of%20seconds.%0A%0A%23%23%20How%20to%20fix%0A%0AThe%20validator%20reports%20the%20field%2C%20the%20route%2C%20and%20the%20problem.%20Fix%20the%20field%20and%20rebuild.%20It%20does%20not%20guess%20what%20you%20meant...%20because%20well...%20it%20shouldn&#039;t%3B%20the%20SEO%20checks%20here%20are%20strict.%20If%20you%20want%20to%20disable%20a%20check%2C%20set%20%60validate%3A%20false%60%20or%20remove%20the%20field%20entirely.%0A" style="display: none;"></div>
+                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22Validation%22%0Adescription%3A%20%22Catch%20misconfigured%20SEO%20before%20it%20ships.%22%0A---%0A%0AThe%20plugin%20validates%20config%20at%20build%20time.%20By%20default%20it%20logs%20issues%20and%20continues.%20Set%20%60validate%3A%20%22error%22%60%20to%20fail%20the%20build.%20I&#039;d%20recommend%20doing%20this%20in%20CI%2C%20so%20you%20catch%20problems%20before%20they%20reach%20production!!!%0A%0A%60%60%60ts%0Aseo(%7B%20validate%3A%20%22error%22%20%7D)%3B%0A%60%60%60%0A%0A%23%23%20Modes%0A%0A%7C%20Value%20%20%20%20%20%7C%20Behavior%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20---------%20%7C%20----------------------%20%7C%0A%7C%20%60%22warn%22%60%20%20%7C%20Log%20issues%20(default)%20%20%20%7C%0A%7C%20%60%22error%22%60%20%7C%20Throw%2C%20fails%20the%20build%20%7C%0A%7C%20%60false%60%20%20%20%7C%20Disable%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%0A%23%23%20What%20it%20checks%0A%0A%23%23%23%20Enums%0A%0A-%20%60changefreq%60%20must%20be%20one%20of%20%60always%60%2C%20%60hourly%60%2C%20%60daily%60%2C%20%60weekly%60%2C%20%60monthly%60%2C%20%60yearly%60%2C%20%60never%60%0A-%20%60twitter.card%60%20must%20be%20one%20of%20%60summary%60%2C%20%60summary_large_image%60%2C%20%60player%60%2C%20%60app%60%0A%0A%23%23%23%20Required%20fields%0A%0A-%20%60site.url%60%20must%20be%20set%0A-%20%60site.name%60%20and%20%60site.description%60%20are%20required%20when%20their%20page-level%20values%20are%20missing%0A%0A%23%23%23%20Absolute%20URLs%0A%0ACanonicals%2C%20%60og%3Aurl%60%2C%20%60twitter%3Aimage%60%20and%20%60twitter%3Aplayer%60%20URLs%20**must%20be%20absolute**.%20Relative%20URLs%20are%20resolved%20against%20%60site.url%60%20before%20validation%2C%20so%20this%20check%20runs%20on%20the%20resolved%20value.%0A%0A%23%23%23%20Length%20budgets%0A%0A%7C%20Field%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%20Limit%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%0A%7C%20---------------------%20%7C%20-----------------%20%7C%0A%7C%20%60title%60%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%7C%2060%20characters%20%20%20%20%20%7C%0A%7C%20%60description%60%20%20%20%20%20%20%20%20%20%7C%2050-160%20characters%20%7C%0A%7C%20%60twitter%3Atitle%60%20%20%20%20%20%20%20%7C%2070%20characters%20%20%20%20%20%7C%0A%7C%20%60twitter%3Adescription%60%20%7C%20200%20characters%20%20%20%20%7C%0A%7C%20%60twitter%3Aimage%3Aalt%60%20%20%20%7C%20420%20characters%20%20%20%20%7C%0A%0A%23%23%23%20Duplicates%0A%0A-%20Two%20pages%20with%20the%20same%20%60title%60%0A-%20Two%20pages%20with%20the%20same%20%60canonical%60%0A%0A%23%23%23%20Conflicts%0A%0A-%20A%20page%20with%20%60noindex%3A%20true%60%20that%20is%20also%20in%20%60sitemap.xml%60%20(noindex%20pages%20are%20excluded%20from%20the%20sitemap%20by%20default%2C%20but%20this%20catches%20explicit%20overrides%2C%20juuuust%20in%20case)%0A-%20A%20page%20with%20%60sitemap%3A%20false%60%20that%20still%20has%20hreflang%20alternates%0A%0A%23%23%23%20hreflang%0A%0A-%20Language%20subtags%20must%20be%20assigned%20ISO%20639-1%20codes.%20Three-letter%20codes%20like%20%60zho%60%20and%20unassigned%20codes%20like%20%60zz%60%20are%20flagged%20because%20Google%20ignores%20the%20unsupported%20part%20of%20the%20annotation.%0A-%20Region%20subtags%20must%20be%20assigned%20ISO%203166-1%20alpha-2%20codes.%20Numeric%20regions%20like%20%60es-419%60%20and%20unassigned%20codes%20like%20%60en-XX%60%20are%20flagged%3B%20use%20a%20real%20region%20such%20as%20%60es-MX%60.%0A-%20A%20page%20with%20alternates%20must%20include%20a%20self-referencing%20alternate.%20The%20plugin%20adds%20one%20from%20%60lang%60%3B%20when%20no%20%60lang%60%20is%20configured%2C%20or%20another%20alternate%20already%20uses%20that%20tag%2C%20add%20it%20manually.%0A-%20When%20one%20configured%20page%20links%20to%20another%2C%20the%20target%20must%20link%20back.%20Non-reciprocal%20pairs%20are%20flagged%20because%20Google%20ignores%20hreflang%20annotations%20that%20do%20not%20point%20to%20each%20other.%0A%0A%23%23%23%20Open%20Graph%0A%0A-%20%60og%3Aimage%60%20is%20required%20by%20Open%20Graph%20but%20has%20no%20default.%20A%20page%20with%20no%20image%20gets%20flagged%2C%20so%20set%20%60site.image%60%20or%20%60openGraph.image%60%0A-%20%60og%3Alocale%60%20and%20%60og%3Alocale%3Aalternate%60%20must%20be%20%60language_TERRITORY%60%20(%60en_US%60).%20Hyphenated%20input%20is%20converted%20automatically%20and%20values%20that%20can&#039;t%20be%20converted%20are%20flagged%0A-%20%60article.publishedTime%60%2C%20%60modifiedTime%60%20and%20%60expirationTime%60%20must%20parse%20as%20dates%2C%20since%20Open%20Graph%20expects%20ISO%208601%0A-%20%60music.duration%60%20and%20%60video.duration%60%20must%20be%20integers%20of%20at%20least%201%0A%0A%23%23%23%20robots.txt%0A%0A-%20%60robots.userAgent%60%20values%20must%20be%20RFC%209309%20product%20tokens%3A%20%60*%60%2C%20or%20letters%2C%20%60_%60%2C%20and%20%60-%60.%20Values%20with%20spaces%2C%20punctuation%2C%20or%20digits%20are%20flagged%20because%20they%20cannot%20match%20a%20crawler.%0A-%20%60robots.crawlDelay%60%20must%20be%20a%20non-negative%20number%20of%20seconds.%0A%0A%23%23%23%20robots%20meta%0A%0A-%20Directive%20names%20in%20both%20%60robots%60%20and%20%60robotsByUserAgent%60%20are%20checked%20against%20Google&#039;s%20current%20list.%20%60index%60%20and%20%60follow%60%20are%20technicallyyy%20valid%20defaults%2C%20so%20they&#039;re%20accepted%20even%20though%20they&#039;re%20redundant.%0A-%20%60max-snippet%60%20and%20%60max-video-preview%60%20need%20a%20parseeable%20number%2C%20%60max-image-preview%60%20must%20be%20%60none%60%2C%20%60standard%60%20or%20%60large%60%2C%20and%20%60unavailable_after%60%20needs%20a%20parseable%20date.%20Google%20ignores%20rules%20with%20bad%20values%2C%20so%20an%20invalid%20value%20can%20undo%20what%20you%20meant.%0A-%20%60indexifembedded%60%20without%20%60noindex%60%20(or%20%60none%60)%20does%20nothing%2C%20so%20it%20gets%20flagged.%0A-%20%60none%60%20with%20%60all%60%20gets%20flagged%20too.%20Google%20applies%20the%20more%20restrictive%20rule%2C%20so%20%60none%60%20wins%2C%20but%20emitting%20both%20is%20just%20confusing%20and%20silly.%0A%0A%23%23%20How%20to%20fix%0A%0AThe%20validator%20reports%20the%20field%2C%20the%20route%2C%20and%20the%20problem.%20Fix%20the%20field%20and%20rebuild.%20It%20does%20not%20guess%20what%20you%20meant...%20because%20well...%20it%20shouldn&#039;t%3B%20the%20SEO%20checks%20here%20are%20strict.%20If%20you%20want%20to%20disable%20a%20check%2C%20set%20%60validate%3A%20false%60%20or%20remove%20the%20field%20entirely.%0A" style="display: none;"></div>
                   
                     <nav aria-label="breadcrumb" class="docmd-breadcrumbs">
                       <ol>
@@ -1215,10 +1249,24 @@
 <li>A page with alternates must include a self-referencing alternate. The plugin adds one from <code>lang</code>; when no <code>lang</code> is configured, or another alternate already uses that tag, add it manually.</li>
 <li>When one configured page links to another, the target must link back. Non-reciprocal pairs are flagged because Google ignores hreflang annotations that do not point to each other.</li>
 </ul>
+<h3 id="what-it-checks-open-graph" class="docmd-heading"><a href="#what-it-checks-open-graph" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>Open Graph</h3>
+<ul>
+<li><code>og:image</code> is required by Open Graph but has no default. A page with no image gets flagged, so set <code>site.image</code> or <code>openGraph.image</code></li>
+<li><code>og:locale</code> and <code>og:locale:alternate</code> must be <code>language_TERRITORY</code> (<code>en_US</code>). Hyphenated input is converted automatically and values that can’t be converted are flagged</li>
+<li><code>article.publishedTime</code>, <code>modifiedTime</code> and <code>expirationTime</code> must parse as dates, since Open Graph expects ISO 8601</li>
+<li><code>music.duration</code> and <code>video.duration</code> must be integers of at least 1</li>
+</ul>
 <h3 id="what-it-checks-robotstxt" class="docmd-heading"><a href="#what-it-checks-robotstxt" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>robots.txt</h3>
 <ul>
 <li><code>robots.userAgent</code> values must be RFC 9309 product tokens: <code>*</code>, or letters, <code>_</code>, and <code>-</code>. Values with spaces, punctuation, or digits are flagged because they cannot match a crawler.</li>
 <li><code>robots.crawlDelay</code> must be a non-negative number of seconds.</li>
+</ul>
+<h3 id="what-it-checks-robots-meta" class="docmd-heading"><a href="#what-it-checks-robots-meta" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>robots meta</h3>
+<ul>
+<li>Directive names in both <code>robots</code> and <code>robotsByUserAgent</code> are checked against Google’s current list. <code>index</code> and <code>follow</code> are technicallyyy valid defaults, so they’re accepted even though they’re redundant.</li>
+<li><code>max-snippet</code> and <code>max-video-preview</code> need a parseeable number, <code>max-image-preview</code> must be <code>none</code>, <code>standard</code> or <code>large</code>, and <code>unavailable_after</code> needs a parseable date. Google ignores rules with bad values, so an invalid value can undo what you meant.</li>
+<li><code>indexifembedded</code> without <code>noindex</code> (or <code>none</code>) does nothing, so it gets flagged.</li>
+<li><code>none</code> with <code>all</code> gets flagged too. Google applies the more restrictive rule, so <code>none</code> wins, but emitting both is just confusing and silly.</li>
 </ul>
 <h2 id="how-to-fix" class="docmd-heading"><a href="#how-to-fix" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>How to fix</h2>
 <p>The validator reports the field, the route, and the problem. Fix the field and rebuild. It does not guess what you meant… because well… it shouldn’t; the SEO checks here are strict. If you want to disable a check, set <code>validate: false</code> or remove the field entirely.</p>
@@ -1226,7 +1274,7 @@
                 
                   <div class="page-navigation">
                     
-                      <a href="../../guide/spa-runtime/" class="prev-page">
+                      <a href="../../guide/sveltekit/" class="prev-page">
                         
 <svg class="lucide-icon icon-arrow-left page-nav-icon" width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
   class="lucide lucide-arrow-left"
@@ -1245,7 +1293,7 @@
 </svg>
 
                         <span><small>Previous</small><strong>
-                            SPA Runtime
+                            SvelteKit
                           </strong></span>
                       </a>
                     
@@ -1341,7 +1389,15 @@
         </li>
       
         <li class="toc-item toc-level-3">
+          <a href="#what-it-checks-open-graph" class="toc-link">Open Graph</a>
+        </li>
+      
+        <li class="toc-item toc-level-3">
           <a href="#what-it-checks-robotstxt" class="toc-link">robots.txt</a>
+        </li>
+      
+        <li class="toc-item toc-level-3">
+          <a href="#what-it-checks-robots-meta" class="toc-link">robots meta</a>
         </li>
       
         <li class="toc-item toc-level-2">
@@ -1359,13 +1415,13 @@
             <div class="page-footer-actions">
               
               
-                <span class="git-last-updated" data-timestamp="1795159555000">
+                <span class="git-last-updated" data-timestamp="1795166733000">
                   <svg class="git-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                   </svg>
                   <span class="git-label">Last updated:</span>
-                  <span class="git-time" data-timestamp="1795159555000"></span>
+                  <span class="git-time" data-timestamp="1795166733000"></span>
                   
                   <div class="git-commit-tooltip" role="tooltip">
                     <div class="git-tooltip-title">Recent commits</div>
@@ -1378,10 +1434,10 @@
                             
                           </div>
                           <div class="git-commit-details">
-                            <div class="git-commit-message" title="JSON-LD fixes">JSON-LD fixes</div>
+                            <div class="git-commit-message" title="Quick fix for tsdown (node 22)">Quick fix for tsdown (node 22)</div>
                             <div class="git-commit-meta">
                               <span class="git-commit-author">NellowTCS</span>
-                              <span class="git-commit-date" data-timestamp="1795159555000"></span>
+                              <span class="git-commit-date" data-timestamp="1795166733000"></span>
                             </div>
                           </div>
                         </li>
@@ -1434,17 +1490,17 @@
       </div>
       
       
-      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-20T07:26:25.940Z","buildDate":"2026-11-20","buildYear":"2026","gitCommit":"6ac314e","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-20","GIT_COMMIT":"6ac314e","GIT_BRANCH":"main","git":{"commit":"6ac314e","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"Validation","slug":"/vite-plugin-seo-meta/guide/validation/","path":"guide/validation/index.html"},"frontmatter":{"title":"Validation","description":"Catch misconfigured SEO before it ships.","_git":{"lastUpdated":"2026-11-20T07:25:55.000Z","lastUpdatedTimestamp":1795159555000,"commits":[{"hash":"6ac314eb1b594e5b153180eb4b2dc7ae31fa4075","shortHash":"6ac314e","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-20T07:25:55.000Z","timestamp":1795159555000,"message":"JSON-LD fixes","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
+      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-20T09:26:01.575Z","buildDate":"2026-11-20","buildYear":"2026","gitCommit":"fd4a2d7","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-20","GIT_COMMIT":"fd4a2d7","GIT_BRANCH":"main","git":{"commit":"fd4a2d7","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"Validation","slug":"/vite-plugin-seo-meta/guide/validation/","path":"guide/validation/index.html"},"frontmatter":{"title":"Validation","description":"Catch misconfigured SEO before it ships.","_git":{"lastUpdated":"2026-11-20T09:25:33.000Z","lastUpdatedTimestamp":1795166733000,"commits":[{"hash":"fd4a2d7e143389f558074c40845af3e25074efc8","shortHash":"fd4a2d7","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-20T09:25:33.000Z","timestamp":1795166733000,"message":"Quick fix for tsdown (node 22)","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
       
-      <script src="../../assets/js/docmd-runtime.js?v=mwono185"></script>
-      <script src="../../assets/js/docmd-main.js?v=mwono185"></script>
+      <script src="../../assets/js/docmd-runtime.js?v=mworxu76"></script>
+      <script src="../../assets/js/docmd-main.js?v=mworxu76"></script>
       
-      <script src="../../assets/js/docmd-git.js?v=mwono185"></script>
-      <script src="../../assets/js/docmd-image-lightbox.js?v=mwono185" ></script>
-<script src="../../assets/js/vendor/minisearch.js?v=mwono185" ></script>
-<script src="../../assets/js/docmd-search.js?v=mwono185" ></script>
-<script src="../../assets/js/docmd-git.js?v=mwono185" ></script>
-<script src="../../assets/js/docmd-ai.js?v=mwono185" ></script>
+      <script src="../../assets/js/docmd-git.js?v=mworxu76"></script>
+      <script src="../../assets/js/docmd-image-lightbox.js?v=mworxu76" ></script>
+<script src="../../assets/js/vendor/minisearch.js?v=mworxu76" ></script>
+<script src="../../assets/js/docmd-search.js?v=mworxu76" ></script>
+<script src="../../assets/js/docmd-git.js?v=mworxu76" ></script>
+<script src="../../assets/js/docmd-ai.js?v=mworxu76" ></script>
 
   <!-- Search Modal (Injected by @docmd/plugin-search) -->
   <div id="docmd-search-modal" class="docmd-search-modal" style="display: none;" data-semantic="true" data-show-confidence="true" data-show-filters="true"
@@ -1520,7 +1576,7 @@
     </script>
 
 <script>window.__git_config={"repo":"https://github.com/NellowTCS/vite-plugin-seo-meta/edit/main/","branch":"main","editLink":true,"lastUpdated":true,"commitHistory":true,"maxCommits":5,"dateFormat":"relative"};window.__git_i18n={"lastUpdated":"Last updated","recentCommits":"Recent commits","viewCommitHistory":"View commit history","editOnGitHub":"Edit on GitHub","editOnGitLab":"Edit on GitLab","editOnBitbucket":"Edit on Bitbucket","editThisPage":"Edit this page","justNow":"just now","minutesAgo":"{n}m ago","hoursAgo":"{n}h ago","daysAgo":"{n}d ago"}</script>
-<div id="docmd-ai-root"></div><script>window.__docmd_ai_config={"endpoint":"","cloud":{},"captcha":true,"position":"bottom-center","siteTitle":"vite-plugin-seo-meta","siteBase":"/vite-plugin-seo-meta/","siteUrl":"https://nellowtcs.me/vite-plugin-seo-meta/","versions":null,"i18n":null,"navigation":[{"title":"Home","path":"/","icon":"home"},{"title":"Getting Started","icon":"rocket","collapsible":false,"children":[{"title":"Installation","path":"/getting-started/installation/","icon":"download"},{"title":"Quick Start","path":"/getting-started/quickstart/","icon":"play"},{"title":"Configuration","path":"/getting-started/configuration/","icon":"sliders"}]},{"title":"Guide","icon":"book-open","collapsible":false,"children":[{"title":"Meta Tags","path":"/guide/meta-tags/","icon":"tag"},{"title":"Open Graph","path":"/guide/open-graph/","icon":"globe"},{"title":"Twitter Cards","path":"/guide/twitter/","icon":"bird"},{"title":"JSON-LD","path":"/guide/json-ld/","icon":"braces"},{"title":"hreflang","path":"/guide/hreflang/","icon":"languages"},{"title":"robots.txt","path":"/guide/robots/","icon":"shield"},{"title":"Sitemap","path":"/guide/sitemap/","icon":"map"},{"title":"SPA Runtime","path":"/guide/spa-runtime/","icon":"refresh-cw"},{"title":"Validation","path":"/guide/validation/","icon":"check-circle"}]},{"title":"API Reference","icon":"code","collapsible":false,"children":[{"title":"API","path":"/api/","icon":"book"},{"title":"Config Reference","path":"/reference/config/","icon":"file-text"}]},{"title":"Live Demo","path":"/vite-plugin-seo-meta/demo/","icon":"monitor","external":true},{"title":"GitHub","path":"https://github.com/NellowTCS/vite-plugin-seo-meta","icon":"github","external":true}],"searchCapabilities":{"keyword":true,"semantic":true},"isWorkspace":false,"workspaceProjects":[],"messageActions":false,"fetchExternalUrls":false,"contextLimit":5};</script>
+<div id="docmd-ai-root"></div><script>window.__docmd_ai_config={"endpoint":"","cloud":{},"captcha":true,"position":"bottom-center","siteTitle":"vite-plugin-seo-meta","siteBase":"/vite-plugin-seo-meta/","siteUrl":"https://nellowtcs.me/vite-plugin-seo-meta/","versions":null,"i18n":null,"navigation":[{"title":"Home","path":"/","icon":"home"},{"title":"Getting Started","icon":"rocket","collapsible":false,"children":[{"title":"Installation","path":"/getting-started/installation/","icon":"download"},{"title":"Quick Start","path":"/getting-started/quickstart/","icon":"play"},{"title":"Configuration","path":"/getting-started/configuration/","icon":"sliders"}]},{"title":"Guide","icon":"book-open","collapsible":false,"children":[{"title":"Meta Tags","path":"/guide/meta-tags/","icon":"tag"},{"title":"Open Graph","path":"/guide/open-graph/","icon":"globe"},{"title":"Twitter Cards","path":"/guide/twitter/","icon":"bird"},{"title":"JSON-LD","path":"/guide/json-ld/","icon":"braces"},{"title":"hreflang","path":"/guide/hreflang/","icon":"languages"},{"title":"robots.txt","path":"/guide/robots/","icon":"shield"},{"title":"Sitemap","path":"/guide/sitemap/","icon":"map"},{"title":"SPA Runtime","path":"/guide/spa-runtime/","icon":"refresh-cw"},{"title":"SvelteKit","path":"/guide/sveltekit/","icon":"layers"},{"title":"Validation","path":"/guide/validation/","icon":"check-circle"}]},{"title":"API Reference","icon":"code","collapsible":false,"children":[{"title":"API","path":"/api/","icon":"book"},{"title":"Config Reference","path":"/reference/config/","icon":"file-text"}]},{"title":"Live Demo","path":"/vite-plugin-seo-meta/demo/","icon":"monitor","external":true},{"title":"GitHub","path":"https://github.com/NellowTCS/vite-plugin-seo-meta","icon":"github","external":true}],"searchCapabilities":{"keyword":true,"semantic":true},"isWorkspace":false,"workspaceProjects":[],"messageActions":false,"fetchExternalUrls":false,"contextLimit":5};</script>
       
       
       

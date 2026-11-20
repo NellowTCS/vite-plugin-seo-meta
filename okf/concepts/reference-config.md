@@ -7,7 +7,7 @@ path: /reference/config/
 updated: 2026-11-20
 okf:
   generated_by: "@docmd/plugin-okf"
-  generated_at: "2026-11-20T07:26:30.898Z"
+  generated_at: "2026-11-20T09:26:10.911Z"
 ---
 ---
 title: "Config Reference"
@@ -102,7 +102,7 @@ description: "Every field the plugin accepts."
 {
   title?: string;
   capable?: boolean;
-  statusBarStyle?: "default" | "black" | "black-translucent" | "transparent";
+  statusBarStyle?: "default" | "black" | "black-translucent";
 }
 ```
 

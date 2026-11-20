@@ -8,6 +8,7 @@
 [WARN] missing-type /guide/robots/  (using fallback 'concept')
 [WARN] missing-type /guide/sitemap/  (using fallback 'concept')
 [WARN] missing-type /guide/spa-runtime/  (using fallback 'concept')
+[WARN] missing-type /guide/sveltekit/  (using fallback 'concept')
 [WARN] missing-type /guide/twitter/  (using fallback 'concept')
 [WARN] missing-type /guide/validation/  (using fallback 'concept')
 [WARN] missing-type /  (using fallback 'concept')

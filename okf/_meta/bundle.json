@@ -6,14 +6,14 @@
     "description": "",
     "url": "https://nellowtcs.me/vite-plugin-seo-meta/",
     "generated_by": "@docmd/plugin-okf",
-    "generated_at": "2026-11-20T07:26:30.898Z",
+    "generated_at": "2026-11-20T09:26:10.912Z",
     "default_type": "concept"
   },
   "stats": {
-    "concepts": 15,
+    "concepts": 16,
     "by_type": {
       "api": 1,
-      "concept": 13,
+      "concept": 14,
       "reference": 1
     },
     "locales": [],
@@ -24,7 +24,7 @@
       "id": "api",
       "type": "api",
       "title": "API",
-      "description": "Public exports: seo(), defineSeoConfig() and the runtime helper.",
+      "description": "Public exports: seo(), defineSeoConfig(), the runtime helper, and the SvelteKit handle.",
       "path": "/api/",
       "file": "concepts/api.md",
       "locale": "",
@@ -137,6 +137,17 @@
       "description": "Update SEO tags when the URL changes in a single-page app.",
       "path": "/guide/spa-runtime/",
       "file": "concepts/guide-spa-runtime.md",
+      "locale": "",
+      "version": "",
+      "tags": []
+    },
+    {
+      "id": "guide-sveltekit",
+      "type": "concept",
+      "title": "SvelteKit",
+      "description": "Inject SEO head tags in SvelteKit with a server handle hook.",
+      "path": "/guide/sveltekit/",
+      "file": "concepts/guide-sveltekit.md",
       "locale": "",
       "version": "",
       "tags": []

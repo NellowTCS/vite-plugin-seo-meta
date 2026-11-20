@@ -36,11 +36,11 @@
     
     
 
-    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mwono185">
-    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mwono185">
+    <link id="site-favicon" rel="icon" href="../../assets/favicon.ico?v=mworxu76">
+    <link rel="stylesheet" href="../../assets/css/docmd-main.css?v=mworxu76">
     
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mwono185" id="hljs-light" >
-    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mwono185" id="hljs-dark" disabled>
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-light.css?v=mworxu76" id="hljs-light" >
+    <link rel="stylesheet" href="../../assets/css/docmd-highlight-dark.css?v=mworxu76" id="hljs-dark" disabled>
     
     <script>/**
  * --------------------------------------------------------------------
@@ -126,10 +126,10 @@
 
 
 
-<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mwono185" >
-<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mwono185" >
-<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mwono185" >
-<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mwono185" >
+<link rel="stylesheet" href="../../assets/css/docmd-theme-sky.css?v=mworxu76" >
+<link rel="stylesheet" href="../../assets/css/docmd-git.css?v=mworxu76" >
+<link rel="stylesheet" href="../../assets/css/docmd-openapi.css?v=mworxu76" >
+<link rel="stylesheet" href="../../assets/css/docmd-ai.css?v=mworxu76" >
 
     
     
@@ -672,6 +672,40 @@
     
       <li class="" >
       
+        <a href="../../guide/sveltekit/" class=" "
+          >
+           
+<svg class="lucide-icon icon-layers " width="1em" height="1em" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+  class="lucide lucide-layers"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" />
+  <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" />
+  <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" />
+</svg>
+
+          
+          <span class="nav-item-title">
+            SvelteKit
+            </span>
+          
+          
+        </a>
+        
+
+        
+      </li>
+    
+      <li class="" >
+      
         <a href="../../guide/validation/" class=" "
           >
            
@@ -1033,7 +1067,7 @@
             <div class="content-layout">
               <div class="main-content">
                 <div class="docmd-breadcrumbs-row">
-                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22Meta%20Tags%22%0Adescription%3A%20%22How%20the%20plugin%20emits%20title%2C%20description%2C%20canonical%20and%20robots%20meta%20tags.%22%0A---%0A%0AThe%20plugin%20emits%20standard%20meta%20tags%20(%60%3Cmeta%3E%60%20tags)%20for%20every%20page.%20You%20set%20the%20defaults%20in%20%60site%60%20and%20override%20per%20page%20in%20%60pages%60.%0A%0A%23%23%20title%0A%0AThe%20%60%3Ctitle%3E%60%20comes%20from%20the%20page%20%60title%60%2C%20falling%20back%20to%20%60site.title%60.%20The%20%60titleTemplate%60%20wraps%20it.%0A%0AYou%20can%20pass%20a%20string%20or%20a%20function%20to%20%60titleTemplate%60.%20The%20string%20should%20contain%20%60%25s%60%20where%20the%20page%20title%20should%20go.%20The%20function%20receives%20the%20page%20title%20and%20returns%20a%20string%2C%20for%20example%3A%0A%0A%60%60%60ts%0Asite%3A%20%7B%0A%20%20title%3A%20%22My%20Site%22%2C%0A%20%20titleTemplate%3A%20%22%25s%20%7C%20My%20Site%22%2C%0A%7D%2C%0Apages%3A%20%7B%20%22%2Fabout%22%3A%20%7B%20title%3A%20%22About%20Us%22%20%7D%20%7D%2C%0A%60%60%60%0A%0ARenders%20as%20%60%3Ctitle%3EAbout%20Us%20%7C%20My%20Site%3C%2Ftitle%3E%60.%0A%0AKeep%20titles%20under%2060%20characters.%20The%20validator%20enforces%20this%2C%20and%20it&#039;s%20generally%20a%20good%20idea%20to%20follow%20it%3A%20titles%20that%20are%20too%20long%20may%20be%20truncated%20in%20search%20results...%20and%20that&#039;s%20bad.%0A%0A%23%23%20description%0A%0AThe%20%60%3Cmeta%20name%3D%22description%22%3E%60%20comes%20from%20the%20page%20%60description%60%2C%20falling%20back%20to%20%60site.description%60.%0A%0A%60%60%60ts%0Asite%3A%20%7B%20description%3A%20%22My%20awesome%20site%22%20%7D%2C%0Apages%3A%20%7B%20%22%2Fabout%22%3A%20%7B%20description%3A%20%22Who%20we%20are%20and%20what%20we%20build.%22%20%7D%20%7D%2C%0A%60%60%60%0A%0AKeep%20descriptions%20between%2050%20and%20160%20characters.%20Also%20enforced.%0A%0A%23%23%20canonical%0A%0A%60%3Clink%20rel%3D%22canonical%22%3E%60%20points%20to%20the%20page%20URL.%20It%20defaults%20to%20%60site.url%20%2B%20route%60.%20Set%20it%20explicitly%20when%20the%20same%20content%20lives%20at%20multiple%20URLs.%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2Fproduct%22%3A%20%7B%20canonical%3A%20%22https%3A%2F%2Fexample.com%2Fproducts%2Fwidget%22%20%7D%2C%0A%7D%0A%60%60%60%0A%0ACanonicals%20must%20be%20absolute%20URLs.%20The%20validator%20checks%20this.%20Google&#039;s%20guidance%20on%20canonicals%20is%20%5Bavailable%20here%5D(https%3A%2F%2Fdevelopers.google.com%2Fsearch%2Fdocs%2Fcrawling-indexing%2Fcanonicalization)%20and%20it&#039;s%20worth%20reading%20if%20you&#039;re%20ever%20unsure%20whether%20to%20set%20one!%0A%0A%23%23%20robots%20meta%0A%0A**Per-page**%20%60robots%60%20adds%20a%20%60%3Cmeta%20name%3D%22robots%22%3E%60%20value.%20It%20does%20not%20touch%20%60robots.txt%60%2C%20which%20is%20generated%20separately.%0A%0AThe%20valid%20directives%20are%20documented%20in%20Google&#039;s%20%5Brobots%20meta%20tag%20reference%5D(https%3A%2F%2Fdevelopers.google.com%2Fsearch%2Fdocs%2Fcrawling-indexing%2Frobots-meta-tag).%20The%20plugin%20accepts%20all%20of%20them!%0A%0A%60%60%60ts%0Apages%3A%20%7B%20%22%2Fprivate%22%3A%20%7B%20robots%3A%20%22noindex%2C%20nofollow%22%20%7D%20%7D%0A%60%60%60%0A%0A%60noindex%3A%20true%60%20is%20shorthand%20for%20%60robots%3A%20%22noindex%22%60.%20It%20also%20(obviously)excludes%20the%20page%20from%20%60sitemap.xml%60.%0A%0A%23%23%20noindex%20and%20crawling%0A%0AA%20page%20with%20%60noindex%3A%20true%60%20tells%20crawlers%20not%20to%20index%20it%2C%20but%20by%20default%20it%20does%20not%20add%20a%20%60Disallow%60%20rule%20to%20%60robots.txt%60.%20Crawlers%20can%20still%20reach%20the%20page%20to%20see%20the%20%60noindex%60%20directive.%20This%20is%20done%20because%20some%20crawlers%20(like%20Googlebot)%20still%20index%20pages...%20even%20if%20they&#039;re%20marked%20%60noindex%60%2C%20cause%20Google%20just%20do%20be%20like%20that%20sometimes.%0A%0ATo%20block%20crawling%20outright%2C%20set%20%60disallowNoindex%3A%20true%60%20on%20the%20%60robots%60%20config%3A%0A%0A%60%60%60ts%0Arobots%3A%20%7B%0A%20%20disallowNoindex%3A%20true%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20Favicon%20and%20platform%20icons%20(subject%20to%20change)%0A%0AThe%20%60favicon%60%20block%20emits%20link%20tags%20and%20meta%20tags%20for%20browsers%20and%20platforms%3A%0A%0A%60%60%60ts%0Asite%3A%20%7B%0A%20%20favicon%3A%20%7B%0A%20%20%20%20icon%3A%20%22%2Ffavicon.ico%22%2C%0A%20%20%20%20appleTouchIcon%3A%20%22%2Fapple-touch-icon.png%22%2C%0A%20%20%20%20appleTouchIconPrecomposed%3A%20%22%2Fapple-touch-icon-precomposed.png%22%2C%0A%20%20%20%20manifest%3A%20%22%2Fmanifest.json%22%2C%0A%20%20%20%20maskIcon%3A%20%22%2Fmask-icon.svg%22%2C%0A%20%20%20%20maskIconColor%3A%20%22%23000000%22%2C%0A%20%20%20%20mobileWebApp%3A%20%7B%0A%20%20%20%20%20%20title%3A%20%22My%20App%22%2C%0A%20%20%20%20%20%20capable%3A%20true%2C%0A%20%20%20%20%20%20statusBarStyle%3A%20%22black-translucent%22%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20msapplication%3A%20%7B%0A%20%20%20%20%20%20tileColor%3A%20%22%23ffffff%22%2C%0A%20%20%20%20%20%20tileImage%3A%20%22%2Ftile.png%22%2C%0A%20%20%20%20%20%20config%3A%20%22%2Fbrowserconfig.xml%22%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0A-%20%60maskIconColor%60%20defaults%20to%20%60%23000000%60%0A-%20%60mobileWebApp%60%20covers%20%60apple-mobile-web-app-title%60%2C%20%60apple-mobile-web-app-capable%60%20and%20%60apple-mobile-web-app-status-bar-style%60%0A-%20%60msapplication%60%20covers%20%60msapplication-TileColor%60%2C%20%60msapplication-TileImage%60%20and%20%60msapplication-config%60%0A%0AI%20plan%20to%20eventually%20fold%20this%20into%20the%20main%20seo%20block%20and%20automatically%20fill%20in%20the%20various%20fields%20and%20manifest%20and%20browserconfig%20files%20from%20the%20existing%20data%2C%20and%20also%20generate%20all%20icons%20from%20a%20single%20source%20image.%20For%20now%2C%20you%20have%20to%20provide%20all%20of%20these%20manually.%0A" style="display: none;"></div>
+                  <div id="docmd-raw-markdown" data-content="---%0Atitle%3A%20%22Meta%20Tags%22%0Adescription%3A%20%22How%20the%20plugin%20emits%20title%2C%20description%2C%20canonical%20and%20robots%20meta%20tags.%22%0A---%0A%0AThe%20plugin%20emits%20standard%20meta%20tags%20(%60%3Cmeta%3E%60%20tags)%20for%20every%20page.%20You%20set%20the%20defaults%20in%20%60site%60%20and%20override%20per%20page%20in%20%60pages%60.%0A%0A%23%23%20title%0A%0AThe%20%60%3Ctitle%3E%60%20comes%20from%20the%20page%20%60title%60%2C%20falling%20back%20to%20%60site.title%60.%20The%20%60titleTemplate%60%20wraps%20it.%0A%0AYou%20can%20pass%20a%20string%20or%20a%20function%20to%20%60titleTemplate%60.%20The%20string%20should%20contain%20%60%25s%60%20where%20the%20page%20title%20should%20go.%20The%20function%20receives%20the%20page%20title%20and%20returns%20a%20string%2C%20for%20example%3A%0A%0A%60%60%60ts%0Asite%3A%20%7B%0A%20%20title%3A%20%22My%20Site%22%2C%0A%20%20titleTemplate%3A%20%22%25s%20%7C%20My%20Site%22%2C%0A%7D%2C%0Apages%3A%20%7B%20%22%2Fabout%22%3A%20%7B%20title%3A%20%22About%20Us%22%20%7D%20%7D%2C%0A%60%60%60%0A%0ARenders%20as%20%60%3Ctitle%3EAbout%20Us%20%7C%20My%20Site%3C%2Ftitle%3E%60.%0A%0AKeep%20titles%20under%2060%20characters.%20The%20validator%20enforces%20this%2C%20and%20it&#039;s%20generally%20a%20good%20idea%20to%20follow%20it%3A%20titles%20that%20are%20too%20long%20may%20be%20truncated%20in%20search%20results...%20and%20that&#039;s%20bad.%0A%0A%23%23%20description%0A%0AThe%20%60%3Cmeta%20name%3D%22description%22%3E%60%20comes%20from%20the%20page%20%60description%60%2C%20falling%20back%20to%20%60site.description%60.%0A%0A%60%60%60ts%0Asite%3A%20%7B%20description%3A%20%22My%20awesome%20site%22%20%7D%2C%0Apages%3A%20%7B%20%22%2Fabout%22%3A%20%7B%20description%3A%20%22Who%20we%20are%20and%20what%20we%20build.%22%20%7D%20%7D%2C%0A%60%60%60%0A%0AKeep%20descriptions%20between%2050%20and%20160%20characters.%20Also%20enforced.%0A%0A%23%23%20canonical%0A%0A%60%3Clink%20rel%3D%22canonical%22%3E%60%20points%20to%20the%20page%20URL.%20It%20defaults%20to%20%60site.url%20%2B%20route%60.%20Set%20it%20explicitly%20when%20the%20same%20content%20lives%20at%20multiple%20URLs.%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2Fproduct%22%3A%20%7B%20canonical%3A%20%22https%3A%2F%2Fexample.com%2Fproducts%2Fwidget%22%20%7D%2C%0A%7D%0A%60%60%60%0A%0ACanonicals%20must%20be%20absolute%20URLs.%20The%20validator%20checks%20this.%20Google&#039;s%20guidance%20on%20canonicals%20is%20%5Bavailable%20here%5D(https%3A%2F%2Fdevelopers.google.com%2Fsearch%2Fdocs%2Fcrawling-indexing%2Fcanonicalization)%20and%20it&#039;s%20worth%20reading%20if%20you&#039;re%20ever%20unsure%20whether%20to%20set%20one!%0A%0A%23%23%20robots%20meta%0A%0A**Per-page**%20%60robots%60%20adds%20a%20%60%3Cmeta%20name%3D%22robots%22%3E%60%20value.%20It%20does%20not%20touch%20%60robots.txt%60%2C%20which%20is%20generated%20separately.%0A%0AThe%20valid%20directives%20are%20documented%20in%20Google&#039;s%20%5Brobots%20meta%20tag%20reference%5D(https%3A%2F%2Fdevelopers.google.com%2Fsearch%2Fdocs%2Fcrawling-indexing%2Frobots-meta-tag).%20The%20plugin%20accepts%20all%20of%20them!%0A%0A%60%60%60ts%0Apages%3A%20%7B%20%22%2Fprivate%22%3A%20%7B%20robots%3A%20%22noindex%2C%20nofollow%22%20%7D%20%7D%0A%60%60%60%0A%0A%60noindex%3A%20true%60%20is%20shorthand%20for%20%60robots%3A%20%22noindex%22%60.%20It%20also%20(obviously)excludes%20the%20page%20from%20%60sitemap.xml%60.%0A%0AYou%20can%20target%20one%20singular%20individual%20crawler%20with%20%60robotsByUserAgent%60%3A%0A%0A%60%60%60ts%0Apages%3A%20%7B%20%22%2Fprivate%22%3A%20%7B%20robotsByUserAgent%3A%20%7B%20googlebot%3A%20%22noindex%22%20%7D%20%7D%20%7D%0A%60%60%60%0A%0AValidation%20checks%20the%20directive%20names%20in%20both%20%60robots%60%20and%20%60robotsByUserAgent%60.%0A%0A-%20%60index%60%20and%20%60follow%60%20are%20accepted%20(they&#039;re%20the%20defaults%2C%20just%20redundant%20%3AP)%0A-%20%60max-snippet%60%20and%20%60max-video-preview%60%20need%20a%20parseable%20number%0A-%20%60max-image-preview%60%20takes%20%60none%60%2C%20%60standard%60%20or%20%60large%60%0A-%20%60unavailable_after%60%20needs%20a%20parseable%20date%2C%20cause%20Google%20ignores%20the%20rule%20otherwise%20and%20the%20page%20never%20expires%2C%20which%20is%20bad%20for%20everyone%20in%20my%20opinion.%0A%0AIt%20also%20flags%20%60indexifembedded%60%20without%20%60noindex%60%20(does%20nothing%20on%20its%20own)%20and%20%60none%60%20together%20with%20%60all%60%20(just%20confusing%3B%20%60none%60%20beats%20the%20other%20one%20anyway).%0A%0A%23%23%20noindex%20and%20crawling%0A%0AA%20page%20with%20%60noindex%3A%20true%60%20tells%20crawlers%20not%20to%20index%20it%2C%20but%20by%20default%20it%20does%20not%20add%20a%20%60Disallow%60%20rule%20to%20%60robots.txt%60.%20Crawlers%20can%20still%20reach%20the%20page%20to%20see%20the%20%60noindex%60%20directive.%20This%20is%20done%20because%20some%20crawlers%20(like%20Googlebot)%20still%20index%20pages...%20even%20if%20they&#039;re%20marked%20%60noindex%60%2C%20cause%20Google%20just%20do%20be%20like%20that%20sometimes.%0A%0ATo%20block%20crawling%20outright%2C%20set%20%60disallowNoindex%3A%20true%60%20on%20the%20%60robots%60%20config%3A%0A%0A%60%60%60ts%0Arobots%3A%20%7B%0A%20%20disallowNoindex%3A%20true%3B%0A%7D%0A%60%60%60%0A%0A%23%23%20Favicon%20and%20platform%20icons%20(subject%20to%20change)%0A%0AThe%20%60favicon%60%20block%20emits%20link%20tags%20and%20meta%20tags%20for%20browsers%20and%20platforms%3A%0A%0A%60%60%60ts%0Asite%3A%20%7B%0A%20%20favicon%3A%20%7B%0A%20%20%20%20icon%3A%20%22%2Ffavicon.ico%22%2C%0A%20%20%20%20appleTouchIcon%3A%20%22%2Fapple-touch-icon.png%22%2C%0A%20%20%20%20appleTouchIconPrecomposed%3A%20%22%2Fapple-touch-icon-precomposed.png%22%2C%0A%20%20%20%20manifest%3A%20%22%2Fmanifest.json%22%2C%0A%20%20%20%20maskIcon%3A%20%22%2Fmask-icon.svg%22%2C%0A%20%20%20%20maskIconColor%3A%20%22%23000000%22%2C%0A%20%20%20%20mobileWebApp%3A%20%7B%0A%20%20%20%20%20%20title%3A%20%22My%20App%22%2C%0A%20%20%20%20%20%20capable%3A%20true%2C%0A%20%20%20%20%20%20statusBarStyle%3A%20%22black-translucent%22%2C%0A%20%20%20%20%7D%2C%0A%20%20%20%20msapplication%3A%20%7B%0A%20%20%20%20%20%20tileColor%3A%20%22%23ffffff%22%2C%0A%20%20%20%20%20%20tileImage%3A%20%22%2Ftile.png%22%2C%0A%20%20%20%20%20%20config%3A%20%22%2Fbrowserconfig.xml%22%2C%0A%20%20%20%20%7D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0A-%20%60maskIconColor%60%20is%20the%20pinned-tab%20(Safari)%20display%20color.%20It%20falls%20back%20to%20an%20unscoped%20%60themeColor%60%20(media-scoped%20ones%20don&#039;t%20count%20sadly)%2C%20then%20%60%23000000%60%0A-%20%60mobileWebApp%60%20covers%20%60apple-mobile-web-app-title%60%2C%20%60apple-mobile-web-app-capable%60%20and%20%60apple-mobile-web-app-status-bar-style%60%20(%60default%60%2C%20%60black%60%20or%20%60black-translucent%60)%0A-%20%60msapplication%60%20covers%20%60msapplication-TileColor%60%2C%20%60msapplication-TileImage%60%20and%20%60msapplication-config%60.%20The%20last%20one%20is%20a%20%60%3Cmeta%20name%3E%60%20tag%2C%20as%20IE11%20(yes%20IE11%20in%20the%20big%202026%2C%20wilted%20rose%20emoji)%20expects%3B%20set%20it%20to%20%60%22none%22%60%20to%20turn%20it%20off%0A%0AThe%20%60favicon%60%20config%20takes%20one%20href%20per%20icon%20type.%20For%20multiple%20sizes%20or%20formats%20(like%20a%20SVG%20plus%20an%20ICO%20favicon)%2C%20use%20%60page.links%60%3A%0A%0A%60%60%60ts%0Apages%3A%20%7B%0A%20%20%22%2F%22%3A%20%7B%0A%20%20%20%20links%3A%20%5B%0A%20%20%20%20%20%20%7B%20rel%3A%20%22icon%22%2C%20href%3A%20%22%2Ficon.svg%22%2C%20type%3A%20%22image%2Fsvg%2Bxml%22%20%7D%2C%0A%20%20%20%20%20%20%7B%20rel%3A%20%22icon%22%2C%20href%3A%20%22%2Ficon.ico%22%2C%20type%3A%20%22image%2Fx-icon%22%20%7D%2C%0A%20%20%20%20%20%20%7B%20rel%3A%20%22apple-touch-icon%22%2C%20href%3A%20%22%2Ficon-180.png%22%2C%20sizes%3A%20%22180x180%22%20%7D%2C%0A%20%20%20%20%5D%2C%0A%20%20%7D%2C%0A%7D%0A%60%60%60%0A%0AI%20plan%20to%20eventually%20fold%20this%20into%20the%20main%20seo%20block%20and%20automatically%20fill%20in%20the%20various%20fields%20and%20manifest%20and%20browserconfig%20files%20from%20the%20existing%20data%2C%20and%20also%20generate%20all%20icons%20from%20a%20single%20source%20image.%20For%20now%2C%20you%20have%20to%20provide%20all%20of%20these%20manually.%0A" style="display: none;"></div>
                   
                     <nav aria-label="breadcrumb" class="docmd-breadcrumbs">
                       <ol>
@@ -1159,6 +1193,17 @@ pages<span class="hljs-operator">:</span> { <span class="hljs-string">&quot;/abo
 <pre class="hljs"><code class="language-ts">pages<span class="hljs-operator">:</span> { <span class="hljs-string">&quot;/private&quot;</span><span class="hljs-operator">:</span> { robots<span class="hljs-operator">:</span> <span class="hljs-string">&quot;noindex, nofollow&quot;</span> } }
 </code></pre>
 <p><code>noindex: true</code> is shorthand for <code>robots: &quot;noindex&quot;</code>. It also (obviously)excludes the page from <code>sitemap.xml</code>.</p>
+<p>You can target one singular individual crawler with <code>robotsByUserAgent</code>:</p>
+<pre class="hljs"><code class="language-ts">pages<span class="hljs-operator">:</span> { <span class="hljs-string">&quot;/private&quot;</span><span class="hljs-operator">:</span> { robotsByUserAgent<span class="hljs-operator">:</span> { googlebot<span class="hljs-operator">:</span> <span class="hljs-string">&quot;noindex&quot;</span> } } }
+</code></pre>
+<p>Validation checks the directive names in both <code>robots</code> and <code>robotsByUserAgent</code>.</p>
+<ul>
+<li><code>index</code> and <code>follow</code> are accepted (they’re the defaults, just redundant 😛)</li>
+<li><code>max-snippet</code> and <code>max-video-preview</code> need a parseable number</li>
+<li><code>max-image-preview</code> takes <code>none</code>, <code>standard</code> or <code>large</code></li>
+<li><code>unavailable_after</code> needs a parseable date, cause Google ignores the rule otherwise and the page never expires, which is bad for everyone in my opinion.</li>
+</ul>
+<p>It also flags <code>indexifembedded</code> without <code>noindex</code> (does nothing on its own) and <code>none</code> together with <code>all</code> (just confusing; <code>none</code> beats the other one anyway).</p>
 <h2 id="noindex-and-crawling" class="docmd-heading"><a href="#noindex-and-crawling" class="heading-anchor" aria-label="Permalink to this section"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-link2-icon lucide-link-2"><path d="M9 17H7A5 5 0 0 1 7 7h2m6 0h2a5 5 0 1 1 0 10h-2m-7-5h8"/></svg></a>noindex and crawling</h2>
 <p>A page with <code>noindex: true</code> tells crawlers not to index it, but by default it does not add a <code>Disallow</code> rule to <code>robots.txt</code>. Crawlers can still reach the page to see the <code>noindex</code> directive. This is done because some crawlers (like Googlebot) still index pages… even if they’re marked <code>noindex</code>, cause Google just do be like that sometimes.</p>
 <p>To block crawling outright, set <code>disallowNoindex: true</code> on the <code>robots</code> config:</p>
@@ -1190,10 +1235,21 @@ pages<span class="hljs-operator">:</span> { <span class="hljs-string">&quot;/abo
 }
 </code></pre>
 <ul>
-<li><code>maskIconColor</code> defaults to <code>#000000</code></li>
-<li><code>mobileWebApp</code> covers <code>apple-mobile-web-app-title</code>, <code>apple-mobile-web-app-capable</code> and <code>apple-mobile-web-app-status-bar-style</code></li>
-<li><code>msapplication</code> covers <code>msapplication-TileColor</code>, <code>msapplication-TileImage</code> and <code>msapplication-config</code></li>
+<li><code>maskIconColor</code> is the pinned-tab (Safari) display color. It falls back to an unscoped <code>themeColor</code> (media-scoped ones don’t count sadly), then <code>#000000</code></li>
+<li><code>mobileWebApp</code> covers <code>apple-mobile-web-app-title</code>, <code>apple-mobile-web-app-capable</code> and <code>apple-mobile-web-app-status-bar-style</code> (<code>default</code>, <code>black</code> or <code>black-translucent</code>)</li>
+<li><code>msapplication</code> covers <code>msapplication-TileColor</code>, <code>msapplication-TileImage</code> and <code>msapplication-config</code>. The last one is a <code>&lt;meta name&gt;</code> tag, as IE11 (yes IE11 in the big 2026, wilted rose emoji) expects; set it to <code>&quot;none&quot;</code> to turn it off</li>
 </ul>
+<p>The <code>favicon</code> config takes one href per icon type. For multiple sizes or formats (like a SVG plus an ICO favicon), use <code>page.links</code>:</p>
+<pre class="hljs"><code class="language-ts">pages<span class="hljs-operator">:</span> {
+  <span class="hljs-string">&quot;/&quot;</span><span class="hljs-operator">:</span> {
+    links<span class="hljs-operator">:</span> [
+      { rel<span class="hljs-operator">:</span> <span class="hljs-string">&quot;icon&quot;</span>, href<span class="hljs-operator">:</span> <span class="hljs-string">&quot;/icon.svg&quot;</span>, <span class="hljs-keyword">type</span><span class="hljs-operator">:</span> <span class="hljs-string">&quot;image/svg+xml&quot;</span> },
+      { rel<span class="hljs-operator">:</span> <span class="hljs-string">&quot;icon&quot;</span>, href<span class="hljs-operator">:</span> <span class="hljs-string">&quot;/icon.ico&quot;</span>, <span class="hljs-keyword">type</span><span class="hljs-operator">:</span> <span class="hljs-string">&quot;image/x-icon&quot;</span> },
+      { rel<span class="hljs-operator">:</span> <span class="hljs-string">&quot;apple-touch-icon&quot;</span>, href<span class="hljs-operator">:</span> <span class="hljs-string">&quot;/icon-180.png&quot;</span>, sizes<span class="hljs-operator">:</span> <span class="hljs-string">&quot;180x180&quot;</span> },
+    ],
+  },
+}
+</code></pre>
 <p>I plan to eventually fold this into the main seo block and automatically fill in the various fields and manifest and browserconfig files from the existing data, and also generate all icons from a single source image. For now, you have to provide all of these manually.</p>
 
                 
@@ -1312,13 +1368,13 @@ pages<span class="hljs-operator">:</span> { <span class="hljs-string">&quot;/abo
             <div class="page-footer-actions">
               
               
-                <span class="git-last-updated" data-timestamp="1795159555000">
+                <span class="git-last-updated" data-timestamp="1795166733000">
                   <svg class="git-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                   </svg>
                   <span class="git-label">Last updated:</span>
-                  <span class="git-time" data-timestamp="1795159555000"></span>
+                  <span class="git-time" data-timestamp="1795166733000"></span>
                   
                   <div class="git-commit-tooltip" role="tooltip">
                     <div class="git-tooltip-title">Recent commits</div>
@@ -1331,10 +1387,10 @@ pages<span class="hljs-operator">:</span> { <span class="hljs-string">&quot;/abo
                             
                           </div>
                           <div class="git-commit-details">
-                            <div class="git-commit-message" title="JSON-LD fixes">JSON-LD fixes</div>
+                            <div class="git-commit-message" title="Quick fix for tsdown (node 22)">Quick fix for tsdown (node 22)</div>
                             <div class="git-commit-meta">
                               <span class="git-commit-author">NellowTCS</span>
-                              <span class="git-commit-date" data-timestamp="1795159555000"></span>
+                              <span class="git-commit-date" data-timestamp="1795166733000"></span>
                             </div>
                           </div>
                         </li>
@@ -1387,17 +1443,17 @@ pages<span class="hljs-operator">:</span> { <span class="hljs-string">&quot;/abo
       </div>
       
       
-      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-20T07:26:25.940Z","buildDate":"2026-11-20","buildYear":"2026","gitCommit":"6ac314e","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-20","GIT_COMMIT":"6ac314e","GIT_BRANCH":"main","git":{"commit":"6ac314e","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"Meta Tags","slug":"/vite-plugin-seo-meta/guide/meta-tags/","path":"guide/meta-tags/index.html"},"frontmatter":{"title":"Meta Tags","description":"How the plugin emits title, description, canonical and robots meta tags.","_git":{"lastUpdated":"2026-11-20T07:25:55.000Z","lastUpdatedTimestamp":1795159555000,"commits":[{"hash":"6ac314eb1b594e5b153180eb4b2dc7ae31fa4075","shortHash":"6ac314e","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-20T07:25:55.000Z","timestamp":1795159555000,"message":"JSON-LD fixes","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
+      <script>window.__DOCMD_VARIABLES__ = {"docmd":{"version":"0.10.0","buildTime":"2026-11-20T09:26:01.575Z","buildDate":"2026-11-20","buildYear":"2026","gitCommit":"fd4a2d7","gitBranch":"main"},"DOCMD_VERSION":"0.10.0","BUILD_YEAR":"2026","BUILD_DATE":"2026-11-20","GIT_COMMIT":"fd4a2d7","GIT_BRANCH":"main","git":{"commit":"fd4a2d7","branch":"main"},"site":{"title":"vite-plugin-seo-meta","base":"/vite-plugin-seo-meta/"},"page":{"title":"Meta Tags","slug":"/vite-plugin-seo-meta/guide/meta-tags/","path":"guide/meta-tags/index.html"},"frontmatter":{"title":"Meta Tags","description":"How the plugin emits title, description, canonical and robots meta tags.","_git":{"lastUpdated":"2026-11-20T09:25:33.000Z","lastUpdatedTimestamp":1795166733000,"commits":[{"hash":"fd4a2d7e143389f558074c40845af3e25074efc8","shortHash":"fd4a2d7","author":"NellowTCS","email":"neeljaiswal23@gmail.com","date":"2026-11-20T09:25:33.000Z","timestamp":1795166733000,"message":"Quick fix for tsdown (node 22)","avatarUrl":"https://www.gravatar.com/avatar/baecf29c7bedbb00a8d5bd5984799c55?d=mp&s=64"}]}}};</script>
       
-      <script src="../../assets/js/docmd-runtime.js?v=mwono185"></script>
-      <script src="../../assets/js/docmd-main.js?v=mwono185"></script>
+      <script src="../../assets/js/docmd-runtime.js?v=mworxu76"></script>
+      <script src="../../assets/js/docmd-main.js?v=mworxu76"></script>
       
-      <script src="../../assets/js/docmd-git.js?v=mwono185"></script>
-      <script src="../../assets/js/docmd-image-lightbox.js?v=mwono185" ></script>
-<script src="../../assets/js/vendor/minisearch.js?v=mwono185" ></script>
-<script src="../../assets/js/docmd-search.js?v=mwono185" ></script>
-<script src="../../assets/js/docmd-git.js?v=mwono185" ></script>
-<script src="../../assets/js/docmd-ai.js?v=mwono185" ></script>
+      <script src="../../assets/js/docmd-git.js?v=mworxu76"></script>
+      <script src="../../assets/js/docmd-image-lightbox.js?v=mworxu76" ></script>
+<script src="../../assets/js/vendor/minisearch.js?v=mworxu76" ></script>
+<script src="../../assets/js/docmd-search.js?v=mworxu76" ></script>
+<script src="../../assets/js/docmd-git.js?v=mworxu76" ></script>
+<script src="../../assets/js/docmd-ai.js?v=mworxu76" ></script>
 
   <!-- Search Modal (Injected by @docmd/plugin-search) -->
   <div id="docmd-search-modal" class="docmd-search-modal" style="display: none;" data-semantic="true" data-show-confidence="true" data-show-filters="true"
@@ -1473,7 +1529,7 @@ pages<span class="hljs-operator">:</span> { <span class="hljs-string">&quot;/abo
     </script>
 
 <script>window.__git_config={"repo":"https://github.com/NellowTCS/vite-plugin-seo-meta/edit/main/","branch":"main","editLink":true,"lastUpdated":true,"commitHistory":true,"maxCommits":5,"dateFormat":"relative"};window.__git_i18n={"lastUpdated":"Last updated","recentCommits":"Recent commits","viewCommitHistory":"View commit history","editOnGitHub":"Edit on GitHub","editOnGitLab":"Edit on GitLab","editOnBitbucket":"Edit on Bitbucket","editThisPage":"Edit this page","justNow":"just now","minutesAgo":"{n}m ago","hoursAgo":"{n}h ago","daysAgo":"{n}d ago"}</script>
-<div id="docmd-ai-root"></div><script>window.__docmd_ai_config={"endpoint":"","cloud":{},"captcha":true,"position":"bottom-center","siteTitle":"vite-plugin-seo-meta","siteBase":"/vite-plugin-seo-meta/","siteUrl":"https://nellowtcs.me/vite-plugin-seo-meta/","versions":null,"i18n":null,"navigation":[{"title":"Home","path":"/","icon":"home"},{"title":"Getting Started","icon":"rocket","collapsible":false,"children":[{"title":"Installation","path":"/getting-started/installation/","icon":"download"},{"title":"Quick Start","path":"/getting-started/quickstart/","icon":"play"},{"title":"Configuration","path":"/getting-started/configuration/","icon":"sliders"}]},{"title":"Guide","icon":"book-open","collapsible":false,"children":[{"title":"Meta Tags","path":"/guide/meta-tags/","icon":"tag"},{"title":"Open Graph","path":"/guide/open-graph/","icon":"globe"},{"title":"Twitter Cards","path":"/guide/twitter/","icon":"bird"},{"title":"JSON-LD","path":"/guide/json-ld/","icon":"braces"},{"title":"hreflang","path":"/guide/hreflang/","icon":"languages"},{"title":"robots.txt","path":"/guide/robots/","icon":"shield"},{"title":"Sitemap","path":"/guide/sitemap/","icon":"map"},{"title":"SPA Runtime","path":"/guide/spa-runtime/","icon":"refresh-cw"},{"title":"Validation","path":"/guide/validation/","icon":"check-circle"}]},{"title":"API Reference","icon":"code","collapsible":false,"children":[{"title":"API","path":"/api/","icon":"book"},{"title":"Config Reference","path":"/reference/config/","icon":"file-text"}]},{"title":"Live Demo","path":"/vite-plugin-seo-meta/demo/","icon":"monitor","external":true},{"title":"GitHub","path":"https://github.com/NellowTCS/vite-plugin-seo-meta","icon":"github","external":true}],"searchCapabilities":{"keyword":true,"semantic":true},"isWorkspace":false,"workspaceProjects":[],"messageActions":false,"fetchExternalUrls":false,"contextLimit":5};</script>
+<div id="docmd-ai-root"></div><script>window.__docmd_ai_config={"endpoint":"","cloud":{},"captcha":true,"position":"bottom-center","siteTitle":"vite-plugin-seo-meta","siteBase":"/vite-plugin-seo-meta/","siteUrl":"https://nellowtcs.me/vite-plugin-seo-meta/","versions":null,"i18n":null,"navigation":[{"title":"Home","path":"/","icon":"home"},{"title":"Getting Started","icon":"rocket","collapsible":false,"children":[{"title":"Installation","path":"/getting-started/installation/","icon":"download"},{"title":"Quick Start","path":"/getting-started/quickstart/","icon":"play"},{"title":"Configuration","path":"/getting-started/configuration/","icon":"sliders"}]},{"title":"Guide","icon":"book-open","collapsible":false,"children":[{"title":"Meta Tags","path":"/guide/meta-tags/","icon":"tag"},{"title":"Open Graph","path":"/guide/open-graph/","icon":"globe"},{"title":"Twitter Cards","path":"/guide/twitter/","icon":"bird"},{"title":"JSON-LD","path":"/guide/json-ld/","icon":"braces"},{"title":"hreflang","path":"/guide/hreflang/","icon":"languages"},{"title":"robots.txt","path":"/guide/robots/","icon":"shield"},{"title":"Sitemap","path":"/guide/sitemap/","icon":"map"},{"title":"SPA Runtime","path":"/guide/spa-runtime/","icon":"refresh-cw"},{"title":"SvelteKit","path":"/guide/sveltekit/","icon":"layers"},{"title":"Validation","path":"/guide/validation/","icon":"check-circle"}]},{"title":"API Reference","icon":"code","collapsible":false,"children":[{"title":"API","path":"/api/","icon":"book"},{"title":"Config Reference","path":"/reference/config/","icon":"file-text"}]},{"title":"Live Demo","path":"/vite-plugin-seo-meta/demo/","icon":"monitor","external":true},{"title":"GitHub","path":"https://github.com/NellowTCS/vite-plugin-seo-meta","icon":"github","external":true}],"searchCapabilities":{"keyword":true,"semantic":true},"isWorkspace":false,"workspaceProjects":[],"messageActions":false,"fetchExternalUrls":false,"contextLimit":5};</script>
       
       
       

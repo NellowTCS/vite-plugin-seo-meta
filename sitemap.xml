@@ -56,6 +56,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://nellowtcs.me/vite-plugin-seo-meta/guide/sveltekit/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nellowtcs.me/vite-plugin-seo-meta/guide/twitter/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
