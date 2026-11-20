@@ -165,7 +165,7 @@ function resolveRobotsByUserAgent(
  */
 export function resolvePage(
   route: string,
-  options: ResolvedOptions,
+  options: Pick<ResolvedOptions, "site" | "pageMeta">,
 ): ResolvedPage {
   const normalized = normalizeRoute(route);
   const page = options.pageMeta[normalized] ?? {};

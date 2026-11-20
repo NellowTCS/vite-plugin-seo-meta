@@ -71,6 +71,7 @@ export default defineSeoConfig({
 - Coexistence detection: warns and defers to `vite-plugin-sitemap`/`vite-plugin-pwa` etc when present (override with `sitemap: true`/`robots: true`), to prevent double-builds and general pain.
 - Pre-build validation: enums, required fields, absolute URLs, length budgets (title 60, description 50-160, Twitter 70/200), hreflang codes/reciprocity, robots.txt and robots-meta directives, required Open Graph items (og:image and locale/date/duration formats); `warn` by default, `error` throws
 - SPA runtime helper: `applySeo(page: PageMeta)` syncs the `<head>` for the current route on client-side navigation (`import from "vite-plugin-seo-meta/runtime"`); pass the route's own `PageMeta` and it applies it
+- SvelteKit support: `seoHandle()` from `vite-plugin-seo-meta/sveltekit`
 - Type-safe with `defineSeoConfig()` and full TypeScript types from the get go!
 
 ## Docs

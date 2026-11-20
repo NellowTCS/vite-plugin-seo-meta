@@ -6,7 +6,7 @@
  * The plugin resolves the id and returns {@link renderConfigModule}'s output!!!
  * Neat.
  */
-import type { ResolvedSite } from "./types";
+import type { ResolvedOptions } from "./types";
 
 /** Public specifier the app (and the runtime helper) imports. */
 export const VIRTUAL_CONFIG_ID = "virtual:vite-plugin-seo-meta/config";
@@ -17,7 +17,7 @@ export const RESOLVED_CONFIG_ID = `\0${VIRTUAL_CONFIG_ID}`;
 /**
  * Same trick the JSON-LD renderer uses hehe
  */
-function serialize(value: ResolvedSite): string {
+function serialize(value: unknown): string {
   return JSON.stringify(value)
     .replace(/\u2028/g, "\\u2028")
     .replace(/\u2029/g, "\\u2029");
@@ -26,8 +26,11 @@ function serialize(value: ResolvedSite): string {
 /**
  * Builds the source of the virtual config module.
  *
- * @param site Fully resolved site config to expose to the client.
+ * @param config Resolved site and page metadata to expose to the app.
  */
-export function renderConfigModule(site: ResolvedSite): string {
-  return `export const site = ${serialize(site)};\nexport default site;\n`;
+export function renderConfigModule({
+  site,
+  pageMeta,
+}: Pick<ResolvedOptions, "site" | "pageMeta">): string {
+  return `export const site = ${serialize(site)};\nexport const pages = ${serialize(pageMeta)};\nexport default site;\n`;
 }

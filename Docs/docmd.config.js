@@ -121,6 +121,11 @@ export default {
           icon: "refresh-cw",
         },
         {
+          title: "SvelteKit",
+          path: "/guide/sveltekit",
+          icon: "layers",
+        },
+        {
           title: "Validation",
           path: "/guide/validation",
           icon: "check-circle",

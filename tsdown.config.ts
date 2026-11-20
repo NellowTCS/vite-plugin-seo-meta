@@ -4,6 +4,7 @@ export default defineConfig({
   entry: {
     index: "src/index.ts",
     runtime: "src/runtime.ts",
+    sveltekit: "src/sveltekit.ts",
   },
   format: ["esm", "cjs"],
   outExtensions({ format }) {

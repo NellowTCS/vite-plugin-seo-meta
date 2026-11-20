@@ -123,7 +123,7 @@ export function seo(inline: SeoPluginOptions = {}): Plugin {
     },
 
     load(id) {
-      if (id === RESOLVED_CONFIG_ID) return renderConfigModule(options.site);
+      if (id === RESOLVED_CONFIG_ID) return renderConfigModule(options);
       return undefined;
     },
 

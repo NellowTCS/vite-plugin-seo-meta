@@ -6,7 +6,8 @@
 import { writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import ts from "typescript";
+import { API, SymbolFlags, TypeFlags } from "typescript/unstable/sync";
+import * as ts from "typescript/unstable/ast";
 import prettier from "prettier";
 
 const demoDir = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -14,12 +15,16 @@ const rootDir = join(demoDir, "..");
 const typesPath = join(rootDir, "src/types.ts");
 const outPath = join(demoDir, "src/fields.gen.ts");
 
-const program = ts.createProgram([typesPath], {
-  noResolve: true,
-  target: ts.ScriptTarget.Latest,
+// TypeScript 7 did some interesting stuff... We'll see how I like it
+const api = new API({ cwd: rootDir });
+const snapshot = api.updateSnapshot({
+  openProjects: [join(rootDir, "tsconfig.json")],
 });
-const checker = program.getTypeChecker();
-const sf = program.getSourceFiles().find((f) => f.fileName === typesPath);
+const project = snapshot.getDefaultProjectForFile(typesPath);
+if (!project) throw new Error(`No TypeScript project found for ${typesPath}`);
+const checker = project.checker;
+const sf = project.program.getSourceFile(typesPath);
+if (!sf) throw new Error(`TypeScript did not load ${typesPath}`);
 
 const interfaces = new Map();
 for (const st of sf.statements) {
@@ -58,8 +63,7 @@ const OVERRIDES = {
 const SITE_JSONLD_OMIT = ["article", "product"];
 
 function jsDocText(node) {
-  for (const d of ts.getJSDocCommentsAndTags(node)) {
-    if (!ts.isJSDoc(d)) continue;
+  for (const d of node.jsDoc ?? []) {
     if (typeof d.comment === "string") return d.comment;
     if (Array.isArray(d.comment))
       return d.comment
@@ -86,30 +90,55 @@ function litValue(t) {
   return JSON.parse(checker.typeToString(t));
 }
 
-function declaredOptions(t) {
-  const decl = t.aliasSymbol?.declarations?.find(ts.isTypeAliasDeclaration);
-  if (!decl || !ts.isUnionTypeNode(decl.type)) return null;
-  const ordered = decl.type.types
+// So: interesting thing #1, symbol declarations are node handles in TS7, not nodes?
+// Probably an optimization thing...
+function declarationsOf(symbol) {
+  return (symbol?.declarations ?? [])
+    .map((handle) => handle.resolve())
+    .filter(Boolean);
+}
+
+function literalsFrom(unionNode) {
+  if (!unionNode || !ts.isUnionTypeNode(unionNode)) return [];
+  return unionNode.types
     .map((n) => {
       const lit = ts.isLiteralTypeNode(n) && n.literal;
-      return lit && ts.isStringLiteralLike(lit) ? lit.text : undefined;
+      return lit && ts.isStringLiteralLikeNode(lit) ? lit.text : undefined;
     })
     .filter((v) => v !== undefined);
+}
+
+function declaredOptions(t, typeNode) {
+  const source = typeNode ? checker.getTypeFromTypeNode(typeNode) : t;
+  const decl = declarationsOf(source.getAliasSymbol()).find(
+    ts.isTypeAliasDeclaration,
+  );
+  const ordered = literalsFrom(decl?.type ?? typeNode);
   return ordered.length ? ordered : null;
 }
 
-function describe(t) {
-  if (t.flags & ts.TypeFlags.Boolean)
+function orderedLiteralStrings(typeNode, fallback) {
+  const ordered = literalsFrom(typeNode);
+  return ordered.length === fallback.length ? ordered : fallback;
+}
+
+function describe(t, typeNode) {
+  if (t.flags & TypeFlags.Boolean)
     return { kind: "primitive", type: "boolean" };
-  if (t.isUnion()) {
-    const parts = t.types.map(describe);
-    if (
-      parts.length &&
-      parts.every((p) => p.kind === "literal" && p.type === "string")
-    )
+  if (t.isUnionType()) {
+    // Gotta be strict now, TS7 reads the tsconfig (FINALLY)
+    const parts = t
+      .getTypes()
+      .filter(
+        (p) => !(p.flags & TypeFlags.Undefined) && !(p.flags & TypeFlags.Null),
+      )
+      .map(describe);
+    if (parts.length === 1) return parts[0];
+    if (parts.length === 0) return { kind: "opaque" };
+    if (parts.every((p) => p.kind === "literal" && p.type === "string"))
       return {
         kind: "litu",
-        options: declaredOptions(t) ?? parts.map((p) => p.value),
+        options: declaredOptions(t, typeNode) ?? parts.map((p) => p.value),
       };
     const bools = parts.filter(
       (p) => p.kind === "literal" && p.type === "boolean",
@@ -121,46 +150,39 @@ function describe(t) {
         (p) => !(p.kind === "literal" && p.type === "boolean"),
       );
       merged.push({ kind: "primitive", type: "boolean" });
+      if (merged.length === 1) return merged[0];
       return { kind: "union", parts: merged };
     }
     return { kind: "union", parts };
   }
-  if (t.flags & ts.TypeFlags.StringLiteral)
+  if (t.flags & TypeFlags.StringLiteral)
     return { kind: "literal", type: "string", value: litValue(t) };
-  if (t.flags & ts.TypeFlags.NumberLiteral)
+  if (t.flags & TypeFlags.NumberLiteral)
     return { kind: "literal", type: "number", value: checker.typeToString(t) };
-  if (t.flags & ts.TypeFlags.BooleanLiteral)
+  if (t.flags & TypeFlags.BooleanLiteral)
     return { kind: "literal", type: "boolean", value: checker.typeToString(t) };
-  if (t.flags & ts.TypeFlags.String)
-    return { kind: "primitive", type: "string" };
-  if (t.flags & ts.TypeFlags.Number)
-    return { kind: "primitive", type: "number" };
-  if (t.flags & ts.TypeFlags.Boolean)
-    return { kind: "primitive", type: "boolean" };
+  if (t.flags & TypeFlags.String) return { kind: "primitive", type: "string" };
+  if (t.flags & TypeFlags.Number) return { kind: "primitive", type: "number" };
   if (checker.isArrayType(t))
     return { kind: "array", of: describe(checker.getTypeArguments(t)[0]) };
   if (checker.typeToString(t) === "Date")
     return { kind: "primitive", type: "string" };
-  const sym = t.symbol;
-  if (sym && sym.flags & ts.SymbolFlags.Interface)
-    return { kind: "object", name: sym.getName() };
-  if (t.aliasSymbol) {
-    if (t.aliasSymbol.getName() === "Record") {
-      const args = t.aliasTypeArguments ?? [];
+  const sym = t.getSymbol();
+  if (sym && sym.flags & SymbolFlags.Interface)
+    return { kind: "object", name: sym.name };
+  const alias = t.getAliasSymbol();
+  if (alias) {
+    if (alias.name === "Record") {
+      const args = t.getAliasTypeArguments() ?? [];
       if (args[1] && checker.typeToString(args[1]) === "PageMeta")
         return { kind: "pages", of: "PageMeta" };
       return { kind: "record" };
     }
-    const decl = t.aliasSymbol.declarations?.find(ts.isTypeAliasDeclaration);
+    const decl = declarationsOf(alias).find(ts.isTypeAliasDeclaration);
     if (decl) {
       const target = describe(checker.getTypeFromTypeNode(decl.type));
-      if (target.kind === "litu" && ts.isUnionTypeNode(decl.type)) {
-        const ordered = decl.type.types
-          .map((n) => {
-            const lit = ts.isLiteralTypeNode(n) && n.literal;
-            return lit && ts.isStringLiteralLike(lit) ? lit.text : undefined;
-          })
-          .filter((v) => v !== undefined);
+      if (target.kind === "litu") {
+        const ordered = literalsFrom(decl.type);
         if (ordered.length === target.options.length) target.options = ordered;
       }
       return target;
@@ -208,7 +230,7 @@ function emitInstance(typeName, omitted, path) {
 
   const props = [];
   for (const member of decl.members) {
-    if (!ts.isPropertySignature(member) || !member.type) continue;
+    if (!ts.isPropertySignatureDeclaration(member) || !member.type) continue;
     const propName = member.name.getText();
     if (omitted.includes(propName)) continue;
     const propPath = path ? `${path}.${propName}` : propName;
@@ -223,7 +245,7 @@ function emitInstance(typeName, omitted, path) {
 }
 
 function entryCode(member, relId, propPath, parentType, parentOmitted) {
-  const d = describe(checker.getTypeAtLocation(member));
+  const d = describe(checker.getTypeFromTypeNode(member.type), member.type);
   const o = OVERRIDES[propPath] ?? {};
   const label = o.label ?? humanize(relId);
   const hint =
@@ -303,7 +325,10 @@ function entryCode(member, relId, propPath, parentType, parentOmitted) {
     }
     if (hasFalseLit && lits.length)
       return fieldData(o.control ?? "select?", [
-        ...lits.map((x) => x.value),
+        ...orderedLiteralStrings(
+          member.type,
+          lits.map((x) => x.value),
+        ),
         "false",
       ]);
     if (hasFalseLit && hasStringPrim) return gateFor(["raw", "false"]);
@@ -377,12 +402,14 @@ function entryCode(member, relId, propPath, parentType, parentOmitted) {
 const seoOptions = interfaces.get("SeoOptions");
 const rootProps = [];
 for (const member of seoOptions.members) {
-  if (!ts.isPropertySignature(member) || !member.type) continue;
+  if (!ts.isPropertySignatureDeclaration(member) || !member.type) continue;
   const propName = member.name.getText();
   rootProps.push(
     `${propName}: ${entryCode(member, propName, propName, "SeoOptions", [])}`,
   );
 }
+
+api.close();
 
 const header = `// GENERATED by Demo/scripts/gen-fields.mjs from src/types.ts: do not edit.
 // Re-run with \`npm run generate\` after changing the plugin types.

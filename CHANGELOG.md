@@ -28,9 +28,12 @@ All notable changes to this project are documented here. The format follows
 - Validation for borked `og:locale` and `og:locale:alternate` values
 - `maskIconColor` for Safari pinned tabs, with a `themeColor` as the fallbck
 - `page.links` icon sets with different `type`, `media` or `sizes` values now get separate dedupe keys to fix a few bugs
+- SvelteKit support through `vite-plugin-seo-meta/sveltekit`: which uses a `seoHandle()` hook that injects head tags via `transformPageChunk`, as SvelteKit never calls `transformIndexHtml`
 
 ### Changed
 
+- Builder moved from `tsup` to `tsdown` (latter is maintained and just better)
+- Demo field generator uses TypeScript 7's API now
 - Documented `Crawl-delay`, `Clean-param`, and `Host` as legacy extensions outside RFC 9309
 - Empty `Disallow`/`Allow` patterns render without a trailing space
 - Merging keeps the first `Crawl-delay` value per robots.txt group

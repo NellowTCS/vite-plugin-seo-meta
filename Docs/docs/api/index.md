@@ -1,6 +1,6 @@
 ---
 title: "API"
-description: "Public exports: seo(), defineSeoConfig() and the runtime helper."
+description: "Public exports: seo(), defineSeoConfig(), the runtime helper, and the SvelteKit handle."
 ---
 
 ## `seo(options?)`
@@ -52,6 +52,26 @@ applySeo({ title: "New Page", description: "..." });
 ```
 
 See [SPA Runtime](./spa-runtime.md). (No, no, not a spa, a Single-Page Application, though we _all_ would love that... probably.)
+
+## `seoHandle(options)`
+
+SvelteKit handle hook from `vite-plugin-seo-meta/sveltekit`.
+
+```ts
+// src/hooks.server.ts
+import { site, pages } from "virtual:vite-plugin-seo-meta/config";
+import { seoHandle } from "vite-plugin-seo-meta/sveltekit";
+
+export const handle = seoHandle({ site, pages });
+```
+
+| Option  | Type                       | Default             | Notes                                    |
+| ------- | -------------------------- | ------------------- | ---------------------------------------- |
+| `site`  | `ResolvedSite`             | -                   | Required, from the virtual config module |
+| `pages` | `Record<string, PageMeta>` | `{}`                | From the virtual config module           |
+| `base`  | `string`                   | `site.url` pathname | SvelteKit's `paths.base` when it differs |
+
+See [SvelteKit](../guide/sveltekit.md).
 
 ## Exported types
 
