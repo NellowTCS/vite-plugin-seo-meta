@@ -210,6 +210,10 @@ export default defineSeoConfig({
        */
       maskIcon: "/safari-pinned-tab.svg",
       /**
+       * Display color for the mask icon
+       */
+      maskIconColor: "#1e88e5",
+      /**
        * <meta name="theme-color">, which is a bare color or array per media query
        */
       themeColor: [
@@ -235,7 +239,7 @@ export default defineSeoConfig({
          */
         capable: true,
         /**
-         * Status bar style: default | black | black-translucent | transparent
+         * Status bar style: default | black | black-translucent
          */
         statusBarStyle: "black-translucent",
       },
@@ -252,7 +256,7 @@ export default defineSeoConfig({
          */
         tileImage: "/mstile-144x144.png",
         /**
-         * <link rel="msapplication-config"> pointing at browserconfig.xml
+         * <meta name="msapplication-config"> pointing at browserconfig.xml
          */
         config: "/browserconfig.xml",
       },
@@ -336,6 +340,12 @@ export default defineSeoConfig({
           width: 1920,
           height: 1080,
           type: "video/mp4",
+          thumbnail:
+            "https://nellowtcs.me/vite-plugin-seo-meta/demo/video-thumbnail.png",
+          title: "vite-plugin-seo-meta demo",
+          description: "A quick tour of the config generator.",
+          playerLoc:
+            "https://nellowtcs.me/vite-plugin-seo-meta/demo/player.html",
         },
       ],
       /**
@@ -560,8 +570,34 @@ export default defineSeoConfig({
           image: "https://nellowtcs.me/vite-plugin-seo-meta/demo/og-image.png",
           datePublished: "2024-01-01T00:00:00.000Z",
           dateModified: "2024-06-01T00:00:00.000Z",
-          author: { name: "NellowTCS", url: "https://nellowtcs.me" },
+          author: {
+            name: "NellowTCS",
+            url: "https://nellowtcs.me",
+            "@type": "Person",
+            sameAs: ["https://github.com/NellowTCS"],
+          },
+          publisher: {
+            name: "NellowTCS",
+            url: "https://nellowtcs.me",
+            "@type": "Person",
+          },
           type: "Article",
+        },
+        /**
+         * Product structured data: per-page
+         */
+        product: {
+          name: "vite-plugin-seo-meta",
+          description: "All-in-one Vite SEO plugin",
+          image: "https://nellowtcs.me/vite-plugin-seo-meta/demo/og-image.png",
+          sku: "vpsm-1",
+          brand: "NellowTCS",
+          price: 0,
+          priceCurrency: "USD",
+          availability: "InStock",
+          ratingValue: 5,
+          ratingCount: 42,
+          reviewCount: 12,
         },
         /**
          * Extra JSON-LD nodes appended as written. Can be any valid JSON-LD object. '
@@ -653,6 +689,12 @@ export default defineSeoConfig({
           href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/opensearch.xml",
           type: "application/opensearchdescription+xml",
           title: "vite-plugin-seo-meta config generator",
+        },
+        {
+          rel: "apple-touch-icon",
+          href: "https://nellowtcs.me/vite-plugin-seo-meta/demo/apple-touch-icon-dark.png",
+          sizes: "180x180",
+          media: "(prefers-color-scheme: dark)",
         },
         {
           rel: "canonical",
@@ -757,6 +799,18 @@ export default defineSeoConfig({
      * Maximum URLs per sitemap file. Default 50000
      */
     maxUrls: 50000,
+    /**
+     * Maximum uncompressed sitemap size. Default 50 MiB
+     */
+    maxBytes: 50 * 1024 * 1024,
+    /**
+     * Maximum news entries per sitemap file. Default 1000
+     */
+    maxNews: 1000,
+    /**
+     * How many days a news article stays eligible. Default 2
+     */
+    newsMaxAgeDays: 2,
   },
 
   /**

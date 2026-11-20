@@ -9,6 +9,23 @@ function rawValue(fid: string, root: ParentNode = panel): string {
   return el.value.trim();
 }
 
+function markJsonError(
+  spec: FieldSpec,
+  root: ParentNode,
+  message: string,
+): void {
+  const input = control(spec.id, root);
+  if (input) {
+    input.classList.toggle("invalid", Boolean(message));
+    if (message) input.setAttribute("aria-invalid", "true");
+    else input.removeAttribute("aria-invalid");
+  }
+  const error = root.querySelector<HTMLElement>(
+    `[data-error-for="${CSS.escape(spec.id)}"]`,
+  );
+  if (error) error.textContent = message;
+}
+
 function readField(spec: FieldSpec, root: ParentNode = panel): unknown {
   const v = rawValue(spec.id, root);
   if (spec.control === "checkbox")
@@ -26,10 +43,20 @@ function readField(spec: FieldSpec, root: ParentNode = panel): unknown {
           .filter(Boolean)
       : undefined;
   if (spec.control === "json") {
-    if (!v) return undefined;
+    if (!v) {
+      markJsonError(spec, root, "");
+      return undefined;
+    }
     try {
-      return JSON.parse(v);
-    } catch {
+      const value = JSON.parse(v);
+      markJsonError(spec, root, "");
+      return value;
+    } catch (error) {
+      markJsonError(
+        spec,
+        root,
+        error instanceof Error ? error.message : "Invalid JSON",
+      );
       return undefined;
     }
   }

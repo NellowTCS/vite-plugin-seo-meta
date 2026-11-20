@@ -5,6 +5,7 @@
   --sub: #4b5563;
   --border: #e5e7eb;
   --code-bg: #f8fafc;
+  --error: #b91c1c;
 }
 
 * {
@@ -109,6 +110,16 @@ select {
 textarea {
   resize: vertical;
   min-height: 56px;
+}
+
+textarea.invalid {
+  border-color: var(--error);
+}
+
+.field-error {
+  color: var(--error);
+  font-size: 0.78rem;
+  min-height: 1.1em;
 }
 
 .grid {

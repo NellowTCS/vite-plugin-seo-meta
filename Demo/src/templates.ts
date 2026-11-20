@@ -39,6 +39,15 @@ export function fieldTpl(spec: FieldSpec) {
         placeholder=${spec.placeholder ?? ""}
       >
 ${spec.value ?? ""}</textarea>
+      ${
+        spec.control === "json"
+          ? html`<span
+              class="field-error"
+              data-error-for=${spec.id}
+              aria-live="polite"
+            ></span>`
+          : ""
+      }
     </label>`;
   }
   return html`<label title=${hint}

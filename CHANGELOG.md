@@ -49,8 +49,14 @@ All notable changes to this project are documented here. The format follows
 - Corrected the documented `og:determiner` values
 - `msapplication-config` emits the `<meta name>` form IE11 reads; `"none"` disables it instead of being absolutized
 - Favicon docs now cover multi-size/multi-format icons through `page.links`
+- Demo form explains JSON fields and flags malformed JSON instead of dropping it
+- Demo config adds `maskIconColor`, sitemap caps, sitemap video metadata, extra link attributes and Product JSON-LD rating counts
 
 ### Removed
 
 - Node 20 support
 - The undocumented `transparent` status bar style (i swear this was a thing somewhere, but i can't find it now, what the huh past me, where did you see that? :P)
+
+### Fixed
+
+- Demo `vite.config.ts` output no longer duplicates `configFile`
