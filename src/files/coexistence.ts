@@ -18,7 +18,7 @@ const SITEMAP_PROVIDERS = [
  * - `robots` covers: vite-plugin-robots, vite-robots-txt, vite-plugin-robots-txt, vite-plugin-robots-ts
  * - `vite-plugin-sitemap` drops a robots.txt too when its RobotsTxt option is on
  */
-// TODO: because vite-plugin-sitemap a sitemap provider, we should probs verify it writes
+// TODO: because vite-plugin-sitemap is a sitemap provider, we should probs verify it writes
 // a robots.txt before removing it
 const ROBOTS_PROVIDERS = [
   "robots",
